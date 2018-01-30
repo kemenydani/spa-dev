@@ -1,0 +1,22 @@
+{
+    "name": "daniel.kemeny/engine_2018",
+    "authors": [
+        {
+            "name": "kemenydani",
+            "email": "kemenydani93@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "core\\": "app/core/",
+            "controllers\\": "app/controllers/",
+            "middlewares\\": "app/middlewares/",
+            "config\\": "app/config/",
+            "models\\": "app/models/"
+        }
+    },
+    "require": {
+        "slim/slim": "^3.0",
+        "twig/twig": "^2.0"
+    }
+}
