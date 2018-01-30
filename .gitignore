@@ -1,6 +1,14 @@
 # Created by .ignore support plugin (hsz.mobi)
+<<<<<<< HEAD
 /vendor/
 /node_modules/
 /.idea/
 /package-lock.json
 /composer.lock
+=======
+/.idea/
+/node_modules/
+/vendor/
+/composer.lock
+/package-lock.json
+>>>>>>> ff82dbe300615e23d004be4c3797536ea6bd7494
