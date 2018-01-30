@@ -21,8 +21,8 @@
 						<v-list-tile-title>Home</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
-				<!--
-				<router-link is="v-list-tile" :to="{ name: 'settings.index' }">
+				
+				<router-link is="v-list-tile" :to="{ name: 'settings.overview' }">
 					<v-list-tile-action>
 						<v-icon>settings</v-icon>
 					</v-list-tile-action>
@@ -30,7 +30,7 @@
 						<v-list-tile-title>Page Settings</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
-				-->
+				
 				<v-divider inset></v-divider>
 				
 				<router-link is="v-list-tile" :to="{ name: 'article.list' }">
@@ -50,8 +50,8 @@
 						<v-list-tile-title>Users</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
-				<!--
-				<router-link is="v-list-tile" :to="{ name: 'role.index' }">
+				
+				<router-link is="v-list-tile" :to="{ name: 'role.overview' }">
 					<v-list-tile-action>
 						<v-icon>no_encryption</v-icon>
 					</v-list-tile-action>
@@ -59,7 +59,7 @@
 						<v-list-tile-title>Roles</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
-			-->
+			
 			</v-list>
 		</v-navigation-drawer>
 		

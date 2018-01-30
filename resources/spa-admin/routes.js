@@ -3,6 +3,9 @@ import dashboardRouteConfig from './routes/dashboard';
 import articleRouteConfig from './routes/article';
 import userRouteConfig from './routes/user';
 import loginRouteConfig from './routes/login';
+import roleRouteConfig from './routes/role';
+import settingsRouteConfig from './routes/settings';
+
 
 const Main = resolve =>
 {
@@ -16,7 +19,9 @@ export default [
         children: [
 	        dashboardRouteConfig,
 	        articleRouteConfig,
-	        userRouteConfig
+	        userRouteConfig,
+	        roleRouteConfig,
+	        settingsRouteConfig,
         ]
     },
     loginRouteConfig
