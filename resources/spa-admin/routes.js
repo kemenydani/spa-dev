@@ -5,7 +5,7 @@ import userRouteConfig from './routes/user';
 import loginRouteConfig from './routes/login';
 import roleRouteConfig from './routes/role';
 import settingsRouteConfig from './routes/settings';
-
+import categoryRouteConfig from './routes/category';
 
 const Main = resolve =>
 {
@@ -22,6 +22,7 @@ export default [
 	        userRouteConfig,
 	        roleRouteConfig,
 	        settingsRouteConfig,
+	        categoryRouteConfig,
         ]
     },
     loginRouteConfig

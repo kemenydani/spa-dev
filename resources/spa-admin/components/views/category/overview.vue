@@ -1,6 +1,6 @@
 <template>
 	<div>
-		role overview
+		category overview
 		<v-btn
 				fab
 				bottom
@@ -17,7 +17,7 @@
 				<v-card-title
 						class="grey lighten-4 py-4 title"
 				>
-					Create Role
+					Create Category
 				</v-card-title>
 				<v-container grid-list-sm class="pa-4">
 					<v-layout row wrap>
