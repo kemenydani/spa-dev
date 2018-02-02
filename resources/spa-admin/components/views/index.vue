@@ -3,7 +3,6 @@
 </template>
 
 <script>
-	
 	export default {
 		name: 'base-index',
 		props: {
@@ -13,6 +12,9 @@
 			return {
 				data_field: 'data_field'
 			}
+		},
+		beforeCreate(){
+		
 		},
 		mounted() {
 			console.log('new component mounted');
