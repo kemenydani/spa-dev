@@ -2,6 +2,12 @@ const Index = resolve =>
 {
 	require.ensure(['../components/views/index.vue'], () => resolve(require('../components/views/index.vue')))
 };
+
+const Overview = resolve =>
+{
+	require.ensure(['../components/views/user/overview.vue'], () => resolve(require('../components/views/user/overview.vue')))
+};
+
 const Create = resolve =>
 {
 	require.ensure(['../components/views/user/create.vue'], () => resolve(require('../components/views/user/create.vue')))
@@ -19,6 +25,14 @@ export default
 	children: [
 		{
 			path: '/',
+			component: Overview,
+			name: 'user.overview',
+			meta: {
+				title: 'User Overview'
+			}
+		},
+		{
+			path: '/list',
 			component: List,
 			name: 'user.list',
 			meta: {

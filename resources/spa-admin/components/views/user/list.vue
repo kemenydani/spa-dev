@@ -1,15 +1,6 @@
 <template>
 	<div>
-		<router-link is="v-btn" :to="{ name: 'user.create' }"
-		             fab
-		             bottom
-		             right
-		             color="red"
-		             dark
-		             fixed
-		>
-			<v-icon>add</v-icon>
-		</router-link>
+		user.list
 	</div>
 </template>
 

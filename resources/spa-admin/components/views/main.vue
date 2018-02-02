@@ -42,7 +42,7 @@
 					</v-list-tile-content>
 				</router-link>
 				
-				<router-link is="v-list-tile" :to="{ name: 'user.list' }">
+				<router-link is="v-list-tile" :to="{ name: 'user.overview' }">
 					<v-list-tile-action>
 						<v-icon>supervisor_account</v-icon>
 					</v-list-tile-action>
@@ -79,9 +79,6 @@
 			<div class="d-flex align-center" style="margin-left: auto">
 				
 				<span>{{ $User.getName() }}</span>
-				
-				
-				
 				
 				<v-menu
 						offset-x
