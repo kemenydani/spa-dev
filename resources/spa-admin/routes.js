@@ -14,6 +14,8 @@ import videoRouteConfig from './routes/video';
 import streamRouteConfig from './routes/stream';
 import galleryRouteConfig from './routes/gallery';
 import storageRouteConfig from './routes/storage';
+import forumRouteConfig from './routes/forum';
+import commentRouteConfig from './routes/comment';
 
 const Main = resolve =>
 {
@@ -39,6 +41,8 @@ export default [
 	        videoRouteConfig,
 	        galleryRouteConfig,
 	        storageRouteConfig,
+	        forumRouteConfig,
+	        commentRouteConfig,
         ]
     },
     loginRouteConfig

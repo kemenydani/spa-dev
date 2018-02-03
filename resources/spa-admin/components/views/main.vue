@@ -141,6 +141,24 @@
 					</v-list-tile-content>
 				</router-link>
 				
+				<router-link is="v-list-tile" :to="{ name: 'comment.overview' }">
+					<v-list-tile-action>
+						<v-icon>chat</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>Comments</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
+				
+				<router-link is="v-list-tile" :to="{ name: 'forum.overview' }">
+					<v-list-tile-action>
+						<v-icon>question_answer</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>Forums</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
+				
 			
 			</v-list>
 		</v-navigation-drawer>
