@@ -10,6 +10,10 @@ import teamRouteConfig from './routes/team';
 import squadRouteConfig from './routes/squad';
 import seasonRouteConfig from './routes/season';
 import tournamentRouteConfig from './routes/tournament';
+import videoRouteConfig from './routes/video';
+import streamRouteConfig from './routes/stream';
+import galleryRouteConfig from './routes/gallery';
+
 
 const Main = resolve =>
 {
@@ -31,6 +35,9 @@ export default [
 	        squadRouteConfig,
 	        seasonRouteConfig,
 	        tournamentRouteConfig,
+	        streamRouteConfig,
+	        videoRouteConfig,
+	        galleryRouteConfig,
         ]
     },
     loginRouteConfig

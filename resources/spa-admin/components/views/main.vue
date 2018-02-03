@@ -104,6 +104,34 @@
 						<v-list-tile-title>Seasons</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
+				
+				<router-link is="v-list-tile" :to="{ name: 'stream.overview' }">
+					<v-list-tile-action>
+						<v-icon>live_tv</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>Streams</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
+				
+				<router-link is="v-list-tile" :to="{ name: 'video.overview' }">
+					<v-list-tile-action>
+						<v-icon>videocam</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>Videos</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
+				
+				<router-link is="v-list-tile" :to="{ name: 'gallery.overview' }">
+					<v-list-tile-action>
+						<v-icon>photo</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>Galleries</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
+				
 			
 			</v-list>
 		</v-navigation-drawer>
