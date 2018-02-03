@@ -44,7 +44,7 @@
 				
 				<router-link is="v-list-tile" :to="{ name: 'user.overview' }">
 					<v-list-tile-action>
-						<v-icon>supervisor_account</v-icon>
+						<v-icon>person</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
 						<v-list-tile-title>User Management</v-list-tile-title>
@@ -66,6 +66,42 @@
 					</v-list-tile-action>
 					<v-list-tile-content>
 						<v-list-tile-title>Content Categories</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
+				
+				<router-link is="v-list-tile" :to="{ name: 'team.overview' }">
+					<v-list-tile-action>
+						<v-icon>group</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>Tournament Teams</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
+				
+				<router-link is="v-list-tile" :to="{ name: 'squad.overview' }">
+					<v-list-tile-action>
+						<v-icon>group</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>Squads</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
+				
+				<router-link is="v-list-tile" :to="{ name: 'tournament.overview' }">
+					<v-list-tile-action>
+						<v-icon>group</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>Tournaments</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
+				
+				<router-link is="v-list-tile" :to="{ name: 'season.overview' }">
+					<v-list-tile-action>
+						<v-icon>group</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>Seasons</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
 			

@@ -6,6 +6,10 @@ import loginRouteConfig from './routes/login';
 import roleRouteConfig from './routes/role';
 import settingsRouteConfig from './routes/settings';
 import categoryRouteConfig from './routes/category';
+import teamRouteConfig from './routes/team';
+import squadRouteConfig from './routes/squad';
+import seasonRouteConfig from './routes/season';
+import tournamentRouteConfig from './routes/tournament';
 
 const Main = resolve =>
 {
@@ -23,6 +27,10 @@ export default [
 	        roleRouteConfig,
 	        settingsRouteConfig,
 	        categoryRouteConfig,
+	        teamRouteConfig,
+	        squadRouteConfig,
+	        seasonRouteConfig,
+	        tournamentRouteConfig,
         ]
     },
     loginRouteConfig
