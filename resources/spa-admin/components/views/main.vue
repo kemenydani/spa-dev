@@ -132,6 +132,15 @@
 					</v-list-tile-content>
 				</router-link>
 				
+				<router-link is="v-list-tile" :to="{ name: 'storage.overview' }">
+					<v-list-tile-action>
+						<v-icon>folder</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>Storage</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
+				
 			
 			</v-list>
 		</v-navigation-drawer>

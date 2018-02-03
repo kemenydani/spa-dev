@@ -13,7 +13,7 @@ import tournamentRouteConfig from './routes/tournament';
 import videoRouteConfig from './routes/video';
 import streamRouteConfig from './routes/stream';
 import galleryRouteConfig from './routes/gallery';
-
+import storageRouteConfig from './routes/storage';
 
 const Main = resolve =>
 {
@@ -38,6 +38,7 @@ export default [
 	        streamRouteConfig,
 	        videoRouteConfig,
 	        galleryRouteConfig,
+	        storageRouteConfig,
         ]
     },
     loginRouteConfig
