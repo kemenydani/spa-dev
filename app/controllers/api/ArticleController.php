@@ -11,9 +11,11 @@ class ArticleController extends Controller
 {
 	public function postCreate( Request $request, Response $response )
 	{
-		$title      = $request->getParsedBody()['title'];
-		$teaser     = $request->getParsedBody()['teaser'];
-		$content    = $request->getParsedBody()['content'];
+		$data = $request->getParsedBody();
+		
+		$title   = isset($data['title'])   ? $data['title']   : '';
+		$teaser  = isset($data['teaser'])  ? $data['teaser']  : '';
+		$content = isset($data['content']) ? $data['content'] : '';
 		
 		$Article = Article::create([
 			'title'      => $title,
@@ -26,7 +28,7 @@ class ArticleController extends Controller
 		
 		if( $id === false ) return $response->withStatus(500, 'Database error: Could not insert article.');
 		
-		return $response->withJson( [ 'id' => $id ] )->withStatus(200);
+		return $response->withJson( $Article->getProperties() )->withStatus(200);
 	}
 	
 	public function getOne( Request $request, Response $response )

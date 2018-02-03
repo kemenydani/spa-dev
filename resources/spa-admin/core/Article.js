@@ -18,7 +18,7 @@ export default class Article {
 	
 	create( props )
 	{
-		this.DB.post('create', props )
+		return this.DB.post('create', props )
 			.then( response => response.data )
 			.catch( error => error );
 	}

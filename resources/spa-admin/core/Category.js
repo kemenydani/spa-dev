@@ -9,9 +9,9 @@ export default class Category {
 		this.DB = this.DataService.Connection;
 	
 		this.id = null;
-		this.content = '';
-		this.teaser = '';
-		this.title = '';
+		this.name = '';
+		this.name_short = '';
+		this.context = '';
 		
 		return this;
 	}
@@ -21,6 +21,18 @@ export default class Category {
 		return this.DB.post('create', props )
 			.then( response => response.data )
 			.catch( error => error );
+	}
+	
+	get( props = {} )
+	{
+		return this.DB.get('all', props )
+			.then( response => response.data )
+			.catch( error => error );
+	}
+	
+	getAll()
+	{
+		return this.get();
 	}
 	
 	delete( id )

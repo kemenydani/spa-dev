@@ -33,26 +33,7 @@
 				
 				<v-layout row>
 					
-					<v-select
-							label="Related Categories"
-							chips
-							combobox
-							tags
-							small
-							append-icon=""
-							v-model="chips"
-					>
-						<template slot="selection" slot-scope="data">
-							<v-chip
-									close
-									@input="remove(data.item)"
-									:selected="data.selected"
-							>
-								<strong>{{ data.item }}</strong>
-								<span>(interest)</span>
-							</v-chip>
-						</template>
-					</v-select>
+					<category-field @update="al($event)" :selected="[{ name: 'Call of Duty 4' },{ name: 'Call of Duty 2'  }]"></category-field>
 					
 				</v-layout>
 				
@@ -72,7 +53,7 @@
 				</v-layout>
 				
 				<!-- activate -->
-				
+				<!---
 				<v-layout row wrap>
 					<v-flex sm12>
 						<v-checkbox
@@ -81,7 +62,6 @@
 						></v-checkbox>
 					</v-flex>
 				</v-layout>
-				
 				<v-layout row wrap>
 				
 					<v-flex v-show="!formModel.activate" sm12 lg5>
@@ -138,6 +118,7 @@
 					</v-flex>
 
 				</v-layout>
+				-->
 				
 				<v-btn @click="submit">submit</v-btn>
 				<v-btn @click="clear">clear</v-btn>
@@ -162,8 +143,10 @@
 <script>
 	
 	import Article from '../../../core/Article';
+	import CategoryField from '../../fields/category';
 	
 	export default {
+		components: { CategoryField },
 		name: 'article-create',
 		$validates: true,
 		data () {
@@ -186,6 +169,9 @@
 			remove(item) {
 				this.chips.splice(this.chips.indexOf(item), 1)
 				this.chips = [...this.chips]
+			},
+			al(c){
+				alert(c)
 			},
 			submit ()
 			{
