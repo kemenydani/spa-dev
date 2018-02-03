@@ -274,7 +274,7 @@
 				dialog: false,
 				dark: false,
 				theme: 'primary',
-				mini: true,
+				mini: false,
 				drawer: true,
 				locales: ['en-US', 'zh-CN'],
 				location: '',
@@ -289,6 +289,7 @@
 			},
 			toggleDrawerDelayed( event )
 			{
+				/*
 				let dimensions = event.target.getBoundingClientRect();
 				let mouseX = event.clientX;
 				let mouseY = event.clientY;
@@ -313,6 +314,7 @@
 					this.mini = !isInside();
 					document.removeEventListener('mousemove', trackMouse );
 				}, 650)
+				*/
 			}
 		}
 	}

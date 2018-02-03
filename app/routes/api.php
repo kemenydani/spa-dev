@@ -21,6 +21,37 @@ $app->group('/api', function ()
 		$this->get('/all', 'controllers\api\ArticleController:getAll');
 		$this->post('/create', 'controllers\api\ArticleController:postCreate');
 	});
+	
+	$this->group('/category', function()
+	{
+		$this->get('/all', 'controllers\api\CategoryController:getAll');
+		$this->post('/create', 'controllers\api\CategoryController:postCreate');
+	});
+	
+	$this->group('/squad', function()
+	{
+	
+	});
+	
+	$this->group('/team', function()
+	{
+	
+	});
+	
+	$this->group('/tournament', function()
+	{
+	
+	});
+	
+	$this->group('/video', function()
+	{
+	
+	});
+	
+	$this->group('/comment', function()
+	{
+	
+	});
     
 })->add(function ( $request, $response, $next )
 {
