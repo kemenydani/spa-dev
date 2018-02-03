@@ -80,7 +80,7 @@
 				
 				<router-link is="v-list-tile" :to="{ name: 'squad.overview' }">
 					<v-list-tile-action>
-						<v-icon>group</v-icon>
+						<v-icon>people_outline</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
 						<v-list-tile-title>Squads</v-list-tile-title>
@@ -89,7 +89,7 @@
 				
 				<router-link is="v-list-tile" :to="{ name: 'tournament.overview' }">
 					<v-list-tile-action>
-						<v-icon>group</v-icon>
+						<v-icon>star</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
 						<v-list-tile-title>Tournaments</v-list-tile-title>
@@ -98,7 +98,7 @@
 				
 				<router-link is="v-list-tile" :to="{ name: 'season.overview' }">
 					<v-list-tile-action>
-						<v-icon>group</v-icon>
+						<v-icon>event_note</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
 						<v-list-tile-title>Seasons</v-list-tile-title>
