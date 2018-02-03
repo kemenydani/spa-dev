@@ -25,11 +25,13 @@
 							<v-text-field
 									prepend-icon="business"
 									placeholder="Name"
+									v-model="formModel.name"
 							></v-text-field>
 						</v-flex>
 						<v-flex xs6>
 							<v-text-field
 									placeholder="Short name"
+									v-model="formModel.name_short"
 							></v-text-field>
 						</v-flex>
 					</v-layout>
@@ -37,7 +39,7 @@
 				<v-card-actions>
 					<v-spacer></v-spacer>
 					<v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
-					<v-btn flat @click="dialog = false">Save</v-btn>
+					<v-btn flat @click="save()">Save</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -60,7 +62,7 @@
 			}
 		},
 		methods: {
-			create() {
+			save() {
 				//let valid = this.$validator.validateAll();
 				//TODO: fix this
 				let valid = true;
@@ -72,7 +74,7 @@
 						'name': this.formModel.name,
 						'name_short': this.formModel.name_short,
 					}).then(response => {
-						console.log(response);
+						this.dialog = false
 					}).catch(error => {
 						alert(error);
 					});

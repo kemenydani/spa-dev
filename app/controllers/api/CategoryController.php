@@ -10,10 +10,13 @@ class CategoryController extends Controller
 {
 	public function postCreate( Request $request, Response $response )
 	{
-		$name      = $request->getParsedBody()['name'];
-		$name_short     = $request->getParsedBody()['name_short'];
-		$context    = $request->getParsedBody()['context'];
+		$data = $request->getParsedBody();
 		
+		$name       = isset($data['name'])       ? $data['name']       : '';
+		$name_short = isset($data['name_short']) ? $data['name_short'] : '';
+		$context    = isset($data['context'])    ? $data['context']    : '';
+		
+	
 		$Category = Category::create([
 			'name'       => $name,
 			'name_short' => $name_short,
@@ -24,7 +27,7 @@ class CategoryController extends Controller
 		
 		if( $id === false ) return $response->withStatus(500, 'Database error: Could not insert Category.');
 		
-		return $response->withJson( [ 'id' => $id ] )->withStatus(200);
+		return $response->withJson( $Category->getProperties() )->withStatus(200);
 	}
 	
 	public function getOne( Request $request, Response $response )
