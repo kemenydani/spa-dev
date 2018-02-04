@@ -18,13 +18,6 @@ class ArticleController extends Controller
 		$content    = isset($data['content'])    ? $data['content']    : '';
 		$categories = isset($data['categories']) ? $data['categories'] : '';
 		
-		$category_ids = [];
-		
-		foreach( $categories as $category => $category_id)
-		{
-			$category_ids[] = $category_id;
-		}
-		
 		$Article = Article::create([
 			'title'      => $title,
 			'teaser'     => $teaser,
@@ -33,6 +26,15 @@ class ArticleController extends Controller
 		]);
 
 		$id = $Article->save();
+		
+		$category_ids = [];
+		
+		foreach( $categories as $key => $value )
+		{
+			$category_ids[] = $value['id'];
+		}
+		
+		$Article->categorize( $category_ids );
 		
 		if( $id === false ) return $response->withStatus(500, 'Database error: Could not insert article.');
 		
@@ -47,7 +49,10 @@ class ArticleController extends Controller
 		
 		if( $Article === null ) return $response->withStatus(500, 'Database error: Could not find article.');
 		
-		return $response->withJson( $Article->getProperties() )->withStatus(200);
+		$responseData = $Article->getProperties();
+		$responseData['categories'] = $Article->getCategories();
+		
+		return $response->withJson( $responseData )->withStatus(200);
 	}
 	
 	public function getAll( Request $request, Response $response )

@@ -7,7 +7,7 @@
 								v-bind:items="available"
 								v-model="collection"
 								item-text="name"
-								item-value="name"
+								item-value="item"
 								multiple
 								chips
 								max-height="auto"
@@ -62,6 +62,12 @@
 				function () {
 					return [];
 				}
+			}
+		},
+		watch: {
+			'collection': function(b, a){
+				console.log( b )
+				console.log( a )
 			}
 		},
 		methods: {

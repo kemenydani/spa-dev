@@ -42,15 +42,28 @@ class Article extends Model
 		DB::instance()->commit();
 	}
 	
-	public function save()
+	public function setCategories()
 	{
-		$id = parent::save();
-		
-		if( !$id ) return false;
-		
-		$this->categorize( [2,3] );
-		
-		return $id;
+	
 	}
+	
+	public function getCategories()
+	{
+		$article_id = $this->getId();
+		
+		$stmt = " SELECT * FROM _xyz_article_categories ac" .
+				" LEFT JOIN _xyz_categories c " .
+				" ON c.category_id = ac.category_id " .
+		        " WHERE ac.article_id = $article_id"
+		;
+		
+		$categories = DB::instance()->query( $stmt );
+		
+		if( !$categories ) return [];
+		
+		return $categories;
+	}
+	
+	
 	
 }
