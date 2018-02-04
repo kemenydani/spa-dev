@@ -56,7 +56,24 @@ class DB extends \PDO
 
         return false;
     }
-
+	/*
+	public function where( $table, array $conditions )
+	{
+		$table = DB::_PREFIX_ . $table;
+		
+		foreach( $conditions as $column => $condition ){
+		
+		}
+		
+		
+		$stmt = DB::instance()->prepare("SELECT * FROM {$table} WHERE ".$column." = ?");
+		$stmt->bindValue(1, $value);
+		
+		if( $stmt->execute() ) return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		
+		return false;
+	}
+*/
     public function find( $table, $column, $value )
     {
         $table = DB::_PREFIX_ . $table;

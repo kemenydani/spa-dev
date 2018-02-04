@@ -7,7 +7,7 @@
 				<!-- title -->
 				<v-layout row>
 					<v-text-field
-						v-model="title"
+						v-model="formModel.title"
 						label="Title"
 						:counter="10"
 						:error-messages="errors.collect('title')"
@@ -20,7 +20,7 @@
 				<!-- teaser -->
 				<v-layout row>
 					<v-text-field
-						v-model="teaser"
+						v-model="formModel.teaser"
 						label="Teaser"
 						:error-messages="errors.collect('teaser')"
 						v-validate="'required'"
@@ -33,14 +33,14 @@
 				
 				<v-layout row>
 					
-					<category-field @update="al($event)" :selected="[{ name: 'Call of Duty 4' },{ name: 'Call of Duty 2'  }]"></category-field>
+					<category-field @update="categoriesUpdated($event)" :selected="formModel.categories"></category-field>
 					
 				</v-layout>
 				
 				<!-- content -->
 				<v-layout row>
 					<v-text-field
-						v-model="content"
+						v-model="formModel.content"
 						label="Content"
 						:counter="500"
 						:error-messages="errors.collect('content')"
@@ -151,14 +151,12 @@
 		$validates: true,
 		data () {
 			return {
-				chips: ['Programming', 'Playing video games', 'Watching', 'Sleeping'],
-				formModel:
-					{
+				formModel: {
 					title: '',
 					teaser: '',
 					content: '',
+					categories: [],
 					activate: true,
-					
 				},
 				title: '',
 				teaser: '',
@@ -170,8 +168,9 @@
 				this.chips.splice(this.chips.indexOf(item), 1)
 				this.chips = [...this.chips]
 			},
-			al(c){
-				alert(c)
+			categoriesUpdated( categories )
+			{
+				this.formModel.categories = categories;
 			},
 			submit ()
 			{
@@ -182,9 +181,10 @@
 					let A = new Article();
 					
 					A.create({
-						'title'   : this.title,
-						'teaser'  : this.teaser,
-						'content' : this.content
+						'title'      : this.formModel.title,
+						'teaser'     : this.formModel.teaser,
+						'content'    : this.formModel.content,
+						'categories' : this.formModel.categories,
 					}).then( response => {
 						console.log(response);
 					}).catch( error => {

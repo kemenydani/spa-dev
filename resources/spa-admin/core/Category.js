@@ -12,6 +12,7 @@ export default class Category {
 		this.name = '';
 		this.name_short = '';
 		this.context = '';
+		this.categories = [];
 		
 		return this;
 	}

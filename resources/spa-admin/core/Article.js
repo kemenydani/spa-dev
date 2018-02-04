@@ -12,6 +12,7 @@ export default class Article {
 		this.content = '';
 		this.teaser = '';
 		this.title = '';
+		this.categories = [];
 		
 		return this;
 	}

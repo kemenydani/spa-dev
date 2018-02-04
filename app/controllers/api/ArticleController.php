@@ -13,9 +13,17 @@ class ArticleController extends Controller
 	{
 		$data = $request->getParsedBody();
 		
-		$title   = isset($data['title'])   ? $data['title']   : '';
-		$teaser  = isset($data['teaser'])  ? $data['teaser']  : '';
-		$content = isset($data['content']) ? $data['content'] : '';
+		$title      = isset($data['title'])      ? $data['title']      : '';
+		$teaser     = isset($data['teaser'])     ? $data['teaser']     : '';
+		$content    = isset($data['content'])    ? $data['content']    : '';
+		$categories = isset($data['categories']) ? $data['categories'] : '';
+		
+		$category_ids = [];
+		
+		foreach( $categories as $category => $category_id)
+		{
+			$category_ids[] = $category_id;
+		}
 		
 		$Article = Article::create([
 			'title'      => $title,
@@ -23,7 +31,7 @@ class ArticleController extends Controller
 			'content'    => $content,
 			'created_by' => Auth::user()->getId()
 		]);
-		
+
 		$id = $Article->save();
 		
 		if( $id === false ) return $response->withStatus(500, 'Database error: Could not insert article.');

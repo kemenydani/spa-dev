@@ -69,8 +69,8 @@ abstract class Model
 	    
 	    return $changedProps;
     }
-    
-    public static function create( $props = [] )
+
+	public static function create( $props = [] )
     {
         $Model = new static();
 
