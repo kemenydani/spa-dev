@@ -5,6 +5,8 @@ namespace models;
 use core\Model as Model;
 use core\DB as DB;
 
+use models\Category as Category;
+
 class Article extends Model
 {
 
@@ -13,6 +15,14 @@ class Article extends Model
 
 	public static $_PROPS = ['id', 'title', 'teaser', 'content'];
     public static $_PROPS_PROTECTED = ['content'];
+
+    public static $_RELATIONS = [
+        'categories' => [
+            'model'  => Category::class,
+            'pivot'  => 'article_categories',
+            'column' => 'article_id'
+        ]
+    ];
 
 	public function categorize( array $new_categories )
 	{
@@ -43,6 +53,13 @@ class Article extends Model
 		DB::instance()->commit();
 	}
 
+    public function getArticles()
+    {
+
+    }
+
+
+	/*
 	public function getCategories()
 	{
 		$id = $this->getId();
@@ -57,7 +74,7 @@ class Article extends Model
 
 		return $sql->fetchAll(\PDO::FETCH_OBJ );
 	}
-
+*/
 	public function getComments()
     {
 
