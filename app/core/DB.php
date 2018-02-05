@@ -113,17 +113,17 @@ class DB extends \PDO
         return $sql;
     }
 
-    public static function find( $table, $column, $value )
+    public function find( $table, $column, $value )
     {
         return DB::_find_( $table, $column, $value )->fetch(\PDO::FETCH_OBJ );
     }
 
-    public static function findAll( $table, $column, $value )
+    public function findAll( $table, $column, $value )
     {
         return DB::_find_( $table, $column, $value )->fetchAll(\PDO::FETCH_OBJ );
     }
 
-    public static function delete( $table, $column, $value )
+    public function delete( $table, $column, $value )
     {
         $table = DB::_PREFIX_ . $table;
 
@@ -137,7 +137,7 @@ class DB extends \PDO
         return $isDeleted;
     }
 
-    public static function deleteIn( $table, $column, array $range )
+    public function deleteIn( $table, $column, array $range )
     {
         $table = DB::_PREFIX_ . $table;
 

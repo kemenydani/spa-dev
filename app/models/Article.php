@@ -15,15 +15,16 @@ class Article extends Model
 
 	public static $_PROPS = ['id', 'title', 'teaser', 'content'];
     public static $_PROPS_PROTECTED = ['content'];
-
+    /*
     public static $_RELATIONS = [
         'categories' => [
             'model'  => Category::class,
+            'type'   => 'hasmany',
             'pivot'  => 'article_categories',
             'column' => 'article_id'
         ]
     ];
-
+    */
 	public function categorize( array $new_categories )
 	{
 		$article_id = $this->getId();

@@ -14,7 +14,7 @@ class Category extends Model
 
     public static $_PROPS = ['id', 'name', 'name_short', 'context', 'date_created'];
     public static $_PROPS_PROTECTED = [];
-
+    /*
     public static $_RELATIONS = [
         'articles' => [
             'model'  => Article::class,
@@ -22,7 +22,7 @@ class Category extends Model
             'column' => 'category_id'
         ]
     ];
-
+    */
     public function getArticles()
     {
 

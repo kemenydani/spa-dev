@@ -12,13 +12,14 @@ abstract class Model
     public static $_UNIQUE_KEY = 'id';
     public static $_PROPS = [];
     public static $_PROPS_PROTECTED = [];
-    
+    public static $_RELATIONS = [];
+
     public function __call( $method, array $arguments )
     {
         $propName = Lang::underScorize( substr($method, 3 ) );
         $action = substr( $method, 0, 3 );
 
-        if( $action === 'get' ) return $this->getProperty( $propName );
+        if( $action === 'get' ) return $this->getProperty($propName);
         if( $action === 'set' ) return $this->setProperty( $propName, $arguments[0] );
     }
 
