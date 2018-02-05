@@ -24,6 +24,20 @@ export default class Article {
 			.catch( error => error );
 	}
 	
+	all( )
+	{
+		return this.DB.get('all')
+			.then( response => response.data )
+			.catch( error => error );
+	}
+	
+	search( query = {} )
+	{
+		return this.DB.get('search_paginate', { params: query } )
+			.then( response => response.data )
+			.catch( error => error );
+	}
+	
 	delete( id )
 	{
 	

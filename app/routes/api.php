@@ -19,6 +19,7 @@ $app->group('/api', function ()
 	$this->group('/article', function()
 	{
 		$this->get('/all', 'controllers\api\ArticleController:getAll');
+        $this->get('/search_paginate', 'controllers\api\ArticleController:getSearchPaginate');
 		$this->post('/create', 'controllers\api\ArticleController:postCreate');
 	});
 	

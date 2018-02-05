@@ -57,7 +57,90 @@ class ArticleController extends Controller
 	
 	public function getAll( Request $request, Response $response )
 	{
-		return $response->withJson(Article::all());
+	    $Articles = Article::all();
+
+	    $data = [];
+
+	    foreach( $Articles as $Article )
+	    {
+            $data[] = $Article->getPublicProperties();
+        }
+
+		return $response->withJson( $data );
 	}
+
+    public function getSearchPaginate( Request $request, Response $response )
+    {
+        $Articles = Article::all();
+
+        $data = [];
+
+        foreach( $Articles as $Article )
+        {
+            $data[] = $Article->getPublicProperties();
+        }
+
+        return $response->withJson( [
+
+                [ 'id' => 1, 'title' => 't'],
+                [ 'id' => 1, 'title' => 't'],
+                [ 'id' => 1, 'title' => 't'],
+                [ 'id' => 1, 'title' => 't'],
+                [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],                [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],                [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],                [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],                [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+            [ 'id' => 1, 'title' => 't'],
+
+
+        ] );
+    }
 	
 }

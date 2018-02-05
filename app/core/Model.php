@@ -113,8 +113,10 @@ abstract class Model
         return $lastInsertId;
     }
 
-    public static function find( $column, $value )
+    public static function find( $value, $column = null )
     {
+        if( !$column ) $column = static::$_UNIQUE_KEY;
+
         $row = DB::instance()->find( static::$_TABLE, $column, $value );
 
         if( !$row ) return false;
@@ -122,8 +124,10 @@ abstract class Model
         return static::create( (array)$row );
     }
 
-    public static function findAll( $column, $value )
+    public static function findAll( $value, $column = null )
     {
+        if( !$column ) $column = static::$_UNIQUE_KEY;
+
         $rows = DB::instance()->findAll( static::$_TABLE, $column, $value );
 
         if( !$rows ) return false;
@@ -132,7 +136,23 @@ abstract class Model
 
         foreach( $rows as $row )
         {
-            static::create( (array)$row );
+            $models[] = static::create( (array)$row );
+        }
+
+        return $models;
+    }
+
+    public static function all()
+    {
+        $rows = DB::instance()->all( static::$_TABLE );
+
+        if( !$rows ) return false;
+
+        $models = [];
+
+        foreach( $rows as $row )
+        {
+            $models[] = static::create( (array)$row );
         }
 
         return $models;
