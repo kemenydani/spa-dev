@@ -7,12 +7,13 @@ use core\DB as DB;
 
 class Article extends Model
 {
-	public $permissions = [];
-	
-	public static $_FIELDS = ['id', 'title', 'teaser', 'content'];
+
 	public static $_UNIQUE_KEY = 'id';
 	public static $_TABLE = 'article';
-	
+
+	public static $_PROPS = ['id', 'title', 'teaser', 'content'];
+    public static $_PROPS_PROTECTED = ['content'];
+
 	public function categorize( array $new_categories )
 	{
 		$article_id = $this->getId();
@@ -41,29 +42,35 @@ class Article extends Model
 		
 		DB::instance()->commit();
 	}
-	
-	public function setCategories()
-	{
-	
-	}
-	
+
 	public function getCategories()
 	{
-		$article_id = $this->getId();
+		$id = $this->getId();
 		
-		$stmt = " SELECT * FROM _xyz_article_categories ac" .
+		$stmt = " SELECT c.* FROM _xyz_article_categories ac" .
 				" LEFT JOIN _xyz_categories c " .
 				" ON c.category_id = ac.category_id " .
-		        " WHERE ac.article_id = $article_id"
+		        " WHERE ac.article_id = $id"
 		;
 		
-		$categories = DB::instance()->query( $stmt );
-		
-		if( !$categories ) return [];
-		
-		return $categories;
+		$sql = DB::instance()->query( $stmt );
+
+		return $sql->fetchAll(\PDO::FETCH_OBJ );
 	}
-	
-	
+
+	public function getComments()
+    {
+
+    }
+
+    public function getViews()
+    {
+
+    }
+
+    public function getLikes()
+    {
+
+    }
 	
 }

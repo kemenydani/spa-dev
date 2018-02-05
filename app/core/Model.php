@@ -7,133 +7,144 @@ use core\Lang as Lang;
 
 abstract class Model
 {
-    protected $_props_ = [];
-    protected $_changeLog_= [];
+    protected $_STATE_ = [];
 
-    public function __call( $methodName, $arguments )
+    public static $_UNIQUE_KEY = 'id';
+    public static $_PROPS = [];
+    public static $_PROPS_PROTECTED = [];
+    
+    public function __call( $method, array $arguments )
     {
-        $propName = Lang::underScorize( substr($methodName, 3 ) );
-        $action = substr( $methodName, 0, 3 );
+        $propName = Lang::underScorize( substr($method, 3 ) );
+        $action = substr( $method, 0, 3 );
 
         if( $action === 'get' ) return $this->getProperty( $propName );
         if( $action === 'set' ) return $this->setProperty( $propName, $arguments[0] );
     }
 
-    public function setProperty( $propName, $newValue, $silent = false )
+    public function hasProperty( $name )
     {
-        $this->_props_[$propName] = $newValue;
-
-        if( !$silent ) $this->logChange( $propName );
-      
-        return $this->_props_[$propName];
+       return array_key_exists( $name, static::$_PROPS );
     }
 
-    public function getProperty( $propName )
+    public function getProperty( $name )
     {
-        return $this->hasProperty( $propName) ? $this->_props_[$propName] : null;
-    }
-
-    public function getProperties()
-    {
-        return isset( $this->_props_ ) ? $this->_props_ : [];
-    }
-    
-    public function logChange( $propName )
-    {
-        $this->_changeLog_[ $propName ] = $propName;
-    }
-
-    public function hasChanges()
-    {
-        return !empty( $this->_changeLog_);
-    }
-
-    public function clearChangeLog()
-    {
-        $this->_changeLog_= [];
-    }
-
-    public function listChangedPropNames()
-    {
-        return array_keys($this->_changeLog_);
-    }
-
-    public function getChangedProps()
-    {
-    	$changedProps = [];
-    	
-    	foreach( $this->listChangedPropNames() as $propName )
-    	{
-		    $changedProps[ $propName ] = $this->getProperty($propName);
-	    }
-	    
-	    return $changedProps;
-    }
-
-	public static function create( $props = [] )
-    {
-        $Model = new static();
-
-        foreach( $props as $propName => $propValue )
+        if( $this->hasProperty($name) )
         {
-            $Model->setProperty($propName, $propValue);
+            return $this->_STATE_[$name];
         }
-        return $Model;
-    }
-
-    public function hasProperty( $propName )
-    {
-        return array_key_exists($propName, $this->_props_);
-    }
-
-    public static function all( $json = false )
-    {
-        $rows = DB::instance()->all( static::$_TABLE );
-
-        if(!$rows) return false;
-        
-        if( $json === true ) $rows = json_encode( $rows );
-
-        return $rows;
-    }
-
-    public static function find( $uniqueValue, $uniqueKey = null )
-    {
-        $uniqueKey = $uniqueKey === null ? static::$_UNIQUE_KEY : $uniqueKey;
-
-        $result = DB::instance()->find(static::$_TABLE, $uniqueKey, $uniqueValue);
-
-        if($result) return self::create($result);
 
         return null;
     }
 
+    public function getProperties()
+    {
+        return $this->_STATE_;
+    }
+
+    public function getPublicProperties()
+    {
+        $result = [];
+
+        foreach( $this->getProperties() as $name => $value )
+        {
+            if( !in_array($name, static::$_PROPS_PROTECTED ) ) $result[$name] = $value;
+        }
+
+        return $result;
+    }
+
+    public function setProperty( $name, $value )
+    {
+        if( in_array( $name, static::$_PROPS ) )
+        {
+            $this->_STATE_[$name] = $value;
+        }
+        
+        return $this;
+    }
+
+    public static function create( array $properties = [] )
+    {
+        $Model = new static();
+
+        foreach( $properties as $name => $value )
+        {
+            $Model->setProperty( $name, $value );
+        }
+
+        return $Model;
+    }
+
     public function save()
     {
-    	//if( !$this->hasChanges() ) return false;
-
-        if ( $this->getProperty( static::$_UNIQUE_KEY) )
+        if ( $this->hasProperty( static::$_UNIQUE_KEY ) )
         {
-            $db_model_id = DB::instance()->update( static::$_TABLE, $this->getChangedProps(), static::$_UNIQUE_KEY, self::getProperty(static::$_UNIQUE_KEY));
+            $modelId = $this->update( [], [] );
         }
         else
         {
-            $db_model_id = DB::instance()->insert( static::$_TABLE, $this->getChangedProps() );
+            $modelId = $this->insert( [] );
         }
 
-        if ($db_model_id)
-        {
-            if(!$this->hasProperty(static::$_UNIQUE_KEY)) $this->setProperty(static::$_UNIQUE_KEY, $db_model_id);
-            $this->clearChangeLog();
-            return $db_model_id;
-        }
-        
+        if( !$modelId ) return false;
+
+        return $this;
+    }
+
+    private function update( array $values, $key, $id )
+    {
+        $lastUpdateId = DB::instance()->update( static::$_TABLE, $key, $id );
+
+        if( $lastUpdateId ) return $lastUpdateId;
+
         return false;
     }
 
-    public function toJSON()
+    private function insert( array $values )
     {
-        return json_encode( $this->getProperties(), true );
+        $lastInsertId = DB::instance()->insert( static::$_TABLE, $values );
+
+        if( !$lastInsertId ) return false;
+
+        $this->setProperty( static::$_UNIQUE_KEY, $lastInsertId );
+
+        return $lastInsertId;
+    }
+
+    public static function find( $column, $value )
+    {
+        $row = DB::instance()->find( static::$_TABLE, $column, $value );
+
+        if( !$row ) return false;
+
+        return static::create( (array)$row );
+    }
+
+    public static function findAll( $column, $value )
+    {
+        $rows = DB::instance()->findAll( static::$_TABLE, $column, $value );
+
+        if( !$rows ) return false;
+
+        $models = [];
+
+        foreach( $rows as $row )
+        {
+            static::create( (array)$row );
+        }
+
+        return $models;
+    }
+
+    public static function delete( $column, $value ) : bool
+    {
+        return DB::instance()->delete( static::$_TABLE, $column, $value );
+    }
+
+    public static function deleteIn( $column, $range ) : bool
+    {
+        return DB::instance()->deleteIn( static::$_TABLE, $column, $range );
     }
 
 }

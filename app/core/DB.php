@@ -6,129 +6,169 @@ class DB extends \PDO
 {
 	public static $_instance;
 
-	const _PREFIX_= '_xyz_';
+	const _PREFIX_   = '_xyz_';
+    const _HOST_     = 'localhost';
+    const _DB_NAME_  = 'engine-dev';
+    const _USERNAME_ = 'root';
+    const _PASSWORD_ = '';
 
 	public static function instance()
     {
 		if ( self::$_instance === null )
 		{
-            self::$_instance = new DB('mysql:host=localhost;dbname=engine-dev', 'root', '');
+		    $dbDefinition = 'mysql:host='.self::_HOST_.';dbname='.self::_DB_NAME_.'';
+
+            self::$_instance = new DB($dbDefinition, self::_USERNAME_, self::_PASSWORD_);
 			self::$_instance->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION );
 			self::$_instance->exec("set names utf8");
 		}
 		return self::$_instance;
 	}
 
-	public static function insert( $table, $params )
+	public function update( $table, array $what, $key, $id )
+    {
+        $table = DB::_PREFIX_ . $table;
+
+        $what = (array)$what;
+
+        $where = "";
+
+        foreach($what as $column => $value)
+        {
+            $where .= "`" . $column . "` = ?,";
+        }
+
+        $names = substr( $where, 0, -1 );
+
+        $stmt = "UPDATE {$table} SET {$names} WHERE ".$key." = ?";
+
+        $sql = DB::instance()->prepare( $stmt );
+
+        $ci = 1;
+
+        foreach($what as $column => $value)
+        {
+            $sql->bindValue($ci, $value);
+            $ci++;
+        }
+
+        $sql->bindValue($ci, $id);
+
+        if( $sql->execute() ) return $id;
+
+        return false;
+    }
+
+	public function insert( $table, array $params )
     {
 	    $table = DB::_PREFIX_ . $table;
 
-	    $params = (array)$params;
+        $commaSepColumnNameList = implode(',', array_keys($params));
+        $commaSepQuestionMarkList = join(",", array_pad([], count($params), "?"));
 
-        $names = implode(',', array_keys($params));
-        $questionMarks = join(",", array_pad([], count($params), "?"));
+        $stmt = "INSERT INTO {$table} ({$commaSepColumnNameList}) VALUES ({$commaSepQuestionMarkList})";
 
-        $stmt = DB::instance()->prepare("INSERT INTO {$table} ({$names}) VALUES ({$questionMarks})");
+        $sql = DB::instance()->prepare( $stmt );
 
-        $current_bind = 1;
+        $bi = 1;
 
         foreach( $params as $param => $value )
         {
-            $stmt->bindValue($current_bind, $value);
-            $current_bind++;
+            $sql->bindValue($bi, $value);
+            $bi++;
         }
 
-        if( $stmt->execute() ) return DB::instance()->lastInsertId();
+        $isInserted = $sql->execute();
+
+        if( $isInserted ) return DB::instance()->lastInsertId();
 
         return false;
     }
 
-    public function all( $table, $where = null )
+    public function all( $table )
     {
-        // TODO: where params build
-        $table = DB::_PREFIX_ . $table;
+        $stmt = "SELECT * FROM " . DB::_PREFIX_ . $table;
 
-        $query = DB::instance()->query("SELECT * FROM " . $table);
+        $sql = DB::instance()->query( $stmt );
 
-        $rows = $query->fetchAll(\PDO::FETCH_OBJ);
-
-        if($rows) return $rows;
-
-        return false;
+        return $sql->fetchAll(\PDO::FETCH_OBJ );
     }
-	
-	public function where( $table, array $params = [], $limit = null )
+
+	public function where( $table, array $conditions = [], $order = [], $limit = [] )
 	{
-		if( empty($conditions) ) return false;
-		
-		$table = DB::_PREFIX_ . $table;
-		
-		$stmt = "SELECT * FROM {$table} WHERE ";
-		
-		$bc = 1;
-		
-		foreach( $params as $column => $value )
-		{
-			$stmt .= $column . ' = ? ';
-			$stmt->bindValue($bc, $value);
-			$bc++;
-		}
-		
-		$stmt = DB::instance()->prepare( $stmt );
-		$stmt->bindValue(1, $value);
-		
-		if( $stmt->execute() ) return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-		
-		return false;
+
 	}
 
-    public function find( $table, $column, $value )
+	private static function _find_( $table, $column, $value )
     {
         $table = DB::_PREFIX_ . $table;
 
-        $stmt = DB::instance()->prepare("SELECT * FROM {$table} WHERE ".$column." = ? LIMIT 1");
-        $stmt->bindValue(1, $value);
+        $stmt = "SELECT * FROM {$table} WHERE ".$column." = ? LIMIT 1";
 
-        if( $stmt->execute() ) return $stmt->fetch(\PDO::FETCH_OBJ);
+        $sql = DB::instance()->prepare( $stmt );
+        $sql->bindValue(1, $value );
 
-        return false;
+        $sql->execute();
+
+        return $sql;
     }
 
-    public static function update( $table, $params, $key, $id )
+    public static function find( $table, $column, $value )
+    {
+        return DB::_find_( $table, $column, $value )->fetch(\PDO::FETCH_OBJ );
+    }
+
+    public static function findAll( $table, $column, $value )
+    {
+        return DB::_find_( $table, $column, $value )->fetchAll(\PDO::FETCH_OBJ );
+    }
+
+    public static function delete( $table, $column, $value )
     {
         $table = DB::_PREFIX_ . $table;
 
-        //var_dump($table, $params, $key); die();
+        $stmt = "DELETE FROM {$table} WHERE ".$column." = ? LIMIT 1";
 
-        $params = (array)$params;
-        //$id = $params[$key];
-        //unset($params[$key]);
+        $sql = DB::instance()->prepare( $stmt );
+        $sql->bindValue(1, $value );
 
-        $names = "";
-	  
-        foreach($params as $param => $value){
-            $names .= "`" . $param . "` = ?,";
-        }
+        $isDeleted = $sql->execute();
 
-        $names = substr($names, 0, -1);
-        $stmt = DB::instance()->prepare("UPDATE {$table} SET {$names} WHERE ".$key." = ? ");
-        //TODO: update not executes
-        $current_bind = 1;
-
-        foreach($params as $param => $value){
-            $stmt->bindValue($current_bind, $value);
-            $current_bind++;
-        }
-
-        $stmt->bindValue($current_bind, $id);
-
-        if( $stmt->execute() ) return $id;
-
-        return false;
+        return $isDeleted;
     }
 
-    public static function patch($table, $param, $key){
+    public static function deleteIn( $table, $column, array $range )
+    {
+        $table = DB::_PREFIX_ . $table;
 
+        $commaList = implode(",", $range);
+
+        $stmt = "DELETE FROM {$table} WHERE ".$column." IN ({$commaList})";
+
+        $sql = DB::instance()->prepare( $stmt );
+
+        $bi = 1;
+
+        foreach( $range as $key => $value)
+        {
+            $sql->bindValue($bi, $value );
+            $bi++;
+        }
+
+        DB::instance()->beginTransaction();
+
+        $isDeleted = $sql->execute();
+
+        if( !$isDeleted )
+        {
+            DB::instance()->rollBack();
+        }
+        else
+        {
+            DB::instance()->commit();
+        }
+
+        return $isDeleted;
     }
 
 }

@@ -10,6 +10,4 @@ class Category extends Model
 	public static $_UNIQUE_KEY = 'id';
 	public static $_TABLE = 'category';
 	
-	
-	
 }
