@@ -6,21 +6,20 @@ use core\Model as Model;
 use core\Session as Session;
 use core\Cookie as Cookie;
 use core\Hash as Hash;
-use models\Permission as Permisson;
 
 class User extends Model
 {
-    public $permissions = [];
     public static $_UNIQUE_KEY = 'id';
     public static $_TABLE = 'user';
 
+    public static $_PROPS = ['id', 'username', 'password', 'remember_token', 'email', 'country_code', 'date_created', 'date_updated'];
+    public static $_PROPS_PROTECTED = ['password', 'remember_token'];
+
     public function __construct()
     {
-        if($this->getUserId())
-        {
-            //var_dump(Permission::find($this->getUserId(), 'user_id'));
-        }
+
     }
+
 
     public function logout()
     {
