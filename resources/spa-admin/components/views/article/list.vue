@@ -58,9 +58,10 @@
 			pagination: {
 				handler () {
 					this.getDataFromApi()
-						.then(data => {
-							this.items = data.items
-							this.totalItems = data.total
+						.then(data =>
+						{
+							this.items = data.items;
+							this.totalItems = data.total;
 						})
 				},
 				deep: true
@@ -71,7 +72,7 @@
 			this.getDataFromApi()
 				.then( data => {
 					this.items      = data.items;
-					this.totalItems = data.total
+					this.totalItems = data.total;
 				})
 		},
 		methods: {
@@ -81,7 +82,6 @@
 				
 				return new Promise( ( resolve, reject ) =>
 				{
-					
 					const { sortBy, descending, page, rowsPerPage } = this.pagination;
 					
 					this.getArticles().then( items =>
@@ -124,6 +124,7 @@
 								total
 							})
 						}, 1000)
+						
 					});
 
 				})
