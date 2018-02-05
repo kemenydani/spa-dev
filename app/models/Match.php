@@ -6,7 +6,10 @@ use \core\Model as Model;
 
 class Match extends Model
 {
+    public static $_UNIQUE_KEY = 'id';
+    public static $_TABLE = 'match';
 
-    const DB_TABLE = "xyz_matches";
+    public static $_PROPS = ['id'];
+    public static $_PROPS_PROTECTED = [];
 
 }

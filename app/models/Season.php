@@ -2,14 +2,15 @@
 
 namespace models;
 
-use \core\Model as Model;
+use core\Model as Model;
 
-class Gallery extends Model
+class Season extends Model
 {
     public static $_UNIQUE_KEY = 'id';
-    public static $_TABLE = 'gallery';
+    public static $_TABLE = 'season';
 
     public static $_PROPS = ['id', 'title'];
     public static $_PROPS_PROTECTED = [];
+
 
 }

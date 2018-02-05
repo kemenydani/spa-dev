@@ -2,9 +2,15 @@
 
 namespace models;
 
-class Comment extends \core\Model
-{
+use core\Model as Model;
 
-    const DB_TABLE = "xyz_comment";
+class Comment extends Model
+{
+    public static $_UNIQUE_KEY = 'id';
+    public static $_TABLE = 'comment';
+
+    public static $_PROPS = ['id'];
+    public static $_PROPS_PROTECTED = [];
+
 
 }

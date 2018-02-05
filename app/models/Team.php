@@ -3,15 +3,15 @@
 namespace models;
 
 use \core\Model as Model;
-use \models\Member as Member;
 
 class Team extends Model
 {
+    public static $_UNIQUE_KEY = 'id';
+    public static $_TABLE = 'team';
 
-    const DB_TABLE = "xyz_teams";
+    public static $_PROPS = ['id', 'name', 'category_id'];
+    public static $_PROPS_PROTECTED = [];
 
-    public static function get_members($where = [], $limit = null, $order = []){
-        return Member::get($where, $limit, $order);
-    }
+
 
 }

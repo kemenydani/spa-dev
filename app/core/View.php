@@ -41,7 +41,7 @@ class View extends \Smarty {
         'Advertisement' => \models\Advertisement::class,
         'Product' => \models\Product::class,
         'Gallery' => \models\Gallery::class,
-        'Settings' => \models\Settings::class,
+        'Settings' => \models\Setting::class,
         'Match' => \models\Match::class,
         'Category' => \models\Category::class,
         'Stream' => \models\Stream::class,
