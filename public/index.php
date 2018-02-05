@@ -6,6 +6,7 @@ require_once '../vendor/autoload.php';
 require_once '../app/assets/helpers.php';
 require_once '../app/routes/init.php';
 
+/*
 use \core\DB2 as DB2;
 
 $db = DB2::instance();
@@ -16,6 +17,7 @@ $A = $Article::find('id', 11);
 
 var_dump($A->getPublicProperties());
 
+*/
 // find: get one item where the column value = param find(table, column, value)
 // findAll: get all items where the column value = param find(table, column, value)
 // all: get all items items
