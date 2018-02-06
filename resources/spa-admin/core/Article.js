@@ -31,9 +31,9 @@ export default class Article {
 			.catch( error => error );
 	}
 	
-	search( query = {} )
+	search( query )
 	{
-		return this.DB.get('search_paginate', { params: query } )
+		return this.DB.get('search_paginate', { params: query, headers: {'Content-Type': 'application/json'} } )
 			.then( response => response.data )
 			.catch( error => error );
 	}

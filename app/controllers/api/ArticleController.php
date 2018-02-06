@@ -70,23 +70,25 @@ class ArticleController extends Controller
 		return $response->withJson( $data );
 	}
 
-    public function getSearchPaginate( Request $request, Response $response )
+    public function getSearchPaginate( Request $request, Response $response, array $args )
     {
-        $data = $request->getParsedBody();
-
+        $data = json_decode($request->getQueryParams(), true);
+	   
         $search = isset($data['search']) ? $data['search'] : [];
         $filter = isset($data['filter']) ? $data['filter'] : [];
 
-        $order        = $data['filter']['descending']  ? 'DESC' : 'ASC';
-        $page         = $data['filter']['page']        ? $data['filter']['page'] : 1;
-        $rowsPerPage  = $data['filter']['rowsPerPage'] ? $data['filter']['rowsPerPage'] : 5;
-
+        $order        = $data['filter']['descending'] === true ? 'DESC' : 'ASC';
+        $page         = $data['filter']['page'];
+        $rowsPerPage  = $data['filter']['rowsPerPage'];
+	
+	    $start = (($page - 1) * $rowsPerPage) + 1;
+        
         $where = "";
-        $order = "ORDER BY id " . $order . " ";
-        $limit = "LIMIT ".$page.", ".$rowsPerPage." ";
+        $order = " ORDER BY id " . $order . " ";
+        $limit = " LIMIT ".$start.", ".$rowsPerPage." ";
 
-        $stmt = " SELECT SQL_CALC_FOUND_ROWS * FROM _xyz_article $where $order";
-
+        $stmt = " SELECT SQL_CALC_FOUND_ROWS * FROM _xyz_article $where $order $limit";
+	    
         $sql = DB::instance()->prepare( $stmt );
         $sql->execute();
 
