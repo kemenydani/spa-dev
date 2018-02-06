@@ -6,6 +6,7 @@ use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use models\Article as Article;
 use core\Auth as Auth;
+use core\DB as DB;
 
 class ArticleController extends Controller
 {
@@ -71,76 +72,36 @@ class ArticleController extends Controller
 
     public function getSearchPaginate( Request $request, Response $response )
     {
-        $Articles = Article::all();
+        $data = $request->getParsedBody();
 
-        $data = [];
+        $search = isset($data['search']) ? $data['search'] : [];
+        $filter = isset($data['filter']) ? $data['filter'] : [];
 
-        foreach( $Articles as $Article )
+        $order        = $data['filter']['descending']  ? 'DESC' : 'ASC';
+        $page         = $data['filter']['page']        ? $data['filter']['page'] : 1;
+        $rowsPerPage  = $data['filter']['rowsPerPage'] ? $data['filter']['rowsPerPage'] : 5;
+
+        $where = "";
+        $order = "ORDER BY id " . $order . " ";
+        $limit = "LIMIT ".$page.", ".$rowsPerPage." ";
+
+        $stmt = " SELECT SQL_CALC_FOUND_ROWS * FROM _xyz_article $where $order";
+
+        $sql = DB::instance()->prepare( $stmt );
+        $sql->execute();
+
+        $rows = $sql->fetchAll(\PDO::FETCH_ASSOC);
+
+        $total = DB::instance()->query('SELECT FOUND_ROWS()')->fetch(\PDO::FETCH_COLUMN);
+
+        $items = [];
+
+        foreach($rows as $row)
         {
-            $data[] = $Article->getPublicProperties();
+            $items[] = $row;
         }
 
-        return $response->withJson( [
-
-                [ 'id' => 1, 'title' => 't'],
-                [ 'id' => 1, 'title' => 't'],
-                [ 'id' => 1, 'title' => 't'],
-                [ 'id' => 1, 'title' => 't'],
-                [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],                [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],                [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],                [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],                [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-            [ 'id' => 1, 'title' => 't'],
-
-
-        ] );
+        return $response->withJson( [ 'total' => (int)$total, 'items' => $items ] );
     }
 	
 }

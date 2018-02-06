@@ -1,22 +1,85 @@
 <template>
 	<v-content>
-		
-		<div>
+
+			<v-card>
+				<v-card-title>
+					<v-layout row>
+						<v-flex sm2>
+							<!--
+							<v-select
+									v-bind:items="[{ text: 'Delete'},{ text: 'Activate' },{ text: 'Deactivate' }]"
+									v-model="e1"
+									label="Select"
+									single-line
+									bottom
+							></v-select>
+							-->
+						</v-flex>
+						<v-spacer></v-spacer>
+						<v-flex>
+							<v-text-field
+									append-icon="search"
+									label="Search"
+									single-line
+									hide-details
+									@change="fetchData()"
+									v-model="search.title"
+							></v-text-field>
+						</v-flex>
+					</v-layout>
+				</v-card-title>
 			<v-data-table
 					v-bind:headers="headers"
 					v-bind:items="items"
 					v-bind:search="search"
 					v-bind:pagination.sync="pagination"
+					v-model="selected"
+					item-key="id"
 					:total-items="totalItems"
 					:loading="loading"
-					class="elevation-1"
+					select-all
 			>
+				<!-- HEADER SLOT -->
+				<template slot="headers" slot-scope="props">
+					<tr>
+						<th style="width: 50px; max-width: 50px;">
+							<v-checkbox
+									primary
+									hide-details
+									@click.native="toggleAll"
+									:input-value="props.all"
+									:indeterminate="props.indeterminate"
+							></v-checkbox>
+						</th>
+						<th :style="{ textAlign: header.align, width: header.width }" v-for="header in headers" :key="header.text"
+						    :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']"
+						    @click="changeSort(header.value)"
+						>
+							<v-icon>arrow_upward</v-icon>
+							{{ header.text }}
+						</th>
+					</tr>
+				</template>
+				<!-- ROWS SLOT -->
 				<template slot="items" slot-scope="props">
-					<td>{{ props.item.id }}</td>
-					<td class="text-xs-right">{{ props.item.title }}</td>
+					<tr :active="props.selected" @click="props.selected = !props.selected">
+						<td>
+							<v-checkbox
+									primary
+									hide-details
+									:input-value="props.selected"
+							></v-checkbox>
+						</td>
+						<td>{{ props.item.id }}</td>
+						<td class="text-xs-left">{{ props.item.title }}</td>
+						<td class="text-xs-right">
+							{{ props.item.active == 1 ? 'Active' : $options.filters.timeLeft(props.item.activation_time) }}
+						</td>
+						<td class="text-xs-right">{{ props.item.date_created }}</td>
+					</tr>
 				</template>
 			</v-data-table>
-		</div>
+			</v-card>
 		
 		<router-link is="v-btn" :to="{ name: 'article.create' }"
 				fab
@@ -38,19 +101,19 @@
 	export default {
 		data () {
 			return {
-				search: '',
+				selected: [],
+				search: {
+					title: ''
+				},
 				totalItems: 0,
 				items: [],
 				loading: true,
 				pagination: {},
 				headers: [
-					{
-						text: 'Id',
-						align: 'left',
-						//sortable: false,
-						value: 'title'
-					},
-					{ text: 'Title', value: 'title' },
+					{ text: 'Id', align: 'left', sortable: true, value: 'title', width: '40px'},
+					{ text: 'Title', value: 'title', sortable: true, align: 'left' },
+					{ text: 'Activated', value: 'active', sortable: true, align: 'right', width: '200px' },
+					{ text: 'Created At', value: 'date_created', sortable: true, align: 'right', width: '200px' },
 				]
 			}
 		},
@@ -58,24 +121,45 @@
 			pagination: {
 				handler () {
 					this.getDataFromApi()
-						.then(data =>
-						{
-							this.items = data.items;
-							this.totalItems = data.total;
+						.then( data => {
+							this.items      = data.items;
+							this.totalItems = parseInt(data.total);
 						})
 				},
 				deep: true
-			}
+			},
 		},
 		mounted ()
 		{
+			//this.fetchData();
 			this.getDataFromApi()
 				.then( data => {
 					this.items      = data.items;
-					this.totalItems = data.total;
+					this.totalItems = parseInt(data.total);
 				})
 		},
 		methods: {
+			fetchData()
+			{
+				this.getDataFromApi()
+					.then( data => {
+						this.items      = data.items;
+						this.totalItems = parseInt(data.total);
+					})
+			},
+			toggleAll ()
+			{
+				if (this.selected.length) this.selected = []
+				else this.selected = this.items.slice()
+			},
+			changeSort (column) {
+				if (this.pagination.sortBy === column) {
+					this.pagination.descending = !this.pagination.descending;
+				} else {
+					this.pagination.sortBy = column;
+					this.pagination.descending = false;
+				}
+			},
 			getDataFromApi ()
 			{
 				this.loading = true;
@@ -84,10 +168,11 @@
 				{
 					const { sortBy, descending, page, rowsPerPage } = this.pagination;
 					
-					this.getArticles().then( items =>
+					this.getArticles().then( data =>
 					{
-						const total = items.length;
-						
+						let items = data.items;
+						let total = parseInt(data.total);
+			
 						if (this.pagination.sortBy)
 						{
 							items = items.sort( ( a, b ) =>
@@ -118,7 +203,6 @@
 						setTimeout(() =>
 						{
 							this.loading = false;
-							
 							resolve({
 								items,
 								total
@@ -131,7 +215,7 @@
 			},
 			getArticles ()
 			{
-				return (new Article()).search( { search: {}, filter: this.pagination } ).then();
+				return (new Article()).search( { search: this.search, filter: this.pagination } ).then();
 			}
 		}
 	}

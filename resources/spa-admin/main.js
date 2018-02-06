@@ -9,6 +9,9 @@ import Vuetify from 'vuetify';
 import VeeValidate from 'vee-validate';
 import App from './App.vue';
 
+import moment from 'moment';
+import moment_countdown from 'moment-countdown';
+
 Vue.use(Router);
 Vue.use(Vuetify);
 Vue.use(VeeValidate);
@@ -23,10 +26,12 @@ Vue.prototype.$User = new User();
 var router =  new Router({
 	routes: ROUTES
 });
+//return "in " + (moment(new Date()).countdown(new Date(item.activation_time)).toString());
+
 
 router.beforeEach( (to, from, next ) => {
 	
-    if( to.path === '/login') next(); // can check prototype aswell
+	if( to.path === '/login') next(); // can check prototype aswell
   
 	Vue.prototype.$User.auth().then( response => {
 		next();
@@ -34,6 +39,12 @@ router.beforeEach( (to, from, next ) => {
 		next('/login');
 	});
 	
+});
+
+Vue.filter('timeLeft', function( datetime = null )
+{
+	if( moment(datetime).isValid() ) return moment( new Date() ).countdown( new Date( datetime ) ).toString();
+	return '';
 });
 
 new Vue({

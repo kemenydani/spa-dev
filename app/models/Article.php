@@ -13,7 +13,8 @@ class Article extends Model
 	public static $_UNIQUE_KEY = 'id';
 	public static $_TABLE = 'article';
 
-	public static $_PROPS = ['id', 'title', 'teaser', 'content'];
+	public static $_PROPS = ['id', 'active', 'title', 'teaser', 'content', 'activation_time', 'date_created'];
+    public static $_PROPS_READONLY = ['id', 'date_created'];
     public static $_PROPS_PROTECTED = ['content'];
     /*
     public static $_RELATIONS = [
