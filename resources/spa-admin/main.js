@@ -28,8 +28,6 @@ Vue.prototype.$User = new User();
 var router =  new Router({
 	routes: ROUTES
 });
-//return "in " + (moment(new Date()).countdown(new Date(item.activation_time)).toString());
-
 
 router.beforeEach( (to, from, next ) => {
 	
