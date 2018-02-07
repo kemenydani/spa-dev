@@ -9,7 +9,7 @@ const Create = resolve =>
 
 const List = resolve =>
 {
-	require.ensure(['../components/views/article/list.vue'], () => resolve(require('../components/views/article/list.vue')))
+	require.ensure(['../components/views/article/list2.vue'], () => resolve(require('../components/views/article/list2.vue')))
 };
 
 export default
