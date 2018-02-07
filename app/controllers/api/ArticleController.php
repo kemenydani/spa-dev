@@ -41,7 +41,18 @@ class ArticleController extends Controller
 		
 		return $response->withJson( $Article->getProperties() )->withStatus(200);
 	}
-	
+
+	public function postDelete( Request $request, Response $response )
+    {
+        $range = $request->getParsedBody()['range'];
+
+        $isDeleted = Article::deleteIn('id', $range );
+
+        if( !$isDeleted ) return $response->withStatus( 500, 'Database error: Could not delete items.' );
+
+        return $response->withJson( $range );
+    }
+
 	public function getOne( Request $request, Response $response )
 	{
 		$id = $request->getParsedBody()['id'];
@@ -70,51 +81,41 @@ class ArticleController extends Controller
 		return $response->withJson( $data );
 	}
 
-    public function getSearchPaginate( Request $request, Response $response, array $args )
+    public function getSearchPaginate( Request $request, Response $response )
     {
-        $filter = json_decode($request->getQueryParam('filter'), true);
-        $search = json_decode($request->getQueryParam('search'), true);
+        $filterArray = json_decode($request->getQueryParam('filter'), true);
 
-        $order        = $filter['descending'] == true     ? 'DESC' : 'ASC';
-        $page         = is_numeric($filter['page'])        ? (int)$filter['page'] : 1;
-        // TODO: make default global setting for rowsPerPage
-        $rowsPerPage  = is_numeric($filter['rowsPerPage']) ? (int)$filter['rowsPerPage'] : 5;
+        $orderDirection = $filterArray['descending'] !== true     ? 'DESC' : 'ASC';
+        $currentPage    = is_numeric($filterArray['page'])        ? (int)$filterArray['page'] : 1;
+        $rowsPerPage    = is_numeric($filterArray['rowsPerPage']) ? (int)$filterArray['rowsPerPage'] : 5;
+        $sortBy         = strlen($filterArray['sortBy']) > 0      ? $filterArray['sortBy'] : 'date_created';
 	
-	    $start = (($page - 1) * $rowsPerPage);
+	    $startAtRow = ( ( $currentPage - 1 ) * $rowsPerPage );
+        $orderDirection = " ORDER BY " . $sortBy . " " . $orderDirection . " ";
+        $limit = " LIMIT " . $startAtRow . ", " . $rowsPerPage ." ";
 
-        $order = " ORDER BY id " . $order . " ";
-        $limit = " LIMIT ".$start.", ".$rowsPerPage." ";
-        $where_conds = [];
+        $search = $request->getQueryParam('search');
+        $searchConditions = [];
 
-        foreach( $search as $column => $value )
+        if( $search !== null && Article::isSearchable() )
         {
-            if( $value === null || $value === '') continue;
-            $where_conds[] = $column . ' LIKE ' . "'%".$value."%'";
+            foreach( Article::$_PROPS_SEARCHABLE as $column )
+            {
+                $searchConditions[] = $column . ' LIKE ' . "'%".$search."%'";
+            }
         }
 
-      // return $response->withJson( $limit );
+        $where = count($searchConditions) ? implode(' OR ', $searchConditions) : 1;
 
-        $where = count($where_conds) ? implode(' AND ', $where_conds) : 1;
-
-        $stmt = " SELECT SQL_CALC_FOUND_ROWS * FROM _xyz_article WHERE $where $order $limit";
-
-        //return $response->withJson( [ $stmt ] );
+        $stmt = " SELECT SQL_CALC_FOUND_ROWS * FROM _xyz_article WHERE $where $orderDirection $limit";
 
         $sql = DB::instance()->prepare( $stmt );
         $sql->execute();
 
-        $items = $sql->fetchAll(\PDO::FETCH_ASSOC);
+        $items = $sql->fetchAll(\PDO::FETCH_ASSOC );
 
-        $total = DB::instance()->query('SELECT FOUND_ROWS()')->fetch(\PDO::FETCH_COLUMN);
+        $total = DB::instance()->query('SELECT FOUND_ROWS()')->fetch(\PDO::FETCH_COLUMN );
 
-        //$items = [];
-
-        /*
-        foreach($rows as $row)
-        {
-            $items[] = $row;
-        }
-*/
         return $response->withJson( [ 'total' => (int)$total, 'items' => $items ] );
     }
 	

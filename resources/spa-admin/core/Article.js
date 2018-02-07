@@ -38,6 +38,12 @@ export default class Article {
 			.catch( error => error );
 	}
 	
+	deleteIn( range = [] ){
+		return this.DB.post('delete', { range } )
+			.then( response => response.data )
+			.catch( error => error );
+	}
+	
 	delete( id )
 	{
 	

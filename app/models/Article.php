@@ -15,6 +15,7 @@ class Article extends Model
 
 	public static $_PROPS = ['id', 'active', 'title', 'teaser', 'content', 'activation_time', 'date_created'];
     public static $_PROPS_READONLY = ['id', 'date_created'];
+    public static $_PROPS_SEARCHABLE = ['id', 'title', 'teaser', 'content', 'date_created', 'activation_time'];
     public static $_PROPS_PROTECTED = ['content'];
     /*
     public static $_RELATIONS = [

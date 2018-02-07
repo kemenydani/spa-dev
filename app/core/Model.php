@@ -13,6 +13,7 @@ abstract class Model
     public static $_PROPS = [];
     public static $_PROPS_PROTECTED = [];
     public static $_RELATIONS = [];
+    public static $_PROPS_SEARCHABLE = [];
 
     public function __call( $method, array $arguments )
     {
@@ -166,6 +167,11 @@ abstract class Model
     public static function deleteIn( $column, $range ) : bool
     {
         return DB::instance()->deleteIn( static::$_TABLE, $column, $range );
+    }
+
+    public static function isSearchable()
+    {
+        return count(static::$_PROPS_SEARCHABLE) > 0;
     }
 
 }

@@ -1,45 +1,46 @@
 <template>
 	<v-content>
-
-			<v-card>
-				<v-card-title>
-					<v-layout row>
-						<v-flex sm2>
-							<!--
-							<v-select
-									v-bind:items="[{ text: 'Delete'},{ text: 'Activate' },{ text: 'Deactivate' }]"
-									v-model="e1"
-									label="Select"
-									single-line
-									bottom
-							></v-select>
-							-->
-						</v-flex>
-						<v-spacer></v-spacer>
-						<v-flex>
-							<v-text-field
-									append-icon="search"
-									label="Search"
-									single-line
-									hide-details
-									@change="fetchData()"
-									v-model="search.title"
-							></v-text-field>
-						</v-flex>
-					</v-layout>
-				</v-card-title>
+		
+		<v-card>
+			<v-card-title>
+				<v-layout row>
+					<v-flex sm2>
+						<v-select
+								v-bind:items="[{ text: 'Delete', value: 'delete' },{ text: 'Activate', value: 'activate' },{ text:
+								'Deactivate', value: 'deactivate' }]"
+								label="Action"
+								:disabled="!selected.length"
+								v-model="selectedAction"
+								single-line
+								bottom
+								:hint="selectActionHint"
+								persistent-hint
+								@input="actionSelected()"
+						></v-select>
+					</v-flex>
+					<v-spacer></v-spacer>
+					<v-flex sm3>
+						<v-text-field
+								append-icon="search"
+								label="Search"
+								single-line
+								hide-details
+								@input="fetchData()"
+								v-model="search"
+						></v-text-field>
+					</v-flex>
+				</v-layout>
+			</v-card-title>
 			<v-data-table
 					v-bind:headers="headers"
 					v-bind:items="items"
-					v-bind:search="search"
 					v-bind:pagination.sync="pagination"
 					v-model="selected"
-					item-key="id"
 					:total-items="totalItems"
 					:loading="loading"
+					class="elevation-1"
 					select-all
 			>
-				<!-- HEADER SLOT -->
 				<template slot="headers" slot-scope="props">
 					<tr>
 						<th style="width: 50px; max-width: 50px;">
@@ -60,7 +61,7 @@
 						</th>
 					</tr>
 				</template>
-				<!-- ROWS SLOT -->
+				
 				<template slot="items" slot-scope="props">
 					<tr :active="props.selected" @click="props.selected = !props.selected">
 						<td>
@@ -79,7 +80,7 @@
 					</tr>
 				</template>
 			</v-data-table>
-			</v-card>
+		</v-card>
 		
 		<router-link is="v-btn" :to="{ name: 'article.create' }"
 				fab
@@ -91,6 +92,7 @@
 		>
 			<v-icon>add</v-icon>
 		</router-link>
+		
 	</v-content>
 </template>
 
@@ -102,49 +104,81 @@
 		data () {
 			return {
 				selected: [],
-				search: {
-					title: ''
-				},
+				search: '',
+				selectedAction: null,
 				totalItems: 0,
 				items: [],
 				loading: true,
 				pagination: {},
 				headers: [
-					{ text: 'Id', align: 'left', sortable: true, value: 'title', width: '40px'},
+					{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},
 					{ text: 'Title', value: 'title', sortable: true, align: 'left' },
 					{ text: 'Activated', value: 'active', sortable: true, align: 'right', width: '200px' },
 					{ text: 'Created At', value: 'date_created', sortable: true, align: 'right', width: '200px' },
 				]
 			}
 		},
+		computed:
+		{
+			selectActionHint(){
+				return (this.selected.length > 0) ? 'Choose action for ' + this.selected.length + ' selected items.' : '';
+			}
+		},
 		watch: {
 			pagination: {
 				handler () {
 					this.getDataFromApi()
-						.then( data => {
-							this.items      = data.items;
-							this.totalItems = parseInt(data.total);
+						.then(data => {
+							this.items = data.items;
+							this.totalItems = data.total;
 						})
 				},
 				deep: true
-			},
+			}
 		},
-		mounted ()
-		{
-			//this.fetchData();
+		mounted () {
 			this.getDataFromApi()
-				.then( data => {
-					this.items      = data.items;
-					this.totalItems = parseInt(data.total);
+				.then(data => {
+					this.items = data.items;
+					this.totalItems = data.total;
 				})
 		},
 		methods: {
+			actionSelected()
+			{
+				switch(this.selectedAction)
+				{
+					case 'delete'	: this.deleteSelected();
+						break;
+					case 'activate'	:
+						break;
+					case 'deactivate'	:
+						break;
+				}
+			},
+			getSelectedKeys()
+			{
+				let ids = [];
+				
+				this.selected.forEach( selectedRow => { ids.push( selectedRow.id ) } );
+				
+				return ids;
+			},
+			deleteSelected()
+			{
+				let selectedKeys = this.getSelectedKeys();
+				
+				(new Article()).deleteIn( selectedKeys ).then( response =>
+				{
+					this.fetchData();
+				})
+			},
 			fetchData()
 			{
 				this.getDataFromApi()
-					.then( data => {
-						this.items      = data.items;
-						this.totalItems = parseInt(data.total);
+					.then(data => {
+						this.items = data.items;
+						this.totalItems = data.total;
 					})
 			},
 			toggleAll ()
@@ -160,63 +194,33 @@
 					this.pagination.descending = false;
 				}
 			},
-			getDataFromApi ()
+			getArticles ( )
 			{
-				this.loading = true;
+				return (new Article()).search( { search: this.search, filter: this.pagination } ).then();
+			},
+			getDataFromApi () {
+				this.loading = true
 				
-				return new Promise( ( resolve, reject ) =>
+				return new Promise((resolve, reject) =>
 				{
-					const { sortBy, descending, page, rowsPerPage } = this.pagination;
-					
-					this.getArticles().then( data =>
+					this.getArticles().then( ( APIResponse ) =>
 					{
-						let items = data.items;
-						let total = parseInt(data.total);
-			
-						if (this.pagination.sortBy)
-						{
-							items = items.sort( ( a, b ) =>
-							{
-								const sortA = a[sortBy];
-								const sortB = b[sortBy];
-								
-								if (descending)
-								{
-									if (sortA < sortB) return 1;
-									if (sortA > sortB) return -1;
-									return 0
-								}
-								else
-								{
-									if (sortA < sortB) return -1;
-									if (sortA > sortB) return 1;
-									return 0
-								}
-							})
-						}
+						let items = APIResponse.items;
+						const total = APIResponse.total;
 						
-						if (rowsPerPage > 0)
-						{
-							items = items.slice((page - 1) * rowsPerPage, page * rowsPerPage)
-						}
-						
-						setTimeout(() =>
+						setTimeout( () =>
 						{
 							this.loading = false;
 							resolve({
 								items,
 								total
 							})
-						}, 1000)
-						
+						}, 400)
 					});
-
-				})
+					
+				}) // promise
+				
 			},
-			getArticles ()
-			{
-				return (new Article()).search( { search: this.search, filter: this.pagination } ).then();
-			}
 		}
 	}
 </script>

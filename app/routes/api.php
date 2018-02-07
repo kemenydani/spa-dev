@@ -21,6 +21,7 @@ $app->group('/api', function ()
 		$this->get('/all', 'controllers\api\ArticleController:getAll');
         $this->get('/search_paginate', 'controllers\api\ArticleController:getSearchPaginate');
 		$this->post('/create', 'controllers\api\ArticleController:postCreate');
+        $this->post('/delete', 'controllers\api\ArticleController:postDelete');
 	});
 	
 	$this->group('/category', function()
