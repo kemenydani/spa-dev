@@ -157,6 +157,35 @@
 			}
 		},
 		methods: {
+			actionSelected()
+			{
+				switch(this.selectedAction)
+				{
+					case 'delete'	: this.deleteSelected();
+						break;
+					case 'activate'	:
+						break;
+					case 'deactivate'	:
+						break;
+				}
+			},
+			getSelectedKeys()
+			{
+				let ids = [];
+				
+				this.data.selectedItems.forEach( selectedRow => { ids.push( selectedRow[this.uniqueKey] ) } );
+				
+				return ids;
+			},
+			deleteSelected()
+			{
+				let selectedKeys = this.getSelectedKeys();
+				
+				this.Model.deleteIn( selectedKeys ).then( response =>
+				{
+					this.fetchData();
+				})
+			},
 			formatColumn( items, config ){
 				if( !config.hasOwnProperty('format') ) return items[config.value];
 				return config.format( items[config.value], items );
