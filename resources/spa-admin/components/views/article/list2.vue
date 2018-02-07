@@ -167,32 +167,12 @@
 				{
 					this.getArticles().then( ( APIResponse ) =>
 					{
-						const { sortBy, descending, page, rowsPerPage } = this.pagination
-						console.log(APIResponse.items.length)
 						let items = APIResponse.items;
 						const total = APIResponse.total;
-						/*
-						if (this.pagination.sortBy) {
-							items = items.sort((a, b) => {
-								const sortA = a[sortBy]
-								const sortB = b[sortBy]
-								if (descending) {
-									if (sortA < sortB) return 1
-									if (sortA > sortB) return -1
-									return 0
-								} else {
-									if (sortA < sortB) return -1
-									if (sortA > sortB) return 1
-									return 0
-								}
-							})
-						}
-						*/
-						if (rowsPerPage > 0) {
-							//items = items.slice((page - 1) * rowsPerPage, page * rowsPerPage)
-						}
-						setTimeout(() => {
-							this.loading = false
+						
+						setTimeout( () =>
+						{
+							this.loading = false;
 							resolve({
 								items,
 								total
