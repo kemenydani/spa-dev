@@ -272,7 +272,7 @@
 				
 				
 				dialog: false,
-				dark: false,
+				dark: true,
 				theme: 'primary',
 				mini: false,
 				drawer: true,

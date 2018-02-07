@@ -80,28 +80,41 @@ class ArticleController extends Controller
         // TODO: make default global setting for rowsPerPage
         $rowsPerPage  = is_numeric($filter['rowsPerPage']) ? (int)$filter['rowsPerPage'] : 5;
 	
-	    $start = (($page - 1) * $rowsPerPage) + 1;
-        
-        $where = "";
+	    $start = (($page - 1) * $rowsPerPage);
+
         $order = " ORDER BY id " . $order . " ";
         $limit = " LIMIT ".$start.", ".$rowsPerPage." ";
+        $where_conds = [];
 
-        $stmt = " SELECT SQL_CALC_FOUND_ROWS * FROM _xyz_article $where $order $limit";
-	    
+        foreach( $search as $column => $value )
+        {
+            if( $value === null || $value === '') continue;
+            $where_conds[] = $column . ' LIKE ' . "'%".$value."%'";
+        }
+
+      // return $response->withJson( $limit );
+
+        $where = count($where_conds) ? implode(' AND ', $where_conds) : 1;
+
+        $stmt = " SELECT SQL_CALC_FOUND_ROWS * FROM _xyz_article WHERE $where $order $limit";
+
+        //return $response->withJson( [ $stmt ] );
+
         $sql = DB::instance()->prepare( $stmt );
         $sql->execute();
 
-        $rows = $sql->fetchAll(\PDO::FETCH_ASSOC);
+        $items = $sql->fetchAll(\PDO::FETCH_ASSOC);
 
         $total = DB::instance()->query('SELECT FOUND_ROWS()')->fetch(\PDO::FETCH_COLUMN);
 
-        $items = [];
+        //$items = [];
 
+        /*
         foreach($rows as $row)
         {
             $items[] = $row;
         }
-
+*/
         return $response->withJson( [ 'total' => (int)$total, 'items' => $items ] );
     }
 	
