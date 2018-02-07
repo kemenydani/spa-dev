@@ -72,14 +72,13 @@ class ArticleController extends Controller
 
     public function getSearchPaginate( Request $request, Response $response, array $args )
     {
-        $data = json_decode($request->getQueryParams(), true);
-	   
-        $search = isset($data['search']) ? $data['search'] : [];
-        $filter = isset($data['filter']) ? $data['filter'] : [];
+        $filter = json_decode($request->getQueryParam('filter'), true);
+        $search = json_decode($request->getQueryParam('search'), true);
 
-        $order        = $data['filter']['descending'] === true ? 'DESC' : 'ASC';
-        $page         = $data['filter']['page'];
-        $rowsPerPage  = $data['filter']['rowsPerPage'];
+        $order        = $filter['descending'] == true     ? 'DESC' : 'ASC';
+        $page         = is_numeric($filter['page'])        ? (int)$filter['page'] : 1;
+        // TODO: make default global setting for rowsPerPage
+        $rowsPerPage  = is_numeric($filter['rowsPerPage']) ? (int)$filter['rowsPerPage'] : 5;
 	
 	    $start = (($page - 1) * $rowsPerPage) + 1;
         
