@@ -11,27 +11,34 @@ export default class User extends Model {
 		this.DataService = new UserDataService();
 		this.DB = this.DataService.Connection;
 		this.logged = false;
-		this.data = {};
+		this.state = {};
 		
 		return this;
+	}
+	
+	getNotifications()
+	{
+		if(){
+			
+		}
 	}
 	
 	login( user, password, remember )
 	{
 		return this.DB.post('auth', { user, password, remember }).then( response => response.data )
-			       .then( data =>
+			       .then( state =>
 			       {
 			       	    this.logged = true;
-			       	    this.data   = data;
+			       	    this.state   = state;
 			       	    
-			       	    return data;
+			       	    return state;
 			       })
 			       .catch( () => { this.logged = false } );
 	}
 	
 	destroy()
 	{
-		this.data = {};
+		this.state = {};
 		this.logged = false;
 	}
 	
@@ -43,12 +50,12 @@ export default class User extends Model {
 				//if( !response || response.status !== 200 ) return false;
 				return response.data;
 			})
-			.then( data =>
+			.then( state =>
 			{
 				this.logged = true;
-				this.data   = data;
+				this.state   = state;
 				
-				return data;
+				return state;
 			})
 			.catch( error => {
 				this.destroy()
@@ -73,19 +80,19 @@ export default class User extends Model {
 	
 	getData()
 	{
-		return this.data;
+		return this.state;
 	}
 	
 	getName(){
-		return this.data.username;
+		return this.state.username;
 	}
 	
 	getEmail(){
-		return this.data.email;
+		return this.state.email;
 	}
 	
 	getId(){
-		return this.data.id;
+		return this.state.id;
 	}
 	
 }

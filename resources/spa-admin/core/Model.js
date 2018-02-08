@@ -1,5 +1,6 @@
 export default class Model
 {
+
 	all()
 	{
 		return this.DB.get('all')
@@ -19,4 +20,5 @@ export default class Model
 			.then( response => response.data )
 			.catch( error => error );
 	}
+	
 }
