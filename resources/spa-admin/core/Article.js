@@ -1,10 +1,13 @@
 
 import ArticleDataService from '../services/ArticleDataService';
+import Model from "./Model";
 
-export default class Article {
+export default class Article extends Model {
 
 	constructor()
 	{
+		super();
+		
 		this.DataService = new ArticleDataService();
 		this.DB = this.DataService.Connection;
 	

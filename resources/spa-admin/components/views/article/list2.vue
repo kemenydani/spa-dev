@@ -1,9 +1,9 @@
 <template>
-	<div>
+	<v-content>
 		<data-model-manager :Model="table.model" :headers="table.headers">
 		
 		</data-model-manager>
-	</div>
+	</v-content>
 </template>
 
 <script>

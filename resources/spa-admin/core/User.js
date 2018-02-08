@@ -1,10 +1,13 @@
 
 import UserDataService from '../services/UserDataService';
+import Model from "./Model";
 
-export default class User {
+export default class User extends Model {
 
 	constructor()
 	{
+		super();
+		
 		this.DataService = new UserDataService();
 		this.DB = this.DataService.Connection;
 		this.logged = false;
@@ -24,26 +27,6 @@ export default class User {
 			       	    return data;
 			       })
 			       .catch( () => { this.logged = false } );
-	}
-	
-	all( )
-	{
-		return this.DB.get('all')
-			.then( response => response.data )
-			.catch( error => error );
-	}
-	
-	search( query )
-	{
-		return this.DB.get('search_paginate', { params: query, headers: {'Content-Type': 'application/json'} } )
-			.then( response => response.data )
-			.catch( error => error );
-	}
-	
-	deleteIn( range = [] ){
-		return this.DB.post('delete', { range } )
-			.then( response => response.data )
-			.catch( error => error );
 	}
 	
 	destroy()
