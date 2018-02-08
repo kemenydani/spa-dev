@@ -9,14 +9,14 @@ use core\Auth as Auth;
 use core\DB as DB;
 use core\Model as Model;
 
-class ArticleController extends Controller implements CRUDInterface
+class ArticleController extends ModelController
 {
     public function __construct()
     {
         parent::__construct( new Article() );
     }
 
-    public function postCreate( Request $request, Response $response )
+    public function postCreate( Request $request, Response $response ) : Response
 	{
 		$data = $request->getParsedBody();
 		

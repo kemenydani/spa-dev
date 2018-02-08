@@ -9,7 +9,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use core\Auth as Auth;
 use models\User as User;
 
-class UserController extends Controller implements CRUDInterface
+class UserController extends ModelController implements CRUDInterface
 {
     public function __construct()
     {

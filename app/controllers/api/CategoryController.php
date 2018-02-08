@@ -6,7 +6,7 @@ use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use models\Category as Category;
 
-class CategoryController extends Controller implements CRUDInterface
+class CategoryController extends ModelController implements CRUDInterface
 {
     public function __construct()
     {
