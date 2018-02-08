@@ -242,7 +242,7 @@
 </template>
 
 <script>
-	import UserDataService from '../../services/UserDataService';
+	import UserDataService from '../../service/UserDataService';
 	
 	export default {
 		name: 'app-main',

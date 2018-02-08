@@ -1,5 +1,5 @@
 
-import CategoryDataService from '../services/CategoryDataService';
+import CategoryDataService from '../service/CategoryDataService';
 import Model from "../core/Model";
 
 export default class Category extends Model {

@@ -1,14 +1,14 @@
 
-import VideoDataService from '../services/VideoDataService';
+import TeamDataService from '../service/TeamDataService';
 import Model from "../core/Model";
 
-export default class Video extends Model {
+export default class Team extends Model {
 
 	constructor()
 	{
 		super();
 		
-		this.DataService = new VideoDataService();
+		this.DataService = new TeamDataService();
 		this.DB = this.DataService.Connection;
 	
 		this.id = null;

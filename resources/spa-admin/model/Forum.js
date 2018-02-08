@@ -1,14 +1,14 @@
 
-import StreamDataService from '../services/StreamDataService';
+import ForumDataService from '../service/ForumDataService';
 import Model from "../core/Model";
 
-export default class Stream extends Model {
+export default class Forum extends Model {
 
 	constructor()
 	{
 		super();
 		
-		this.DataService = new StreamDataService();
+		this.DataService = new ForumDataService();
 		this.DB = this.DataService.Connection;
 	
 		this.id = null;

@@ -1,5 +1,5 @@
 
-import ArticleDataService from '../services/ArticleDataService';
+import ArticleDataService from '../service/ArticleDataService';
 import Model from "../core/Model";
 
 export default class Article extends Model {

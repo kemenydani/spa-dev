@@ -1,5 +1,5 @@
 
-import UserDataService from '../services/UserDataService';
+import UserDataService from '../service/UserDataService';
 import Model from "../core/Model";
 
 export default class User extends Model {

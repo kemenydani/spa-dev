@@ -21,7 +21,7 @@
 <script>
 	
 	import DataModelManager from '../../DataModelManager';
-	import Article from '../../../models/Article';
+	import Article from '../../../model/Article';
 	
 	export default {
 		components: { DataModelManager },

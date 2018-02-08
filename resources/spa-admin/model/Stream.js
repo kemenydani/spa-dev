@@ -1,14 +1,14 @@
 
-import SquadDataService from '../services/SquadDataService';
+import StreamDataService from '../service/StreamDataService';
 import Model from "../core/Model";
 
-export default class Squad extends Model {
+export default class Stream extends Model {
 
 	constructor()
 	{
 		super();
 		
-		this.DataService = new SquadDataService();
+		this.DataService = new StreamDataService();
 		this.DB = this.DataService.Connection;
 	
 		this.id = null;
