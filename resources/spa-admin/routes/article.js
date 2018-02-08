@@ -9,7 +9,12 @@ const Create = resolve =>
 
 const List = resolve =>
 {
-	require.ensure(['../components/views/article/list2.vue'], () => resolve(require('../components/views/article/list2.vue')))
+	require.ensure(['../components/views/article/list.vue'], () => resolve(require('../components/views/article/list.vue')))
+};
+
+const Overview = resolve =>
+{
+	require.ensure(['../components/views/article/overview.vue'], () => resolve(require('../components/views/article/overview.vue')))
 };
 
 export default
@@ -19,10 +24,18 @@ export default
     children: [
         {
             path: '/',
+            component: Overview,
+            name: 'article.overview',
+            meta: {
+                title: 'Article Overview'
+            }
+        },
+        {
+            path: 'list',
             component: List,
             name: 'article.list',
             meta: {
-                title: 'Articles'
+              title: 'Articles'
             }
         },
         {
@@ -32,6 +45,6 @@ export default
             meta: {
                 title: 'Create Article'
             }
-        }
+        },
     ]
 }

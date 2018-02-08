@@ -1,227 +1,53 @@
 <template>
 	<v-content>
+		<data-model-manager :Model="table.model" :headers="table.headers">
 		
-		<v-card>
-			<v-card-title>
-				<v-layout row>
-					<v-flex sm2>
-						<v-select
-								v-bind:items="[{ text: 'Delete', value: 'delete' },{ text: 'Activate', value: 'activate' },{ text:
-								'Deactivate', value: 'deactivate' }]"
-								label="Action"
-								:disabled="!selected.length"
-								v-model="selectedAction"
-								single-line
-								bottom
-								:hint="selectActionHint"
-								persistent-hint
-								@input="actionSelected()"
-						></v-select>
-					</v-flex>
-					<v-spacer></v-spacer>
-					<v-flex sm3>
-						<v-text-field
-								append-icon="search"
-								label="Search"
-								single-line
-								hide-details
-								@input="fetchData()"
-								v-model="search"
-						></v-text-field>
-					</v-flex>
-				</v-layout>
-			</v-card-title>
-			<v-data-table
-					v-bind:headers="headers"
-					v-bind:items="items"
-					v-bind:pagination.sync="pagination"
-					v-model="selected"
-					:total-items="totalItems"
-					:loading="loading"
-					class="elevation-1"
-					select-all
-			>
-				<template slot="headers" slot-scope="props">
-					<tr>
-						<th style="width: 50px; max-width: 50px;">
-							<v-checkbox
-									primary
-									hide-details
-									@click.native="toggleAll"
-									:input-value="props.all"
-									:indeterminate="props.indeterminate"
-							></v-checkbox>
-						</th>
-						<th :style="{ textAlign: header.align, width: header.width }" v-for="header in headers" :key="header.text"
-						    :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']"
-						    @click="changeSort(header.value)"
-						>
-							<v-icon>arrow_upward</v-icon>
-							{{ header.text }}
-						</th>
-					</tr>
-				</template>
-				
-				<template slot="items" slot-scope="props">
-					<tr :active="props.selected" @click="props.selected = !props.selected">
-						<td>
-							<v-checkbox
-									primary
-									hide-details
-									:input-value="props.selected"
-							></v-checkbox>
-						</td>
-						<td>{{ props.item.id }}</td>
-						<td class="text-xs-left">{{ props.item.title }}</td>
-						<td class="text-xs-right">
-							{{ props.item.active == 1 ? 'Active' : $options.filters.timeLeft(props.item.activation_time) }}
-						</td>
-						<td class="text-xs-right">{{ props.item.date_created }}</td>
-					</tr>
-				</template>
-			</v-data-table>
-		</v-card>
+		</data-model-manager>
 		
 		<router-link is="v-btn" :to="{ name: 'article.create' }"
-				fab
-				bottom
-				right
-				color="red"
-				dark
-				fixed
+		             fab
+		             bottom
+		             right
+		             color="red"
+		             dark
+		             fixed
 		>
 			<v-icon>add</v-icon>
 		</router-link>
-		
+
 	</v-content>
 </template>
 
 <script>
 	
-	import Article from '../../../core/Article';
+	import DataModelManager from '../../DataModelManager';
+	import Article from '../../../models/Article';
 	
 	export default {
-		data () {
+		components: { DataModelManager },
+		data() {
 			return {
-				selected: [],
-				search: '',
-				selectedAction: null,
-				totalItems: 0,
-				items: [],
-				loading: true,
-				pagination: {},
-				headers: [
-					{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},
-					{ text: 'Title', value: 'title', sortable: true, align: 'left' },
-					{ text: 'Activated', value: 'active', sortable: true, align: 'right', width: '200px' },
-					{ text: 'Created At', value: 'date_created', sortable: true, align: 'right', width: '200px' },
-				]
-			}
-		},
-		computed:
-		{
-			selectActionHint(){
-				return (this.selected.length > 0) ? 'Choose action for ' + this.selected.length + ' selected items.' : '';
-			}
-		},
-		watch: {
-			pagination: {
-				handler () {
-					this.getDataFromApi()
-						.then(data => {
-							this.items = data.items;
-							this.totalItems = data.total;
-						})
-				},
-				deep: true
-			}
-		},
-		mounted () {
-			this.getDataFromApi()
-				.then(data => {
-					this.items = data.items;
-					this.totalItems = data.total;
-				})
-		},
-		methods: {
-			actionSelected()
-			{
-				switch(this.selectedAction)
-				{
-					case 'delete'	: this.deleteSelected();
-						break;
-					case 'activate'	:
-						break;
-					case 'deactivate'	:
-						break;
-				}
-			},
-			getSelectedKeys()
-			{
-				let ids = [];
-				
-				this.selected.forEach( selectedRow => { ids.push( selectedRow.id ) } );
-				
-				return ids;
-			},
-			deleteSelected()
-			{
-				let selectedKeys = this.getSelectedKeys();
-				
-				(new Article()).deleteIn( selectedKeys ).then( response =>
-				{
-					this.fetchData();
-				})
-			},
-			fetchData()
-			{
-				this.getDataFromApi()
-					.then(data => {
-						this.items = data.items;
-						this.totalItems = data.total;
-					})
-			},
-			toggleAll ()
-			{
-				if (this.selected.length) this.selected = []
-				else this.selected = this.items.slice()
-			},
-			changeSort (column) {
-				if (this.pagination.sortBy === column) {
-					this.pagination.descending = !this.pagination.descending;
-				} else {
-					this.pagination.sortBy = column;
-					this.pagination.descending = false;
-				}
-			},
-			getArticles ( )
-			{
-				return (new Article()).search( { search: this.search, filter: this.pagination } ).then();
-			},
-			getDataFromApi () {
-				this.loading = true
-				
-				return new Promise((resolve, reject) =>
-				{
-					this.getArticles().then( ( APIResponse ) =>
-					{
-						let items = APIResponse.items;
-						const total = APIResponse.total;
-						
-						setTimeout( () =>
+				table: {
+					headers: [
+						{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},
+						{ text: 'Title', value: 'title', sortable: true, align: 'left' },
 						{
-							this.loading = false;
-							resolve({
-								items,
-								total
-							})
-						}, 400)
-					});
-					
-				}) // promise
-				
-			},
-		}
+							text: 'Activated',
+							value: 'active',
+							sortable: true,
+							align: 'right',
+							width: '200px',
+							format: function( value, values ){
+								return value == 1 ? 'Active' : values['activation_time'];
+							}
+						},
+						{ text: 'Created At', value: 'date_created', sortable: true, align: 'right', width: '200px' },
+					],
+					model: new Article()
+				},
+			}
+		},
+
 	}
 </script>
 

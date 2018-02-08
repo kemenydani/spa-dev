@@ -21,7 +21,7 @@ Vue.use(VueAxios, axios);
 
 import ROUTES from './routes'
 
-import User from './core/User';
+import User from './models/User';
 
 Vue.prototype.$User = new User();
 

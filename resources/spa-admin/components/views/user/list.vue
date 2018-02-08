@@ -11,7 +11,7 @@
 <script>
 	
 	import DataModelManager from '../../DataModelManager';
-	import User from '../../../core/User';
+	import User from '../../../models/User';
 	
 	export default {
 		components: { DataModelManager },

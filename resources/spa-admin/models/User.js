@@ -1,6 +1,6 @@
 
 import UserDataService from '../services/UserDataService';
-import Model from "./Model";
+import Model from "../core/Model";
 
 export default class User extends Model {
 

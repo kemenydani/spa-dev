@@ -1,9 +1,9 @@
 
 import Connection from '../core/Connection';
 
-const API_BASE = '/api/category/';
+const API_BASE = '/api/squad/';
 
-export default class CategoryDataService {
+export default class SquadDataService {
 	
 	constructor()
 	{

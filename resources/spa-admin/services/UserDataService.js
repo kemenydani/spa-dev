@@ -1,4 +1,5 @@
-import Connection from './Connection';
+
+import Connection from '../core/Connection';
 
 const API_BASE = '/api/user/';
 
@@ -9,4 +10,5 @@ export default class UserDataService {
 		this.Connection = new Connection({ baseURL: API_BASE });
 		return this;
 	}
-};
+	
+}

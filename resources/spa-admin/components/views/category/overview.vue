@@ -48,7 +48,7 @@
 
 <script>
 	
-	import Category from '../../../core/Category';
+	import Category from '../../../models/Category';
 	
 	export default {
 		name: 'category-overview',

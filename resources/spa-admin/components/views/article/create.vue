@@ -142,7 +142,7 @@
 
 <script>
 	
-	import Article from '../../../core/Article';
+	import Article from '../../../models/Article';
 	import CategoryField from '../../fields/category';
 	
 	export default {

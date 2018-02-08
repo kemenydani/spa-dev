@@ -1,6 +1,6 @@
 
 import ArticleDataService from '../services/ArticleDataService';
-import Model from "./Model";
+import Model from "../core/Model";
 
 export default class Article extends Model {
 
