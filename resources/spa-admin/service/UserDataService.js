@@ -1,13 +1,12 @@
 
-import Connection from '../core/Connection';
+import DataService from "../core/DataService";
 
-const API_BASE = '/api/user/';
-
-export default class UserDataService {
+export default class UserDataService extends DataService {
 	
 	constructor()
 	{
-		this.Connection = new Connection({ baseURL: API_BASE });
+		super('user');
+		
 		return this;
 	}
 	

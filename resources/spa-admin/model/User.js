@@ -16,13 +16,6 @@ export default class User extends Model {
 		return this;
 	}
 	
-	getNotifications()
-	{
-		if(){
-			
-		}
-	}
-	
 	login( user, password, remember )
 	{
 		return this.DB.post('auth', { user, password, remember }).then( response => response.data )
