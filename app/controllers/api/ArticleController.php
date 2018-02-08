@@ -7,12 +7,16 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use models\Article as Article;
 use core\Auth as Auth;
 use core\DB as DB;
+use core\Model as Model;
 
-class ArticleController extends Controller
+class ArticleController extends Controller implements CRUDInterface
 {
-    public static $Model = Article::class;
+    public function __construct()
+    {
+        parent::__construct( new Article() );
+    }
 
-	public function postCreate( Request $request, Response $response )
+    public function postCreate( Request $request, Response $response )
 	{
 		$data = $request->getParsedBody();
 		

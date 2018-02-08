@@ -6,27 +6,32 @@ use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use models\Category as Category;
 
-class CategoryController extends Controller
+class CategoryController extends Controller implements CRUDInterface
 {
+    public function __construct()
+    {
+        parent::__construct( new Category() );
+    }
+
 	public function postCreate( Request $request, Response $response )
 	{
 		$data = $request->getParsedBody();
-		
+
 		$name       = isset($data['name'])       ? $data['name']       : '';
 		$name_short = isset($data['name_short']) ? $data['name_short'] : '';
 		$context    = isset($data['context'])    ? $data['context']    : '';
-		
-	
+
+
 		$Category = Category::create([
 			'name'       => $name,
 			'name_short' => $name_short,
 			'context'    => $context,
 		]);
-		
+
 		$id = $Category->save();
-		
+
 		if( $id === false ) return $response->withStatus(500, 'Database error: Could not insert Category.');
-		
+
 		return $response->withJson( $Category->getProperties() )->withStatus(200);
 	}
 	

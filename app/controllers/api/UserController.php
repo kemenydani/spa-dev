@@ -9,9 +9,12 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use core\Auth as Auth;
 use models\User as User;
 
-class UserController extends Controller
+class UserController extends Controller implements CRUDInterface
 {
-    public static $Model = User::class;
+    public function __construct()
+    {
+        parent::__construct( new User() );
+    }
 
     public function getAuth( Request $request, Response $response )
     {
