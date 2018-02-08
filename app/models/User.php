@@ -14,12 +14,7 @@ class User extends Model
 
     public static $_PROPS = ['id', 'username', 'password', 'remember_token', 'email', 'country_code', 'date_created', 'date_updated'];
     public static $_PROPS_PROTECTED = ['password', 'remember_token'];
-
-    public function __construct()
-    {
-
-    }
-
+    public static $_PROPS_SEARCHABLE = ['id', 'username', 'email', 'country_code', 'date_created'];
 
     public function logout()
     {

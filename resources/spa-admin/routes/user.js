@@ -32,7 +32,7 @@ export default
 			}
 		},
 		{
-			path: '/list',
+			path: 'list',
 			component: List,
 			name: 'user.list',
 			meta: {

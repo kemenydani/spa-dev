@@ -4,7 +4,7 @@ $app->group('/api', function ()
 {
     $this->group('/user', function()
     {
-        $this->get('/all', 'controllers\api\UserController:getUsers');
+
             //->add( new \middlewares\RequiresAuth())
             //->add( new \middlewares\RequiresRole(['users.list']));
 
@@ -14,6 +14,10 @@ $app->group('/api', function ()
         $this->post('/register', 'controllers\api\UserController:postRegister');
         $this->post('/login', 'controllers\api\UserController:postLogin');
 	    $this->post('/logout', 'controllers\api\UserController:postLogout');
+
+        $this->post('/delete', 'controllers\api\UserController:postDelete');
+        $this->get('/search_paginate', 'controllers\api\UserController:getSearchPaginate');
+        $this->get('/all', 'controllers\api\UserController:getAll');
     });
 	
 	$this->group('/article', function()

@@ -24,6 +24,11 @@ abstract class Model
         if( $action === 'set' ) return $this->setProperty( $propName, $arguments[0] );
     }
 
+    public static function make( $class )
+    {
+        return $class;
+    }
+
     public function hasProperty( $name )
     {
        return array_key_exists( $name, static::$_PROPS );
@@ -86,7 +91,7 @@ abstract class Model
         }
         else
         {
-            $modelId = $this->insert( [] );
+            $modelId = $this->insert( $this->getProperties() );
         }
 
         if( !$modelId ) return false;
@@ -96,7 +101,7 @@ abstract class Model
 
     private function update( array $values, $key, $id )
     {
-        $lastUpdateId = DB::instance()->update( static::$_TABLE, $key, $id );
+        $lastUpdateId = DB::instance()->update( static::$_TABLE, $this->getProperties(), $key, $id );
 
         if( $lastUpdateId ) return $lastUpdateId;
 
@@ -141,6 +146,11 @@ abstract class Model
         }
 
         return $models;
+    }
+
+    public function search( $search = null, array $filter = [] )
+    {
+
     }
 
     public static function all()

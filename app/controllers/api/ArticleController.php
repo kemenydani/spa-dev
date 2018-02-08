@@ -10,6 +10,8 @@ use core\DB as DB;
 
 class ArticleController extends Controller
 {
+    public static $Model = Article::class;
+
 	public function postCreate( Request $request, Response $response )
 	{
 		$data = $request->getParsedBody();
@@ -40,45 +42,6 @@ class ArticleController extends Controller
 		if( $id === false ) return $response->withStatus(500, 'Database error: Could not insert article.');
 		
 		return $response->withJson( $Article->getProperties() )->withStatus(200);
-	}
-
-	public function postDelete( Request $request, Response $response )
-    {
-        $range = $request->getParsedBody()['range'];
-
-        $isDeleted = Article::deleteIn('id', $range );
-
-        if( !$isDeleted ) return $response->withStatus( 500, 'Database error: Could not delete items.' );
-
-        return $response->withJson( $range );
-    }
-
-	public function getOne( Request $request, Response $response )
-	{
-		$id = $request->getParsedBody()['id'];
-		
-		$Article = Article::find( $id );
-		
-		if( $Article === null ) return $response->withStatus(500, 'Database error: Could not find article.');
-		
-		$responseData = $Article->getProperties();
-		$responseData['categories'] = $Article->getCategories();
-		
-		return $response->withJson( $responseData )->withStatus(200);
-	}
-	
-	public function getAll( Request $request, Response $response )
-	{
-	    $Articles = Article::all();
-
-	    $data = [];
-
-	    foreach( $Articles as $Article )
-	    {
-            $data[] = $Article->getPublicProperties();
-        }
-
-		return $response->withJson( $data );
 	}
 
     public function getSearchPaginate( Request $request, Response $response )
