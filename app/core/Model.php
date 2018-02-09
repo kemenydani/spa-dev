@@ -12,7 +12,6 @@ abstract class Model
     public static $_UNIQUE_KEY = 'id';
     public static $_PROPS = [];
     public static $_PROPS_PROTECTED = [];
-    public static $_RELATIONS = [];
     public static $_PROPS_SEARCHABLE = [];
 
     public function __call( $method, array $arguments )
@@ -26,7 +25,12 @@ abstract class Model
 
     public static function getSearchableProps()
     {
-        return static::$_PROPS_SEARCHABLE;
+        return count( static::$_PROPS_SEARCHABLE ) ? static::$_PROPS_SEARCHABLE : static::$_PROPS;
+    }
+
+    public static function getPropertyNames()
+    {
+        return static::$_PROPS;
     }
 
     public static function getTable()

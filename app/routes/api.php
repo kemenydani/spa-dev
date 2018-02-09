@@ -35,6 +35,14 @@ $app->group('/api', function ()
         $this->post('/create', 'controllers\api\CategoryController:postCreate');
         $this->post('/delete', 'controllers\api\CategoryController:postDelete');
 	});
+
+    $this->group('/video', function()
+    {
+        $this->get('/all', 'controllers\api\VideoController:getAll');
+        $this->get('/search_paginate', 'controllers\api\VideoController:getSearchPaginate');
+        $this->post('/create', 'controllers\api\VideoController:postCreate');
+        $this->post('/delete', 'controllers\api\VideoController:postDelete');
+    });
 	
 	$this->group('/squad', function()
 	{
@@ -43,17 +51,18 @@ $app->group('/api', function ()
 	
 	$this->group('/team', function()
 	{
-	
+        $this->get('/all', 'controllers\api\TeamController:getAll');
+        $this->get('/search_paginate', 'controllers\api\TeamController:getSearchPaginate');
+        $this->post('/create', 'controllers\api\TeamController:postCreate');
+        $this->post('/delete', 'controllers\api\TeamController:postDelete');
 	});
 	
 	$this->group('/tournament', function()
 	{
-	
-	});
-	
-	$this->group('/video', function()
-	{
-	
+        $this->get('/all', 'controllers\api\TournamentController:getAll');
+        $this->get('/search_paginate', 'controllers\api\TournamentController:getSearchPaginate');
+        $this->post('/create', 'controllers\api\TournamentController:postCreate');
+        $this->post('/delete', 'controllers\api\TournamentController:postDelete');
 	});
 	
 	$this->group('/comment', function()

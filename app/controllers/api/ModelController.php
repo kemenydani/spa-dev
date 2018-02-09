@@ -83,7 +83,7 @@ abstract class ModelController implements ModelControllerInterface
         $orderDirection = $filterArray['descending'] !== true     ? 'DESC' : 'ASC';
         $currentPage    = is_numeric($filterArray['page'])        ? (int)$filterArray['page'] : 1;
         $rowsPerPage    = is_numeric($filterArray['rowsPerPage']) ? (int)$filterArray['rowsPerPage'] : 5;
-        $sortBy         = strlen($filterArray['sortBy']) > 0      ? $filterArray['sortBy'] : 'date_created';
+        $sortBy         = strlen($filterArray['sortBy']) > 0      ? $filterArray['sortBy'] : 'id';
 
         $startAtRow = ( ( $currentPage - 1 ) * $rowsPerPage );
         $orderDirection = " ORDER BY " . $sortBy . " " . $orderDirection . " ";
@@ -96,6 +96,7 @@ abstract class ModelController implements ModelControllerInterface
         {
             foreach( $this->Model::getSearchableProps() as $column )
             {
+                if( !array_key_exists( $column, $this->Model::getPropertyNames() ) ) continue;
                 $searchConditions[] = $column . ' LIKE ' . "'%".$search."%'";
             }
         }
