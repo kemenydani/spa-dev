@@ -1,64 +1,128 @@
 <template>
-	<v-content grid-list-md>
-		<v-layout row wrap>
-			<v-flex sm6>
-				<v-card>
-					<v-card-title>Latest Matches</v-card-title>
-					<v-list subheader>
-						<v-list-tile avatar v-for="item in items" v-bind:key="item.title" @click="">
-							<v-list-tile-avatar>
-								<img v-bind:src="item.avatar"/>
-							</v-list-tile-avatar>
-							<v-list-tile-content>
-								<v-list-tile-title v-html="item.title"></v-list-tile-title>
-							</v-list-tile-content>
-							<v-list-tile-action>
-								<v-icon v-bind:color="item.active ? 'teal' : 'grey'">chat_bubble</v-icon>
-							</v-list-tile-action>
-						</v-list-tile>
-					</v-list>
-				</v-card>
-			</v-flex>
-			
-			<v-flex sm6>
-				<v-card>
-					<v-card-title>Upcoming Matches</v-card-title>
-					<v-list subheader>
-						<v-list-tile avatar v-for="item in items" v-bind:key="item.title" @click="">
-							<v-list-tile-avatar>
-								<img v-bind:src="item.avatar"/>
-							</v-list-tile-avatar>
-							<v-list-tile-content>
-								<v-list-tile-title v-html="item.title"></v-list-tile-title>
-							</v-list-tile-content>
-							<v-list-tile-action>
-								<v-icon v-bind:color="item.active ? 'teal' : 'grey'">chat_bubble</v-icon>
-							</v-list-tile-action>
-						</v-list-tile>
-					</v-list>
-				</v-card>
+	<v-content>
+		
+		<v-layout column>
+			<v-flex xs12 sm12>
+				<v-container fluid grid-list-md>
+					<v-layout row wrap>
+						<v-flex
+								v-for="card in cards"
+								:key="card.name"
+								sm6
+						>
+							<v-card>
+								<v-card-media
+										:src="card.src"
+										height="140px"
+								>
+									<v-container fill-height fluid>
+										<v-layout fill-height>
+											<v-flex xs12 align-end flexbox>
+												<span class="headline white--text" v-text="card.name"></span>
+											</v-flex>
+										</v-layout>
+									</v-container>
+								</v-card-media>
+								<v-card-actions class="white">
+									
+									<v-btn @click.stop="dialog = !dialog" icon fab small color="red">
+										<v-icon color="white">add</v-icon>
+									</v-btn>
+									
+									<span v-for="member in card.members">
+											<v-icon color="red darken-1">person</v-icon>
+									</span>
+									
+									<v-spacer></v-spacer>
+									<v-btn icon fab secondary small>
+										<v-icon>settings</v-icon>
+									</v-btn>
+								</v-card-actions>
+							</v-card>
+						</v-flex>
+					</v-layout>
+				</v-container>
 			</v-flex>
 		</v-layout>
+		
+		<v-dialog v-model="dialog" width="600px">
+			<v-card>
+				<v-card-title
+						class="grey lighten-4 py-4 title"
+				>
+					Manage Members
+				</v-card-title>
+				<v-container grid-list-sm class="pa-4">
+					<v-layout row wrap>
+						<v-flex xs12 align-center justify-space-between>
+							<v-layout align-center>
+								<v-avatar size="40px" class="mr-3">
+									<img
+											src="//ssl.gstatic.com/s2/oz/images/sge/grey_silhouette.png"
+											alt=""
+									>
+								</v-avatar>
+								<v-text-field
+										placeholder="Name"
+								></v-text-field>
+							</v-layout>
+						</v-flex>
+					</v-layout>
+				</v-container>
+				<v-card-actions>
+				
+					<v-spacer></v-spacer>
+					<v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
+					<v-btn flat @click="dialog = false">Save</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+		
 	</v-content>
 </template>
 
 <script>
 	
+	import Squad from '../../../model/Squad';
+	
 	export default {
 		name: 'squad-overview',
 		data() {
 			return {
-				items: [
-					{ active: true, title: 'Jason Oner', avatar: 'https://scontent.ftxl1-1.fna.fbcdn.net/v/t1.0-9/11261407_1024234314285914_3210054362884355031_n.jpg?oh=d65cd194ad3fe1a3b84ca25383227466&oe=5ADEF36F' },
-					{ active: true, title: 'Ranee Carlson', avatar: 'https://scontent.ftxl1-1.fna.fbcdn.net/v/t1.0-9/11261407_1024234314285914_3210054362884355031_n.jpg?oh=d65cd194ad3fe1a3b84ca25383227466&oe=5ADEF36F' },
-					{ title: 'Cindy Baker', avatar: 'https://scontent.ftxl1-1.fna.fbcdn.net/v/t1.0-9/11261407_1024234314285914_3210054362884355031_n.jpg?oh=d65cd194ad3fe1a3b84ca25383227466&oe=5ADEF36F' },
-					{ title: 'Ali Connors', avatar: 'https://scontent.ftxl1-1.fna.fbcdn.net/v/t1.0-9/11261407_1024234314285914_3210054362884355031_n.jpg?oh=d65cd194ad3fe1a3b84ca25383227466&oe=5ADEF36F' },
+				dialog: false,
+				cards: [
+					{ title: 'Pre-fab homes1', src: 'https://images7.alphacoders.com/587/587593.png', flex: 6 },
+					{ title: 'Favorite road trips3', src: 'https://images7.alphacoders.com/587/587593.png', flex: 6 },
+					{ title: 'Best airlines1', src: 'https://images7.alphacoders.com/587/587593.png', flex: 6 },
+					{ title: 'Pre-fab homes2', src: 'https://images7.alphacoders.com/587/587593.png', flex: 6 },
+					{ title: 'Favorite road2 trips', src: 'https://images7.alphacoders.com/587/587593.png', flex: 6 },
+					{ title: 'Best airline3', src: 'https://images7.alphacoders.com/587/587593.png', flex: 6 },
 				],
 				data_field: 'data_field'
 			}
 		},
-		mounted() {
-			console.log('new component mounted');
+		methods: {
+			fetchData(){
+				
+				
+				(new Squad()).all().then( ( squads ) => {
+					squads.forEach( squad => {
+						squad.src = 'https://images7.alphacoders.com/587/587593.png';
+						squad.members = [
+							{},
+							{},
+							{},
+							{},
+						];
+					});
+					this.cards = squads;
+				})
+				
+			}
+		},
+		mounted()
+		{
+			this.fetchData();
 		}
 	}
 </script>

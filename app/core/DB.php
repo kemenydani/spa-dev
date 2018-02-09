@@ -91,7 +91,7 @@ class DB extends \PDO
 
         $sql = DB::instance()->query( $stmt );
 
-        return $sql->fetchAll(\PDO::FETCH_OBJ );
+        return $sql->fetchAll(\PDO::FETCH_ASSOC );
     }
 
 	public function where( $table, array $conditions = [], $order = [], $limit = [] )

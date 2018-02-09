@@ -46,7 +46,9 @@ $app->group('/api', function ()
 	
 	$this->group('/squad', function()
 	{
-	
+        $this->get('/all', 'controllers\api\SquadController:getAll');
+        $this->post('/create', 'controllers\api\SquadController:postCreate');
+        $this->post('/delete', 'controllers\api\SquadController:postDelete');
 	});
 	
 	$this->group('/team', function()

@@ -166,8 +166,6 @@ abstract class Model
     {
         $rows = DB::instance()->all( static::$_TABLE );
 
-        if( !$rows ) return false;
-
         $models = [];
 
         foreach( $rows as $row )

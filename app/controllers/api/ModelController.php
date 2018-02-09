@@ -70,7 +70,7 @@ abstract class ModelController implements ModelControllerInterface
 
         foreach( $Models as $Model )
         {
-            $data[] = $Model ->getPublicProperties();
+            $data[] = $Model->getPublicProperties();
         }
 
         return $response->withJson( $data );
