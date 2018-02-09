@@ -20,23 +20,18 @@ abstract class Model
         $propName = Lang::underScorize( substr($method, 3 ) );
         $action = substr( $method, 0, 3 );
 
-        if( $action === 'get' ) return $this->getProperty($propName);
+        if( $action === 'get' ) return $this->getProperty( $propName );
         if( $action === 'set' ) return $this->setProperty( $propName, $arguments[0] );
-    }
-
-    public static function make( $class )
-    {
-        return $class;
     }
 
     public function hasProperty( $name )
     {
-       return array_key_exists( $name, static::$_PROPS );
+       return in_array( $name, static::$_PROPS );
     }
 
     public function getProperty( $name )
     {
-        if( $this->hasProperty($name) )
+        if( $this->hasProperty( $name ) )
         {
             return $this->_STATE_[$name];
         }
@@ -121,11 +116,11 @@ abstract class Model
 
     public static function find( $value, $column = null )
     {
-        if( !$column ) $column = static::$_UNIQUE_KEY;
+        if( $column === null ) $column = static::$_UNIQUE_KEY;
 
         $row = DB::instance()->find( static::$_TABLE, $column, $value );
 
-        if( !$row ) return false;
+        //if( $row === false ) return false;
 
         return static::create( (array)$row );
     }

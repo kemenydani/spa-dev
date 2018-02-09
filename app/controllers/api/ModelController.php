@@ -34,7 +34,13 @@ abstract class ModelController implements ModelControllerInterface
  
     public function postCreate( Request $request, Response $response ) : Response
     {
+        $Model = $this->Model::create( $request->getParsedBody() );
 
+        $isInserted = $Model->save();
+
+        if( $isInserted === false ) return $response->withStatus(500, 'Database error: Could not insert item.');
+
+        return $response->withJson( $Model->getPublicProperties() )->withStatus(200);
     }
 
     public function postUpdate( Request $request, Response $response ) : Response

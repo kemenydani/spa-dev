@@ -33,9 +33,9 @@ class UserController extends ModelController
 	    $remember = $request->getParsedBody()['remember'];
 	    
         $remember = isset($remember) ? true : false;
-        
+
         $User = User::find( $username, 'username' );
-        
+
 	    if( !$User->getId() )
 	    	return $response->withStatus(404, 'Could not find user.');
 	    
@@ -43,12 +43,6 @@ class UserController extends ModelController
 	    	return $response->withStatus(404, 'Authorization failed.');
 	    
 	    return $response->withJson( $User->getProperties() );
-    }
-
-    public function postLogin( Request $request, Response $response )
-    {
-        echo '/login';
-        return $response;
     }
 	
 	public function postLogout( Request $request, Response $response )
@@ -61,11 +55,6 @@ class UserController extends ModelController
 		return $response->withStatus(404, 'User logout failed. Could not find logged in user.');
 	}
 
-    public function postRegister( Request $request, Response $response )
-    {
-        echo '/register';
-        return $response;
-    }
 
     public function getSearchPaginate( Request $request, Response $response )
     {

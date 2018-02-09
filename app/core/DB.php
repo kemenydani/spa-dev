@@ -115,7 +115,7 @@ class DB extends \PDO
 
     public function find( $table, $column, $value )
     {
-        return DB::_find_( $table, $column, $value )->fetch(\PDO::FETCH_OBJ );
+        return DB::_find_( $table, $column, $value )->fetch(\PDO::FETCH_ASSOC );
     }
 
     public function findAll( $table, $column, $value )

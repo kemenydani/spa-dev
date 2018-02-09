@@ -7,7 +7,6 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use models\Article as Article;
 use core\Auth as Auth;
 use core\DB as DB;
-use core\Model as Model;
 
 class ArticleController extends ModelController
 {
