@@ -34,9 +34,10 @@
 									</span>
 									
 									<v-spacer></v-spacer>
-									<v-btn icon fab secondary small>
+									<router-link is="v-btn" :to="{ name: 'squad.update', params: { id: card.id } }" icon fab secondary
+									             small>
 										<v-icon>settings</v-icon>
-									</v-btn>
+									</router-link>
 								</v-card-actions>
 							</v-card>
 						</v-flex>
@@ -91,12 +92,7 @@
 			return {
 				dialog: false,
 				cards: [
-					{ title: 'Pre-fab homes1', src: 'https://images7.alphacoders.com/587/587593.png', flex: 6 },
-					{ title: 'Favorite road trips3', src: 'https://images7.alphacoders.com/587/587593.png', flex: 6 },
-					{ title: 'Best airlines1', src: 'https://images7.alphacoders.com/587/587593.png', flex: 6 },
-					{ title: 'Pre-fab homes2', src: 'https://images7.alphacoders.com/587/587593.png', flex: 6 },
-					{ title: 'Favorite road2 trips', src: 'https://images7.alphacoders.com/587/587593.png', flex: 6 },
-					{ title: 'Best airline3', src: 'https://images7.alphacoders.com/587/587593.png', flex: 6 },
+				
 				],
 				data_field: 'data_field'
 			}
