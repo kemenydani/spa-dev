@@ -30,8 +30,10 @@ $app->group('/api', function ()
 	
 	$this->group('/category', function()
 	{
-		$this->get('/all', 'controllers\api\CategoryController:getAll');
-		$this->post('/create', 'controllers\api\CategoryController:postCreate');
+        $this->get('/all', 'controllers\api\CategoryController:getAll');
+        $this->get('/search_paginate', 'controllers\api\CategoryController:getSearchPaginate');
+        $this->post('/create', 'controllers\api\CategoryController:postCreate');
+        $this->post('/delete', 'controllers\api\CategoryController:postDelete');
 	});
 	
 	$this->group('/squad', function()

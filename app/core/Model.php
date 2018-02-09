@@ -24,6 +24,16 @@ abstract class Model
         if( $action === 'set' ) return $this->setProperty( $propName, $arguments[0] );
     }
 
+    public static function getSearchableProps()
+    {
+        return static::$_PROPS_SEARCHABLE;
+    }
+
+    public static function getTable()
+    {
+        return DB::_PREFIX_ . static::$_TABLE;
+    }
+
     public function hasProperty( $name )
     {
        return in_array( $name, static::$_PROPS );

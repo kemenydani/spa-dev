@@ -12,6 +12,7 @@ export default class Category extends Model {
 		this.DB = this.DataService.Connection;
 	
 		this.id = null;
+		this.state = {};
 		
 		return this;
 	}

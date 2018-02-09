@@ -5,6 +5,7 @@ namespace controllers\api;
 use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
+use core\DB as DB;
 use core\Model as Model;
 
 abstract class ModelController implements ModelControllerInterface
@@ -73,6 +74,44 @@ abstract class ModelController implements ModelControllerInterface
         }
 
         return $response->withJson( $data );
+    }
+
+    public function getSearchPaginate( Request $request, Response $response ) : Response
+    {
+        $filterArray = json_decode($request->getQueryParam('filter'), true);
+
+        $orderDirection = $filterArray['descending'] !== true     ? 'DESC' : 'ASC';
+        $currentPage    = is_numeric($filterArray['page'])        ? (int)$filterArray['page'] : 1;
+        $rowsPerPage    = is_numeric($filterArray['rowsPerPage']) ? (int)$filterArray['rowsPerPage'] : 5;
+        $sortBy         = strlen($filterArray['sortBy']) > 0      ? $filterArray['sortBy'] : 'date_created';
+
+        $startAtRow = ( ( $currentPage - 1 ) * $rowsPerPage );
+        $orderDirection = " ORDER BY " . $sortBy . " " . $orderDirection . " ";
+        $limit = " LIMIT " . $startAtRow . ", " . $rowsPerPage ." ";
+
+        $search = $request->getQueryParam('search');
+        $searchConditions = [];
+
+        if( $search !== null && $this->Model::isSearchable() )
+        {
+            foreach( $this->Model::getSearchableProps() as $column )
+            {
+                $searchConditions[] = $column . ' LIKE ' . "'%".$search."%'";
+            }
+        }
+
+        $where = count($searchConditions) ? implode(' OR ', $searchConditions) : 1;
+
+        $stmt = " SELECT SQL_CALC_FOUND_ROWS * FROM ".$this->Model::getTable()." WHERE $where $orderDirection $limit";
+
+        $sql = DB::instance()->prepare( $stmt );
+        $sql->execute();
+
+        $items = $sql->fetchAll(\PDO::FETCH_ASSOC );
+
+        $total = DB::instance()->query('SELECT FOUND_ROWS()')->fetch(\PDO::FETCH_COLUMN );
+
+        return $response->withJson( [ 'total' => (int)$total, 'items' => $items ] );
     }
 
 }
