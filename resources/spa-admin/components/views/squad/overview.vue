@@ -104,12 +104,6 @@
 				(new Squad()).all().then( ( squads ) => {
 					squads.forEach( squad => {
 						squad.src = 'https://images7.alphacoders.com/587/587593.png';
-						squad.members = [
-							{},
-							{},
-							{},
-							{},
-						];
 					});
 					this.cards = squads;
 				})
