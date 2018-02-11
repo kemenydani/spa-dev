@@ -144,9 +144,9 @@ abstract class Model
         if( !$column ) $column = static::$_UNIQUE_KEY;
 
         $rows = DB::instance()->findAll( static::$_TABLE, $column, $value );
-
-        if( !$rows ) return false;
-
+        
+        if( $rows === false ) return [];
+        
         $models = [];
 
         foreach( $rows as $row )
@@ -176,6 +176,11 @@ abstract class Model
         return $models;
     }
 
+    public function remove()
+    {
+	    return DB::instance()->delete( static::$_TABLE, static::$_UNIQUE_KEY, $this->getProperty( static::$_UNIQUE_KEY ) );
+    }
+    
     public static function delete( $column, $value ) : bool
     {
         return DB::instance()->delete( static::$_TABLE, $column, $value );
