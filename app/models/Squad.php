@@ -3,6 +3,7 @@
 namespace models;
 
 use \core\Model as Model;
+use \models\SquadMember as SquadMember;
 
 class Squad extends Model
 {
@@ -14,7 +15,7 @@ class Squad extends Model
 
     public function getMembers() : array
     {
-        return Squad::findAll( $this->getProperty('id') );
+        return SquadMember::findAll( $this->getProperty('id'), 'squad_id' );
     }
 
 }
