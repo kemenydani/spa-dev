@@ -7,8 +7,8 @@ use core\Session as Session;
 use core\Cookie as Cookie;
 use core\Hash as Hash;
 
-class User extends Model
-{
+class User extends Model {
+
     public static $_UNIQUE_KEY = 'id';
     public static $_TABLE = 'user';
 
