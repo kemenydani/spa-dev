@@ -5,46 +5,13 @@
 			<v-flex xs12 sm12>
 				<v-container fluid grid-list-md>
 					<v-layout row wrap>
-						<v-flex
-								v-for="card in cards"
-								:key="card.name"
-								sm6
-						>
-							<v-card>
-								<v-card-media
-										:src="card.src"
-										height="140px"
-								>
-									<v-container fill-height fluid>
-										<v-layout fill-height>
-											<v-flex xs12 align-end flexbox>
-												<span class="headline white--text" v-text="card.name"></span>
-											</v-flex>
-										</v-layout>
-									</v-container>
-								</v-card-media>
-								<v-card-actions class="white">
-									
-									<v-btn @click.stop="dialog = !dialog" icon fab small color="red">
-										<v-icon color="white">add</v-icon>
-									</v-btn>
-									
-									<span v-for="member in card.members">
-											<v-icon color="red darken-1">person</v-icon>
-									</span>
-									
-									<v-spacer></v-spacer>
-									<router-link is="v-btn" :to="{ name: 'squad.update', params: { id: card.id } }" icon fab secondary
-									             small>
-										<v-icon>settings</v-icon>
-									</router-link>
-								</v-card-actions>
-							</v-card>
-						</v-flex>
+						<squad-item v-for="card in cards" :squad="card" :key="card.name"></squad-item>
 					</v-layout>
 				</v-container>
 			</v-flex>
 		</v-layout>
+		
+		
 		
 		<v-dialog v-model="dialog" width="600px">
 			<v-card>
@@ -85,9 +52,11 @@
 <script>
 	
 	import Squad from '../../../model/Squad';
+	import SquadItem from '../../../components/views/squad/squad';
 	
 	export default {
 		name: 'squad-overview',
+		components: { SquadItem },
 		data() {
 			return {
 				dialog: false,
@@ -99,15 +68,12 @@
 		},
 		methods: {
 			fetchData(){
-				
-				
 				(new Squad()).all().then( ( squads ) => {
 					squads.forEach( squad => {
 						squad.src = 'https://images7.alphacoders.com/587/587593.png';
 					});
 					this.cards = squads;
 				})
-				
 			}
 		},
 		mounted()
