@@ -1,3 +1,4 @@
+
 <template>
 	<v-flex sm6>
 		<v-card>
@@ -11,19 +12,15 @@
 				</v-container>
 			</v-card-media>
 			<v-card-actions class="white">
-				<v-btn @click.stop="dialog = !dialog" icon fab small color="red">
-					<v-icon color="white">add</v-icon>
-				</v-btn>
+				
+				<router-link is="v-btn" :to="{ name: 'squad.update', params: { id: squad.id } }" icon fab small color="red">
+					<v-icon color="white">edit</v-icon>
+				</router-link>
 				
 				<span v-for="member in squad.members">
 					<v-icon color="red darken-1">person</v-icon>
 				</span>
 				
-				<v-spacer></v-spacer>
-				<router-link is="v-btn" :to="{ name: 'squad.update', params: { id: squad.id } }" icon fab secondary
-				             small>
-					<v-icon>settings</v-icon>
-				</router-link>
 			</v-card-actions>
 		</v-card>
 	</v-flex>
@@ -31,20 +28,30 @@
 
 <script>
 	export default {
-		data() {
+		data()
+		{
 			return {
 			
 			}
 		},
 		components: {},
-		props: {
-			squad: {
+		props:
+		{
+			squad:
+			{
 				type: Object,
 				required: true
 			}
 		},
-		methods: {},
-		mounted() {
+		methods:
+		{
+			onAddMember()
+			{
+			
+			}
+		},
+		mounted()
+		{
 			console.log('Component mounted.')
 		}
 	}
