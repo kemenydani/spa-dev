@@ -5,7 +5,12 @@
   "author": "kemenydani <kemenydani93@gmail.com>",
   "license": "MIT",
   "private": true,
-  "scripts": {
+  "scripts":
+  {
+    "dev-p" : "cross-env NODE_ENV=development-public webpack-dev-server --open --hot",
+    "dev-a" : "cross-env NODE_ENV=development-admin webpack-dev-server --open --hot",
+    "build-a": "cross-env NODE_ENV=production-public webpack --progress --hide-modules",
+    "build-p": "cross-env NODE_ENV=production-admin webpack --progress --hide-modules",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
