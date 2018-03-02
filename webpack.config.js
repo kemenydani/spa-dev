@@ -1,12 +1,12 @@
 /* multi */
-var path = require('path')
-var webpack = require('webpack')
+let path = require('path');
+let webpack = require('webpack');
 
-var ENV = process.env.NODE_ENV;
+let ENV = process.env.NODE_ENV;
 
-var configs = {
-	'spa-admin'  :
+let configs = [
 	{
+		name: 'spa-admin',
 		entry: './resources/spa-admin/main.js',
 		output: {
 			path: path.resolve(__dirname, './public/spa-admin/dist'),
@@ -16,6 +16,8 @@ var configs = {
 		devServer: {
 			contentBase: path.resolve(__dirname, './public/spa-admin'),
 			historyApiFallback: true,
+			hot: true,
+			open: true,
 			port: 9001,
 			allowedHosts: [
 				'http://php_app/',
@@ -28,8 +30,8 @@ var configs = {
 			}]
 		},
 	},
-	'spa-public' :
 	{
+		name: 'spa-public',
 		entry: './resources/spa-public/main.js',
 		output: {
 			path: path.resolve(__dirname, './public/spa-public/dist'),
@@ -39,6 +41,8 @@ var configs = {
 		devServer: {
 			contentBase: path.resolve(__dirname, './public/spa-public'),
 			historyApiFallback: true,
+			hot: true,
+			open: true,
 			port: 8001,
 			allowedHosts: [
 				'http://php_app/',
@@ -51,9 +55,9 @@ var configs = {
 			}]
 		},
 	},
-};
+];
 
-var exportable = {
+let exportable = {
 	module: {
 		rules: [
 			{
@@ -123,34 +127,58 @@ var exportable = {
 	devtool: '#eval-source-map',
 };
 
-if(ENV === 'development')            Object.assign(exportable, configs['spa-admin']);
-if(ENV === 'development-spa-admin')  Object.assign(exportable, configs['spa-admin']);
-if(ENV === 'development-spa-public') Object.assign(exportable, configs['spa-public']);
+let production_config = [
+	new webpack.DefinePlugin({
+		'process.env': {
+			NODE_ENV: '"production"'
+		}
+	}),
+	new webpack.optimize.UglifyJsPlugin({
+		sourceMap: true,
+		compress: {
+			warnings: false
+		}
+	}),
+	new webpack.LoaderOptionsPlugin({
+		minimize: true
+	})
+];
 
-if(ENV === 'production')            Object.assign(exportable, configs['spa-admin']);
-if(ENV === 'production-spa-admin')  Object.assign(exportable, configs['spa-admin']);
-if(ENV === 'production-spa-public') Object.assign(exportable, configs['spa-public']);
+// DEV
 
-module.exports = exportable;
-
-if (ENV.includes('production'))
+const startDevelopment = function( CONFIG_NAME )
 {
-  module.exports.devtool = '#source-map';
-  
-  module.exports.plugins = (module.exports.plugins || []).concat([
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      compress: {
-        warnings: false
-      }
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true
-    })
-  ])
-}
+		for (let config of configs)
+		{
+			if(config.name === CONFIG_NAME )
+			{
+				config = Object.assign( config, exportable );
+				module.exports = config;
+				break;
+			}
+		}
+};
+
+if (ENV === 'development-spa-admin')  startDevelopment('spa-admin');
+if (ENV === 'development-spa-public') startDevelopment('spa-public');
+
+// PROD
+
+const startProduction = function( CONFIG_NAME )
+{
+	for (let i = 0; i < configs.length; i++)
+	{
+		if(configs[i].name === CONFIG_NAME )
+		{
+			configs[i] = Object.assign( configs[i], exportable );
+			configs[i].devtool = '#source-map';
+			configs[i].plugins = (configs[i].plugins || []).concat( production_config );
+			// need to export the whole config on each iteration
+			module.exports = configs[i];
+			break;
+		}
+	}
+};
+
+if(ENV === 'production-spa-admin')  startProduction('spa-admin');
+if(ENV === 'production-spa-public') startProduction('spa-public');
