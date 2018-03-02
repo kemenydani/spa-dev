@@ -141,7 +141,7 @@ let production_config = [
 	}),
 	new webpack.LoaderOptionsPlugin({
 		minimize: true
-	})
+	}),
 ];
 
 // DEV

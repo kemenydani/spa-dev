@@ -1,0 +1,25 @@
+* { box-sizing: border-box; }
+
+html, body {
+  padding: 0;
+  margin: 0;
+  min-height: 100%;
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.container {
+  position: relative;
+  width: 1100px;
+  max-width: 1100px;
+  overflow: hidden;
+  &.hc {
+    margin: 0 auto;
+  }
+}
+
+.container-full {
+  width: 100%;
+  max-width: 100%;
+}

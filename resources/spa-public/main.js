@@ -1,3 +1,5 @@
+import './assets/style/index.scss';
+
 import 'babel-polyfill';
 
 import Vue from 'vue';
