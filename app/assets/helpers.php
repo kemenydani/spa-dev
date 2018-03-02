@@ -1,6 +1,6 @@
 <?php
 
-function dd( $var)
+function debug( $var)
 {
     var_dump( $var );
     die();
