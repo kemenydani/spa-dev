@@ -1,6 +1,6 @@
 /* multi */
-var path = require('path')
-var webpack = require('webpack')
+var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
   entry: './resources/spa-admin/main.js',
@@ -94,25 +94,19 @@ module.exports = {
     hints: false
   },
   devtool: '#eval-source-map'
-}
+};
 
-if (process.env.NODE_ENV === 'production') {
-  module.exports.devtool = '#source-map'
-  // http://vue-loader.vuejs.org/en/workflow/production.html
+
+
+// production settings
+// uniform
+if (process.env.NODE_ENV === 'production')
+{
+  module.exports.devtool = '#source-map';
+  // Add production settings
   module.exports.plugins = (module.exports.plugins || []).concat([
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      compress: {
-        warnings: false
-      }
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true
-    })
+    new webpack.DefinePlugin({ 'process.env': { NODE_ENV: '"production"' } }),
+    new webpack.optimize.UglifyJsPlugin({ sourceMap: true, compress: { warnings: false } }),
+    new webpack.LoaderOptionsPlugin({ minimize: true })
   ])
 }
