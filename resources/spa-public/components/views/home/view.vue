@@ -1,20 +1,17 @@
 <template>
 	<div>
-		storage overview
+		home
 	</div>
 </template>
 
 <script>
 	
 	export default {
-		name: 'storage-overview',
+		name: 'home-view',
 		data() {
 			return {
-				data_field: 'data_field'
+			
 			}
-		},
-		mounted() {
-			console.log('new component mounted');
 		}
 	}
 </script>

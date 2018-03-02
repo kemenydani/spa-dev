@@ -7,5 +7,5 @@ export default
 {
     path: '/login',
     component: Index,
-	name: 'login',
+		name: 'login',
 }

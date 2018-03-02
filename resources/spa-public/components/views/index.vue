@@ -1,5 +1,5 @@
 <template>
-	<router-view class="view-content" ></router-view>
+	<router-view></router-view>
 </template>
 
 <script>
@@ -10,14 +10,8 @@
 		},
 		data() {
 			return {
-				data_field: 'data_field'
+			
 			}
-		},
-		beforeCreate(){
-		
-		},
-		mounted() {
-			console.log('new component mounted');
 		}
 	}
 </script>
