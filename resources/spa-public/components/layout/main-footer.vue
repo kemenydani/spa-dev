@@ -1,5 +1,6 @@
 <template>
 	<footer id="main-footer">
+		footer
 		<section class="any-content">
 		
 		</section>
@@ -67,14 +68,11 @@
 <script>
 	
 	export default {
-		name: 'new-component',
+		name: 'main-footer',
 		data() {
 			return {
-				data_field: 'data_field'
+			
 			}
-		},
-		mounted() {
-			console.log('new component mounted');
 		}
 	}
 	
@@ -85,6 +83,11 @@
 	#main-footer
 	{
 		background: #11171A;
+		height: 250px;
+		> * {
+			display: none;
+		}
+		
 		.bottomline
 		{
 			display: flex; justify-content: space-between;
@@ -92,18 +95,15 @@
 			padding-bottom: 25px;
 			font-weight: 700;
 		}
-		
 		.gradient-group {
 			background: linear-gradient(to top, #090C0F 0%, #11171A 47%, #11171A 100%);
 			border-top: 1px solid #1a2328;
 			padding-top: 50px;
 		}
-		
 		.any-content {
 			min-height: 100px;
 			background: #11171A;
 		}
-		
 		.support-logos {
 			min-height: 120px;
 			background: #090C0F;
@@ -138,12 +138,10 @@
 					margin-bottom: 4px;
 				}
 				
-				li {
-					line-height: 20px;
-				}
+				li { line-height: 20px; }
 				
-				margin: 0px;
-				padding: 0px;
+				margin: 0;
+				padding: 0;
 				list-style-type: none;
 			}
 		}

@@ -1,4 +1,5 @@
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box; }
 
 html, body {
   padding: 0;
@@ -7,41 +8,31 @@ html, body {
   min-width: 100%;
   height: 100%;
   position: relative;
+  color: #E8E8E8; }
 
-  color: #E8E8E8;
-}
-
-main#wrapper
-{
+main#wrapper {
   border: 4px solid orange;
   position: relative;
   display: flex;
   flex-direction: column;
-
   min-height: 100%;
-  height: 100%;
-
-  #main-content {
+  height: 100%; }
+  main#wrapper #main-content {
     flex: 1;
-    background: red;
-  }
-
-  #main-footer {
-    bottom: 0;
-  }
-}
+    background: red; }
+  main#wrapper #main-footer {
+    bottom: 0; }
 
 .container {
   position: relative;
   width: 1100px;
   max-width: 1100px;
-  overflow: hidden;
-  &.hc {
-    margin: 0 auto;
-  }
-}
+  overflow: hidden; }
+  .container.hc {
+    margin: 0 auto; }
 
 .container-full {
   width: 100%;
-  max-width: 100%;
-}
+  max-width: 100%; }
+
+/*# sourceMappingURL=index.css.map */

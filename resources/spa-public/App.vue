@@ -11,7 +11,7 @@
 		},
 		data() {
 			return {
-				data_field: 'data_field'
+			
 			}
 		}
 	}

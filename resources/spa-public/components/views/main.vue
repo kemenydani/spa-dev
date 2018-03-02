@@ -1,13 +1,13 @@
 
 <template>
 	
-	<main>
+	<main id="wrapper">
 		
-		<header>
-			Header
-		</header>
+		<main-header>
+			footer
+		</main-header>
 		
-		<section>
+		<section id="main-content">
 			<router-view></router-view>
 		</section>
 		
@@ -22,9 +22,10 @@
 <script>
 
 	import MainFooter from '../../components/layout/main-footer.vue';
+	import MainHeader from '../../components/layout/main-header.vue';
 	
 	export default {
-		components: { 'main-footer' : MainFooter },
+		components: { 'main-footer' : MainFooter, 'main-header' : MainHeader },
 		name: 'app-main',
 		data () {
 			return {
