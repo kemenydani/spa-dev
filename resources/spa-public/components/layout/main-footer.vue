@@ -1,11 +1,10 @@
 <template>
 	<footer id="main-footer">
-		footer
 		<section class="any-content">
 		
 		</section>
 		<section class="support-logos">
-		
+			<div class="container hc">support logos</div>
 		</section>
 		<div class="gradient-group">
 			<div class="container hc" >
@@ -83,11 +82,8 @@
 	#main-footer
 	{
 		background: #11171A;
-		height: 250px;
-		> * {
-			display: none;
-		}
-		
+		min-height: 250px;
+	
 		.bottomline
 		{
 			display: flex; justify-content: space-between;

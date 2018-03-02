@@ -12,11 +12,13 @@ html, body {
 
 main#wrapper {
   border: 4px solid orange;
+  overflow: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  height: 100%; }
+  height: 100%;
+  justify-content: space-between; }
   main#wrapper #main-content {
     flex: 1;
     background: red; }
