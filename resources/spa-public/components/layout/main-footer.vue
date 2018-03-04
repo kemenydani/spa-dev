@@ -14,41 +14,44 @@
 					</figure>
 					<nav class="sitemap">
 						<ul>
-							<li>TITLE</li>
-							<li>item</li>
-							<li>item</li>
-							<li>item</li>
-							<li>item</li>
-							<li>item</li>
+							<li>SITEMAP</li>
+							<li>Products</li>
+							<li>Partners</li>
+							<li>About</li>
+							<li>Clothes</li>
+							<li>Jerseys</li>
 						</ul>
 						<ul>
-							<li>TITLE</li>
-							<li>item</li>
-							<li>item</li>
-							<li>item</li>
-							<li>item</li>
+							<li>SITEMAP</li>
+							<li>Products</li>
+							<li>Partners</li>
+							<li>About</li>
+							<li>Clothes</li>
+							<li>Jerseys</li>
 						</ul>
 						<ul>
-							<li>TITLE</li>
-							<li>item</li>
-							<li>item</li>
-							<li>item</li>
-							<li>item</li>
-							<li>item</li>
+							<li>SITEMAP</li>
+							<li>Products</li>
+							<li>Partners</li>
+							<li>About</li>
+							<li>Clothes</li>
+							<li>Jerseys</li>
 						</ul>
 						<ul>
-							<li>TITLE</li>
-							<li>item</li>
-							<li>item</li>
-							<li>item</li>
+							<li>SITEMAP</li>
+							<li>Products</li>
+							<li>Partners</li>
+							<li>About</li>
+							<li>Clothes</li>
+							<li>Jerseys</li>
 						</ul>
 						<ul>
-							<li>TITLE</li>
-							<li>item</li>
-							<li>item</li>
-							<li>item</li>
-							<li>item</li>
-							<li>item</li>
+							<li>SITEMAP</li>
+							<li>Products</li>
+							<li>Partners</li>
+							<li>About</li>
+							<li>Clothes</li>
+							<li>Jerseys</li>
 						</ul>
 					</nav>
 				</section>
@@ -134,7 +137,7 @@
 					margin-bottom: 4px;
 				}
 				
-				li { line-height: 20px; }
+				li { line-height: 28px; }
 				
 				margin: 0;
 				padding: 0;

@@ -20,9 +20,9 @@
 <style lang="scss">
 	
 	#main-header {
-		background: blue;
 		height: 70px;
 		min-height: 70px;
+		background: #11171A;
 	}
 	
 </style>
