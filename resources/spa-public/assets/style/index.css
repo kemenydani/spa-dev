@@ -17,29 +17,69 @@ html {
   background: #f4f5f6; }
 
 main#wrapper {
-  overflow: hidden;
   position: relative;
+  height: 100%;
   min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; }
-  main#wrapper #main-footer {
-    width: 100%; }
+  width: 100%;
+  min-width: 100%;
+  display: table; }
+  @supports (display: flex) {
+    main#wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; } }
+  main#wrapper #main-header {
+    position: inherit;
+    height: 70px;
+    min-height: 70px;
+    background: #11171A; }
   main#wrapper #main-content {
-    flex: 1;
-    border: 1px solid red;
-    position: relative; }
+    display: table-row;
+    min-height: 100%;
+    height: 100%; }
+    @supports (display: flex) {
+      main#wrapper #main-content {
+        height: auto;
+        min-height: auto;
+        flex: 1;
+        display: flex;
+        flex-direction: column; } }
+  main#wrapper #main-footer {
+    width: 100%;
+    min-width: 100%;
+    display: table-footer-group; }
+    @supports (display: flex) {
+      main#wrapper #main-footer {
+        display: block; } }
+  main#wrapper #main-content, main#wrapper #main-footer, main#wrapper #main-header {
+    position: inherit; }
+    @media only screen and (max-width: 1023px) {
+      main#wrapper #main-content, main#wrapper #main-footer, main#wrapper #main-header {
+        padding-left: 15px;
+        padding-right: 15px; } }
 
 .container {
   position: relative;
   width: 1100px;
   max-width: 1100px;
   overflow: hidden; }
+  @media only screen and (max-width: 1247px) {
+    .container {
+      width: 1000px;
+      max-width: 1000px; } }
+  @media only screen and (max-width: 1023px) {
+    .container {
+      width: 100%;
+      max-width: 100%; } }
   .container.hc {
     margin: 0 auto; }
 
 .container-full {
   width: 100%;
-  max-width: 100%; }
+  max-width: 100%;
+  overflow: hidden;
+  position: relative; }
+  .container-full.hc {
+    margin: 0 auto; }
 
 /*# sourceMappingURL=index.css.map */

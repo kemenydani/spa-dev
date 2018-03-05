@@ -18,11 +18,5 @@
 </script>
 
 <style lang="scss">
-	
-	#main-header {
-		height: 70px;
-		min-height: 70px;
-		background: #11171A;
-	}
-	
+
 </style>
