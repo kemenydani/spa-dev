@@ -3,6 +3,7 @@
 @import './mixins';
 
 * { box-sizing: border-box; }
+img { -ms-interpolation-mode: bicubic; }
 
 html, body
 {

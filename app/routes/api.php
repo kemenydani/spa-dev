@@ -2,13 +2,10 @@
 
 $app->group('/api', function ()
 {
+    $this->get('/build', 'controllers\PublicSPAController:build');
+
     $this->group('/user', function()
     {
-
-            //->add( new \middlewares\RequiresAuth())
-            //->add( new \middlewares\RequiresRole(['users.list']));
-
-        //$this->get('/{id}', 'controllers\api\UserController:getUser');
         $this->get('/auth', 'controllers\api\UserController:getAuth');
         $this->post('/auth', 'controllers\api\UserController:postAuth');
         $this->post('/register', 'controllers\api\UserController:postRegister');

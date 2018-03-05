@@ -11,4 +11,8 @@ class PublicSPAController extends Controller
     {
         echo file_get_contents('../public/spa-public/index.html');
     }
+    public function build ( Request $request, Response $response )
+    {
+        return $response->withJson(['foo' => 'bar'])->withStatus(200);;
+    }
 }

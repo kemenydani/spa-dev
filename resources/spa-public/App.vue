@@ -13,7 +13,15 @@
 			return {
 			
 			}
-		}
+		},
+    methods: {
+			
+    },
+    beforeCreate(){
+			this.axios.get('api/build', function(data){
+				console.log(data)
+      })
+    }
 	}
 </script>
 

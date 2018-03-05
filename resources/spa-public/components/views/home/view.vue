@@ -1,6 +1,8 @@
 <template>
 	<div class="container hc home-container">
-			<div class="grid-item">item 1</div>
+			<div class="grid-item">
+				<article-item :model="{ title: 'title', teaser: 'teaser', image: 'https://img.grouponcdn.com/deal/8DDtq5XRzVnLXEUnPHPd/p2-2048x1229/v1/c700x420.jpg' }"> </article-item>
+			</div>
 			<div class="grid-item">item 2</div>
 			<div class="grid-item">item 3</div>
 			<div class="grid-item">item 4</div>
@@ -10,8 +12,14 @@
 </template>
 
 <script>
+	
+	import ArticleItem from '../../widgets/article-item'
+	
 	export default {
 		name: 'home-view',
+		components: {
+			ArticleItem
+		},
 		data() {
 			return {
 			

@@ -2,6 +2,9 @@
 * {
   box-sizing: border-box; }
 
+img {
+  -ms-interpolation-mode: bicubic; }
+
 html, body {
   padding: 0;
   margin: 0;
