@@ -6,56 +6,113 @@ img {
   -ms-interpolation-mode: bicubic; }
 
 html, body {
-  padding: 0;
-  margin: 0;
-  min-height: 100%;
-  min-width: 100%;
-  height: 100%;
   position: relative;
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
-  color: #666; }
+  padding: 0;
+  /* reset */
+  margin: 0;
+  /* reset */
+  border: none;
+  /* reset */
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  min-width: 100%; }
 
 html {
-  background: #f4f5f6; }
+  background: #f4f5f6;
+  font-size: 14px;
+  color: #666;
+  font-family: 'Roboto', sans-serif; }
 
 main#wrapper {
   position: relative;
-  min-height: 100%;
   width: 100%;
   min-width: 100%;
-  display: table; }
+  height: 100%;
+  min-height: 100%;
+  display: table;
+  /* helps to stock the footer to the bottom in older browsers */
+  /* full-width section for the actual view's content */ }
+  @supports (display: flex) {
+    main#wrapper {
+      height: auto;
+      /* override */ } }
   @supports (display: flex) {
     main#wrapper {
       display: flex;
+      /* override */
       flex-direction: column;
       justify-content: space-between; } }
-  main#wrapper #main-header {
-    position: inherit;
+  @supports (display: grid) {
+    main#wrapper {
+      height: 100%;
+      /* reset */
+      min-height: 100%;
+      /* reset */
+      display: grid;
+      /* override */
+      grid-template-columns: 100%;
+      grid-template-rows: auto 1fr auto; } }
+  main#wrapper header#main-header {
+    position: relative;
     height: 70px;
     min-height: 70px;
     background: #11171A; }
-  main#wrapper #main-content {
+  main#wrapper section#main-content {
     position: relative;
-    background: green;
-    display: table-row;
-    min-height: 100%;
-    height: 100%;
-    overflow: auto; }
-    @supports (display: flex) {
-      main#wrapper #main-content {
-        height: auto;
-        min-height: auto;
-        flex: 1;
-        display: flex;
-        flex-direction: column; } }
-  main#wrapper #main-footer {
     width: 100%;
     min-width: 100%;
-    display: table-footer-group; }
+    height: 100%;
+    min-height: 100%;
+    display: table-row;
+    /* full-height within table el. */
+    /* additional wrapper of the view's content, to achieve full height when the view-page is empty */ }
     @supports (display: flex) {
-      main#wrapper #main-footer {
-        display: block; } }
+      main#wrapper section#main-content {
+        height: auto;
+        /* reset */
+        min-height: auto;
+        /* reset */
+        flex: 1;
+        /* uses this setting instead of height / min-height */
+        display: flex;
+        /* override */
+        flex-direction: column; } }
+    @supports (display: grid) {
+      main#wrapper section#main-content {
+        height: 100%;
+        /* reset */
+        min-height: 100%;
+        /* reset */
+        display: block;
+        /* override */ } }
+    main#wrapper section#main-content .page-view {
+      position: relative;
+      width: 100%;
+      min-width: 100%;
+      height: 100%;
+      min-height: 100%;
+      display: table-cell;
+      /* full-height within table-row el. */ }
+      @supports (display: flex) {
+        main#wrapper section#main-content .page-view {
+          display: flex;
+          /* override */
+          flex-direction: column;
+          flex: 1; } }
+      @supports (display: grid) {
+        main#wrapper section#main-content .page-view {
+          display: block;
+          /* override */ } }
+  main#wrapper section#main-footer {
+    width: 100%;
+    min-width: 100%;
+    display: table-footer-group;
+    /* sticks the footer to the bottom */ }
+    @supports (display: flex) or (display: grid) {
+      main#wrapper section#main-footer {
+        display: block;
+        /* override */ } }
   @media only screen and (max-width: 1023px) {
     main#wrapper #main-content, main#wrapper #main-footer, main#wrapper #main-header {
       padding-left: 15px;
@@ -73,6 +130,14 @@ main#wrapper {
     .container {
       width: 100%;
       max-width: 100%; } }
+  .container.full-height {
+    position: relative;
+    height: 100%;
+    min-height: 100%; }
+    @supports (display: flex) and (not (display: grid)) {
+      .container.full-height {
+        flex: 1;
+        /* flex-item full height */ } }
   .container.hc {
     margin: 0 auto; }
 
