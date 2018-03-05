@@ -68,6 +68,7 @@
 		.header {
 			width: 100%;
 			height: 170px;
+			background-repeat: no-repeat;
 		}
 		
 		.content {
