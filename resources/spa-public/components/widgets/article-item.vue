@@ -28,12 +28,12 @@
 			headline: {
 				type: Boolean,
 				required: false,
-				default: () => false
+				default: () => { return false }
 			},
 			teaser: {
 				type: Boolean,
 				required: false,
-				default: () => false
+				default: () => { return false }
 			},
 			model: {
 				required: true,

@@ -36,9 +36,7 @@ main#wrapper {
   @supports (display: flex) {
     main#wrapper {
       height: auto;
-      /* override */ } }
-  @supports (display: flex) {
-    main#wrapper {
+      /* override */
       display: flex;
       /* override */
       flex-direction: column;

@@ -42,12 +42,12 @@ main#wrapper
   height: 100%;
   min-height: 100%;
 
-  @supports ( display: flex ) { height: auto; /* override */ }
-
   display: table; /* helps to stock the footer to the bottom in older browsers */
 
   @supports ( display: flex )
   {
+    height: auto; /* override */
+    
     display: flex; /* override */
     flex-direction: column;
     justify-content: space-between;
