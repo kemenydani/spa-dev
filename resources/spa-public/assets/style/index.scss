@@ -2,6 +2,10 @@
 @import url('https://fonts.googleapis.com/css?family=Lato|Mukta+Malar|Open+Sans|Roboto');
 @import './mixins';
 
+@import './view.home';
+
+@import './model.article';
+
 *   { box-sizing: border-box; }
 img { -ms-interpolation-mode: bicubic; }
 
