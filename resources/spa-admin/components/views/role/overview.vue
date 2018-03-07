@@ -35,7 +35,10 @@
 							</v-layout>
 						</v-flex>
 						<v-flex xs12>
-							<permission-field @update="categoriesUpdated($event)" :selected="formModel.categories"></permission-field>
+							
+							<!--<permission-field :fetchData="fetchCategories" @update="categoriesUpdated($event)"
+							                   :selected=""></permission-field>-->
+							
 							<v-text-field
 									prepend-icon="playlist_add_check"
 									placeholder="Permissions"
@@ -61,12 +64,14 @@
 
 <script>
 	
+	import CategoryField from '../../fields/chip-select';
+	import Category from '../../../model/Category';
+	
 	export default {
 		name: 'role-overview',
 		data() {
 			return {
 				dialog: false,
-				data_field: 'data_field',
 				items: [
 					{ icon: 'contacts', text: 'Contacts' },
 					{ icon: 'history', text: 'Frequently contacted' },
@@ -103,6 +108,20 @@
 		},
 		mounted() {
 			console.log('new component mounted');
+		},
+		methods:
+			{
+			fetchCategories()
+			{
+				return new Promise(function(resolve, reject)
+				{
+					let C = new Category();
+					
+					C.all()
+						.then( categories => { resolve(categories) })
+						.catch( error => reject(error) )
+				})
+			},
 		}
 	}
 </script>
