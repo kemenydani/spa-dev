@@ -51,14 +51,19 @@ class User extends Model {
         return false;
     }
 
-    public static function hasPermission($arg)
+    public static function verify_password($password, $prediction)
+    {
+        //return password_verify($prediction, $password);
+    }
+
+    public function getRoles()
     {
 
     }
 
-    public static function verify_password($password, $prediction)
+    public function hasPermission()
     {
-        //return password_verify($prediction, $password);
+
     }
 
 }

@@ -5,11 +5,11 @@ namespace core;
 class Role
 {
 
-    const PERMISSONS = [
-        'api.users.list'
+    const _PERMISSIONS_ = [
+        'article.*' => 'Article Full',
+        'article.create' => 'Create Article',
+        'article.delete' => 'Delete Article'
     ];
-
-
 
 
 }

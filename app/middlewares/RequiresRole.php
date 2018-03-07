@@ -5,6 +5,7 @@ namespace middlewares;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use core\Auth as Auth;
+use core\Role as Role;
 
 class RequiresRole
 {
