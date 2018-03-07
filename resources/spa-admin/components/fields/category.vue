@@ -59,8 +59,14 @@
 			selected: {
 				type: Array,
 				required: false,
-				function () {
+				default: function () {
 					return [];
+				}
+			},
+			fetchData: {
+				required: true,
+				default: function () {
+					return new Promise();
 				}
 			}
 		},
@@ -74,13 +80,21 @@
 			change(){
 				this.$emit('update', this.collection)
 			},
+			feedMe(){
+				this.$emit('feed')
+			},
 			getAll()
 			{
+				this.fetchData().then( ( data ) => {
+					this.available = data
+				});
+				/*
 				let C = new Category();
 				
 				C.getAll().then( categories => {
 					this.available = categories
 				})
+				*/
 			},
 		},
 		created()

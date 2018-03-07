@@ -34,29 +34,11 @@
 								></v-text-field>
 							</v-layout>
 						</v-flex>
-						<v-flex xs6>
-							<v-text-field
-									prepend-icon="business"
-									placeholder="Company"
-							></v-text-field>
-						</v-flex>
-						<v-flex xs6>
-							<v-text-field
-									placeholder="Job title"
-							></v-text-field>
-						</v-flex>
 						<v-flex xs12>
+							<permission-field @update="categoriesUpdated($event)" :selected="formModel.categories"></permission-field>
 							<v-text-field
-									prepend-icon="mail"
-									placeholder="Email"
-							></v-text-field>
-						</v-flex>
-						<v-flex xs12>
-							<v-text-field
-									type="tel"
-									prepend-icon="phone"
-									placeholder="(000) 000 - 0000"
-									mask="phone"
+									prepend-icon="playlist_add_check"
+									placeholder="Permissions"
 							></v-text-field>
 						</v-flex>
 						<v-flex xs12>
@@ -68,7 +50,6 @@
 					</v-layout>
 				</v-container>
 				<v-card-actions>
-					<v-btn flat color="primary">More</v-btn>
 					<v-spacer></v-spacer>
 					<v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
 					<v-btn flat @click="dialog = false">Save</v-btn>

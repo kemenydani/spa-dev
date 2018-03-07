@@ -33,7 +33,12 @@
 				
 				<v-layout row>
 					
-					<category-field @update="categoriesUpdated($event)" :selected="formModel.categories"></category-field>
+					<category-field
+							:fetchData="fetchCategories"
+							@update="categoriesUpdated($event)"
+							:selected="formModel.categories">
+						
+					</category-field>
 					
 				</v-layout>
 				
@@ -144,6 +149,7 @@
 	
 	import Article from '../../../model/Article';
 	import CategoryField from '../../fields/category';
+	import Category from '../../../model/Category';
 	
 	export default {
 		components: { CategoryField },
@@ -164,6 +170,17 @@
 			}
 		},
 		methods: {
+			fetchCategories()
+			{
+				return new Promise(function(resolve, reject)
+				{
+					let C = new Category();
+					
+					C.all()
+						.then( categories => { resolve(categories) })
+						.catch( error => reject(error) )
+				})
+			},
 			remove(item) {
 				this.chips.splice(this.chips.indexOf(item), 1)
 				this.chips = [...this.chips]
