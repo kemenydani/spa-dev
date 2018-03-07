@@ -1,3 +1,23 @@
+$text-color: darken( white, 70% );    // 70% gray
+$text-color-inverse: white;           //  0% gray
+$bg-color: darken( white, 6% );       //  6% gray
+$bg-color-alt: darken( white, 24% );  // 24% gray
+$accent-color1: darken( white, 54% ); // 54% gray
+$accent-color2: darken( white, 30% ); // 30% gray
+
+$text-color: hsl( 321, 14%, 44% );    // Pale purple
+$text-color-inverse: white;           // White
+$bg-color: hsl( 45, 50%, 89% );       // Light tan
+$bg-color-alt: hsl( 31, 24%, 63% );   // Pale brown
+$accent-color1: $bg-color-alt;        // Pale brown
+$accent-color2: hsl( 348, 68%, 58% ); // Pale red
+
+$text-color: hsl( 321, 14%, 44% );
+$text-color-inverse: white;
+$bg-color: hsl( 45, 50%, 94% );               // +05% lightness
+$bg-color-alt: hsl( 31, 24%, 88% );           // +25% lightness
+$accent-color1: darken( $bg-color-alt, 25% );
+$accent-color2: hsl( 348, 78%, 68% );         // +10% saturation, +10% lightness
 
 @import url('https://fonts.googleapis.com/css?family=Lato|Mukta+Malar|Open+Sans|Roboto');
 @import './mixins';
