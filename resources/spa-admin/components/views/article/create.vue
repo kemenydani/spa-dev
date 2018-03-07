@@ -148,7 +148,7 @@
 <script>
 	
 	import Article from '../../../model/Article';
-	import CategoryField from '../../fields/category';
+	import CategoryField from '../../fields/chip-select';
 	import Category from '../../../model/Category';
 	
 	export default {
