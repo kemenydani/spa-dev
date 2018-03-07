@@ -15,13 +15,20 @@ class Role extends Model
 
     public function getPermissions()
     {
-        /*
-        $stmt = " SELECT * FROM " . DB::_PREFIX_ . "role_permission_pivot rpp" .
-                " LEFT JOIN " . DB::_PREFIX_ . "permission p" .
-                " ON " .
-                " WHERE role_id = " . $this->getProperty(self::$_UNIQUE_KEY);
-         */
-        //$sql = DB::instance()->query();
+        $stmt = "SELECT * FROM " . DB::_PREFIX_ . "role_permission_pivot";
+
+        $rows = DB::instance()->query( $stmt );
+
+        $permissions = [];
+
+        foreach( $rows as $row )
+        {
+            $permission = Permission::find( $row['permission_id'] );
+
+            if( $permission ) $permissions[] = $permission;
+        }
+
+        return $permissions;
     }
 
 }

@@ -12,5 +12,4 @@ class Permission extends Model
     public static $_PROPS = ['id', 'name'];
     public static $_PROPS_PROTECTED = [];
 
-
 }
