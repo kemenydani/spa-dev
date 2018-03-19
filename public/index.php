@@ -16,12 +16,13 @@ require_once __APPDIR__ . '/routes/init.php';
 
 //$detect = new Mobile_Detect;
 
+echo __ROOT__   . '/vendor/autoload.php';
+die();
 $loader = new Twig_Loader_Filesystem(__APPDIR__ . 'view/templates/');
 $twig = new Twig_Environment($loader, array(
 	//'cache' => __ROOT__ . '/storage/cache/',
 ));
-echo __ROOT__   . '/vendor/autoload.php';
-die();
+
 try {
     echo $twig->render('index.twig', [ 'debug' => __DEBUG__ ]);
 }
