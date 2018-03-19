@@ -8,6 +8,7 @@ function debug( $var)
 
 function getConfig( $name, $default = null )
 {
+	echo __APPDIR__ . '/config.ini';
 	$file = parse_ini_file(__APPDIR__ . '/config.ini',false );
 	if(is_array($file) && array_key_exists($name, $file)) return $file[$name];
 	return $default;
