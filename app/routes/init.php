@@ -3,7 +3,7 @@
 $configuration = [
     'settings' => [
         'displayErrorDetails' => true,
-	    'mode' => 'production'
+	    'mode' => 'development'
     ],
 ];
 
