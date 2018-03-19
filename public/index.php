@@ -10,14 +10,14 @@ define('__DEBUG__', false );
 
 
 require_once __ROOT__   . '/vendor/autoload.php';
+echo 1;
+die();
 require_once __APPDIR__ . 'assets/helpers.php';
 require_once __APPDIR__ . 'routes/init.php';
 
 //var_dump(get_post_max_size_bytes());
 
 //$detect = new Mobile_Detect;
-echo 1;
-die();
 $loader = new Twig_Loader_Filesystem(__APPDIR__ . 'view/templates/');
 $twig = new Twig_Environment($loader, array(
 	//'cache' => __ROOT__ . '/storage/cache/',
