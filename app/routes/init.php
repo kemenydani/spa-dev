@@ -2,7 +2,9 @@
 
 $configuration = [
     'settings' => [
-        'displayErrorDetails' => true,
+	    'determineRouteBeforeAppMiddleware' => true,
+	    'displayErrorDetails' => true,
+	    'addContentLengthHeader' => false,
     ],
 ];
 
