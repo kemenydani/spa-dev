@@ -1,0 +1,46 @@
+<header id="main-header">
+    <div class="header-aside header-left">
+        {% include 'widget.social.icons'
+            with {
+                items: { 'twitter' : 'www.twitter.com', 'facebook' : 'www.twitter.com' },
+                limit: 3
+            }
+            only
+        %}
+        <span class="hidden-desktop" style="display: none">
+			<i class="fa fa-bars fa-3x"></i>
+		</span>
+    </div>
+    <div class="container header-center-container">
+        <nav class="navigation nav-left">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Articles</a></li>
+                <li><a href="#">Squads</a></li>
+            </ul>
+        </nav>
+        <div class="brand-holder">
+            <div class="brand">
+                <picture>
+                    <source type="image/svg+xml" srcset="logo-white-orange.svg">
+                    <img src="logo-white-orange.png"  alt="Logo description">
+                </picture>
+            </div>
+        </div>
+        <nav class="navigation nav-right">
+            <ul>
+                <li><a href="#">Videos</a></li>
+                <li><a href="#">Streams</a></li>
+                <li><a href="#">Partners</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="header-aside header-right">
+        {% include 'header.user-area.twig' with { user : user } only %}
+    </div>
+    <nav class="menu">
+        <div class="container">
+            menu
+        </div>
+    </nav>
+</header>

@@ -9,6 +9,6 @@ class HomeController extends Controller
 {
     public function index ( Request $request, Response $response )
     {
-       echo file_get_contents('../public/spa-public/index.html');
+       //echo file_get_contents('../public/spa-public/index.html');
     }
 }

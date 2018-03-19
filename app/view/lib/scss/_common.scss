@@ -1,0 +1,19 @@
+
+
+@mixin hidden {
+  display: none; opacity: 0.0; visibility: hidden; position: absolute; left: -999999;
+}
+
+%hidden {
+  @include hidden;
+}
+
+.hidden { @include hidden }
+
+.hidden-desktop-max {
+  @include mq('desktop', 'max') { @include hidden }
+}
+
+.hidden-desktop {
+  @include mq('desktop', 'min') { @include hidden }
+}

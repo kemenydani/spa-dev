@@ -1,0 +1,209 @@
+
+$light: rgb( 255, 255, 255 );
+$lightgrey: rgb( 219, 219, 219 );
+$dark : rgb( 0, 0, 0 );
+$dark2 : rgb( 17, 17, 17 );
+$dark3 : rgb( 23, 23, 23 );
+$darkgrey: rgb( 98, 98, 98 );
+$darkergrey: rgb( 69, 69, 69 );
+$primary: rgb( 246, 160, 12 );
+
+@import url('https://fonts.googleapis.com/css?family=Roboto|Montserrat|Montserrat:500|Montserrat:700');
+@import './mixins';
+@import './common';
+
+@import './view.home';
+@import './_component.header';
+@import './_component.footer';
+
+*   { box-sizing: border-box; }
+img { -ms-interpolation-mode: bicubic; }
+
+a {
+  text-decoration: none;
+  color: $light;
+  &:hover {
+    color: $primary;
+  }
+}
+
+html, body
+{
+  position: relative;
+
+  padding: 0; /* reset */
+  margin: 0; /* reset */
+  border: none; /* reset */
+
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  min-width: 100%;
+}
+
+html
+{
+  background: $light;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: #666;
+}
+
+.icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  border: 1px solid blue;
+}
+
+.icon {
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  min-height: 40px;
+  line-height: 40px;
+  border-radius: 40px;
+  text-align: center;
+  background-color: $darkergrey;
+  color: $lightgrey;
+  border: 1px solid blue;
+
+  i {
+    margin: 0; padding: 0;
+  }
+}
+
+
+.sponsor-inline-container
+{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  figure.sponsor
+  {
+    border: 1px solid yellow;
+    margin: 20px 0 20px 0;
+    display: block;
+    padding: 0;
+    min-width: 220px;
+    max-width: 220px;
+    min-height: 100px;
+    max-height: 100px;
+    background-position: center center;
+    background-size: contain;
+  }
+}
+
+div#wrapper
+{
+  position: relative;
+
+  min-width: 100%;
+  min-height: 100%;
+
+  font-size: 1em;
+
+  display: table; /* helps to stock the footer to the bottom in older browsers */
+
+  @supports ( display: flex )
+  {
+    height: auto;  /* override */
+    display: flex; /* override */
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  header#main-header
+  {
+    //background: $dark;
+    position: relative;
+  }
+
+  /* full-width section for the actual view's content */
+  section#main-content
+  {
+    position: relative;
+
+    min-width: 100%;
+    min-height: 100%;
+
+    display: table-row; /* full-height within table el. */
+
+    @supports ( display: flex )
+    {
+      height: auto; /* reset */
+      min-height: auto; /* reset */
+
+      flex: 1; /* uses this setting instead of height / min-height */
+
+      display: flex; /* override */
+      flex-direction: column;
+    }
+
+    /* additional wrapper of the view's content, to achieve full height when the view-page is empty */
+    .page-view
+    {
+      position: relative;
+
+      width: 100%;
+      min-width: 100%;
+      height: 100%;
+      min-height: 100%;
+
+      display: table-cell; /* full-height within table-row el. */
+
+      @supports ( display: flex )
+      {
+        display: flex; /* override */
+        flex-direction: column;
+        flex: 1;
+      }
+    }
+  }
+
+  footer#main-footer
+  {
+    min-width: 100%;
+    display: table-footer-group; /* sticks the footer to the bottom */
+
+    @supports ( display: flex ) { display: block; /* override */ }
+  }
+
+  #main-content, #main-footer/*  #main-header */
+  {
+    @include mq('desktop', 'max') { padding-left: 15px; padding-right: 15px; }
+  }
+}
+
+.container
+{
+  position: relative;
+
+  width: 1100px;
+  max-width: 1100px;
+  margin: 0 auto;
+
+  //@include mq('desktop',     'max') { width: 1000px; max-width: 1000px;}
+  @include mq('desktop', 'max') { width: 100%;   max-width: 100%;   }
+
+  &.full-height
+  {
+    position: relative;
+
+    height: 100%;
+    min-height: 100%;
+
+    @supports ( display: flex ) { flex: 1; /* flex-item full height */ }
+  }
+}
+
+.container-full
+{
+  min-width: 100%;
+  overflow: hidden;
+  position: relative;
+
+  margin: 0 auto;
+}

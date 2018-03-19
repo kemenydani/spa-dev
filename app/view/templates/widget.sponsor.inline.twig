@@ -1,0 +1,14 @@
+
+{% set limit = ( limit ? limit : 3 ) %}
+
+<article class="container sponsor-inline-container {{ class }}">
+
+    {% for key,item in items if limit > 0 %}
+
+        <figure class="sponsor sponsor-{{ key }}" title="{{ key }}" style="background-image: url('{{ item }}')"></figure>
+
+        {% set limit = limit - 1 %}
+
+    {% endfor %}
+
+</article>

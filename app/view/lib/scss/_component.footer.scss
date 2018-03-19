@@ -1,0 +1,92 @@
+footer#main-footer
+{
+  background: $dark;
+  .footer-sponsor-row
+  {
+    background: $dark2;
+  }
+  .footer-content-row
+  {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    .site-map-container
+    {
+      display: flex;
+      justify-content: space-between;
+      @include mq('phablet', 'max') { flex-direction: column-reverse; align-items: center; }
+      .site-map
+      {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        width: 500px;
+        @include mq('tablet', 'max') { width: 400px; }
+        @include mq('tablet-small', 'max') { width: 330px; }
+        @include mq('phablet', 'max') { width: 100%; margin-top: 40px; }
+        .site-map-item
+        {
+          @include mq('phone', 'max') { min-width: 50%; }
+          h4
+          {
+            display: inline-block;
+            margin: 0;
+            font-size: 1.3em;
+            color: darken( $lightgrey, 20 );
+            line-height: 45px;
+            border-bottom: 5px solid $primary;
+          }
+          ul
+          {
+            list-style-type: none;
+            padding: 0;
+            li
+            {
+              line-height: 30px;
+              text-transform: uppercase;
+              font-weight: 700;
+              a {
+                color: $darkgrey;
+                &:hover {
+                  color: $lightgrey;
+                }
+              }
+            }
+          }
+        }
+      }
+      .brand
+      {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .logo { }
+        .social-icons { display: flex; justify-content: center; }
+      }
+    }
+  }
+  .footer-bottom-row
+  {
+    .info-container
+    {
+      min-height: 60px;
+      line-height: 60px;
+      align-items: center;
+      font-weight: 700;
+      background: $dark;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      @include mq('phablet', 'max')
+      {
+        > span {
+          width: 100%;
+          text-align: center;
+          border-top: 1px solid $darkgrey;
+        }
+      }
+    }
+
+  }
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<base href="public/">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link rel="stylesheet" async="true" href="static/css/index.css">
+	<link rel="stylesheet" async="true" href="style/font-awesome/css/fontawesome-all.min.css">
+</head>
+<body>
+
+<div id="wrapper">
+	
+	{% include 'main.header.twig' %}
+
+	<section id="main-content">
+		<div class="container-full top-sponsor-row">
+            {% include 'widget.sponsor.inline.twig'
+				with {
+					items: {
+						'corsair'      : 'https://cdn.worldvectorlogo.com/logos/corsair-2.svg',
+                    	'razer'        : 'https://seeklogo.com/images/R/razer-logo-B4E375B409-seeklogo.com.png',
+                    	'steelseries'  : 'http://cerebral-overload.com/wp-content/uploads/2017/11/Steelseries-Logo.png',
+					},
+					limit: null,
+					class: 'widget-sponsor-top'
+				}
+				only
+			%}
+		</div>
+		<div class="container">
+			<article class="widget-featured-news">
+				ft-news
+			</article>
+		</div>
+		<div class="container">
+			<article class="widget-last-news">
+				lt-news
+			</article>
+			<article class="widget-featured-any">
+				ft-any
+			</article>
+		</div>
+		<div class="container">
+			<article class="widget-featured-team">
+				ft-team
+			</article>
+		</div>
+	</section>
+
+    {% include 'main.footer.twig' %}
+
+</div>
+
+</body>
+</html>
