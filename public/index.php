@@ -12,6 +12,8 @@ require_once '../vendor/autoload.php';
 require_once '../app/assets/helpers.php';
 require_once '../app/routes/init.php';
 
+var_dump(get_post_max_size_bytes());
+
 $detect = new Mobile_Detect;
 
 $loader = new Twig_Loader_Filesystem(__APPDIR__ . 'view/templates/');
