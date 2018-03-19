@@ -8,9 +8,17 @@ function debug( $var)
 
 function getConfig( $name, $default = null )
 {
-	echo __APPDIR__ . '/config.ini';
-	$file = parse_ini_file(__APPDIR__ . '/config.ini',false );
-	if(is_array($file) && array_key_exists($name, $file)) return $file[$name];
+	$files = array_diff(scandir(__APPDIR__ . '/config'), array('.', '..'));
+
+	$configs = [];
+	
+	foreach($files as $file)
+	{
+		$content = parse_ini_file(__APPDIR__ . '/config/' . $file,false );
+		if(is_array($content)) $configs = array_merge($content, $configs);
+	}
+	
+	if(is_array($configs) && array_key_exists($name, $configs)) return $configs[$name];
 	return $default;
 }
 

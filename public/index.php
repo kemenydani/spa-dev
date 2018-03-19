@@ -4,18 +4,16 @@ error_reporting(E_ALL);
 session_start();
 
 define('__ROOT__', realpath(dirname(__FILE__) . '/..'));
-define('__PUBDIR__', __ROOT__ . '/public/' );
-define('__APPDIR__', __ROOT__ . '/app/' );
+define('__PUBDIR__', __ROOT__ . '/public' );
+define('__APPDIR__', __ROOT__ . '/app' );
 define('__DEBUG__', false );
 
-
 require_once __ROOT__   . '/vendor/autoload.php';
-require_once __APPDIR__ . 'assets/helpers.php';
-require_once __APPDIR__ . 'routes/init.php';
-//var_dump(get_post_max_size_bytes());
-echo 1;
-//$detect = new Mobile_Detect;
-$loader = new Twig_Loader_Filesystem(__APPDIR__ . 'view/templates/');
+require_once __APPDIR__ . '/assets/helpers.php';
+require_once __APPDIR__ . '/assets/db_config.php';
+require_once __APPDIR__ . '/routes/init.php';
+
+$loader = new Twig_Loader_Filesystem(__APPDIR__ . '/view/templates/');
 $twig = new Twig_Environment($loader, array(
 	//'cache' => __ROOT__ . '/storage/cache/',
 ));

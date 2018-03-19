@@ -5,13 +5,7 @@ namespace core;
 class DB extends \PDO
 {
 	public static $_instance;
-/*
-	const _PREFIX_   = '_xyz_';
-    const _HOST_     = 'localhost';
-    const _DB_NAME_  = 'engine-dev';
-    const _USERNAME_ = 'root';
-    const _PASSWORD_ = '';
-*/
+
 	static $_PREFIX_;
 	static $_HOST_;
 	static $_DB_NAME_;
@@ -22,12 +16,6 @@ class DB extends \PDO
     {
 		if ( self::$_instance === null )
 		{
-			self::$_PREFIX_   = getConfig('_REMOTE_DB_PREFIX_');
-			self::$_HOST_     = getConfig('_REMOTE_DB_HOST_');
-			self::$_DB_NAME_  = getConfig('_REMOTE_DB_NAME_');
-			self::$_USERNAME_ = getConfig('_REMOTE_DB_USER_');
-			self::$_PASSWORD_ = getConfig('_REMOTE_DB_PW_');
-			
 		    $dbDefinition = 'mysql:host='.self::$_HOST_.';dbname='.self::$_DB_NAME_.'';
 
             self::$_instance = new DB($dbDefinition, self::$_USERNAME_, self::$_PASSWORD_);
