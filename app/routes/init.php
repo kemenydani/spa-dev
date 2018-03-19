@@ -16,3 +16,10 @@ require 'upload.php';
 
 
 $app->run();
+/*
+try {
+    $app->run();
+} catch( \Exception $e) {
+    echo "Unable to init slim - " . $e;
+}
+*/
