@@ -11,10 +11,9 @@ define('__DEBUG__', false );
 
 require_once __ROOT__   . '/vendor/autoload.php';
 require_once __APPDIR__ . 'assets/helpers.php';
+require_once __APPDIR__ . 'routes/init.php';
 echo 1;
 die();
-require_once __APPDIR__ . 'routes/init.php';
-
 //var_dump(get_post_max_size_bytes());
 
 //$detect = new Mobile_Detect;
