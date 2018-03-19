@@ -7,12 +7,10 @@ define('__ROOT__', realpath(dirname(__FILE__) . '/..'));
 define('__PUBDIR__', __ROOT__ . '/public/' );
 define('__APPDIR__', __ROOT__ . '/app/' );
 define('__DEBUG__', false );
-echo __APPDIR__ . '/assets/helpers.php';
-die();
 
-require_once __ROOT__   . '/vendor/autoload.php';
-require_once __APPDIR__ . '/assets/helpers.php';
-require_once __APPDIR__ . '/routes/init.php';
+require_once __ROOT__   . 'vendor/autoload.php';
+require_once __APPDIR__ . 'assets/helpers.php';
+require_once __APPDIR__ . 'routes/init.php';
 
 //var_dump(get_post_max_size_bytes());
 
