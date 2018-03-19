@@ -13,7 +13,7 @@ require 'home.php';
 require 'api.php';
 require 'upload.php';
 
-
+var_dump($app);
 $app->run();
 /*
 try {
