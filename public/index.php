@@ -13,7 +13,7 @@ require_once __ROOT__   . '/vendor/autoload.php';
 require_once __APPDIR__ . 'assets/helpers.php';
 require_once __APPDIR__ . 'routes/init.php';
 //var_dump(get_post_max_size_bytes());
-
+echo 1;
 //$detect = new Mobile_Detect;
 $loader = new Twig_Loader_Filesystem(__APPDIR__ . 'view/templates/');
 $twig = new Twig_Environment($loader, array(
