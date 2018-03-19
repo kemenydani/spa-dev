@@ -1,6 +1,6 @@
 <?php
 
-error_reporting(1);
+error_reporting(E_ALL);
 session_start();
 
 define('__ROOT__', realpath(dirname(__FILE__) . '/..'));
