@@ -6,6 +6,13 @@ function debug( $var)
     die();
 }
 
+function getConfig( $name, $default = null )
+{
+	$file = parse_ini_file(__APPDIR__ . '/config.ini',false );
+	if(is_array($file) && array_key_exists($name, $file)) return $file[$name];
+	return $default;
+}
+
 function toBool($var) {
     if (!is_string($var)) return (bool) $var;
     switch (strtolower($var)) {

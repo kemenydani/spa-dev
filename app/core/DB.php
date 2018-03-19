@@ -5,20 +5,32 @@ namespace core;
 class DB extends \PDO
 {
 	public static $_instance;
-
+/*
 	const _PREFIX_   = '_xyz_';
     const _HOST_     = 'localhost';
     const _DB_NAME_  = 'engine-dev';
     const _USERNAME_ = 'root';
     const _PASSWORD_ = '';
+*/
+	static $_PREFIX_;
+	static $_HOST_;
+	static $_DB_NAME_;
+	static $_USERNAME_;
+	static $_PASSWORD_;
 
 	public static function instance()
     {
 		if ( self::$_instance === null )
 		{
-		    $dbDefinition = 'mysql:host='.self::_HOST_.';dbname='.self::_DB_NAME_.'';
+			self::$_PREFIX_   = getConfig('_REMOTE_DB_PREFIX_');
+			self::$_HOST_     = getConfig('_REMOTE_DB_HOST_');
+			self::$_DB_NAME_  = getConfig('_REMOTE_DB_NAME_');
+			self::$_USERNAME_ = getConfig('_REMOTE_DB_USER_');
+			self::$_PASSWORD_ = getConfig('_REMOTE_DB_PW_');
+			
+		    $dbDefinition = 'mysql:host='.self::$_HOST_.';dbname='.self::$_DB_NAME_.'';
 
-            self::$_instance = new DB($dbDefinition, self::_USERNAME_, self::_PASSWORD_);
+            self::$_instance = new DB($dbDefinition, self::$_USERNAME_, self::$_PASSWORD_);
 			self::$_instance->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION );
 			self::$_instance->exec("set names utf8");
 		}
@@ -27,7 +39,7 @@ class DB extends \PDO
 
 	public function update( $table, array $what, $key, $id )
     {
-        $table = DB::_PREFIX_ . $table;
+        $table = DB::$_PREFIX_ . $table;
 
         $what = (array)$what;
 
@@ -61,7 +73,7 @@ class DB extends \PDO
 
 	public function insert( $table, array $params )
     {
-	    $table = DB::_PREFIX_ . $table;
+	    $table = DB::$_PREFIX_ . $table;
 
         $commaSepColumnNameList = implode(',', array_keys($params));
         $commaSepQuestionMarkList = join(",", array_pad([], count($params), "?"));
@@ -87,7 +99,7 @@ class DB extends \PDO
 
     public function all( $table )
     {
-        $stmt = "SELECT * FROM " . DB::_PREFIX_ . $table;
+        $stmt = "SELECT * FROM " . DB::$_PREFIX_ . $table;
 
         $sql = DB::instance()->query( $stmt );
 
@@ -101,7 +113,7 @@ class DB extends \PDO
 
 	private static function _find_( $table, $column, $value )
     {
-        $table = DB::_PREFIX_ . $table;
+        $table = DB::$_PREFIX_ . $table;
 
         $stmt = "SELECT * FROM {$table} WHERE ".$column." = ? LIMIT 1";
 
@@ -125,7 +137,7 @@ class DB extends \PDO
 
     public function delete( $table, $column, $value )
     {
-        $table = DB::_PREFIX_ . $table;
+        $table = DB::$_PREFIX_ . $table;
 
         $stmt = "DELETE FROM {$table} WHERE ".$column." = ? LIMIT 1";
 
@@ -139,7 +151,7 @@ class DB extends \PDO
 
     public function deleteIn( $table, $column, array $range )
     {
-        $table = DB::_PREFIX_ . $table;
+        $table = DB::$_PREFIX_ . $table;
 
         $commaList = implode(",", $range);
 

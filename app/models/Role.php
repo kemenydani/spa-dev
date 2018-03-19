@@ -15,7 +15,7 @@ class Role extends Model
 
     public function getPermissions()
     {
-        $stmt = "SELECT * FROM " . DB::_PREFIX_ . "role_permission_pivot";
+        $stmt = "SELECT * FROM " . DB::$_PREFIX_ . "role_permission_pivot";
 
         $rows = DB::instance()->query( $stmt );
 
