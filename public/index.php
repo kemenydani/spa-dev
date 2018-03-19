@@ -7,7 +7,7 @@ define('__ROOT__', realpath(dirname(__FILE__) . '/..'));
 define('__PUBDIR__', __ROOT__ . '/public/' );
 define('__APPDIR__', __ROOT__ . '/app/' );
 define('__DEBUG__', false );
-echo __ROOT__   . '/vendor/autoload.php';
+echo __APPDIR__ . '/assets/helpers.php';
 die();
 
 require_once __ROOT__   . '/vendor/autoload.php';
