@@ -8,7 +8,8 @@
 	<link rel="stylesheet" async="true" href="static/css/index.css">
 	<link rel="stylesheet" async="true" href="style/font-awesome/css/fontawesome-all.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-</head>
+	<script src="http://malsup.github.com/jquery.form.js"></script>
+	</head>
 <body>
 
 <div>
@@ -39,6 +40,27 @@
 						type: "POST",
 						data:  fd,
 						beforeSend: function(){
+
+						},
+						xhr: function() {
+							var xhr = new window.XMLHttpRequest();
+
+							xhr.upload.addEventListener("progress", function(evt) {
+								if (evt.lengthComputable) {
+									var percentComplete = evt.loaded / evt.total;
+									percentComplete = parseInt(percentComplete * 100);
+									console.log(percentComplete);
+
+									if (percentComplete === 100) {
+
+									}
+
+								}
+							}, false);
+
+							return xhr;
+						},
+						complete: function(xhr) {
 
 						},
 						contentType: false,

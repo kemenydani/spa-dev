@@ -3,8 +3,9 @@
 error_reporting(0);
 session_start();
 
-define('__PUBDIR__', __DIR__ );
-define('__APPDIR__', '../app/' );
+define('__ROOT__', realpath(dirname(__FILE__) . '/..'));
+define('__PUBDIR__', __ROOT__ . '/public/' );
+define('__APPDIR__', __ROOT__ . '/app/' );
 define('__DEBUG__', true );
 
 require_once '../vendor/autoload.php';
@@ -15,21 +16,22 @@ $detect = new Mobile_Detect;
 
 $loader = new Twig_Loader_Filesystem(__APPDIR__ . 'view/templates/');
 $twig = new Twig_Environment($loader, array(
-	//'cache' => __PUBDIR__ . '/storage/cache/',
+	//'cache' => __ROOT__ . '/storage/cache/',
 ));
 
 try {
     echo $twig->render('index.twig', [ 'debug' => __DEBUG__ ]);
 }
 catch(Exception $e) {
-    if(__DEBUG__) {
+    if( __DEBUG__ ) {
         echo $e;
     } else {
         echo '404';
     }
 }
 
-if(__DEBUG__) {
+if( __DEBUG__)
+{
     error_reporting(-1);
     $twig->enableDebug();
     $detect = new Mobile_Detect();
