@@ -1,6 +1,6 @@
 
 RewriteEngine On
-RewriteBase /dev1/public/
+RewriteBase /public/
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [QSA,L]
