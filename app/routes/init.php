@@ -14,6 +14,8 @@ require 'home.php';
 require 'api.php';
 require 'upload.php';
 
+
+$app->run();
 try {
     $app->run();
 } catch( \Exception $e) {
