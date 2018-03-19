@@ -32,7 +32,6 @@ catch(Exception $e) {
     }
 }
 
-
 if( __DEBUG__)
 {
     error_reporting(-1);
