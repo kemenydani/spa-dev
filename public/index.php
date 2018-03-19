@@ -8,6 +8,10 @@ define('__PUBDIR__', __ROOT__ . '/public/' );
 define('__APPDIR__', __ROOT__ . '/app/' );
 define('__DEBUG__', false );
 
+echo __ROOT__   . 'vendor/autoload.php';
+echo __APPDIR__ . 'assets/helpers.php';
+echo __APPDIR__ . 'routes/init.php';
+die();
 require_once __ROOT__   . 'vendor/autoload.php';
 require_once __APPDIR__ . 'assets/helpers.php';
 require_once __APPDIR__ . 'routes/init.php';
