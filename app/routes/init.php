@@ -11,11 +11,11 @@ $c = new \Slim\Container($configuration);
 $app = new \Slim\App($c);
 
 require 'home.php';
-//require 'api.php';
-//require 'upload.php';
-$app->run();
+require 'api.php';
+require 'upload.php';
+
 try {
     $app->run();
-} catch( Exception $e) {
+} catch( \Exception $e) {
     echo "Unable to init slim - " . $e;
 }
