@@ -1,5 +1,6 @@
 <?php
 
+// Slim configuration
 $configuration = [
     'settings' => [
 	    'determineRouteBeforeAppMiddleware' => true,
@@ -27,6 +28,7 @@ $configuration = [
 
 $app = new \Slim\App( new \Slim\Container( $configuration ) );
 
+// Routes
 require 'home.php';
 require 'article.php';
 require 'squad.php';
@@ -38,6 +40,7 @@ require 'user.php';
 require 'api.php';
 require 'upload.php';
 
+// Boot
 try {
     $app->run();
     //throw new Exception();
