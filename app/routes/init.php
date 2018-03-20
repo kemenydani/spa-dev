@@ -8,16 +8,15 @@ $configuration = [
     ],
 ];
 
-$c = new \Slim\Container($configuration);
-$app = new \Slim\App($c);
-
-$container = $app->getContainer();
+$container = new \Slim\Container($configuration);
+$app = new \Slim\App($container);
 
 $container['view'] = function( $container )
 {
-    $view = new \Slim\Views\Twig(
-        __APPDIR__ . '/view/templates', [
-            'cache' => false
+    $cacheDir = __DEBUG__ ? false : __ROOT__ . '/storage/cache/';
+
+    $view = new \Slim\Views\Twig( __APPDIR__ . '/view/templates', [
+            'cache' => $cacheDir
         ]
     );
 
