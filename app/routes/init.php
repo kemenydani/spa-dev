@@ -28,6 +28,7 @@ $configuration = [
 
 $app = new \Slim\App( new \Slim\Container( $configuration ) );
 
+
 // Routes
 require_once 'home.php';
 require_once 'article.php';
