@@ -29,16 +29,16 @@ $configuration = [
 $app = new \Slim\App( new \Slim\Container( $configuration ) );
 
 // Routes
-require 'home.php';
-require 'article.php';
-require 'squad.php';
-require 'video.php';
-require 'stream.php';
-require 'partner.php';
-require 'user.php';
+require_once 'home.php';
+require_once 'article.php';
+require_once 'squad.php';
+require_once 'video.php';
+require_once 'stream.php';
+require_once 'partner.php';
+require_once 'user.php';
 
-require 'api.php';
-require 'upload.php';
+require_once 'api.php';
+require_once 'upload.php';
 
 // Boot
 try {
