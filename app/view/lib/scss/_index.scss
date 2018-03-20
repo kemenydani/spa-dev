@@ -16,6 +16,8 @@ $primary: rgb( 246, 160, 12 );
 @import './_component.header';
 @import './_component.footer';
 
+@import '../../templates/route.view.user.auth';
+
 *   { box-sizing: border-box; }
 img { -ms-interpolation-mode: bicubic; }
 

@@ -11,4 +11,9 @@ class UserController extends ViewController
     {
         $this->view->render($response, 'route.view.user.html.twig');
     }
+
+    public function auth ( Request $request, Response $response )
+    {
+        $this->view->render($response, 'route.view.user.auth.html.twig');
+    }
 }

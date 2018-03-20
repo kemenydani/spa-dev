@@ -1,0 +1,99 @@
+{% extends 'index.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div id="auth-area">
+            <div class="form">
+                <form-login v-show="tab === 1"></form-login>
+                <form-register v-show="tab === 2"></form-register>
+                {% verbatim %}
+                <nav>
+                    <button v-on:click="tab = 1">LOGIN</button>
+                    <button v-on:click="tab = 2">REGISTER</button>
+                </nav>
+                {% endverbatim %}
+            </div>
+            <div class="brand">
+                <picture>
+                    <source type="image/svg+xml" srcset="static/drawable/logo-white-orange.svg">
+                    <img src="static/drawable/logo-white-orange.png"  alt="Logo description">
+                </picture>
+            </div>
+        </div>
+    </div>
+
+    {% verbatim %}
+
+        <script type="text/x-template" id="template-form-login">
+            <section id="form-login" class="auth-section-tab">
+                <form>
+                    <div class="title">login</div>
+                    <input type="text" name="email" v-model="email">
+                    <input type="password" name="password" v-model="password">
+                </form>
+            </section>
+        </script>
+
+        <script type="text/x-template" id="template-form-register">
+            <section id="form-register" class="auth-section-tab">
+                <form>
+                    <div class="title">register</div>
+                    <input type="text" name="email" v-model="email">
+                    <input type="password" name="password" v-model="password">
+                </form>
+            </section>
+        </script>
+
+    {% endverbatim %}
+
+    <script>
+
+        (function($, Vue){
+
+            Vue.component('form-login', {
+                template: '#template-form-login',
+                data: function () {
+                    return {
+                        email: '',
+                        password: ''
+                    }
+                },
+                methods: {
+
+                }
+            });
+
+            Vue.component('form-register', {
+                template: '#template-form-register',
+                data: function () {
+                    return {
+                        email: '',
+	                    password: ''
+                    }
+                },
+                methods: {
+
+                }
+            });
+
+            var app = new Vue({
+                el: '#auth-area',
+                components: [ 'form-login', 'form-register' ],
+                data: function () {
+                    return {
+                        tab: 1
+                    }
+                },
+                methods: {
+
+                },
+                created(){
+
+                }
+            });
+
+        }( jQuery, Vue ));
+
+    </script>
+
+{% endblock %}
