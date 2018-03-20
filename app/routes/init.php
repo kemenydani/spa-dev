@@ -30,6 +30,7 @@ $container['view'] = function( $container )
 };
 
 require 'home.php';
+require 'article.php';
 require 'api.php';
 require 'upload.php';
 
