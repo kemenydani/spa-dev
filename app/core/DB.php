@@ -8,7 +8,7 @@ class DB extends \PDO
 
 	static $_PREFIX_;
 	static $_HOST_;
-	static $_DB_NAME_;
+	static $_DATABASE_;
 	static $_USERNAME_;
 	static $_PASSWORD_;
 
@@ -16,9 +16,9 @@ class DB extends \PDO
     {
 		if ( self::$_instance === null )
 		{
-		    $dbDefinition = 'mysql:host='.self::$_HOST_.';dbname='.self::$_DB_NAME_.'';
+		    $definition = 'mysql:host='.self::$_HOST_.';dbname='.self::$_DATABASE_.'';
 
-            self::$_instance = new DB($dbDefinition, self::$_USERNAME_, self::$_PASSWORD_);
+            self::$_instance = new DB($definition, self::$_USERNAME_, self::$_PASSWORD_);
 			self::$_instance->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION );
 			self::$_instance->exec("set names utf8");
 		}

@@ -18,6 +18,8 @@
     "require": {
         "slim/slim": "^3.0",
         "twig/twig": "^2.0",
-        "mobiledetect/mobiledetectlib": "2.8.31"
+        "mobiledetect/mobiledetectlib": "2.8.31",
+        "slim/views": "^0.1.3",
+        "slim/twig-view": "2.3.0"
     }
 }
