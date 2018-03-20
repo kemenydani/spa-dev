@@ -15,10 +15,11 @@ $container['view'] = function( $container )
 {
     $cacheDir = __DEBUG__ ? false : __ROOT__ . '/storage/cache/';
 
-    $view = new \Slim\Views\Twig( __APPDIR__ . '/view/templates', [
-            'cache' => $cacheDir
-        ]
-    );
+    $settings = [
+        'cache' => $cacheDir
+    ];
+
+    $view = new \Slim\Views\Twig( __APPDIR__ . '/view/templates', $settings );
 
     $view->addExtension(new \Slim\Views\TwigExtension(
         $container->router,

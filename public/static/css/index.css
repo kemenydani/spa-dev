@@ -168,7 +168,7 @@ header#main-header {
       align-items: center;
       align-content: center;
       position: relative;
-      background-image: none, url("../header-logo-vector-bg.svg"), url("../header-logo-raster-bg.png");
+      background-image: none, url("../drawable/header-logo-vector-bg.svg"), url("../drawable/header-logo-raster-bg.png");
       background-repeat: no-repeat;
       background-position-y: bottom;
       background-position-x: center;
