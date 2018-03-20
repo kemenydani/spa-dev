@@ -31,6 +31,12 @@ $container['view'] = function( $container )
 
 require 'home.php';
 require 'article.php';
+require 'squad.php';
+require 'video.php';
+require 'stream.php';
+require 'partner.php';
+require 'user.php';
+
 require 'api.php';
 require 'upload.php';
 
