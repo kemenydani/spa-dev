@@ -11,11 +11,9 @@ define('__DEBUG__', true );
 if( __DEBUG__ ) error_reporting(E_ALL);
 
 require_once __ROOT__   . '/vendor/autoload.php';
-require_once __APPDIR__ . '/routes/init.php';
 require_once __APPDIR__ . '/assets/helpers.php';
 require_once __APPDIR__ . '/assets/db_config.php';
-//require_once __APPDIR__ . '/assets/twig_config.php';
-
+require_once __APPDIR__ . '/routes/init.php';
 
 try {
     //echo $twig->render('index.twig', [ 'debug' => __DEBUG__ ]);

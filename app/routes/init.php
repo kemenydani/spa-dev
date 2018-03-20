@@ -12,7 +12,7 @@ $configuration = [
         $cacheDir = __DEBUG__ ? false : __ROOT__ . '/storage/cache/';
 
         $settings = [
-            'cache' => $cacheDir
+            //'cache' => $cacheDir
         ];
 
         $view = new \Slim\Views\Twig( __APPDIR__ . '/view/templates', $settings );
