@@ -25,8 +25,7 @@ $configuration = [
     }
 ];
 
-$container = new \Slim\Container($configuration);
-$app = new \Slim\App($container);
+$app = new \Slim\App( new \Slim\Container( $configuration ) );
 
 require 'home.php';
 require 'article.php';
