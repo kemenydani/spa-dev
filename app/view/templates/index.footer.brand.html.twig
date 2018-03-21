@@ -1,0 +1,17 @@
+<div class="brand">
+    <div class="logo">
+        <picture>
+            <source type="image/svg+xml" srcset="static/drawable/logo-white-orange.svg">
+            <img src="static/drawable/logo-white-orange.png"  alt="Logo description">
+        </picture>
+    </div>
+    <div class="social-icons">
+        {% include 'widget.social.icons.html.twig'
+            with {
+            items: { 'twitter' : 'www.twitter.com', 'facebook' : 'www.twitter.com' },
+            limit: 3
+        }
+            only
+        %}
+    </div>
+</div>

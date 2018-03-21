@@ -219,7 +219,8 @@ footer#main-footer {
           font-size: 1.3em;
           color: #a8a8a8;
           line-height: 45px;
-          border-bottom: 5px solid #f6a00c; }
+          border-bottom: 5px solid #f6a00c;
+          text-transform: uppercase; }
         footer#main-footer .footer-content-row .site-map-container .site-map .site-map-item ul {
           list-style-type: none;
           padding: 0; }
