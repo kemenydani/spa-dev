@@ -7,7 +7,7 @@
                 <form-login v-show="tab === 1"></form-login>
                 <form-register v-show="tab === 2"></form-register>
                 {% verbatim %}
-                <nav>
+                <nav class="form-nav">
                     <button v-on:click="tab = 1">LOGIN</button>
                     <button v-on:click="tab = 2">REGISTER</button>
                 </nav>
@@ -27,9 +27,9 @@
         <script type="text/x-template" id="template-form-login">
             <section id="form-login" class="auth-section-tab">
                 <form>
-                    <div class="title">login</div>
-                    <input type="text" name="email" v-model="email">
-                    <input type="password" name="password" v-model="password">
+                    <h1 class="title">login</h1>
+                    <input placeholder="Email" type="text" name="email" v-model="email">
+                    <input placeholder="Password" type="password" name="password" v-model="password">
                 </form>
             </section>
         </script>
@@ -37,9 +37,9 @@
         <script type="text/x-template" id="template-form-register">
             <section id="form-register" class="auth-section-tab">
                 <form>
-                    <div class="title">register</div>
-                    <input type="text" name="email" v-model="email">
-                    <input type="password" name="password" v-model="password">
+                    <h1 class="title">register</h1>
+                    <input placeholder="Email"  type="text" name="email" v-model="email">
+                    <input placeholder="Password" type="password" name="password" v-model="password">
                 </form>
             </section>
         </script>

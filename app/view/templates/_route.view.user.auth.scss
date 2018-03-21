@@ -16,9 +16,10 @@
 
     > section.auth-section-tab {
       flex: 1;
+      padding: 40px;
     }
 
-    > nav {
+    > nav.form-nav {
       display: flex;
       padding: 0; margin: 0;
 
