@@ -20,12 +20,12 @@ let configs = [
 			open: true,
 			port: 9001,
 			allowedHosts: [
-				'http://php_app/',
+				'http://phpapp/',
 			],
 			disableHostCheck: true,
 			proxy: [{
 				context: ["/api"],
-				target: "http://php_app/",
+				target: "http://phpapp/",
 				changeOrigin: true,
 			}]
 		},
@@ -45,12 +45,12 @@ let configs = [
 			open: true,
 			port: 8001,
 			allowedHosts: [
-				'http://php_app/',
+				'http://phpapp/',
 			],
 			disableHostCheck: true,
 			proxy: [{
 				context: ["/api"],
-				target: "http://php_app/",
+				target: "http://phpapp/",
 				changeOrigin: true,
 			}]
 		},
