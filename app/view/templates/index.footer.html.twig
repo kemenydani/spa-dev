@@ -4,36 +4,7 @@
     </div>
     <div class="container-full footer-content-row">
         <div class="container site-map-container">
-            <nav class="site-map">
-                <div class="site-map-item social">
-                    <h4>SOCIAL</h4>
-                    <ul>
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">Twitter</a></li>
-                        <li><a href="#">Youtube</a></li>
-                        <li><a href="#">Twitch.tv</a></li>
-                        <li><a href="#">Instagram</a></li>
-                    </ul>
-                </div>
-                <div class="site-map-item pages">
-                    <h4>SITEMAP</h4>
-                    <ul>
-                        <li><a href="#">Articles</a></li>
-                        <li><a href="#">Squads</a></li>
-                        <li><a href="#">Videos</a></li>
-                        <li><a href="#">Streams</a></li>
-                    </ul>
-                </div>
-                <div class="site-map-item more">
-                    <h4>MORE</h4>
-                    <ul>
-                        <li><a href="#">Sponsors</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Shop</a></li>
-                        <li><a href="#">About</a></li>
-                    </ul>
-                </div>
-            </nav>
+            {% include 'index.footer.sitemap.html.twig' with {'class': 'widget-sponsor-footer'} %}
             <div class="brand">
                 <div class="logo">
                     <picture>
@@ -42,25 +13,18 @@
                     </picture>
                 </div>
                 <div class="social-icons">
-						<span class="icons">
-							<a href="#" class="icon round">
-								<i class="fab fa-facebook-square fa-lg"></i>
-							</a>
-							<a href="#" class="icon round">
-									<i class="fab fa-twitch fa-lg"></i>
-							</a>
-							<a href="#" class="icon round">
-									<i class="fab fa-youtube fa-lg"></i>
-							</a>
-						</span>
+                    {% include 'widget.social.icons.html.twig'
+                        with {
+                            items: { 'twitter' : 'www.twitter.com', 'facebook' : 'www.twitter.com' },
+                            limit: 3
+                        }
+                        only
+                    %}
                 </div>
             </div>
         </div>
     </div>
     <div class="container-full footer-bottom-row">
-        <div class="container info-container">
-            <span>AVENUE 2018-2019 All rights reserved.</span>
-            <span>Terms of Use</span>
-        </div>
+        {% include 'index.footer.infoline.html.twig' %}
     </div>
 </footer>
