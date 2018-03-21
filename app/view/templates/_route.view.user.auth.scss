@@ -19,7 +19,7 @@
 
     > form.auth-section-tab {
       flex: 1;
-      padding: 80px;
+      padding: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -28,16 +28,27 @@
       flex-wrap: wrap;
 
       .title {
-        padding-bottom: 40px;
-        margin: 0;
+        margin-top: 0;
+        margin-bottom: 40px;
         font-size: 60px;
         font-family: 'Montserrat', sans-serif;
         text-transform: uppercase;
+        border-bottom: 10px solid $primary;
       }
 
       .input-field {
-        margin-bottom: 30px;
         width: 100%;
+        margin-bottom: 30px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+        &.captcha-field {
+          text-align: center;
+          > div {
+            margin: 0 auto;
+            display: inline-block;
+          }
+        }
 
         input {
           width: 100%;

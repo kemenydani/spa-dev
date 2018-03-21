@@ -1,6 +1,9 @@
 {% extends 'index.html.twig' %}
 
 {% block content %}
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
     <div class="container">
         <div id="auth-area">
             <div class="form-holder">
@@ -26,10 +29,13 @@
 
         <script type="text/x-template" id="template-form-login">
             <form id="form-login" class="auth-section-tab">
+
                 <h1 class="title">Login</h1>
+
                 <div class="input-field">
                     <input placeholder="Email" type="text" name="email" v-model="email">
                 </div>
+
                 <div class="input-field">
                     <input placeholder="Password" type="password" name="password" v-model="password">
                 </div>
@@ -38,12 +44,19 @@
 
         <script type="text/x-template" id="template-form-register">
              <form id="form-register" class="auth-section-tab">
+
                 <h1 class="title">Register</h1>
+
                 <div class="input-field">
                     <input placeholder="Email"  type="text" name="email" v-model="email">
                 </div>
+
                 <div class="input-field">
                     <input placeholder="Password" type="password" name="password" v-model="password">
+                </div>
+
+                <div class="input-field captcha-field">
+                    <div class="g-recaptcha" data-sitekey="6Leo800UAAAAABUGOgPbrDlYxhq_VpcVwvRIk1qs"></div>
                 </div>
             </form>
         </script>
