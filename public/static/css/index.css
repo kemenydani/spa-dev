@@ -253,6 +253,9 @@ footer#main-footer {
         text-align: center;
         border-top: 1px solid #626262; } }
 
+.input-field {
+  border: 1px solid lightseagreen; }
+
 #auth-area {
   display: flex;
   min-height: 400px;
