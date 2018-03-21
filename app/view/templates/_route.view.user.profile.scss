@@ -2,4 +2,22 @@
 
   border: 1px solid red;
 
+  .profile-cover {
+    min-height: 300px;
+    position: relative;
+  }
+    .profile-image {
+      border: 1px solid black;
+      width: 200px;
+      min-width: 100px;
+      position: relative;
+      &:before {
+        display: block;
+        content: "";
+        width: 200px;
+        min-width: 100px;
+        padding-top: 100%;
+      }
+    }
+
 }

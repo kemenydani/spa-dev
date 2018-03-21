@@ -1,17 +1,22 @@
 {% extends 'index.html.twig' %}
 
 {% block content %}
-    <div class="container" >
-        <div class="profile-cover">
+    <div class="container">
+		<div id="profile-area">
+    		{% verbatim %}
+			<div class="profile-cover">
+				<div class="profile-image" v-on:click="browse()">
 
-            <div class="profile-image">
+				</div>
+				<input type="file" v-on:change="profileImageInput($event)" id="profile_image_input"
+				name="profile_picture"
+				style="display: none;">
+			</div>
+			{% endverbatim %}
+			<div class="profile-details">
 
-            </div>
-
-        </div>
-        <div class="profile-details">
-
-        </div>
+			</div>
+		</div>
     </div>
 
     <script>
@@ -40,7 +45,70 @@
 						}
 					},
 					methods: {
+						browse(){
+							this.getFileInput().trigger('click');
+						},
+						profileImageInput( event ){
+							this.uploadFile( event.target.files, 'profile_picture' ).then(function( filepath ){
+								console.log(filepath)
+							}).catch(function(){
+								console.log('rejected')
+							});
+						},
+						coverImageInput( event ){
+							this.uploadFile( event.target.files, 'cover_picture' ).then(function( filepath ){
 
+							}).catch(function(){
+
+							});
+						},
+					  	uploadFile( files, name ){
+							return new Promise(function( resolve, reject ){
+								console.log(files[0])
+								var firstFile = files[0];
+								var fd = new FormData;
+								fd.append( name, firstFile, firstFile.name );
+
+								$.ajax({
+									url: "/uploadUserPicture",
+									type: "POST",
+									data:  fd,
+									xhr: function() {
+										var xhr = new window.XMLHttpRequest();
+										xhr.upload.addEventListener("progress", function(evt) {
+											if (evt.lengthComputable) {
+												var percentComplete = evt.loaded / evt.total;
+												percentComplete = parseInt(percentComplete * 100);
+												console.log(percentComplete);
+												if (percentComplete === 100) {
+
+												}
+											}
+										}, false);
+										return xhr;
+									},
+									contentType: false,
+									processData:false,
+									beforeSend: function(){
+
+									},
+									success: function(response)
+									{
+										resolve(response);
+									},
+									complete: function(xhr) {
+
+									},
+									error: function()
+									{
+										reject(false);
+									}
+								});
+							});
+						},
+					  	getFileInput(){
+							return $(this.$el).find('#profile_image_input');
+						}
 					},
 					created(){
 

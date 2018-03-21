@@ -7,11 +7,15 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 use Slim\Http\UploadedFile;
 
-function moveUploadedFile($directory, UploadedFile $uploadedFile)
+function moveUploadedFile($directory, UploadedFile $uploadedFile, $secure )
 {
     $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
     $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
     $filename = sprintf('%s.%0.8s', $basename, $extension);
+
+    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    $name = pathinfo($filename, PATHINFO_FILENAME);
+    if( $secure ) $filename = md5($name) . '.' . $ext;
 
     $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
 
@@ -22,21 +26,7 @@ class FileUploadController extends Controller
 {
     const __UPLOADS__ = __ROOT__ . '/storage/uploads/';
 
-    public function uploadImage ( Request $request, Response $response )
-    {
-        $uploadedFiles = $request->getUploadedFiles();
-
-        $uploadedFile = $uploadedFiles['image'];
-
-        $finalDir = self::upload($uploadedFile, 'images');
-
-        if($finalDir){
-            return $response->withJson(['upload_path' => $finalDir])->withStatus(200);
-        }
-        return $response->withStatus(500);
-    }
-
-    public static function upload( $tmpFile = null, $path = "" )
+    public static function upload( $tmpFile = null, $path = "", $secure = true )
     {
         if(!$tmpFile) return false;
 
@@ -46,8 +36,8 @@ class FileUploadController extends Controller
 
         if ( !file_exists( $directory ) ) mkdir( $directory, 0777, true );
 
-        $filename = moveUploadedFile( $directory, $tmpFile );
+        $filename = moveUploadedFile( $directory, $tmpFile, $secure );
 
-        return $directory . $filename;
+        return $directory . '/' . $filename;
     }
 }

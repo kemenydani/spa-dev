@@ -20,21 +20,24 @@ class UserController extends ViewController
 
     public function uploadPicture ( Request $request, Response $response, $args )
     {
-        $file = $request->getUploadedFiles()['profile_picture'];
-        if( $file ) return self::uploadImage( $file, 'profile_picture' );
-        return $response->withStatus('500', 'Invalid File');
+        $files = $request->getUploadedFiles();
+
+        if( array_key_exists('profile_picture', $files ) )
+        {
+            return FileUploadController::upload( $files['profile_picture'], 'images/users/16/profile_picture' );
+        }
+        return $response->withStatus(404, 'Invalid File Key');
     }
 
     public function uploadCover ( Request $request, Response $response, $args )
     {
-        $file = $request->getUploadedFiles()['cover_picture'];
-        if( $file ) return self::uploadImage( $file, 'cover_picture' );
-        return $response->withStatus('500', 'Invalid File');
+        $files = $request->getUploadedFiles();
+
+        if( array_key_exists('cover_picture', $files ) )
+        {
+            return FileUploadController::upload( $files['cover_picture'], 'images/users/16/cover_picture' );
+        }
+        return $response->withStatus(404, 'Invalid File Key');
     }
 
-    private static function uploadImage( $file, $dir )
-    {
-        if($file) return FileUploadController::upload( $file, 'images/users/16/' . $dir );
-        return false;
-    }
 }

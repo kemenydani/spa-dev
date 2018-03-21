@@ -256,6 +256,20 @@ footer#main-footer {
 
 #profile-area {
   border: 1px solid red; }
+  #profile-area .profile-cover {
+    min-height: 300px;
+    position: relative; }
+  #profile-area .profile-image {
+    border: 1px solid black;
+    width: 200px;
+    min-width: 100px;
+    position: relative; }
+    #profile-area .profile-image:before {
+      display: block;
+      content: "";
+      width: 200px;
+      min-width: 100px;
+      padding-top: 100%; }
 
 #auth-area {
   display: flex;
