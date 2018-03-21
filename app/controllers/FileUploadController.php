@@ -20,7 +20,7 @@ function moveUploadedFile($directory, UploadedFile $uploadedFile)
 
 class FileUploadController extends Controller
 {
-    public static  $__DEST__ = __ROOT__ . '/storage/uploads/images';
+    const __UPLOADS__ = __ROOT__ . '/storage/uploads/';
 
     public function uploadImage ( Request $request, Response $response )
     {
@@ -28,10 +28,26 @@ class FileUploadController extends Controller
 
         $uploadedFile = $uploadedFiles['image'];
 
-        if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
-            $filename = moveUploadedFile( self::$__DEST__ , $uploadedFile);
-            return $response->withJson(['upload_path' => self::$__DEST__ . $filename])->withStatus(200);
+        $finalDir = self::upload($uploadedFile, 'images');
+
+        if($finalDir){
+            return $response->withJson(['upload_path' => $finalDir])->withStatus(200);
         }
         return $response->withStatus(500);
+    }
+
+    public static function upload( $tmpFile = null, $path = "" )
+    {
+        if(!$tmpFile) return false;
+
+        $directory = __UPLOADS__ . '/' . $path;
+
+        if( $tmpFile->getError() !== UPLOAD_ERR_OK) return false;
+
+        if ( !file_exists( $directory ) ) mkdir( $directory, 0777, true );
+
+        $filename = moveUploadedFile( $directory, $tmpFile );
+
+        return $directory . $filename;
     }
 }

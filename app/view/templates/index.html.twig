@@ -34,9 +34,9 @@
 
 				if(f)
 				{
-					fd.append('image', f, f.name);
+					fd.append('profile_picture', f, f.name);
 					$.ajax({
-						url: "/uploadImage",
+						url: "/uploadUserPicture",
 						type: "POST",
 						data:  fd,
 						beforeSend: function(){

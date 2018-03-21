@@ -1,0 +1,54 @@
+{% extends 'index.html.twig' %}
+
+{% block content %}
+    <div class="container" >
+        <div class="profile-cover">
+
+            <div class="profile-image">
+
+            </div>
+
+        </div>
+        <div class="profile-details">
+
+        </div>
+    </div>
+
+    <script>
+
+			(function($, Vue){
+
+				Vue.component('form-register', {
+					template: '#template-form-register',
+					data: function () {
+						return {
+							email: '',
+							password: ''
+						}
+					},
+					methods: {
+
+					}
+				});
+
+				var app = new Vue({
+					el: '#profile-area',
+					//components: [ 'form-login', 'form-register' ],
+					data: function () {
+						return {
+
+						}
+					},
+					methods: {
+
+					},
+					created(){
+
+					}
+				});
+
+			}( jQuery, Vue ));
+
+    </script>
+
+{% endblock %}
