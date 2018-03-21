@@ -282,7 +282,27 @@ footer#main-footer {
     border-bottom: 5px solid #f6a00c;
     display: inline-block;
     font-weight: bold;
-    font-family: 'Montserrat', sans-serif; }
+    font-family: 'Montserrat', sans-serif;
+    color: black; }
+  #profile-area .profile-details .detail-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0; }
+    #profile-area .profile-details .detail-list > li {
+      line-height: 40px;
+      border-bottom: 1px solid #dbdbdb; }
+      #profile-area .profile-details .detail-list > li:last-child {
+        border-bottom: none; }
+      #profile-area .profile-details .detail-list > li > span.label {
+        color: black;
+        font-weight: bold;
+        font-family: 'Montserrat', sans-serif;
+        min-width: 200px;
+        width: 200px;
+        display: inline-block;
+        font-size: 0.9em; }
+      #profile-area .profile-details .detail-list > li > span.value {
+        display: inline-block; }
 
 #auth-area {
   display: flex;
