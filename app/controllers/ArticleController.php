@@ -9,6 +9,11 @@ class ArticleController extends ViewController
 {
     public function index ( Request $request, Response $response )
     {
-        $this->view->render($response, 'route.view.article.html.twig');
+        $this->view->render($response, 'route.view.article.list.html.twig');
+    }
+
+    public function read ( Request $request, Response $response )
+    {
+        $this->view->render($response, 'route.view.article.read.html.twig');
     }
 }
