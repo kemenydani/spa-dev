@@ -254,22 +254,35 @@ footer#main-footer {
         text-align: center;
         border-top: 1px solid #626262; } }
 
-#profile-area {
-  border: 1px solid red; }
-  #profile-area .profile-cover {
-    min-height: 300px;
-    position: relative; }
-  #profile-area .profile-image {
-    border: 1px solid black;
+#profile-area .profile-cover {
+  min-height: 300px;
+  position: relative;
+  margin-bottom: 20px;
+  background: black; }
+#profile-area .profile-image {
+  border: 1px solid black;
+  width: 200px;
+  min-width: 100px;
+  position: relative; }
+  #profile-area .profile-image:before {
+    display: block;
+    content: "";
     width: 200px;
     min-width: 100px;
-    position: relative; }
-    #profile-area .profile-image:before {
-      display: block;
-      content: "";
-      width: 200px;
-      min-width: 100px;
-      padding-top: 100%; }
+    padding-top: 100%; }
+#profile-area .profile-details {
+  margin-top: 20px;
+  background: white;
+  border-top: 1px solid #dbdbdb;
+  padding: 20px;
+  margin-bottom: 20px; }
+  #profile-area .profile-details .title {
+    margin-top: 0;
+    padding-bottom: 5px;
+    border-bottom: 5px solid #f6a00c;
+    display: inline-block;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif; }
 
 #auth-area {
   display: flex;
@@ -364,7 +377,7 @@ html, body {
   min-width: 100%; }
 
 html {
-  background: white;
+  background: #e8e8e8;
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
   color: #666; }

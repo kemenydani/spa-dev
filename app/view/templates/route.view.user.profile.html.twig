@@ -1,7 +1,7 @@
-{% extends 'index.html.twig' %}
+{% extends 'block.full.html.twig' %}
 
 {% block content %}
-    <div class="container">
+    <div class="container" style="min-height: 100%; flex: 1;">
 		<div id="profile-area">
     		{% verbatim %}
 			<div class="profile-cover">
@@ -14,7 +14,10 @@
 			</div>
 			{% endverbatim %}
 			<div class="profile-details">
+				<h2 class="title">USER'S DETAILS</h2>
+				<div class="detail-list">
 
+				</div>
 			</div>
 		</div>
     </div>
@@ -22,19 +25,6 @@
     <script>
 
 			(function($, Vue){
-
-				Vue.component('form-register', {
-					template: '#template-form-register',
-					data: function () {
-						return {
-							email: '',
-							password: ''
-						}
-					},
-					methods: {
-
-					}
-				});
 
 				var app = new Vue({
 					el: '#profile-area',
