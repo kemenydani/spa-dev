@@ -253,30 +253,47 @@ footer#main-footer {
         text-align: center;
         border-top: 1px solid #626262; } }
 
-.input-field {
-  border: 1px solid lightseagreen; }
-
 #auth-area {
   display: flex;
   min-height: 400px;
   margin-bottom: 100px;
   margin-top: 100px;
   position: relative; }
-  #auth-area .form {
+  #auth-area .form-holder {
     position: relative;
     flex: 1;
     background: #dbdbdb;
     display: flex;
     flex-wrap: nowrap;
     flex-direction: column; }
-    #auth-area .form > section.auth-section-tab {
+    #auth-area .form-holder > form.auth-section-tab {
       flex: 1;
-      padding: 40px; }
-    #auth-area .form > nav.form-nav {
+      padding: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-content: center;
+      position: relative;
+      flex-wrap: wrap; }
+      #auth-area .form-holder > form.auth-section-tab .title {
+        padding-bottom: 40px;
+        margin: 0;
+        font-size: 60px;
+        font-family: 'Montserrat', sans-serif;
+        text-transform: uppercase; }
+      #auth-area .form-holder > form.auth-section-tab .input-field {
+        margin-bottom: 30px;
+        width: 100%; }
+        #auth-area .form-holder > form.auth-section-tab .input-field input {
+          width: 100%;
+          height: 50px;
+          padding-left: 10px;
+          font-size: 1.2em; }
+    #auth-area .form-holder > nav.form-nav {
       display: flex;
       padding: 0;
       margin: 0; }
-      #auth-area .form > nav.form-nav button {
+      #auth-area .form-holder > nav.form-nav button {
         width: 100%;
         height: 50px;
         padding: 0;
@@ -285,8 +302,9 @@ footer#main-footer {
         border: none;
         font-size: 1.5em;
         color: white;
-        font-weight: 700; }
-        #auth-area .form > nav.form-nav button :first-child {
+        font-weight: 700;
+        cursor: pointer; }
+        #auth-area .form-holder > nav.form-nav button :first-child {
           border-right: 1px solid black; }
   #auth-area .brand {
     min-width: 400px;
