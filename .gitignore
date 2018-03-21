@@ -5,7 +5,8 @@
 /composer.lock
 /composer.phar
 /public/spa-admin/dist/
-/public/spa-public/dist/
+/public/spa-public/
 /storage/cache/
 /storage/uploads/
 /app/config/remote.ini
+public/error_log
