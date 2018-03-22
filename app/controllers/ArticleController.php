@@ -49,7 +49,7 @@ class ArticleController extends ViewController
         $this->view->render(
             $response,
             'route.view.article.read.html.twig',
-            ['comments' => $comments]
+            ['comments' => json_encode($comments, true)]
         );
     }
 }

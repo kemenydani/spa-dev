@@ -14,21 +14,52 @@
         </article>
 
         <!-- comments -->
-        <div class="comments">
+        <div class="comments" id="article-comments">
 
-            comments {{ comments }}
+
 
         </div>
     </div>
 
+    <style>
+        .comment {
+            border: 1px solid blue;
+            padding: 4px;
+            margin: 2px;
+        }
+    </style>
+
     <script type="text/javascript">
-      (function($, Vue){
 
-      	var __comments__ = {{comments|json_encode()}};
+    (function($, Vue){
 
-      	console.log(JSON.parse(__comments__));
+      var __comments__ = {% autoescape false %}{{ comments|raw }}{% endautoescape %};
 
-      }(jQuery, Vue));
+      var app = new Vue({
+        el: '#article-comments',
+        data: function () {
+          return {
+            comments: __comments__
+          }
+        },
+        methods: {
+            renderCommentBox( el, comments ){
+               $.each(comments, ( index, comment ) => {
+                   var cb = $('<div class="comment">');
+	               $(el).append(cb.text(comment.id));
+	               if( typeof comment.ch !== 'undefined' && comment.ch.length > 0 ) this.renderCommentBox( cb, comment.ch)
+               })
+            }
+        },
+        mounted(){
+        	this.renderCommentBox( this.$el, this.comments )
+        },
+        created(){
+        	console.log(this.comments)
+        }
+      });
+
+    }(jQuery, Vue));
     </script>
 
 
