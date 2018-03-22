@@ -1,6 +1,7 @@
 {% extends 'block.full.html.twig' %}
 
 {% block content %}
+
     <div class="container" id="article-area">
         <article class="article-content">
             <h2 class="title">Lorem ipsum dolor sit amet consectetur</h2>
@@ -15,8 +16,20 @@
         <!-- comments -->
         <div class="comments">
 
-            comments
+            comments {{ comments }}
 
         </div>
     </div>
+
+    <script type="text/javascript">
+      (function($, Vue){
+
+      	var __comments__ = {{comments|json_encode()}};
+
+      	console.log(JSON.parse(__comments__));
+
+      }(jQuery, Vue));
+    </script>
+
+
 {% endblock %}

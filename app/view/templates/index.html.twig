@@ -12,80 +12,8 @@
 </head>
 <body>
 
-<div>
-
-	<form id="imageUpload">
-		<input type="file" id="fileInput">
-		<button id="uploadButton" type="button">upload</button>
-	</form>
-
-	<script>
-
-		$(document).ready(function(){
-
-			$("#uploadButton").on('click', function( event ){
-
-				event.stopPropagation();
-				event.preventDefault();
-
-				var fileInput = $("#fileInput");
-				var fd = new FormData();
-			  	var f = fileInput.get(0).files[0];
-
-				if(f)
-				{
-					fd.append('profile_picture', f, f.name);
-					$.ajax({
-						url: "/uploadUserPicture",
-						type: "POST",
-						data:  fd,
-						beforeSend: function(){
-
-						},
-						xhr: function() {
-							var xhr = new window.XMLHttpRequest();
-
-							xhr.upload.addEventListener("progress", function(evt) {
-								if (evt.lengthComputable) {
-									var percentComplete = evt.loaded / evt.total;
-									percentComplete = parseInt(percentComplete * 100);
-									console.log(percentComplete);
-
-									if (percentComplete === 100) {
-
-									}
-
-								}
-							}, false);
-
-							return xhr;
-						},
-						complete: function(xhr) {
-
-						},
-						contentType: false,
-						processData:false,
-						success: function(response)
-						{
-							console.log(response)
-						},
-						error: function()
-						{
-
-						}
-					});
-				}
-			});
-
-		});
-
-	</script>
-
-</div>
-
-
 <div id="wrapper">
-	
+
 	{% include 'index.header.html.twig' %}
 
 	<section id="main-content">
