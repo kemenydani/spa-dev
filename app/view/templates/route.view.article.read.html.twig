@@ -22,11 +22,35 @@
     </div>
 
     <style>
-        .comment {
-            border: 1px solid blue;
-            padding: 4px;
-            margin: 2px;
+        .comment > .comment {
+            padding-left: 40px;
         }
+
+        .comment .content {
+            display: flex;
+            border-bottom: 1px solid #ccc;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .comment {
+
+        }
+
+        .user-picture {
+            background: #666;
+            width: 40px;
+            min-width: 40px;
+            min-height: 40px;
+            border-radius: 90px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .comment p {
+            padding: 0; margin: 0;
+        }
+
     </style>
 
     <script type="text/javascript">
@@ -45,8 +69,13 @@
         methods: {
             renderCommentBox( el, comments ){
                $.each(comments, ( index, comment ) => {
-                   var cb = $('<div class="comment">');
-	               $(el).append(cb.text(comment.id));
+                   var cb = $('<div class="comment">').append(
+                                $('<div class="content">').append(
+                                	$('<div class="user-picture">'),
+                                    $('<p>').text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ")
+                                )
+                            );
+	               $(el).append(cb);
 	               if( typeof comment.ch !== 'undefined' && comment.ch.length > 0 ) this.renderCommentBox( cb, comment.ch)
                })
             }
