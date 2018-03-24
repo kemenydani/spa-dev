@@ -407,10 +407,8 @@ footer#main-footer {
       font-size: 1.2em;
       text-indent: 40px;
       color: #626262; }
-  #article-area .comments {
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-bottom: 40px; }
+  #article-area .comments-tree .comment {
+    padding-left: 40px; }
 
 * {
   box-sizing: border-box; }

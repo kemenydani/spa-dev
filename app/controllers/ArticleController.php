@@ -4,6 +4,7 @@ namespace controllers;
 
 use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use core\DB as DB;
 
 class ArticleController extends ViewController
 {
@@ -14,6 +15,8 @@ class ArticleController extends ViewController
 
     public function read ( Request $request, Response $response )
     {
+        $comments = DB::instance()->all('comment');
+/*
         $comments = array(
             1 => array('id' => 1, 'pid' => 0, 'ch' => array()),
             2 => array('id' => 2, 'pid' => 0, 'ch' => array()),
@@ -31,7 +34,7 @@ class ArticleController extends ViewController
             12 => array('id' =>12, 'pid' => 7, 'ch' => array()),
             13 => array('id' => 13, 'pid' => 12, 'ch' => array()),
         );
-
+*/
         foreach ($comments as $k => &$v) {
             if ($v['pid'] != 0) {
                 $comments[$v['pid']]['ch'][] = &$v;
