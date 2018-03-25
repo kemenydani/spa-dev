@@ -94,16 +94,20 @@ abstract class Model
 
     public function save()
     {
-        if ( $this->hasProperty( static::$_UNIQUE_KEY ) )
+        $modelId = $this->insert( $this->getProperties() );
+        /*
+        if ( $this->getProperty( static::$_UNIQUE_KEY ) !== null )
         {
-            $modelId = $this->update( [], [] );
+            //$modelId = $this->update( [],static::$_UNIQUE_KEY, $this->getProperty(static::$_UNIQUE_KEY) );
         }
         else
         {
             $modelId = $this->insert( $this->getProperties() );
         }
-
+*/
         if( !$modelId ) return false;
+
+        $this->setProperty(static::$_UNIQUE_KEY, $modelId);
 
         return $this;
     }

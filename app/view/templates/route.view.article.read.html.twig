@@ -15,13 +15,19 @@
 
         <!-- comments -->
         <div id="article-comments">
-            <comment-tree v-bind:comments="{% autoescape %}{{ comments }}{% endautoescape %}"></comment-tree>
+            <comment-tree v-bind:comments="comments"></comment-tree>
         </div>
     </div>
 
     <style>
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity .5s;
+        }
+        .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+            opacity: 0;
+        }
         .comment > .comment {
-            padding-left: 40px;
+
         }
 
         .comment .content {
@@ -31,7 +37,7 @@
         }
 
         .comment {
-            padding-left: 40px;
+
         }
 
         .user-picture {
@@ -73,21 +79,29 @@
 
         <script type='x-template' id='template-comment-tree'>
             <div class="comment-tree">
-                <comment-tree-item v-bind:comment="comment" v-for="comment in comments" class="comment"></comment-tree-item>
+
+                    <comment-tree-item  v-bind:comment="comment" v-if="index < limit" v-for="(comment,index) in model" class="comment"></comment-tree-item>
+
+                <div class="show-more" v-if="comments.length > limit">
+                    <button v-on:click="showMore" v-bind:title="leftComments()" class="show-more-toggle">Show More</button>
+                </div>
             </div>
         </script>
 
         <script type='x-template' id='template-comment-tree-item'>
             <div class="comment">
                 <div class="content">
-                    <div class="user-picture">{{ comment.id }}</div>
-                    <p>{{ comment.text }}</p>
+                    <div class="user-picture">{{ data.id }}</div>
+                    <p>{{ data.text }}</p>
                 </div>
                 <div class="bottom">
-                    <span v-on:click="show_reply = !show_reply" class="comment-reply">Reply</span>
-                    <input v-if="show_reply" type="text" placeholder="Write your reply..">
+                    <span v-on:click="replyForm.show = !replyForm.show" class="comment-reply">Reply</span>
+                    <span class="reply-form" v-if="replyForm.show">
+                        <input v-model="replyForm.text" type="text" placeholder="Write your reply..">
+                        <button v-on:click="newReply()">Reply</button>
+                    </span>
                 </div>
-                <comment-tree v-if="comment.ch" v-bind:comments="comment.ch"></comment-tree>
+                <comment-tree v-if="data.ch" v-bind:id="data.id" v-bind:comments="data.ch"></comment-tree>
             </div>
         </script>
 
@@ -97,16 +111,32 @@
 
     (function($, Vue){
 
+        var __COMMENTS__ = {% autoescape false %}{{ comments }}{% endautoescape %};
+
         Vue.component('comment-tree', {
             template: '#template-comment-tree',
             props: ['comments'],
             data: function () {
                 return {
-
+                    limit: 20,
+                    model: []
                 }
             },
             methods: {
-
+                showMore(){
+                    this.limit+=2;
+                },
+                leftComments(){
+                    return 'Show +2 from ' + (this.data.length - this.limit) + ' hidden comments.';
+                }
+            },
+            created(){
+                this.model = this.comments;
+            },
+            watch: {
+                comments: function( val ){
+                    this.model = val;
+                }
             }
         });
 
@@ -115,11 +145,45 @@
             props: ['comment'],
             data: function () {
                 return {
-                    show_reply: false
+                    data: {
+                        id: 0,
+                        pid: 0,
+                        text: '',
+                        ch: []
+                    },
+                    replyForm: {
+                        show: false,
+                        text: null,
+                    }
                 }
             },
+            created(){
+                this.data = this.comment;
+            },
+            watch: {
+                comment: function ( val ) {
+                    this.data = val;
+                },
+            },
+            /*
+            created()
+            {
+                this.data.id = this.comment.id;
+                this.data.pid = this.comment.pid;
+                this.data.text = this.comment.text;
+                if(this.comment.ch instanceof Array) this.data.ch = this.comment.ch;
+            },
+            */
             methods: {
+                newReply()
+                {
+                    var self = this;
 
+                    $.post('/storeComment', { pid: this.data.id, text: this.replyForm.text } ).then(function(response){
+                        self.data.ch.push(response);
+                        self.$emit('newReply', response);
+                    });
+                }
             }
         });
 
@@ -128,30 +192,26 @@
         el: '#article-comments',
         data: function () {
           return {
-
+            comments: __COMMENTS__
           }
         },
         methods: {
-            /*
-            renderCommentBox( el, comments ){
-               $.each(comments, ( index, comment ) => {
-                   var cb = $('<div class="comment">').append(
-                                $('<div class="content">').append(
-                                	$('<div class="user-picture">').text('#'+comment.id),
-                                    $('<p>').text(comment.text)
-                                )
-                            );
-	               //$(el).append(cb);
-	               if( typeof comment.ch !== 'undefined' && comment.ch.length > 0 ) this.renderCommentBox( cb, comment.ch)
-               })
+            syncComments()
+            {
+                var self = this;
+
+                $.post('/syncComments', { } ).then(function(response){
+                    self.comments = response;
+                });
             }
-            */
         },
-        mounted(){
-        	//this.renderCommentBox( this.$el, this.comments )
-        },
-        created(){
-        	//console.log(this.comments)
+        created()
+        {
+            var self = this;
+
+            setInterval(function(){
+                self.syncComments();
+            }, 5000);
         }
       });
 

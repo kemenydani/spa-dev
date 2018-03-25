@@ -407,8 +407,20 @@ footer#main-footer {
       font-size: 1.2em;
       text-indent: 40px;
       color: #626262; }
-  #article-area .comments-tree .comment {
-    padding-left: 40px; }
+  #article-area .comment-tree .comment {
+    padding-left: 10px; }
+  #article-area .comment-tree:not(:nth-child(1)) {
+    margin-left: 40px;
+    border-left: 2px solid #ccc; }
+  #article-area .show-more {
+    margin-bottom: 20px;
+    margin-left: 10px; }
+    #article-area .show-more .show-more-toggle {
+      background: none;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 3px;
+      cursor: pointer; }
 
 * {
   box-sizing: border-box; }

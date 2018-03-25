@@ -15,7 +15,16 @@ class ArticleController extends ViewController
 
     public function read ( Request $request, Response $response )
     {
-        $comments = DB::instance()->all('comment');
+        $comments2 = DB::instance()->all('comment');
+
+        $indexMatched = [];
+
+        for($i = 0; $i < count($comments2); $i++) {
+
+            $indexMatched[$comments2[$i]['id']] = $comments2[$i];
+        }
+
+        $comments = $indexMatched;
 /*
         $comments = array(
             1 => array('id' => 1, 'pid' => 0, 'ch' => array()),

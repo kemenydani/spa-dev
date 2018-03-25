@@ -43,11 +43,33 @@
     }
   }
 
-  .comments-tree {
+  .comments {
 
+  }
 
+  .comment-tree {
     .comment {
-      padding-left: 40px;
+      padding-left: 10px;
+    }
+  }
+
+  .comment-tree:not(:nth-child(1)){
+    margin-left: 40px;
+    border-left: 2px solid #ccc;
+
+}
+
+  .show-more {
+    //margin-left: 40px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+
+    .show-more-toggle {
+      background: none;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 3px;
+      cursor:pointer;
     }
   }
 
