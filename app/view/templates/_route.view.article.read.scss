@@ -43,61 +43,99 @@
     }
   }
 
-  .comments {
-
+  #article-comments {
+    padding-left: 40px;
+    padding-right: 40px;
   }
 
   .comment-tree {
-    .comment {
-      padding-left: 10px;
-
-      .username {
-        font-weight: bold;
-        color: $primary;
-      }
+    margin-top: 20px;
+    &:not(:nth-child(1)){
+      margin-left: 60px;
+      border-left: 4px solid $primary;
     }
-    .bottom {
-      height: 36px;
-      min-height: 36px;
-      line-height: 36px;
-      .comment-reply {
-        cursor: pointer;
-        -webkit-user-select: none; /* Safari */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* IE10+/Edge */
-        user-select: none; /* Standard */
+    .comment {
+     margin-bottom: 20px;
+      position: relative;
+      .comment {
+        padding-left: 10px !important;
       }
-      .reply-input {
-        border-radius: 2px;
-        border: 1px solid $darkgrey;
-        padding: 5px;
-      }
-      button {
-        border-radius: 2px;
-        background: $darkgrey;
-        border: none;
-        padding: 6px;
-        color: $lightgrey;
-        cursor: pointer;
+      .content {
+        display: flex;
+        .user-picture {
+          background: #666;
+          width: 50px;
+          min-width: 50px;
+          min-height: 50px;
+          line-height: 50px;
+          color: white;
+          border-radius: 90px;
+          height: 50px;
+          margin-right: 10px;
+          text-align: center;
+        }
+        .body {
+          flex: 1;
+          p {
+            line-height: 25px;
+            padding: 0;
+            margin: 0 ;
+            .username {
+              font-weight: bold;
+              color: $primary;
+            }
+          }
+        }
+        .controls {
+          height: 35px;
+          line-height: 35px;
+          border-bottom: 1px dotted $lightgrey;;
+          display: flex;
+          .reply-trigger {
+            display: block;
+            padding-right: 10px;
+            height: 100%;
+            font-size: 12px;
+            color: $lightgrey;
+            cursor: pointer;
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* Standard */
+          }
+          .reply-from {
+            background: lightblue;
+            display: block;
+          }
+          .reply-input {
+            border-radius: 2px;
+            border: 1px solid $lightgrey;
+            font-size: 12px;
+            height: 25px;
+            padding-left: 5px;
+          }
+          button {
+            font-size: 12px;
+            //background: $darkgrey;
+            background: none;
+            height: 25px;
+            color: $primary;
+            cursor: pointer;
+            border: 1px solid $primary;
+            border-radius: 2px;
+          }
+        }
       }
     }
   }
-
-  .comment-tree:not(:nth-child(1)){
-    margin-left: 40px;
-    border-left: 2px solid #ccc;
-
-}
-
   .show-more {
-    //margin-left: 40px;
-    margin-bottom: 20px;
     margin-left: 10px;
-
     .show-more-toggle {
+      font-size: 12px;
+      color: lightgrey;
       background: none;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+      border: 1px solid $lightgrey;
+      border-radius: 2px;
       padding: 3px;
       cursor:pointer;
     }

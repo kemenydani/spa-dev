@@ -19,62 +19,6 @@
         </div>
     </div>
 
-    <style>
-        .fade-enter-active, .fade-leave-active {
-            transition: opacity .5s;
-        }
-        .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-            opacity: 0;
-        }
-        .comment > .comment {
-
-        }
-
-        .comment .content {
-            display: flex;
-            padding-top: 10px;
-            padding-bottom: 10px;
-        }
-
-        .comment {
-
-        }
-
-        .user-picture {
-            background: #666;
-            width: 40px;
-            min-width: 40px;
-            min-height: 40px;
-            text-align: center;
-            line-height: 40px;
-            color: white;
-            border-radius: 90px;
-            height: 40px;
-            margin-right: 10px;
-        }
-
-        .comment p {
-            padding: 0;
-            margin: 0;
-            //padding-bottom: 10px;
-            width: 100%;
-        }
-
-        .comment-reply {
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .comment .bottom {
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 10px;
-            margin-left:50px;
-            margin-bottom: 20px;
-        }
-
-    </style>
-
     {% verbatim %}
 
         <script type='x-template' id='template-comment-tree'>
@@ -88,7 +32,7 @@
 
                 <div class="show-more" v-if="comments.length > limit">
                     <button v-on:click="showMore" class="show-more-toggle">
-                        {{ limit === 0 ? 'Show Replies ' + comments.length : 'Show More'}}
+                        {{ limit === 0 ? 'Show Replies (' + comments.length + ')' : 'Show More'}}
                     </button>
                 </div>
             </div>
@@ -97,18 +41,20 @@
         <script type='x-template' id='template-comment-tree-item'>
             <div class="comment">
                 <div class="content">
-                    <div class="user-picture">{{ level }}#{{ data.id }}</div>
-                    <p><a class="username">{{ data.username }}&nbsp;</a>{{ data.text }}</p>
-                </div>
-                <div class="bottom">
-                    <span v-on:click="replyForm.show = !replyForm.show" class="comment-reply">Reply</span>
-                    <span class="reply-form" v-if="replyForm.show">
-                        <input class="reply-input" v-model="replyForm.text" type="text" placeholder="Write your reply..">
-                        <button v-bind:disabled="replyForm.text.length === 0" v-on:click="newReply()">Reply</button>
-                    </span>
+                    <div class="user-picture"></div>
+                    <div class="body">
+                        <p><a class="username">{{ data.username }}&nbsp;</a>{{ data.text }}</p>
+                        <div class="controls">
+                            <div v-on:click="replyForm.show = !replyForm.show" class="reply-trigger">Reply</div>
+                            <div class="reply-form" v-if="replyForm.show">
+                                <input class="reply-input" v-model="replyForm.text" type="text" placeholder="Write your reply..">
+                                <button v-bind:disabled="replyForm.text.length === 0" v-on:click="newReply()">Post Reply</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <comment-tree
-                    v-if="data.ch"
+                    v-if="data.ch && data.ch.length > 0"
                     v-bind:level="level + 1"
                     v-bind:comments="data.ch"></comment-tree>
             </div>
@@ -196,6 +142,9 @@
               }
             },
             methods: {
+                postComment: function(){
+
+                },
                 syncComments:function()
                 {
                     var self = this;

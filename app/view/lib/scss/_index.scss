@@ -8,6 +8,7 @@ $darkgrey: rgb( 98, 98, 98 );
 $darkergrey: rgb( 69, 69, 69 );
 $primary: rgb( 246, 160, 12 );
 
+@import './_normalize';
 @import url('https://fonts.googleapis.com/css?family=Roboto|Montserrat|Montserrat:500|Montserrat:700|Lato');
 @import './mixins';
 @import './common';
