@@ -134,11 +134,11 @@
                 }
             },
             methods: {
-                showMore(){
+                showMore: function(){
                     this.limit+=2;
                 },
             },
-            created(){
+            created: function(){
                 this.model = this.comments;
                 this.limit = __LIMITS__[this.level] ? __LIMITS__[this.level] : this.limit;
             },
@@ -163,7 +163,7 @@
                     }
                 }
             },
-            created(){
+            created: function(){
                 this.data = Object.assign(this.data, this.comment);
             },
             watch: {
@@ -172,7 +172,7 @@
                 },
             },
             methods: {
-                newReply()
+                newReply: function()
                 {
                     if(!this.replyForm.text) return false;
 
@@ -196,7 +196,7 @@
               }
             },
             methods: {
-                syncComments()
+                syncComments:function()
                 {
                     var self = this;
 
@@ -205,7 +205,7 @@
                     });
                 }
             },
-            created()
+            created: function()
             {
                 var self = this;
 
