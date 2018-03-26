@@ -6,6 +6,14 @@ function debug( $var)
     die();
 }
 
+function array_reverse_recursive($arr) {
+    foreach ($arr as $key => $val) {
+        if (is_array($val))
+            $arr[$key] = array_reverse_recursive($val);
+    }
+    return array_reverse($arr);
+}
+
 function getConfig( $name, $default = null )
 {
 	$files = array_diff(scandir(__APPDIR__ . '/config'), array('.', '..'));

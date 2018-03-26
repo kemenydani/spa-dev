@@ -409,6 +409,34 @@ footer#main-footer {
       color: #626262; }
   #article-area .comment-tree .comment {
     padding-left: 10px; }
+    #article-area .comment-tree .comment .username {
+      font-weight: bold;
+      color: #f6a00c; }
+  #article-area .comment-tree .bottom {
+    height: 36px;
+    min-height: 36px;
+    line-height: 36px; }
+    #article-area .comment-tree .bottom .comment-reply {
+      cursor: pointer;
+      -webkit-user-select: none;
+      /* Safari */
+      -moz-user-select: none;
+      /* Firefox */
+      -ms-user-select: none;
+      /* IE10+/Edge */
+      user-select: none;
+      /* Standard */ }
+    #article-area .comment-tree .bottom .reply-input {
+      border-radius: 2px;
+      border: 1px solid #626262;
+      padding: 5px; }
+    #article-area .comment-tree .bottom button {
+      border-radius: 2px;
+      background: #626262;
+      border: none;
+      padding: 6px;
+      color: #dbdbdb;
+      cursor: pointer; }
   #article-area .comment-tree:not(:nth-child(1)) {
     margin-left: 40px;
     border-left: 2px solid #ccc; }

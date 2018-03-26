@@ -20,8 +20,8 @@ class ArticleController extends ViewController
         $indexMatched = [];
 
         for($i = 0; $i < count($comments2); $i++) {
-
             $indexMatched[$comments2[$i]['id']] = $comments2[$i];
+            $indexMatched[$comments2[$i]['id']]['username'] = 'username';
         }
 
         $comments = $indexMatched;
@@ -46,6 +46,7 @@ class ArticleController extends ViewController
 */
         foreach ($comments as $k => &$v) {
             if ($v['pid'] != 0) {
+                if(!array_key_exists('ch', $comments[$v['pid']])) $comments[$v['pid']]['ch'] = array();
                 $comments[$v['pid']]['ch'][] = &$v;
             }
         }
@@ -57,6 +58,8 @@ class ArticleController extends ViewController
                 unset($comments[$k]);
             }
         }
+
+        $comments = array_reverse_recursive($comments);
 
         $this->view->render(
             $response,

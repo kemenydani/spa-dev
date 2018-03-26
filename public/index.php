@@ -41,7 +41,7 @@ echo '<pre>'; print_r($comments); echo '</pre>';
 
 error_reporting(0);
 session_start();
-
+session_write_close();
 define('__DEBUG__', true );
 
 define('__ROOT__', realpath(dirname(__FILE__) . '/..'));
