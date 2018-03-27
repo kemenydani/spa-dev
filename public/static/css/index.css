@@ -668,16 +668,16 @@ footer#main-footer {
             cursor: pointer;
             border: 1px solid #f6a00c;
             border-radius: 2px; }
-  #article-area .show-more {
-    margin-left: 10px; }
-    #article-area .show-more .show-more-toggle {
-      font-size: 12px;
-      color: lightgrey;
-      background: none;
-      border: 1px solid #dbdbdb;
-      border-radius: 2px;
-      padding: 3px;
-      cursor: pointer; }
+    #article-area .comment-tree .footer {
+      margin-left: 10px; }
+      #article-area .comment-tree .footer button.showMore {
+        font-size: 12px;
+        color: lightgrey;
+        background: none;
+        border: 1px solid #dbdbdb;
+        border-radius: 2px;
+        padding: 3px;
+        cursor: pointer; }
 
 * {
   box-sizing: border-box; }
