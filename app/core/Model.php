@@ -146,7 +146,7 @@ abstract class Model
 
         $row = DB::instance()->find( static::$_TABLE, $column, $value );
 
-        //if( $row === false ) return false;
+        if( $row === false ) return false;
 
         return static::create( (array)$row );
     }

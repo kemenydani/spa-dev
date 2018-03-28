@@ -5,16 +5,21 @@
     <script src='https://www.google.com/recaptcha/api.js'></script>
 
     <div class="container">
+        {% verbatim %}
         <div id="auth-area">
             <div class="form-holder">
-                <form-login v-show="tab === 1"></form-login>
-                <form-register v-show="tab === 2"></form-register>
-                {% verbatim %}
-                <nav class="form-nav">
-                    <button v-on:click="switchOrLogin()">LOGIN</button>
-                    <button v-on:click="switchOrRegister()">REGISTER</button>
-                </nav>
-                {% endverbatim %}
+                <div class="form-wrapper-overlay" v-show="loading">
+                    <i class="loading-spinner fas fa-circle-notch fa-spin"></i>
+                    <span>{{ message }}</span>
+                </div>
+                <div class="form-wrapper" v-bind:class="{ loading : loading }">
+                    <form-login class="auth-section-tab" v-show="tab === 1"></form-login>
+                    <form-register class="auth-section-tab" v-show="tab === 2"></form-register>
+                    <nav class="form-navigation">
+                        <button v-bind:class="[ tab === 2 ? 'inactive' : '' ]" v-on:click="switchOrLogin()">LOGIN</button>
+                        <button v-bind:class="[ tab === 1 ? 'inactive' : '' ]" v-on:click="switchOrRegister()">REGISTER</button>
+                    </nav>
+                </div>
             </div>
             <div class="brand">
                 <picture>
@@ -23,45 +28,48 @@
                 </picture>
             </div>
         </div>
+        {% endverbatim %}
     </div>
 
     {% verbatim %}
-
         <script type="text/x-template" id="template-form-login">
             <form id="form-login" class="auth-section-tab">
-
                 <h1 class="title">Login</h1>
-
                 <div class="input-field">
                     <input placeholder="Email" type="text" name="email" v-model="form.email">
                 </div>
-
                 <div class="input-field">
                     <input placeholder="Password" type="password" name="password" v-model="form.password">
                 </div>
+                <div class="input-field input-remember">
+                    <label class="checkbox-wrap"> Remember me
+                        <input type="checkbox" v-model="form.remember">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
             </form>
         </script>
-
         <script type="text/x-template" id="template-form-register">
              <form id="form-register" class="auth-section-tab">
-
                 <h1 class="title">Register</h1>
-
-                <div class="input-field">
-                    <input placeholder="Email"  type="text" name="email" v-model="form.email">
+                <div class="input-field-group">
+                    <div class="input-field">
+                        <input placeholder="Email" type="text" name="email" v-model="form.email">
+                    </div>
+                    <div class="input-field">
+                        <input placeholder="Username" type="text" name="username" v-model="form.username">
+                    </div>
                 </div>
-
-                <div class="input-field">
-                    <input placeholder="Password" type="password" name="password" v-model="form.password">
+                <div class="input-field-group">
+                    <div class="input-field">
+                        <input placeholder="Password" type="password" name="password" v-model="form.password">
+                    </div>
+                     <div class="input-field">
+                        <input placeholder="Password repeat" type="password" name="password_repeat" v-model="form.password_repeat">
+                    </div>
                 </div>
-
-                <!--
-                <div class="input-field captcha-field">
-                    <div class="g-recaptcha" data-sitekey="6Leo800UAAAAABUGOgPbrDlYxhq_VpcVwvRIk1qs"></div>
-                </div>-->
             </form>
         </script>
-
     {% endverbatim %}
 
     <script>
@@ -76,30 +84,45 @@
                     return {
                         form: {
                             email: 'sno@sno.com',
-                            password: 'admin'
+                            password: 'admin',
+                            remember: true
                         }
                     }
                 },
                 methods: {
                     postLogin : function( cb )
                     {
-                        $.post( '/postLogin', this.form )
-                            .then(function( response )
-                            {
-                                cb(response)
-                            })
-                            .catch(function(error)
-                            {
-                                cb(false)
-                            })
-                        ;
+                        EventBus.$emit('setLoading', true);
+                        EventBus.$emit('setMessage', 'Logging In.');
+
+                        setTimeout(function()
+                        {
+                            $.post( '/postLogin', this.form )
+                                .then(function( response )
+                                {
+                                    EventBus.$emit('setMessage', 'Now redirecting.');
+                                    cb(response)
+                                }
+                                .bind(this))
+                                .catch(function(error)
+                                {
+                                    EventBus.$emit('setMessage', 'Login failed.');
+                                    EventBus.$emit('setLoading', false);
+                                    cb(false)
+                                }
+                                .bind(this))
+                            ;
+                        }
+                        .bind(this), 2000);
                     }
                 },
-                created : function(){
+                created : function()
+                {
                     EventBus.$on('postLogin', function( cb )
                     {
                         this.postLogin( cb );
-                    }.bind(this));
+                    }
+                    .bind(this));
                 }
             });
 
@@ -108,31 +131,42 @@
                 data: function () {
                     return {
                         form: {
-                            email: 'sno@sno.com',
-                            password: 'admin'
+                            email: 'test@test.com',
+                            username: 'foo',
+                            password: 'foo',
+                            password_repeat: 'foo'
                         }
                     }
                 },
                 methods: {
                     postRegister : function( cb )
                     {
-                        $.post( '/postRegister', this.form )
-                            .then(function( response )
-                            {
-                                cb(response)
-                            })
-                            .catch(function(error)
-                            {
-                                cb(false)
-                            })
-                        ;
+                        EventBus.$emit('setLoading', true);
+                        EventBus.$emit('setMessage', 'Processing');
+
+                        setTimeout(function()
+                        {
+                            $.post( '/postRegister', this.form )
+                                .then(function( response )
+                                {
+                                    cb(response)
+                                })
+                                .catch(function(error)
+                                {
+                                    EventBus.$emit('setLoading',false);
+                                    cb(false)
+                                })
+                            ;
+                        }
+                        .bind(this), 2000);
                     }
                 },
                 created : function(){
                     EventBus.$on('postRegister', function( cb )
                     {
                         this.postRegister( cb );
-                    }.bind(this));
+                    }
+                    .bind(this));
                 }
             });
 
@@ -142,6 +176,8 @@
                 data: function () {
                     return {
                         tab: 1,
+                        loading: false,
+                        message: ''
                     }
                 },
                 methods: {
@@ -151,8 +187,10 @@
 
                         EventBus.$emit('postLogin', function( response )
                         {
-
-                        }.bind(this));
+                            EventBus.$emit('setMessage', 'Logged in, now redirecting to home.');
+                            setTimeout(function() { window.location.replace("/home"); }, 2000);
+                        }
+                        .bind(this));
                     },
                     switchOrRegister: function()
                     {
@@ -160,12 +198,35 @@
 
                         EventBus.$emit('postRegister', function( response )
                         {
-
-                        }.bind(this));
+                            EventBus.$emit('setMessage', 'Filling Your login informations.')
+                            setTimeout(function()
+                            {
+                                EventBus.$emit('setLoading', false);
+                                EventBus.$emit('switchTab', 1);
+                            }, 2000);
+                        }
+                        .bind(this));
                     }
                 },
-                created : function(){
+                created : function()
+                {
+                    EventBus.$on('setMessage', function( message )
+                    {
+                        this.message = message;
+                    }
+                    .bind(this));
 
+                    EventBus.$on('switchTab', function( tab )
+                    {
+                        this.tab = tab;
+                    }
+                    .bind(this));
+
+                    EventBus.$on('setLoading', function( state )
+                    {
+                        this.loading = state;
+                    }
+                    .bind(this));
                 }
             });
 
