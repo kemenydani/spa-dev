@@ -41,7 +41,8 @@ class AuthController extends ViewController
 
     }
 
-    public function getLogout(){
+    public function getLogout( Request $request, Response $response ){
         Auth::user()->logout();
+        return $response->withRedirect('/auth');
     }
 }
