@@ -1,4 +1,4 @@
-{% extends 'index.html.twig' %}
+{% extends 'block.full.html.twig' %}
 
 {% block content %}
 
@@ -11,8 +11,8 @@
                 <form-register v-show="tab === 2"></form-register>
                 {% verbatim %}
                 <nav class="form-nav">
-                    <button v-on:click="tab = 1">LOGIN</button>
-                    <button v-on:click="tab = 2">REGISTER</button>
+                    <button v-on:click="switchOrLogin()">LOGIN</button>
+                    <button v-on:click="switchOrRegister()">REGISTER</button>
                 </nav>
                 {% endverbatim %}
             </div>
@@ -33,11 +33,11 @@
                 <h1 class="title">Login</h1>
 
                 <div class="input-field">
-                    <input placeholder="Email" type="text" name="email" v-model="email">
+                    <input placeholder="Email" type="text" name="email" v-model="form.email">
                 </div>
 
                 <div class="input-field">
-                    <input placeholder="Password" type="password" name="password" v-model="password">
+                    <input placeholder="Password" type="password" name="password" v-model="form.password">
                 </div>
             </form>
         </script>
@@ -48,16 +48,17 @@
                 <h1 class="title">Register</h1>
 
                 <div class="input-field">
-                    <input placeholder="Email"  type="text" name="email" v-model="email">
+                    <input placeholder="Email"  type="text" name="email" v-model="form.email">
                 </div>
 
                 <div class="input-field">
-                    <input placeholder="Password" type="password" name="password" v-model="password">
+                    <input placeholder="Password" type="password" name="password" v-model="form.password">
                 </div>
 
+                <!--
                 <div class="input-field captcha-field">
                     <div class="g-recaptcha" data-sitekey="6Leo800UAAAAABUGOgPbrDlYxhq_VpcVwvRIk1qs"></div>
-                </div>
+                </div>-->
             </form>
         </script>
 
@@ -67,16 +68,38 @@
 
         (function($, Vue){
 
+            var EventBus = new Vue();
+
             Vue.component('form-login', {
                 template: '#template-form-login',
                 data: function () {
                     return {
-                        email: '',
-                        password: ''
+                        form: {
+                            email: 'sno@sno.com',
+                            password: 'admin'
+                        }
                     }
                 },
                 methods: {
-
+                    postLogin : function( cb )
+                    {
+                        $.post( '/postLogin', this.form )
+                            .then(function( response )
+                            {
+                                cb(response)
+                            })
+                            .catch(function(error)
+                            {
+                                cb(false)
+                            })
+                        ;
+                    }
+                },
+                created : function(){
+                    EventBus.$on('postLogin', function( cb )
+                    {
+                        this.postLogin( cb );
+                    }.bind(this));
                 }
             });
 
@@ -84,12 +107,32 @@
                 template: '#template-form-register',
                 data: function () {
                     return {
-                        email: '',
-	                    password: ''
+                        form: {
+                            email: 'sno@sno.com',
+                            password: 'admin'
+                        }
                     }
                 },
                 methods: {
-
+                    postRegister : function( cb )
+                    {
+                        $.post( '/postRegister', this.form )
+                            .then(function( response )
+                            {
+                                cb(response)
+                            })
+                            .catch(function(error)
+                            {
+                                cb(false)
+                            })
+                        ;
+                    }
+                },
+                created : function(){
+                    EventBus.$on('postRegister', function( cb )
+                    {
+                        this.postRegister( cb );
+                    }.bind(this));
                 }
             });
 
@@ -98,13 +141,30 @@
                 components: [ 'form-login', 'form-register' ],
                 data: function () {
                     return {
-                        tab: 1
+                        tab: 1,
                     }
                 },
                 methods: {
+                    switchOrLogin: function()
+                    {
+                        if(this.tab === 2) return this.tab = 1;
 
+                        EventBus.$emit('postLogin', function( response )
+                        {
+
+                        }.bind(this));
+                    },
+                    switchOrRegister: function()
+                    {
+                        if(this.tab === 1) return this.tab = 2;
+
+                        EventBus.$emit('postRegister', function( response )
+                        {
+
+                        }.bind(this));
+                    }
                 },
-                created(){
+                created : function(){
 
                 }
             });

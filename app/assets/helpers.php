@@ -6,6 +6,12 @@ function debug( $var)
     die();
 }
 
+
+function pa($array, $die = true){
+    echo '<pre>'; print_r($array); echo '</pre>';
+    if( $die ) die();
+}
+
 function array_reverse_recursive($arr) {
     foreach ($arr as $key => $val) {
         if (is_array($val))

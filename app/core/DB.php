@@ -25,6 +25,10 @@ class DB extends \PDO
 		return self::$_instance;
 	}
 
+	public static function pivot( $table, $fields ) {
+       return DB::instance()->insert($table, $fields);
+    }
+
 	public function update( $table, array $what, $key, $id )
     {
         $table = DB::$_PREFIX_ . $table;
@@ -80,7 +84,7 @@ class DB extends \PDO
 
         $isInserted = $sql->execute();
 
-        if( $isInserted ) return DB::instance()->lastInsertId();
+        if( $isInserted ) return true;
 
         return false;
     }

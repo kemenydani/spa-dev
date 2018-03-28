@@ -1,9 +1,13 @@
-<div class="user-area" style="border: 1px solid red;">
+<div class="user-area" style="">
 
-    {% if user %}
-        logged
+    {% if isLogged %}
+        <div>
+                <div class="username">{{ AuthUser.getUserName() }}</div>
+                <div class="logout"><a href="/logout">logout</a></div>
+        </div>
+        <div class="user-picture" style="background-image: url({{ AuthUser.getProfilePicture() }})"></div>
     {% else %}
-        login
+        <div><a href="/auth">SIGNUP</a></div>
     {% endif %}
 <!--
     <div class="username"><b>JOHN DOE&nbsp;</b></div>

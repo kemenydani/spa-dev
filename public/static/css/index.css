@@ -299,7 +299,6 @@ header#main-header {
     overflow: visible; }
     header#main-header .header-aside.header-left {
       justify-content: flex-start;
-      border: 1px solid red;
       padding: 0; }
       header#main-header .header-aside.header-left .icon {
         margin: 2px; }
@@ -312,11 +311,18 @@ header#main-header {
         justify-content: center;
         flex-wrap: wrap;
         align-items: center;
-        border: 1px solid blue;
         padding-left: 15px;
         padding-right: 15px; }
+        header#main-header .header-aside.header-right .user-area .username {
+          color: #f6a00c;
+          text-transform: uppercase;
+          font-weight: bold; }
+        header#main-header .header-aside.header-right .user-area .logout > a {
+          color: #626262; }
+        header#main-header .header-aside.header-right .user-area .user-picture {
+          border: 2px solid #f6a00c;
+          margin: 10px; }
         header#main-header .header-aside.header-right .user-area > div {
-          border: 1px solid red;
           text-align: center;
           white-space: nowrap; }
   header#main-header .header-center-container {
@@ -351,13 +357,15 @@ header#main-header {
       padding-top: 10px;
       padding-bottom: 10px;
       width: 290px;
-      height: 200px;
+      /* height: 200px; */
       display: flex;
       justify-content: center;
       align-items: center;
       align-content: center;
       position: relative;
+      /*
       background-image: none, url("../drawable/header-logo-vector-bg.svg"), url("../drawable/header-logo-raster-bg.png");
+            */
       background-repeat: no-repeat;
       background-position-y: bottom;
       background-position-x: center;
@@ -621,7 +629,9 @@ footer#main-footer {
           border-radius: 90px;
           height: 50px;
           margin-right: 10px;
-          text-align: center; }
+          text-align: center;
+          background-size: cover;
+          background-position: center center; }
         #article-area .comment-tree .comment .content .body {
           flex: 1; }
           #article-area .comment-tree .comment .content .body p {
@@ -713,8 +723,7 @@ html {
 .icons {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
-  border: 1px solid blue; }
+  justify-content: space-around; }
 
 .icon {
   min-width: 40px;
@@ -727,8 +736,7 @@ html {
   border-radius: 40px;
   text-align: center;
   background-color: #454545;
-  color: #dbdbdb;
-  border: 1px solid blue; }
+  color: #dbdbdb; }
   .icon i {
     margin: 0;
     padding: 0; }
@@ -835,5 +843,18 @@ div#wrapper {
   overflow: hidden;
   position: relative;
   margin: 0 auto; }
+
+.user-picture {
+  background: #454545;
+  width: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  line-height: 50px;
+  border-radius: 90px;
+  height: 50px;
+  margin-right: 10px;
+  text-align: center;
+  background-size: cover;
+  background-position: center center; }
 
 /*# sourceMappingURL=index.css.map */

@@ -33,7 +33,6 @@ header#main-header
       justify-content: flex-start;
       //border: 5px solid orange;
 
-      border: 1px solid red;
       padding: 0;
 
       .icon {
@@ -57,11 +56,23 @@ header#main-header
         justify-content: center;
         flex-wrap: wrap;
         align-items: center;
-        border: 1px solid blue;
         padding-left: 15px;
         padding-right: 15px;
+
+        .username {
+          color: $primary;
+          text-transform: uppercase;
+          font-weight: bold;
+        }
+        .logout > a {
+          color: $darkgrey;
+        }
+        .user-picture {
+          border: 2px solid $primary;
+          margin: 10px;
+        }
+
         > div {
-          border: 1px solid red;
           text-align: center;
           white-space: nowrap;
         }
@@ -101,13 +112,16 @@ header#main-header
       padding-top: 10px;
       padding-bottom: 10px;
       width: 290px;
-      height: 200px;
+      /* height: 200px; */
       display: flex;
       justify-content: center;
       align-items: center;
       align-content: center;
       position: relative;
+      /*
       background-image: none, url("../drawable/header-logo-vector-bg.svg"), url("../drawable/header-logo-raster-bg.png");
+            */
+
       background-repeat: no-repeat;
       background-position-y: bottom;
       background-position-x: center;

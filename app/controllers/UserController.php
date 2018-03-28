@@ -13,11 +13,6 @@ class UserController extends ViewController
         $this->view->render($response, 'route.view.user.profile.html.twig');
     }
 
-    public function auth ( Request $request, Response $response )
-    {
-        $this->view->render($response, 'route.view.user.auth.html.twig');
-    }
-
     public function uploadPicture ( Request $request, Response $response, $args )
     {
         $files = $request->getUploadedFiles();

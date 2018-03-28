@@ -27,4 +27,8 @@ class Auth
         return null;
     }
 
+    public static function isLoggedIn(){
+        return ( self::user() !== null ) ? true : false;
+    }
+
 }

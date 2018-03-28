@@ -58,7 +58,6 @@ html
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  border: 1px solid blue;
 }
 
 .icon {
@@ -73,8 +72,6 @@ html
   text-align: center;
   background-color: $darkergrey;
   color: $lightgrey;
-  border: 1px solid blue;
-
   i {
     margin: 0; padding: 0;
   }
@@ -211,4 +208,18 @@ div#wrapper
   position: relative;
 
   margin: 0 auto;
+}
+
+.user-picture {
+  background: $darkergrey;
+  width: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  line-height: 50px;
+  border-radius: 90px;
+  height: 50px;
+  margin-right: 10px;
+  text-align: center;
+  background-size: cover;
+  background-position: center center;
 }

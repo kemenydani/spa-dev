@@ -1,5 +1,8 @@
 <?php
 
+use core\Auth as Auth;
+use models\User as User;
+
 // Slim configuration
 $configuration = [
     'settings' => [
@@ -17,6 +20,9 @@ $configuration = [
 
         $view = new \Slim\Views\Twig( __APPDIR__ . '/view/templates', $settings );
 
+        $view->getEnvironment()->addGlobal('isLogged', Auth::isLoggedIn());
+        $view->getEnvironment()->addGlobal('AuthUser', Auth::user());
+
         $view->addExtension(new \Slim\Views\TwigExtension(
             $container->router,
             $container->request->getUri()
@@ -29,6 +35,7 @@ $configuration = [
 $app = new \Slim\App( new \Slim\Container( $configuration ) );
 
 // Routes
+require_once 'auth.php';
 require_once 'home.php';
 require_once 'article.php';
 require_once 'squad.php';

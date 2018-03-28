@@ -5,6 +5,9 @@ namespace controllers;
 use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use core\DB as DB;
+use models\Article as Article;
+use models\Comment as Comment;
+use models\User as User;
 
 class ArticleController extends ViewController
 {
@@ -13,58 +16,47 @@ class ArticleController extends ViewController
         $this->view->render($response, 'route.view.article.list.html.twig');
     }
 
-    public function read ( Request $request, Response $response )
+    public function postComment( Request $request, Response $response )
     {
-        $comments2 = DB::instance()->all('comment');
+        $formData = $request->getParsedBody();
 
-        $indexMatched = [];
+        $Article = Article::find($formData['article_id']);
 
-        for($i = 0; $i < count($comments2); $i++) {
-            $indexMatched[$comments2[$i]['id']] = $comments2[$i];
-            $indexMatched[$comments2[$i]['id']]['username'] = 'username';
+        if(!$Article) return $response->withStatus(404, 'Article not found');
+
+        $User = User::find(1);
+
+        $formData['user_id'] = $User->getProperty('id');
+
+        $Comment = $Article->addComment( Comment::create( $formData ) );
+
+        $result = [];
+
+        if( $Comment->getProperty('id') )
+        {
+            $result = $Comment->getPublicProperties();
+            $result['username'] = $User->getProperty('username');
+            $result['profile_picture'] = $User->getProfilePicture();
         }
 
-        $comments = $indexMatched;
-/*
-        $comments = array(
-            1 => array('id' => 1, 'pid' => 0, 'ch' => array()),
-            2 => array('id' => 2, 'pid' => 0, 'ch' => array()),
-            3 => array('id' => 3, 'pid' => 0, 'ch' => array()),
-            5 => array('id' => 5, 'pid' => 0, 'ch' => array()),
-            11 => array('id' => 11, 'pid' => 0, 'ch' => array()),
-            17 => array('id' => 17, 'pid' => 0, 'ch' => array()),
-            23 => array('id' => 23, 'pid' => 0, 'ch' => array()),
-            28 => array('id' => 28, 'pid' => 0, 'ch' => array()),
-            4 => array('id' => 4, 'pid' => 1, 'ch' => array()),
-            6 => array('id' => 6, 'pid' => 1, 'ch' => array()),
-            8 => array('id' => 8, 'pid' => 2, 'ch' => array()),
-            9 => array('id' => 9, 'pid' => 2, 'ch' => array()),
-            7 => array('id' => 7, 'pid' => 3, 'ch' => array()),
-            12 => array('id' =>12, 'pid' => 7, 'ch' => array()),
-            13 => array('id' => 13, 'pid' => 12, 'ch' => array()),
-        );
-*/
-        foreach ($comments as $k => &$v) {
-            if ($v['pid'] != 0) {
-                if(!array_key_exists('ch', $comments[$v['pid']])) $comments[$v['pid']]['ch'] = array();
-                $comments[$v['pid']]['ch'][] = &$v;
-            }
-        }
+        return $response->withJson( $result );
+    }
 
-        unset($v);
+    public function read ( Request $request, Response $response, $args )
+    {
+        $article = Article::find($args['title_seo'], 'title_seo');
 
-        foreach ($comments as $k => $v) {
-            if ($v['pid'] != 0) {
-                unset($comments[$k]);
-            }
-        }
+        if(!$article) return false;
 
-        $comments = array_reverse_recursive($comments);
+        $comments = $article->getComments();
 
         $this->view->render(
             $response,
             'route.view.article.read.html.twig',
-            ['comments' => json_encode($comments, true)]
+            [
+                'article'  => $article->getPublicProperties(),
+                'comments' => json_encode($comments, true)
+            ]
         );
     }
 }

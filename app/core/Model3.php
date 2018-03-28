@@ -3,30 +3,13 @@
 namespace core;
 
 use core\DB as DB;
-use core\Lang as Lang;
 
-abstract class Model
+abstract class Model3
 {
     protected $_STATE_ = [];
 
     public static $_UNIQUE_KEY = 'id';
     public static $_PROPS = [];
-    public static $_PROPS_PROTECTED = [];
-    public static $_PROPS_SEARCHABLE = [];
-
-    public function __call( $method, array $arguments )
-    {
-        $propName = Lang::underScorize( substr($method, 3 ) );
-        $action = substr( $method, 0, 3 );
-
-        if( $action === 'get' ) return $this->getProperty( $propName );
-        if( $action === 'set' ) return $this->setProperty( $propName, $arguments[0] );
-    }
-
-    public static function getSearchableProps()
-    {
-        return count( static::$_PROPS_SEARCHABLE ) ? static::$_PROPS_SEARCHABLE : static::$_PROPS;
-    }
 
     public static function getPropertyNames()
     {
@@ -49,31 +32,18 @@ abstract class Model
         {
             return $this->_STATE_[$name];
         }
-
         return null;
     }
 
     public function getProperties( $list = [] )
     {
-        if(count($list) === 0) return $this->_STATE_;
+        if( count( $list ) === 0 ) return $this->_STATE_;
 
         $result = [];
         foreach($list as $propName)
         {
-            if(!array_key_exists($propName, $this->_STATE_)) continue;
+            if( !array_key_exists( $propName, $this->_STATE_ ) ) continue;
             $result[$propName] = $this->_STATE_[$propName];
-        }
-
-        return $result;
-    }
-
-    public function getPublicProperties()
-    {
-        $result = [];
-
-        foreach( $this->getProperties() as $name => $value )
-        {
-            if( !in_array($name, static::$_PROPS_PROTECTED ) ) $result[$name] = $value;
         }
 
         return $result;
@@ -94,25 +64,21 @@ abstract class Model
         $Model = new static();
 
         foreach( $properties as $name => $value ) $Model->setProperty( $name, $value );
-
+        
         return $Model;
     }
 
     public function save()
     {
-        $inserted = $this->insert( $this->getProperties() );
-
-        $modelId = $inserted ? DB::instance()->lastInsertId() : null;
-        /*
-        if ( $this->getProperty( static::$_UNIQUE_KEY ) !== null )
+        if ( $this->getProperty( static::$_UNIQUE_KEY ) )
         {
-            //$modelId = $this->update( [],static::$_UNIQUE_KEY, $this->getProperty(static::$_UNIQUE_KEY) );
+            $modelId = $this->update();
         }
         else
         {
-            $modelId = $this->insert( $this->getProperties() );
+            $modelId = $this->insert();
         }
-*/
+
         if( !$modelId ) return false;
 
         $this->setProperty(static::$_UNIQUE_KEY, $modelId);
@@ -120,38 +86,59 @@ abstract class Model
         return $this;
     }
 
+    /**
+     * @param array $values
+     * @param $key
+     * @param $id
+     * @return bool
+     */
     private function update( array $values, $key, $id )
     {
-        $lastUpdateId = DB::instance()->update( static::$_TABLE, $this->getProperties(), $key, $id );
+        $lastUpdateId = DB::instance()->update( static::$_TABLE, $this->getProperties(), static::$_UNIQUE_KEY, $this->getProperty(static::$_UNIQUE_KEY) );
 
         if( $lastUpdateId ) return $lastUpdateId;
 
         return false;
     }
 
-    private function insert( array $values )
+    /**
+     * @return bool
+     */
+    private function insert()
     {
-        $lastInsertId = DB::instance()->insert( static::$_TABLE, $values );
+        $result = DB::instance()->insert( static::$_TABLE, $this->getProperties() );
 
-        if( !$lastInsertId ) return false;
+        $lastInsertId = DB::instance()->lastInsertId();
+
+        if( !$result ) return false;
 
         $this->setProperty( static::$_UNIQUE_KEY, $lastInsertId );
 
         return $lastInsertId;
     }
 
+    /**
+     * @param $value
+     * @param null $column
+     * @return bool|Model3
+     */
     public static function find( $value, $column = null )
     {
         if( $column === null ) $column = static::$_UNIQUE_KEY;
 
         $row = DB::instance()->find( static::$_TABLE, $column, $value );
 
-        //if( $row === false ) return false;
+        if( $row === false ) return false;
 
         return static::create( (array)$row );
     }
 
-    public static function findAll( $value, $column = null )
+    /**
+     * @param $value
+     * @param null $column
+     * @return array
+     */
+    public static function findAll( $value, $column = null ) : array
     {
         if( !$column ) $column = static::$_UNIQUE_KEY;
 
@@ -161,51 +148,50 @@ abstract class Model
         
         $models = [];
 
-        foreach( $rows as $row )
-        {
-            $models[] = static::create( (array)$row );
-        }
+        foreach( $rows as $row ) $models[] = static::create( (array)$row );
 
         return $models;
     }
 
-    public function search( $search = null, array $filter = [] )
-    {
-
-    }
-
-    public static function all()
+    /**
+     * @return array
+     */
+    public static function all() : array
     {
         $rows = DB::instance()->all( static::$_TABLE );
 
         $models = [];
 
-        foreach( $rows as $row )
-        {
-            $models[] = static::create( (array)$row );
-        }
+        foreach( $rows as $row ) $models[] = static::create( (array)$row );
 
         return $models;
     }
 
-    public function remove()
+    /**
+     * @return bool
+     */
+    public function destroy() : bool
     {
 	    return DB::instance()->delete( static::$_TABLE, static::$_UNIQUE_KEY, $this->getProperty( static::$_UNIQUE_KEY ) );
     }
-    
+
+    /**
+     * @param $column
+     * @param $value
+     * @return bool
+     */
     public static function delete( $column, $value ) : bool
     {
         return DB::instance()->delete( static::$_TABLE, $column, $value );
     }
 
+    /**
+     * @param $column
+     * @param $range
+     * @return bool
+     */
     public static function deleteIn( $column, $range ) : bool
     {
         return DB::instance()->deleteIn( static::$_TABLE, $column, $range );
     }
-
-    public static function isSearchable()
-    {
-        return count(static::$_PROPS_SEARCHABLE) > 0;
-    }
-
 }

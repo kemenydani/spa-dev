@@ -2,7 +2,7 @@
 
 error_reporting(0);
 session_start();
-session_write_close();
+
 define('__DEBUG__', true );
 
 define('__ROOT__', realpath(dirname(__FILE__) . '/..'));
@@ -17,3 +17,5 @@ require_once __ROOT__   . '/vendor/autoload.php';
 require_once __APPDIR__ . '/assets/helpers.php';
 require_once __APPDIR__ . '/assets/db_config.php';
 require_once __APPDIR__ . '/routes/init.php';
+
+session_write_close();
