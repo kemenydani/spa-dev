@@ -1,0 +1,176 @@
+{% extends 'block.full.html.twig' %}
+
+{% block content %}
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <div class="container">
+        {% verbatim %}
+        <div id="auth-area">
+            <div class="wrap">
+                <!-- form status overlay -->
+                <div class="form-status-overlay" v-show="status.loading">
+                     <div class="status-wrap">
+                        <i class="status-loading-spinner fas fa-circle-notch fa-spin"></i>
+                        <div class="status-info">{{ status.info }}</div>
+                     </div>
+                </div>
+                <!-- form -->
+                <div class="form-tabs" v-bind:class="{ 'loading' : status.loading }">
+                    <!-- login tab -->
+                    <div class="form-tab login-form-tab" v-show="status.tab === 1">
+                        <form class="login-form">
+                            <h1 class="form-title">Login</h1>
+                            <div class="input-field">
+                                <input placeholder="Email" type="text" name="email" v-model="forms.login.fields.email">
+                            </div>
+                            <div class="input-field">
+                                <input placeholder="Password" type="password" name="password" v-model="forms.login.fields.password">
+                            </div>
+                        </form>
+                    </div>
+                    <!-- register tab -->
+                    <div class="form-tab register-form-tab" v-show="status.tab === 2">
+                        <form class="register-form">
+                            <h1 class="form-title">Register</h1>
+                            <div class="input-field">
+                                <input placeholder="Email" type="text" name="email" v-model="forms.register.email">
+                            </div>
+                            <div class="input-field">
+                                <input placeholder="Password" type="password" name="password" v-model="forms.register.password">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- form navigation -->
+                <div class="form-tab-navigation">
+                    <button
+                        v-bind:class="{ 'inactive' : (status.tab === 2) }"
+                        v-on:click="switchOrLogin()">LOGIN</button>
+                    <button
+                        v-bind:class="{ 'inactive' : (status.tab === 1) }"
+                        v-on:click="switchOrRegister()">REGISTER</button>
+                </div>
+            </div>
+        </div>
+        {% endverbatim %}
+    </div>
+
+    <script>
+
+        (function($, Vue){
+
+            var app = new Vue({
+                el: '#auth-area',
+                data: function () {
+                    return {
+                        delay: 2000,
+                        status : {
+                            tab: 1,
+                            loading: false,
+                            info: ''
+                        },
+                        forms: {
+                            register: {
+                                errors: {  },
+                                fields: {
+                                    email: '',
+                                    username: '',
+                                    password: '',
+                                    password_repeat: ''
+                                }
+                            },
+                            login: {
+                                fields: {
+                                    email: 'sno@sno.com',
+                                    password: 'admin',
+                                    remember: true
+                                }
+                            },
+                        }
+                    }
+                },
+                watch: {
+                    'status.tab' : function( v )
+                    {
+                        $($('.form-tabs').children()[v-1]).css('opacity', 0).fadeTo(350 , 1);
+                    },
+                    'status.loading' : function( v )
+                    {
+                        $('.form-status-overlay')
+                            .css('opacity', (v === true ? 0 : 1))
+                            .fadeTo(600 , (v === true ? 1 : 0));
+                    }
+                },
+                methods: {
+                    checkEmail : function(){
+
+                    },
+                    checkUserName : function(){
+
+                    },
+                    switchOrLogin : function()
+                    {
+                        if(this.status.tab === 2) return this.status.tab = 1;
+
+                        this.status.loading = true;
+                        this.status.info = 'Logging In';
+
+                        setTimeout(function()
+                        {
+                            $.post( '/postLogin', this.forms.login.fields )
+                                .then(function( response )
+                                {
+                                    this.status.info = 'Logged in, now redirecting.';
+
+                                    setTimeout(function()
+                                    {
+                                        //this.status.loading = false;
+                                        window.location.replace("/home");
+                                    }
+                                    .bind(this), this.delay );
+                                }
+                                .bind(this))
+                                .catch(function(error)
+                                {
+                                    this.status.info = 'Internal error. Please try again later.';
+
+                                    setTimeout(function(){
+                                        this.status.loading = false;
+                                    }
+                                    .bind(this), this.delay + 3000 );
+                                }
+                                .bind(this))
+                            ;
+                        }
+                        .bind(this), this.delay );
+                    },
+                    switchOrRegister : function()
+                    {
+                        if(this.status.tab === 1) return this.status.tab = 2;
+
+                        this.status.loading = true;
+
+                        setTimeout(function()
+                        {
+                            $.post( '/postRegister', this.forms.register.fields )
+                                .then(function( response )
+                                {
+                                    this.status.loading = false;
+                                }
+                                .bind(this))
+                                .catch(function(error)
+                                {
+
+                                }
+                                .bind(this))
+                            ;
+                        }
+                        .bind(this), this.delay );
+                    }
+                }
+            });
+
+        }( jQuery, Vue ));
+
+    </script>
+
+{% endblock %}
