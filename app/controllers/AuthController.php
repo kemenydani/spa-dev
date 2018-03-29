@@ -12,7 +12,7 @@ class AuthController extends ViewController
 
     public function auth ( Request $request, Response $response )
     {
-        $this->view->render($response, 'route.view.user.auth.html.twig');
+        $this->view->render($response, 'route.view.user.auth2.html.twig');
     }
 
     public function postLogin ( Request $request, Response $response )

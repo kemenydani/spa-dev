@@ -52,13 +52,13 @@
         <script type="text/x-template" id="template-form-register">
              <form id="form-register" class="auth-section-tab">
                 <h1 class="title">Register</h1>
-                <div class="input-field-group">
-                    <div class="input-field">
-                        <input placeholder="Email" type="text" name="email" v-model="form.email">
-                    </div>
-                    <div class="input-field">
-                        <input placeholder="Username" type="text" name="username" v-model="form.username">
-                    </div>
+                <div class="input-field">
+                    <input placeholder="Email" type="text" name="email" v-model="form.email">
+                    <span class="field-info">Email is already in use</span>
+                </div>
+                <div class="input-field">
+                    <input placeholder="Username" type="text" name="username" v-model="form.username">
+                    <span class="field-info">Email is already in use</span>
                 </div>
                 <div class="input-field-group">
                     <div class="input-field">
@@ -67,6 +67,7 @@
                      <div class="input-field">
                         <input placeholder="Password repeat" type="password" name="password_repeat" v-model="form.password_repeat">
                     </div>
+                    <span class="field-info">{{ errors.password }}</span>
                 </div>
             </form>
         </script>
@@ -135,7 +136,15 @@
                             username: 'foo',
                             password: 'foo',
                             password_repeat: 'foo'
+                        },
+                        errors: {
+                            password: ''
                         }
+                    }
+                },
+                watch: {
+                    'form.password': function( val ){
+                        this.errors.password = (val === this.form.password_repeat) ? '' : 'Passwords must match';
                     }
                 },
                 methods: {
@@ -169,6 +178,55 @@
                     .bind(this));
                 }
             });
+
+            var app2 = new Vue({
+                el: '#auth-area',
+                data: function () {
+                    return {
+                        delay: 1000,
+                        status : {
+                            tab: 1,
+                            loading: false,
+                            info: ''
+                        },
+                        forms: {
+                            register: {
+                                errors: {  },
+                                fields: {
+                                    email: '',
+                                    username: '',
+                                    password: '',
+                                    password_repeat: ''
+                                }
+                            },
+                            login: {
+                                fields: {
+                                    email: '',
+                                    password: '',
+                                    remember: true
+                                }
+                            },
+                        }
+                    }
+                },
+                watch: {
+
+                },
+                methods: {
+                    checkEmail : function(){
+
+                    },
+                    checkUserName : function(){
+
+                    }
+                }
+            });
+
+
+
+
+
+
 
             var app = new Vue({
                 el: '#auth-area',
