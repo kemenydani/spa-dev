@@ -552,28 +552,28 @@ footer#main-footer {
             font-size: 60px;
             text-transform: uppercase;
             font-family: 'Montserrat', sans-serif;
-            border-bottom: 10px solid #f6a00c; }
+            border-bottom: 10px solid #f6a00c;
+            margin-bottom: 50px; }
           #auth-area .wrap .form-tabs .form-tab form .input-field-group {
             display: flex;
-            width: 100%;
-            flex-wrap: wrap;
-            margin-bottom: 20px; }
+            width: 100%; }
             #auth-area .wrap .form-tabs .form-tab form .input-field-group > .input-field {
-              width: 50%;
-              margin-bottom: 0; }
+              margin-bottom: 0px;
+              display: inline-block; }
           #auth-area .wrap .form-tabs .form-tab form .field-info {
             color: red;
             width: 100%;
             display: block;
-            flex: 1;
             line-height: 25px;
-            height: 25px; }
+            height: 25px;
+            text-align: left; }
           #auth-area .wrap .form-tabs .form-tab form .input-field {
             width: 100%;
-            margin-bottom: 10px; }
+            margin-bottom: 5px; }
             #auth-area .wrap .form-tabs .form-tab form .input-field.input-remember {
               display: flex;
-              justify-content: center; }
+              justify-content: center;
+              margin-top: 25px; }
             #auth-area .wrap .form-tabs .form-tab form .input-field:last-child {
               margin-bottom: 0; }
             #auth-area .wrap .form-tabs .form-tab form .input-field.captcha-field {
