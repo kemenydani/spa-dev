@@ -6,68 +6,125 @@
         {% verbatim %}
         <div id="auth-area">
             <div class="wrap">
-                <!-- form status overlay -->
                 <div class="form-status-overlay" v-show="status.loading">
                      <div class="status-wrap">
                         <i class="status-loading-spinner fas fa-circle-notch fa-spin"></i>
                         <div class="status-info">{{ status.info }}</div>
                      </div>
                 </div>
-                <!-- form -->
                 <div class="form-tabs" v-bind:class="{ 'loading' : status.loading }">
-                    <!-- login tab -->
                     <div class="form-tab login-form-tab" v-show="status.tab === 1">
-                        <form class="login-form" accept-charset="UTF-8">
+                        <form class="login-form" ref="login" method="post" accept-charset="UTF-8">
                             <h1 class="form-title">Login</h1>
                             <div class="input-field">
-                                <input placeholder="Email" type="text" name="email" autocomplete="on" v-model="forms.login.fields.email">
+                                <input
+                                    placeholder="Email"
+                                    type="email"
+                                    name="email"
+                                    autocomplete="on"
+                                    v-model="forms.login.fields.email"
+                                />
                                 <span class="field-info">{{ forms.login.errors.email }}</span>
                             </div>
                             <div class="input-field">
-                                <input placeholder="Password" type="password" name="password" autocomplete="on" v-model="forms.login.fields.password">
+                                <input
+                                    placeholder="Password"
+                                    type="password"
+                                    name="password"
+                                    autocomplete="on"
+                                    pattern=".{1,}"
+                                    title="Password is required."
+                                    v-model="forms.login.fields.password"
+                                />
                                 <span class="field-info">{{ forms.login.errors.password }}</span>
                             </div>
                             <div class="input-field input-remember">
                                 <label class="checkbox-wrap"> Remember me
-                                    <input type="checkbox" v-model="forms.login.fields.remember">
+                                    <input
+                                        type="checkbox"
+                                        v-model="forms.login.fields.remember"
+                                    />
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
                         </form>
                     </div>
-                    <!-- register tab -->
                     <div class="form-tab register-form-tab" v-show="status.tab === 2">
-                        <form class="register-form" accept-charset="UTF-8">
+                        <form class="register-form" ref="register" method="post" accept-charset="UTF-8">
                             <h1 class="form-title">Register</h1>
                             <div class="input-field">
-                                <input placeholder="Email" type="email" name="email" autocomplete="on" v-model="forms.register.fields.email">
+                                <div class="input-status-wrapper" v-bind:class="{ 'invalid' : forms.register.errors.email }">
+                                    <input
+                                        placeholder="Email"
+                                        type="email"
+                                        name="email"
+                                        autocomplete="on"
+                                        v-model="forms.register.fields.email"
+                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                        required
+                                    />
+                                    <div class="input-status">
+                                        <!--<i v-show="forms.register.status.check_email" class="fas fa-circle-notch fa-spin"></i>-->
+                                    </div>
+                                </div>
                                 <span class="field-info">{{ forms.register.errors.email }}</span>
                             </div>
                             <div class="input-field">
-                                <input placeholder="Username" type="text" name="username" autocomplete="off" v-model="forms.register.fields.username">
+                                <div class="input-status-wrapper" v-bind:class="{ 'invalid' : forms.register.errors.username }">
+                                    <input
+                                        placeholder="Username"
+                                        type="text"
+                                        name="username"
+                                        autocomplete="off"
+                                        pattern="^((?:\s*[A-Za-z0-9._]\s*){3,})$"
+                                        v-model="forms.register.fields.username"
+                                        title="Please do not use unsupported characters."
+                                        required
+                                    />
+                                    <div class="input-status">
+                                        <!--<i v-show="forms.register.status.check_username" class="fas fa-circle-notch fa-spin"></i>-->
+                                    </div>
+                                </div>
                                 <span class="field-info">{{ forms.register.errors.username }}</span>
                             </div>
                             <div class="input-field-group">
                                 <div class="input-field">
-                                    <input placeholder="Password" type="password" name="password" autocomplete="off" v-model="forms.register.fields.password">
+                                    <input v-bind:class="{ 'invalid' : forms.register.errors.password }"
+                                        placeholder="Password"
+                                        type="password"
+                                        name="password"
+                                        autocomplete="off"
+                                        v-model="forms.register.fields.password"
+                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                        title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                        required
+                                    />
                                     <span class="field-info">{{ forms.register.errors.password }}</span>
                                 </div>
                                  <div class="input-field">
-                                    <input placeholder="Repeat Password" type="password" name="password_repeat" autocomplete="off" v-model="forms.register.fields.password_repeat">
+                                    <input
+                                        placeholder="Repeat Password"
+                                        type="password"
+                                        name="password_repeat"
+                                        autocomplete="off"
+                                        v-model="forms.register.fields.password_repeat"
+                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                        title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                        required
+                                    />
                                     <span class="field-info">{{ forms.register.errors.password }}</span>
                                  </div>
                              </div>
                         </form>
                     </div>
                 </div>
-                <!-- form navigation -->
                 <div class="form-tab-navigation">
                     <button
                         v-bind:class="{ 'inactive' : (status.tab === 2) }"
-                        v-on:click="switchOrLogin()">LOGIN</button>
+                        v-on:click="switchOrSubmit('login')">LOGIN</button>
                     <button
                         v-bind:class="{ 'inactive' : (status.tab === 1) }"
-                        v-on:click="switchOrRegister()">REGISTER</button>
+                        v-on:click="switchOrSubmit('register')">REGISTER</button>
                 </div>
             </div>
         </div>
@@ -86,11 +143,22 @@
                         status : {
                             tab: 1,
                             loading: false,
-                            info: ''
+                            info: '',
+                            login: {
+                                onStart : 'Logging in.',
+                                onSuccess : 'Logged in, now redirecting.',
+                                onError   : 'Login failed.'
+                            },
+                            register: {
+                                onStart : 'Registering.',
+                                onSuccess : 'Registered.',
+                                onError   : 'Failed to register.'
+                            },
                         },
                         forms: {
                             register: {
-                                errors: {  },
+                                action: '/postRegister',
+                                errors: { email : null, username : 'Foo', password : null },
                                 fields: {
                                     email: '',
                                     username: '',
@@ -99,7 +167,10 @@
                                 }
                             },
                             login: {
-                                errors: {  },
+                                action: '/postLogin',
+                                errors: {
+
+                                },
                                 fields: {
                                     email: 'sno@sno.com',
                                     password: 'admin',
@@ -110,106 +181,55 @@
                     }
                 },
                 watch: {
-                    'forms.register.fields.password' : function( v ){
-                        this.forms.register.errors.password = function( v ) {
-                            if( /[^a-zA-Z0-9\-\/]/.test( v ) ) return 'Do not use invalid characters.';
-                            return (v !== this.forms.register.fields.password_repeat) ? 'Passwords must match' : '';
-                        }.bind(this)( v );
-                    },
-                    'forms.register.fields.password_repeat' : function( v ){
-                        this.forms.register.errors.password = function( v ) {
-                            if( /[^a-zA-Z0-9\-\/]/.test( v ) ) return 'Do not use invalid characters.';
-                            return (v !== this.forms.register.fields.password) ? 'Passwords must match' : '';
-                        }.bind(this)( v );
-                    },
-                    'forms.register.fields.username' : function( v ){
-                        this.forms.register.errors.username = function( v ) {
-                            if( v.length < 3 ) return 'Username is too short';
-                            if( /[^a-zA-Z0-9\-\/]/.test( v ) ) return 'Do not use invalid characters.';
-                            return '';
-                        }.bind(this)( v );
-                    },
-                    'forms.login.fields.password' : function( v ){
-                        this.forms.login.errors.password = function( v ) {
-                            return v.length === 0 ? 'Password is required.' : '';
-                        }.bind(this)( v );
-                    },
                     'status.tab' : function( v )
                     {
                         $($('.form-tabs').children()[v-1]).css('opacity', 0).fadeTo(350 , 1);
                     },
                     'status.loading' : function( v )
                     {
-                        $('.form-status-overlay')
-                            .css('opacity', (v === true ? 0 : 1))
-                            .fadeTo(600 , (v === true ? 1 : 0));
+                        $('.form-status-overlay').css('opacity', (v === true ? 0 : 1)).fadeTo(600 , (v === true ? 1 : 0));
                     }
                 },
                 methods: {
-                    checkEmail : function(){
-
-                    },
-                    checkUserName : function(){
-
-                    },
-                    switchOrLogin : function()
+                    onSubmitForm( name )
                     {
-                        if(this.status.tab === 2) return this.status.tab = 1;
-
                         this.status.loading = true;
-                        this.status.info = 'Logging In';
+                        this.status.info = this.status[name].onStart;
 
                         setTimeout(function()
                         {
-                            $.post( '/postLogin', this.forms.login.fields )
-                                .then(function( response )
-                                {
-                                    this.status.info = 'Logged in, now redirecting.';
-
-                                    setTimeout(function()
+                            $.post(this.forms[name].action, this.forms[name].fields)
+                                .then(
+                                    function( response )
                                     {
-                                        //this.status.loading = false;
-                                        window.location.replace("/home");
+                                        this.status.info = this.status[name].onSuccess;
+                                        setTimeout(function() { window.location.replace("/home"); }.bind(this), this.delay);
                                     }
-                                    .bind(this), this.delay );
-                                }
-                                .bind(this))
-                                .catch(function(error)
-                                {
-                                    this.status.info = 'Internal error. Please try again later.';
-
-                                    setTimeout(function(){
-                                        this.status.loading = false;
+                                    .bind(this)
+                                )
+                                .catch(
+                                    function(error)
+                                    {
+                                        this.status.info = this.status[name].onError;
+                                        setTimeout(function(){ this.status.loading = false; }.bind(this), this.delay + 3000 );
                                     }
-                                    .bind(this), this.delay + 3000 );
-                                }
-                                .bind(this))
+                                    .bind(this)
+                                )
                             ;
                         }
                         .bind(this), this.delay );
                     },
-                    switchOrRegister : function()
+                    switchOrSubmit( name )
                     {
-                        if(this.status.tab === 1) return this.status.tab = 2;
+                        if(this.status.tab === 2 && name === 'login') return this.status.tab = 1;
+                        if(this.status.tab === 1 && name === 'register') return this.status.tab = 2;
 
-                        this.status.loading = true;
-
-                        setTimeout(function()
+                        $(this.$refs[name]).on('submit', function( event )
                         {
-                            $.post( '/postRegister', this.forms.register.fields )
-                                .then(function( response )
-                                {
-                                    this.status.loading = false;
-                                }
-                                .bind(this))
-                                .catch(function(error)
-                                {
-
-                                }
-                                .bind(this))
-                            ;
+                            event.preventDefault();
+                            event.target.checkValidity() ? this.onSubmitForm( name ) : event.target.reportValidity();
                         }
-                        .bind(this), this.delay );
+                        .bind(this)).submit();
                     }
                 }
             });
