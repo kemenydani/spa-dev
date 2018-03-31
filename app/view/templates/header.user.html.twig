@@ -2,7 +2,7 @@
 
     {% if isLogged %}
         <div>
-                <div class="username">{{ AuthUser.getUserName() }}</div>
+                <div class="username">{{ AuthUser.getUsername() }}</div>
                 <div class="logout"><a href="/logout">logout</a></div>
         </div>
         <div class="user-picture" style="background-image: url({{ AuthUser.getProfilePicture() }})"></div>

@@ -9,37 +9,24 @@ use core\Hash as Hash;
 
 class User extends Model {
 
-    public static $_UNIQUE_KEY = 'id';
-    public static $_TABLE = 'user';
+    public static $primaryKey = 'id';
+    public static $table = 'user';
+    public static $columns = ['id', 'username', 'password', 'remember_token', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated'];
 
-    public static $_PROPS = ['id', 'username', 'password', 'remember_token', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated'];
-    public static $_PROPS_PROTECTED = ['password', 'remember_token'];
-    public static $_PROPS_SEARCHABLE = ['id', 'username', 'email', 'country_code', 'date_created'];
+    const PUBLIC_DATASET = [ 'id', 'username', 'profile_picture', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated' ];
 
-    const MEDIUM_DATASET = ['id', 'username', 'profile_picture'];
     const IMAGE_PATH = __UPLOADS__ . '/images/user';
 
-    public function getId(){
-        return $this->getProperty('id');
-    }
-
-    public function getUserName(){
-        return $this->getProperty('username');
-    }
-
-    public function getEmail(){
-        return $this->getProperty('email');
-    }
+    const FIELD_RULES = [
+        'username' => 'required|unique|max:20',
+        'email' => 'required|unique|filter:email',
+        'password' => 'required'
+    ];
 
     public function getProfilePicture()
     {
         return 'user_picture/' . $this->getProperty('profile_picture');
     }
-
-
-
-
-
 
     public function logout()
     {

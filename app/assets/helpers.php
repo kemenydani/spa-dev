@@ -20,6 +20,16 @@ function array_reverse_recursive($arr) {
     return array_reverse($arr);
 }
 
+function underscorize($input)
+{
+    preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $input, $matches);
+    $ret = $matches[0];
+    foreach ($ret as &$match) {
+        $match = $match == strtoupper($match) ? strtolower($match) : lcfirst($match);
+    }
+    return implode('_', $ret);
+}
+
 function getConfig( $name, $default = null )
 {
 	$files = array_diff(scandir(__APPDIR__ . '/config'), array('.', '..'));

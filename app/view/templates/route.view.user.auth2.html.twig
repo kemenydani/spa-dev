@@ -27,15 +27,19 @@
                                 <span class="field-info">{{ forms.login.errors.email }}</span>
                             </div>
                             <div class="input-field">
-                                <input
-                                    placeholder="Password"
-                                    type="password"
-                                    name="password"
-                                    autocomplete="on"
-                                    pattern=".{1,}"
-                                    title="Password is required."
-                                    v-model="forms.login.fields.password"
-                                />
+                                <div class="input-status-wrapper">
+                                    <input
+                                        placeholder="Password"
+                                        type="password"
+                                        name="password"
+                                        autocomplete="on"
+                                        v-model="forms.login.fields.password"
+                                        v-bind:type="forms.login.settings.showPassword ? 'text' : 'password'"
+                                    />
+                                    <div class="input-status">
+                                        <i v-on:click="forms.login.settings.showPassword = !forms.login.settings.showPassword" v-bind:class="[ forms.login.settings.showPassword ? 'fa-eye-slash' : 'fa-eye' ]" class="fas"></i>
+                                    </div>
+                                </div>
                                 <span class="field-info">{{ forms.login.errors.password }}</span>
                             </div>
                             <div class="input-field input-remember">
@@ -59,12 +63,12 @@
                                         type="email"
                                         name="email"
                                         autocomplete="on"
-                                        v-model="forms.register.fields.email"
-                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                         required
+                                        v-model="forms.register.fields.email"
+                                        v-on:change="checkUniqueEmail"
                                     />
                                     <div class="input-status">
-                                        <!--<i v-show="forms.register.status.check_email" class="fas fa-circle-notch fa-spin"></i>-->
+                                        <i v-show="forms.register.showEmailLoading" class="fas fa-circle-notch fa-spin"></i>
                                     </div>
                                 </div>
                                 <span class="field-info">{{ forms.register.errors.email }}</span>
@@ -76,44 +80,51 @@
                                         type="text"
                                         name="username"
                                         autocomplete="off"
-                                        pattern="^((?:\s*[A-Za-z0-9._]\s*){3,})$"
-                                        v-model="forms.register.fields.username"
-                                        title="Please do not use unsupported characters."
                                         required
+                                        v-model="forms.register.fields.username"
+                                        v-on:change="checkUniqueUsername"
                                     />
                                     <div class="input-status">
-                                        <!--<i v-show="forms.register.status.check_username" class="fas fa-circle-notch fa-spin"></i>-->
+                                        <i v-show="forms.register.showUsernameLoading" class="fas fa-circle-notch fa-spin"></i>
                                     </div>
                                 </div>
                                 <span class="field-info">{{ forms.register.errors.username }}</span>
                             </div>
                             <div class="input-field-group">
-                                <div class="input-field">
-                                    <input v-bind:class="{ 'invalid' : forms.register.errors.password }"
-                                        placeholder="Password"
-                                        type="password"
-                                        name="password"
-                                        autocomplete="off"
-                                        v-model="forms.register.fields.password"
-                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                                        title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
-                                        required
-                                    />
-                                    <span class="field-info">{{ forms.register.errors.password }}</span>
-                                </div>
-                                 <div class="input-field">
-                                    <input
-                                        placeholder="Repeat Password"
-                                        type="password"
-                                        name="password_repeat"
-                                        autocomplete="off"
-                                        v-model="forms.register.fields.password_repeat"
-                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                                        title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
-                                        required
-                                    />
-                                    <span class="field-info">{{ forms.register.errors.password }}</span>
+                                <div class="field-wrap">
+                                    <div class="input-field">
+                                        <div class="input-status-wrapper" v-bind:class="{ 'invalid' : forms.register.errors.password }">
+                                            <input
+                                                placeholder="Password"
+                                                type="password"
+                                                name="password"
+                                                autocomplete="off"
+                                                required
+                                                v-bind:type="forms.register.settings.showPassword ? 'text' : 'password'"
+                                                v-model="forms.register.fields.password"
+                                            />
+                                            <div class="input-status">
+                                                <i v-on:click="forms.register.settings.showPassword = !forms.register.settings.showPassword" v-bind:class="[ forms.register.settings.showPassword ? 'fa-eye-slash' : 'fa-eye' ]" class="fas"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="input-field">
+                                        <div class="input-status-wrapper" v-bind:class="{ 'invalid' : forms.register.errors.password }">
+                                            <input
+                                                placeholder="Repeat Password"
+                                                name="password_repeat"
+                                                autocomplete="off"
+                                                required
+                                                v-model="forms.register.fields.password_repeat"
+                                                v-bind:type="forms.register.settings.showPassword ? 'text' : 'password'"
+                                            />
+                                            <div class="input-status">
+                                                <i v-on:click="forms.register.settings.showPassword = !forms.register.settings.showPassword" v-bind:class="[ forms.register.settings.showPassword ? 'fa-eye-slash' : 'fa-eye' ]" class="fas"></i>
+                                            </div>
+                                        </div>
+                                     </div>
                                  </div>
+                                 <span class="field-info">{{ forms.register.errors.password }}</span>
                              </div>
                         </form>
                     </div>
@@ -145,12 +156,12 @@
                             loading: false,
                             info: '',
                             login: {
-                                onStart : 'Logging in.',
+                                onStart   : 'Logging in.',
                                 onSuccess : 'Logged in, now redirecting.',
                                 onError   : 'Login failed.'
                             },
                             register: {
-                                onStart : 'Registering.',
+                                onStart   : 'Registering.',
                                 onSuccess : 'Registered.',
                                 onError   : 'Failed to register.'
                             },
@@ -158,23 +169,31 @@
                         forms: {
                             register: {
                                 action: '/postRegister',
-                                errors: { email : null, username : 'Foo', password : null },
+                                errors: { email : null, username : null, password : null },
+                                showUsernameLoading: false,
+                                showEmailLoading: false,
+                                valid: false,
                                 fields: {
                                     email: '',
                                     username: '',
                                     password: '',
                                     password_repeat: ''
+                                },
+                                settings: {
+                                    showPassword: false
                                 }
                             },
                             login: {
                                 action: '/postLogin',
-                                errors: {
-
-                                },
+                                errors: {},
+                                valid: false,
                                 fields: {
                                     email: 'sno@sno.com',
                                     password: 'admin',
                                     remember: true
+                                },
+                                settings: {
+                                    showPassword: false
                                 }
                             },
                         }
@@ -191,7 +210,29 @@
                     }
                 },
                 methods: {
-                    onSubmitForm( name )
+                    checkUniqueEmail : function( event )
+                    {
+                        this.forms.register.errors.email = null;
+                        this.forms.register.showEmailLoading = true;
+
+                        $.post('/auth/checkUnique', {field: 'email', value: event.target.value }).then(function(response)
+                        {
+                            this.forms.register.showEmailLoading = false;
+                            this.forms.register.errors.email = response === true ? 'Email already exists' : null;
+                        }.bind(this));
+                    },
+                    checkUniqueUsername : function( event )
+                    {
+                        this.forms.register.errors.username = null;
+                        this.forms.register.showUsernameLoading = true;
+
+                        $.post('/auth/checkUnique', {field: 'username', value: event.target.value }).then(function(response)
+                        {
+                            this.forms.register.showUsernameLoading = false;
+                            this.forms.register.errors.username = response === true ? 'Username already exists' : null;
+                        }.bind(this));
+                    },
+                    onSubmitForm : function( name )
                     {
                         this.status.loading = true;
                         this.status.info = this.status[name].onStart;
@@ -203,7 +244,7 @@
                                     function( response )
                                     {
                                         this.status.info = this.status[name].onSuccess;
-                                        setTimeout(function() { window.location.replace("/home"); }.bind(this), this.delay);
+                                        setTimeout(function(){ window.location.replace("/home"); }.bind(this), this.delay);
                                     }
                                     .bind(this)
                                 )
@@ -219,15 +260,15 @@
                         }
                         .bind(this), this.delay );
                     },
-                    switchOrSubmit( name )
+                    switchOrSubmit : function( name )
                     {
-                        if(this.status.tab === 2 && name === 'login') return this.status.tab = 1;
+                        if(this.status.tab === 2 && name === 'login')    return this.status.tab = 1;
                         if(this.status.tab === 1 && name === 'register') return this.status.tab = 2;
 
                         $(this.$refs[name]).on('submit', function( event )
                         {
                             event.preventDefault();
-                            event.target.checkValidity() ? this.onSubmitForm( name ) : event.target.reportValidity();
+                            if(this.forms[name].valid) this.onSubmitForm(name);
                         }
                         .bind(this)).submit();
                     }

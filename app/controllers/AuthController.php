@@ -15,25 +15,31 @@ class AuthController extends ViewController
         $this->view->render($response, 'route.view.user.auth2.html.twig');
     }
 
+    public function checkUnique( Request $request, Response $response )
+    {
+        $field = $request->getParsedBody()['field'];
+        $value = $request->getParsedBody()['value'];
+
+        $exists = User::find($value, $field);
+
+        return $response->withJson( is_object($exists) );
+    }
+
     public function postLogin ( Request $request, Response $response )
     {
-        $email = $request->getParsedBody()['email'];
+        $email    = $request->getParsedBody()['email'];
         $password = $request->getParsedBody()['password'];
-        //$remember = $request->getParsedBody()['remember'];
+        $remember = $request->getParsedBody()['remember'];
 
-        $remember = false;
+        $User = User::find($email, 'email');
 
-        //$remember = $remember !== null ? true : false;
-
-        $User = User::find( $email, 'email' );
-
-        if( !$User->getProperty('id') )
+        if(!$User->getId())
             return $response->withStatus(404, 'Could not find user.');
 
-        if( !$User->login( $password, $remember ) )
+        if(!$User->login( $password, $remember))
             return $response->withStatus(404, 'Authorization failed.');
 
-        return $response->withJson( $User->getProperties() );
+        return $response->withJson($User->getProperties());
     }
 
     public function postRegister ( Request $request, Response $response )

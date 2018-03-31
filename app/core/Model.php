@@ -3,209 +3,134 @@
 namespace core;
 
 use core\DB as DB;
-use core\Lang as Lang;
 
 abstract class Model
 {
-    protected $_STATE_ = [];
-
-    public static $_UNIQUE_KEY = 'id';
-    public static $_PROPS = [];
-    public static $_PROPS_PROTECTED = [];
-    public static $_PROPS_SEARCHABLE = [];
-
-    public function __call( $method, array $arguments )
-    {
-        $propName = Lang::underScorize( substr($method, 3 ) );
-        $action = substr( $method, 0, 3 );
-
-        if( $action === 'get' ) return $this->getProperty( $propName );
-        if( $action === 'set' ) return $this->setProperty( $propName, $arguments[0] );
-    }
-
-    public static function getSearchableProps()
-    {
-        return count( static::$_PROPS_SEARCHABLE ) ? static::$_PROPS_SEARCHABLE : static::$_PROPS;
-    }
-
-    public static function getPropertyNames()
-    {
-        return static::$_PROPS;
-    }
+    protected $properties = [];
+    public static $primaryKey = 'id';
+    public static $columns = [];
 
     public static function getTable()
     {
-        return DB::$_PREFIX_ . static::$_TABLE;
-    }
-
-    public function hasProperty( $name )
-    {
-       return in_array( $name, static::$_PROPS );
+        return DB::$_PREFIX_ . static::$table;
     }
 
     public function getProperty( $name )
     {
-        if( $this->hasProperty( $name ) )
-        {
-            return $this->_STATE_[$name];
-        }
-
+        if( array_key_exists($name, $this->properties) ) return $this->properties[$name];
         return null;
     }
 
     public function getProperties( $list = [] )
     {
-        if(count($list) === 0) return $this->_STATE_;
+        if(count($list) === 0) return $this->properties;
 
         $result = [];
+
         foreach($list as $propName)
         {
-            if(!array_key_exists($propName, $this->_STATE_)) continue;
-            $result[$propName] = $this->_STATE_[$propName];
+            if(!array_key_exists($propName, $this->properties)) continue;
+            $result[$propName] = $this->properties[$propName];
         }
-
         return $result;
     }
 
-    public function getPublicProperties()
+    public function setProperty($name, $value)
     {
-        $result = [];
-
-        foreach( $this->getProperties() as $name => $value )
-        {
-            if( !in_array($name, static::$_PROPS_PROTECTED ) ) $result[$name] = $value;
-        }
-
-        return $result;
-    }
-
-    public function setProperty( $name, $value )
-    {
-        if( in_array( $name, static::$_PROPS ) )
-        {
-            $this->_STATE_[$name] = $value;
-        }
-        
+        if(in_array($name, static::$columns)) $this->properties[$name] = $value;
         return $this;
     }
 
     public static function create( array $properties = [] )
     {
         $Model = new static();
-
-        foreach( $properties as $name => $value ) $Model->setProperty( $name, $value );
-
+        foreach($properties as $name => $value) $Model->setProperty($name, $value);
         return $Model;
     }
 
     public function save()
     {
-        $inserted = $this->insert( $this->getProperties() );
-
-        $modelId = $inserted ? DB::instance()->lastInsertId() : null;
-        /*
-        if ( $this->getProperty( static::$_UNIQUE_KEY ) !== null )
+        if($this->getProperty(self::$primaryKey) !== null)
         {
-            //$modelId = $this->update( [],static::$_UNIQUE_KEY, $this->getProperty(static::$_UNIQUE_KEY) );
+            $this->update();
         }
         else
         {
-            $modelId = $this->insert( $this->getProperties() );
+            $modelId = $this->insert();
+            $this->setProperty(static::$primaryKey, $modelId);
         }
-*/
-        if( !$modelId ) return false;
-
-        $this->setProperty(static::$_UNIQUE_KEY, $modelId);
 
         return $this;
     }
 
-    private function update( array $values, $key, $id )
+    private function update()
     {
-        $lastUpdateId = DB::instance()->update( static::$_TABLE, $this->getProperties(), $key, $id );
-
-        if( $lastUpdateId ) return $lastUpdateId;
-
-        return false;
+        return DB::instance()->update(static::$table, $this->getProperties(), self::$primaryKey, $this->getProperty(self::$primaryKey));
     }
 
-    private function insert( array $values )
+    private function insert()
     {
-        $lastInsertId = DB::instance()->insert( static::$_TABLE, $values );
-
-        if( !$lastInsertId ) return false;
-
-        $this->setProperty( static::$_UNIQUE_KEY, $lastInsertId );
-
-        return $lastInsertId;
+        return DB::instance()->insert(static::$table, $this->getProperties());
     }
 
     public static function find( $value, $column = null )
     {
-        if( $column === null ) $column = static::$_UNIQUE_KEY;
+        if( $column === null ) $column = static::$primaryKey;
 
-        $row = DB::instance()->find( static::$_TABLE, $column, $value );
+        $row = DB::instance()->find(static::$table, $column, $value);
 
-        if( $row === false ) return false;
+        if(!is_array($row)) return false;
 
         return static::create( (array)$row );
     }
 
     public static function findAll( $value, $column = null )
     {
-        if( !$column ) $column = static::$_UNIQUE_KEY;
+        if(!$column) $column = static::$primaryKey;
 
-        $rows = DB::instance()->findAll( static::$_TABLE, $column, $value );
+        $rows = DB::instance()->findAll( static::$table, $column, $value );
         
-        if( $rows === false ) return [];
+        if(!is_array($rows)) return false;
         
         $models = [];
 
-        foreach( $rows as $row )
-        {
-            $models[] = static::create( (array)$row );
-        }
+        foreach( $rows as $row ) $models[] = static::create( (array)$row );
 
         return $models;
-    }
-
-    public function search( $search = null, array $filter = [] )
-    {
-
     }
 
     public static function all()
     {
-        $rows = DB::instance()->all( static::$_TABLE );
+        $rows = DB::instance()->all(static::$table);
 
         $models = [];
 
-        foreach( $rows as $row )
-        {
-            $models[] = static::create( (array)$row );
-        }
-
+        foreach( $rows as $row ) $models[] = static::create((array)$row);
+        
         return $models;
     }
 
-    public function remove()
+    public function destroy()
     {
-	    return DB::instance()->delete( static::$_TABLE, static::$_UNIQUE_KEY, $this->getProperty( static::$_UNIQUE_KEY ) );
+	    return DB::instance()->delete(static::$table, static::$primaryKey, $this->getProperty(static::$primaryKey) );
     }
     
     public static function delete( $column, $value ) : bool
     {
-        return DB::instance()->delete( static::$_TABLE, $column, $value );
+        return DB::instance()->delete( static::$table, $column, $value );
     }
 
     public static function deleteIn( $column, $range ) : bool
     {
-        return DB::instance()->deleteIn( static::$_TABLE, $column, $range );
+        return DB::instance()->deleteIn( static::$table, $column, $range );
     }
 
-    public static function isSearchable()
+    public function __call($method, array $arguments)
     {
-        return count(static::$_PROPS_SEARCHABLE) > 0;
-    }
+        $propName = underscorize(substr($method, 3));
+        $action = substr($method, 0, 3);
 
+        if($action === 'get') return $this->getProperty($propName);
+        if($action === 'set') return $this->setProperty($propName, $arguments[0]);
+    }
 }

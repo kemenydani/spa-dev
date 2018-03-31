@@ -78,11 +78,19 @@
           }
           // input
           .input-field-group {
-            display: flex;
-            width: 100%;
-            > .input-field {
+            min-width: 100%;
+            position: relative;
+            > .field-wrap {
+              display: flex;
+              width: 100%;
+
+            }
+            .input-field {
               margin-bottom:0px;
               display: inline-block;
+            }
+            >.field-info {
+
             }
           }
           .field-info {
@@ -118,7 +126,7 @@
               background: $light;
               display: flex;
               > input { border: none; }
-              .input-status { width: 45px; height: 45px; text-align: center; line-height: 45px; }
+              .input-status { width: 45px; height: 45px; text-align: center; line-height: 45px; cursor: pointer; }
             }
             input {
               width: 100%;
@@ -154,6 +162,10 @@
         color: $light;
         font-weight: 700;
         cursor: pointer;
+         &.inactive {
+          background: $darkergrey;
+           opacity: 0.8;
+        }
       }
     }
   }
