@@ -62,10 +62,9 @@
                                         placeholder="Email"
                                         type="email"
                                         name="email"
-                                        autocomplete="on"
+                                        autocomplete="off"
                                         required
                                         v-model="forms.register.fields.email"
-                                        v-on:change="checkUniqueEmail"
                                     />
                                     <div class="input-status">
                                         <i v-show="forms.register.showEmailLoading" class="fas fa-circle-notch fa-spin"></i>
@@ -82,7 +81,6 @@
                                         autocomplete="off"
                                         required
                                         v-model="forms.register.fields.username"
-                                        v-on:change="checkUniqueUsername"
                                     />
                                     <div class="input-status">
                                         <i v-show="forms.register.showUsernameLoading" class="fas fa-circle-notch fa-spin"></i>
@@ -162,7 +160,7 @@
                             },
                             register: {
                                 onStart   : 'Registering.',
-                                onSuccess : 'Registered.',
+                                onSuccess : 'Registered. Switching to the login tab.',
                                 onError   : 'Failed to register.'
                             },
                         },
@@ -207,30 +205,39 @@
                     'status.loading' : function( v )
                     {
                         $('.form-status-overlay').css('opacity', (v === true ? 0 : 1)).fadeTo(600 , (v === true ? 1 : 0));
-                    }
+                    },
+                    'forms.register.fields.password' : function( v )
+                    {
+
+                    },
                 },
                 methods: {
-                    checkUniqueEmail : function( event )
+                    onSuccess : function( name, response )
                     {
-                        this.forms.register.errors.email = null;
-                        this.forms.register.showEmailLoading = true;
-
-                        $.post('/auth/checkUnique', {field: 'email', value: event.target.value }).then(function(response)
-                        {
-                            this.forms.register.showEmailLoading = false;
-                            this.forms.register.errors.email = response === true ? 'Email already exists' : null;
-                        }.bind(this));
+                        this.status.info = this.status[name].onSuccess;
+                        setTimeout(
+                            function()
+                            {
+                                if( name === 'login') window.location.replace("/home");
+                                if( name === 'register') {
+                                    this.forms.login.fields.email    = this.forms.register.fields.email;
+                                    this.forms.login.fields.password = this.forms.register.fields.password;
+                                    this.status.tab = 1;
+                                    this.status.loading = false;
+                                }
+                            }
+                            .bind(this), this.delay
+                        );
                     },
-                    checkUniqueUsername : function( event )
+                    onError : function(name,response)
                     {
-                        this.forms.register.errors.username = null;
-                        this.forms.register.showUsernameLoading = true;
-
-                        $.post('/auth/checkUnique', {field: 'username', value: event.target.value }).then(function(response)
-                        {
-                            this.forms.register.showUsernameLoading = false;
-                            this.forms.register.errors.username = response === true ? 'Username already exists' : null;
-                        }.bind(this));
+                        this.status.info = this.status[name].onError;
+                        setTimeout(
+                            function() {
+                                this.forms[name].errors = response.details;
+                                this.status.loading = false;
+                            }.bind(this), this.delay
+                        );
                     },
                     onSubmitForm : function( name )
                     {
@@ -243,15 +250,17 @@
                                 .then(
                                     function( response )
                                     {
-                                        this.status.info = this.status[name].onSuccess;
-                                        setTimeout(function(){ window.location.replace("/home"); }.bind(this), this.delay);
+                                        if(!response || !response.hasOwnProperty('success')) throw new Error('Internal Server Error');
+
+                                        if(response.success == true) return this.onSuccess( name, response );
+                                        if(response.success == false) return this.onError( name, response );
                                     }
                                     .bind(this)
                                 )
                                 .catch(
                                     function(error)
                                     {
-                                        this.status.info = this.status[name].onError;
+                                        this.status.info = error.message;
                                         setTimeout(function(){ this.status.loading = false; }.bind(this), this.delay + 3000 );
                                     }
                                     .bind(this)
@@ -268,7 +277,15 @@
                         $(this.$refs[name]).on('submit', function( event )
                         {
                             event.preventDefault();
-                            if(this.forms[name].valid) this.onSubmitForm(name);
+                            if(typeof event.target.checkValidity === 'function') {
+                                if(event.target.checkValidity()) {
+                                    this.onSubmitForm(name);
+                                } else {
+                                    event.target.reportValidity();
+                                }
+                            } else {
+                                this.onSubmitForm(name);
+                            }
                         }
                         .bind(this)).submit();
                     }
