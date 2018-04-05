@@ -69,7 +69,8 @@ class Article extends Model
 
             $user = User::find($comment['user_id']);
 
-            if( $user ) {
+            if( $user )
+            {
                 $comment['username'] = $user->getUsername();
                 $comment['profile_picture'] = $user->getProfilePicture();
             }
