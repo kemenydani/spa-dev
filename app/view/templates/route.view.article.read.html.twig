@@ -30,6 +30,7 @@
             <comment-tree-item
                 v-if="index < limit"
                 v-for="(comment,index) in model"
+                v-bind:key="comment.id"
                 v-bind:level="level"
                 v-bind:comment="comment"
                 class="comment"></comment-tree-item>
@@ -80,7 +81,7 @@
 
         var __COMMENTS__ = {% autoescape false %}{{ comments }}{% endautoescape %};
         // level n -> limits[n]
-        var __LIMITS__ = [ 20, 4, 2 ];
+        var __LIMITS__ = [ 100, 20, 10, 5 ];
 
         var EventBus = new Vue();
 
@@ -149,9 +150,10 @@
 
                     EventBus.$emit('postComment', data, function( response ){
                         if(response){
-                            this.data.ch.unshift(response);
+	                        this.data.ch.unshift(response);
                             this.$emit('newReply', response);
                             this.replyForm.text = '';
+	                        this.$forceUpdate();
                         }
                     }.bind(this));
                 }

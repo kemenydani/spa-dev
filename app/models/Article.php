@@ -10,13 +10,10 @@ use models\Comment as Comment;
 
 class Article extends Model
 {
-	public static $_UNIQUE_KEY = 'id';
-	public static $_TABLE = 'article';
+	public static $primaryKey = 'id';
+	public static $table = 'article';
 
-	public static $_PROPS = ['id', 'active', 'title', 'title_seo', 'teaser', 'content', 'activation_time', 'date_created'];
-    public static $_PROPS_READONLY = ['id', 'date_created'];
-    public static $_PROPS_SEARCHABLE = ['id', 'title', 'teaser', 'content', 'date_created', 'activation_time'];
-    public static $_PROPS_PROTECTED = ['content'];
+	public static $columns = ['id', 'active', 'title', 'title_seo', 'teaser', 'content', 'activation_time', 'date_created'];
 
 	public function categorize( array $new_categories )
 	{
@@ -52,9 +49,9 @@ class Article extends Model
         $id = $this->getId();
 
         $stmt = " SELECT c.*, c.id as id FROM _xyz_article_comment_pivot acp" .
-            " LEFT JOIN _xyz_comment c " .
-            " ON c.id = acp.comment_id " .
-            " WHERE acp.article_id = $id"
+                " LEFT JOIN _xyz_comment c " .
+                " ON c.id = acp.comment_id " .
+                " WHERE acp.article_id = $id"
         ;
 
         $sql = DB::instance()->query( $stmt );
@@ -73,9 +70,8 @@ class Article extends Model
             $user = User::find($comment['user_id']);
 
             if( $user ) {
-                $comment['user'] = $user->getPublicProperties();
-                $comment['user']['profile_picture'] = '/user_picture/' . $comment['user']['profile_picture'];
-                $users[$comment['user_id']] = $comment['user'];
+                $comment['username'] = $user->getUsername();
+                $comment['profile_picture'] = $user->getProfilePicture();
             }
         }
 

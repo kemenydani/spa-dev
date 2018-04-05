@@ -1,0 +1,333 @@
+{% extends 'block.full.html.twig' %}
+
+{% block content %}
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <div class="container">
+        {% verbatim %}
+        <div id="auth-area">
+            <div class="wrap">
+                <div class="form-status-overlay" v-show="status.loading">
+                     <div class="status-wrap">
+                        <i class="status-loading-spinner fas fa-circle-notch fa-spin"></i>
+                        <div class="status-info">{{ status.info }}</div>
+                     </div>
+                </div>
+                <div class="form-tabs" v-bind:class="{ 'loading' : status.loading }">
+                    <div class="form-tab login-form-tab" v-show="status.tab === 1">
+                        <form class="login-form" ref="login" method="post" accept-charset="UTF-8">
+                            <h1 class="form-title">Login</h1>
+                            <div class="input-field">
+                                <input
+                                    placeholder="Email"
+                                    type="email"
+                                    name="email"
+                                    autocomplete="on"
+                                    v-model="forms.login.fields.email"
+                                />
+                                <span class="field-info">{{ forms.login.errors.email }}</span>
+                            </div>
+                            <div class="input-field">
+                                <div class="input-status-wrapper">
+                                    <input
+                                        placeholder="Password"
+                                        type="password"
+                                        name="password"
+                                        autocomplete="on"
+                                        v-model="forms.login.fields.password"
+                                        v-bind:type="forms.login.settings.showPassword ? 'text' : 'password'"
+                                    />
+                                    <div class="input-status">
+                                        <i v-on:click="forms.login.settings.showPassword = !forms.login.settings.showPassword" v-bind:class="[ forms.login.settings.showPassword ? 'fa-eye-slash' : 'fa-eye' ]" class="fas"></i>
+                                    </div>
+                                </div>
+                                <span class="field-info">{{ forms.login.errors.password }}</span>
+                            </div>
+                            <div class="input-field input-remember">
+                                <label class="checkbox-wrap"> Remember me
+                                    <input
+                                        type="checkbox"
+                                        v-model="forms.login.fields.remember"
+                                    />
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-tab register-form-tab" v-show="status.tab === 2">
+                        <form class="register-form" ref="register" method="post" accept-charset="UTF-8">
+                            <h1 class="form-title">Register</h1>
+                            <div class="input-field">
+                                <div class="input-status-wrapper" v-bind:class="{ 'invalid' : forms.register.errors.email }">
+                                    <input
+                                        placeholder="Email"
+                                        type="email"
+                                        name="email"
+                                        autocomplete="off"
+                                        required
+                                        v-model="forms.register.fields.email"
+                                    />
+                                    <div class="input-status">
+                                        <i v-show="forms.register.showEmailLoading" class="fas fa-circle-notch fa-spin"></i>
+                                    </div>
+                                </div>
+                                <span class="field-info">{{ forms.register.errors.email }}</span>
+                            </div>
+                            <div class="input-field">
+                                <div class="input-status-wrapper" v-bind:class="{ 'invalid' : forms.register.errors.username }">
+                                    <input
+                                        placeholder="Username"
+                                        type="text"
+                                        name="username"
+                                        autocomplete="off"
+                                        required
+                                        v-model="forms.register.fields.username"
+                                    />
+                                    <div class="input-status">
+                                        <i v-show="forms.register.showUsernameLoading" class="fas fa-circle-notch fa-spin"></i>
+                                    </div>
+                                </div>
+                                <span class="field-info">{{ forms.register.errors.username }}</span>
+                            </div>
+                            <div class="input-field-group">
+                                <div class="field-wrap">
+                                    <div class="input-field">
+                                        <div class="input-status-wrapper" v-bind:class="{ 'invalid' : forms.register.errors.password }">
+                                            <input
+                                                placeholder="Password"
+                                                type="password"
+                                                name="password"
+                                                autocomplete="off"
+                                                required
+                                                v-bind:type="forms.register.settings.showPassword ? 'text' : 'password'"
+                                                v-model="forms.register.fields.password"
+                                            />
+                                            <div class="input-status">
+                                                <i v-on:click="forms.register.settings.showPassword = !forms.register.settings.showPassword" v-bind:class="[ forms.register.settings.showPassword ? 'fa-eye-slash' : 'fa-eye' ]" class="fas"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="input-field">
+                                        <div class="input-status-wrapper" v-bind:class="{ 'invalid' : forms.register.errors.password }">
+                                            <input
+                                                placeholder="Repeat Password"
+                                                name="password_repeat"
+                                                autocomplete="off"
+                                                required
+                                                v-model="forms.register.fields.password_repeat"
+                                                v-bind:type="forms.register.settings.showPassword ? 'text' : 'password'"
+                                            />
+                                            <div class="input-status">
+                                                <i v-on:click="forms.register.settings.showPassword = !forms.register.settings.showPassword" v-bind:class="[ forms.register.settings.showPassword ? 'fa-eye-slash' : 'fa-eye' ]" class="fas"></i>
+                                            </div>
+                                        </div>
+                                     </div>
+                                 </div>
+                                 <span class="field-info">{{ forms.register.errors.password }}</span>
+                             </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="form-tab-navigation">
+                    <button
+                        v-bind:class="{ 'inactive' : (status.tab === 2) }"
+                        v-on:click="switchOrSubmit('login')">LOGIN</button>
+                    <button
+                        v-bind:class="{ 'inactive' : (status.tab === 1) }"
+                        v-on:click="switchOrSubmit('register')">REGISTER</button>
+                </div>
+            </div>
+        </div>
+        {% endverbatim %}
+    </div>
+
+    {% verbatim %}
+
+    <script type='x-template' id='template-input-field'>
+        <div class="input-field" v-bind:class="{ 'invalid' : invalid }">
+          <label v-if="field.info" class="info">{{ field.info }}</label>
+          <div class="wrap">
+            <input v-bind:type="type" v-model="field.value" v-on:change="changed" v-on:blur="blur">
+            <div class="progress-spinner" v-if="loading">ps</div>
+          </div>
+          <div class="warn"></div>
+        </div>
+    </script>
+
+    {% endverbatim %}
+
+    <script>
+
+        (function($, Vue){
+
+	        Vue.component('input-field', {
+		        template: '#template-input-field',
+		        props: [''],
+		        data: function () {
+			        return {
+			        	valid: false,
+			        }
+		        },
+		        created: function(){
+
+		        },
+		        watch: {
+
+		        },
+		        methods: {
+
+		        }
+	        });
+
+	        var app = new Vue({
+                el: '#auth-area',
+                data: function () {
+                    return {
+                        delay: 2000,
+                        status : {
+                            tab: 1,
+                            loading: false,
+                            info: '',
+                            login: {
+                                onStart   : 'Logging in.',
+                                onSuccess : 'Logged in, now redirecting.',
+                                onError   : 'Login failed.'
+                            },
+                            register: {
+                                onStart   : 'Registering.',
+                                onSuccess : 'Registered. Switching to the login tab.',
+                                onError   : 'Failed to register.'
+                            },
+                        },
+                        forms: {
+                            register: {
+                                action: '/postRegister',
+                                errors: { email : null, username : null, password : null },
+                                showUsernameLoading: false,
+                                showEmailLoading: false,
+                                valid: false,
+                                fields: {
+                                    email: '',
+                                    username: '',
+                                    password: '',
+                                    password_repeat: ''
+                                },
+                                settings: {
+                                    showPassword: false
+                                }
+                            },
+                            login: {
+                                action: '/postLogin',
+                                errors: {},
+                                valid: false,
+                                fields: {
+                                    email: 'sno@sno.com',
+                                    password: 'admin',
+                                    remember: true
+                                },
+                                settings: {
+                                    showPassword: false
+                                }
+                            },
+                        }
+                    }
+                },
+                watch: {
+                    'status.tab' : function( v )
+                    {
+                        $($('.form-tabs').children()[v-1]).css('opacity', 0).fadeTo(350 , 1);
+                    },
+                    'status.loading' : function( v )
+                    {
+                        $('.form-status-overlay').css('opacity', (v === true ? 0 : 1)).fadeTo(600 , (v === true ? 1 : 0));
+                    },
+                    'forms.register.fields.password' : function( v )
+                    {
+
+                    },
+                },
+                methods: {
+                    onSuccess : function( name, response )
+                    {
+                        this.status.info = this.status[name].onSuccess;
+                        setTimeout(
+                            function()
+                            {
+                                if( name === 'login') window.location.replace("/home");
+                                if( name === 'register') {
+                                    this.forms.login.fields.email    = this.forms.register.fields.email;
+                                    this.forms.login.fields.password = this.forms.register.fields.password;
+                                    this.status.tab = 1;
+                                    this.status.loading = false;
+                                }
+                            }
+                            .bind(this), this.delay
+                        );
+                    },
+                    onError : function(name,response)
+                    {
+                        this.status.info = this.status[name].onError;
+                        setTimeout(
+                            function() {
+                                this.forms[name].errors = response.details;
+                                this.status.loading = false;
+                            }.bind(this), this.delay
+                        );
+                    },
+                    onSubmitForm : function( name )
+                    {
+                        this.status.loading = true;
+                        this.status.info = this.status[name].onStart;
+
+                        setTimeout(function()
+                        {
+                            $.post(this.forms[name].action, this.forms[name].fields)
+                                .then(
+                                    function( response )
+                                    {
+                                        if(!response || !response.hasOwnProperty('success')) throw new Error('Internal Server Error');
+
+                                        if(response.success == true) return this.onSuccess( name, response );
+                                        if(response.success == false) return this.onError( name, response );
+                                    }
+                                    .bind(this)
+                                )
+                                .catch(
+                                    function(error)
+                                    {
+                                        this.status.info = error.message;
+                                        setTimeout(function(){ this.status.loading = false; }.bind(this), this.delay + 3000 );
+                                    }
+                                    .bind(this)
+                                )
+                            ;
+                        }
+                        .bind(this), this.delay );
+                    },
+                    switchOrSubmit : function( name )
+                    {
+                        if(this.status.tab === 2 && name === 'login')    return this.status.tab = 1;
+                        if(this.status.tab === 1 && name === 'register') return this.status.tab = 2;
+
+                        $(this.$refs[name]).on('submit', function( event )
+                        {
+                            event.preventDefault();
+                            if(typeof event.target.checkValidity === 'function') {
+                                if(event.target.checkValidity()) {
+                                    this.onSubmitForm(name);
+                                } else {
+                                    event.target.reportValidity();
+                                }
+                            } else {
+                                this.onSubmitForm(name);
+                            }
+                        }
+                        .bind(this)).submit();
+                    }
+                }
+            });
+
+        }( jQuery, Vue ));
+
+    </script>
+
+{% endblock %}

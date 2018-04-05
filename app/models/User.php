@@ -14,7 +14,7 @@ class User extends Model {
     public static $columns = ['id', 'username', 'password', 'remember_token', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated'];
 
     const PUBLIC_DATASET = [ 'id', 'username', 'profile_picture', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated' ];
-
+    const SMALL_DATASET = [ 'id', 'username', 'profile_picture', 'email'];
     const IMAGE_PATH = __UPLOADS__ . '/images/user';
 
     const FIELD_RULES = [

@@ -17,7 +17,7 @@ abstract class Model
 
     public function getProperty( $name )
     {
-        if( array_key_exists($name, $this->properties) ) return $this->properties[$name];
+        if( array_key_exists($name, $this->properties)) return $this->properties[$name];
         return null;
     }
 
@@ -56,8 +56,9 @@ abstract class Model
         }
         else
         {
-            $modelId = $this->insert();
-            $this->setProperty(static::$primaryKey, $modelId);
+            $inserted = $this->insert();
+            if(!$inserted) return false;
+            $this->setProperty(static::$primaryKey, DB::instance()->lastInsertId());
         }
 
         return $this;

@@ -34,7 +34,7 @@ class ArticleController extends ViewController
 
         if( $Comment->getProperty('id') )
         {
-            $result = $Comment->getPublicProperties();
+            $result = $Comment->getProperties();
             $result['username'] = $User->getProperty('username');
             $result['profile_picture'] = $User->getProfilePicture();
         }
