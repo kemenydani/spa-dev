@@ -104,11 +104,11 @@ abstract class Model
     {
         $rows = DB::instance()->all(static::$table);
 
-        $models = [];
+        $collection = new ModelCollection();
 
-        foreach( $rows as $row ) $models[] = static::create((array)$row);
+        foreach( $rows as $row ) $collection->collect(static::create((array)$row));
         
-        return $models;
+        return $collection;
     }
 
     public function destroy()
