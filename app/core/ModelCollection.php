@@ -6,84 +6,121 @@ use core\Model as Model;
 
 class ModelCollection
 {
+    /**
+     * @var Model[]
+     */
+    public $models = [];
 
-	/**
-	 * @var Model[] $models List of Model objects.
-	 */
-	public $models = [];
+    public function __construct( array $models )
+    {
+        $this->setModels( $models );
+    }
+
+    /**
+     * @param Model[]
+     * @return ModelCollection
+     */
+    public function setModels( array $models ) : ModelCollection
+    {
+        $this->models = $models;
+        return $this;
+    }
+
+    /**
+     * @param Model[]
+     * @return ModelCollection
+     */
+    public function pushModels( array $models ) : ModelCollection
+    {
+        foreach($models as $key => $model) $this->insertModel($key, $model);
+        return $this;
+    }
+
+    /**
+     * @param $key
+     * @param Model
+     * @return ModelCollection
+     */
+    public function insertModel( $key, $model ) : ModelCollection
+    {
+        $this->models[$key] = $model;
+        return $this;
+    }
+
+    /**
+     * @param Model
+     * @return ModelCollection
+     */
+    public function pushModel( $model ) : ModelCollection
+    {
+        $this->models[] = $model;
+        return $this;
+    }
 
     /**
      * @param array $set
      * @return array
      */
-    public function toArray( $set = [] ) : array
+    public function getProperties( $set = [] ) : array
     {
-        $array = [];
+        $propertyArray = [];
 
-        foreach($this->models as $key => $model) $array[$key] = $model->getProperties( $set );
+        foreach($this->getModels() as $key => $model) $propertyArray[$key] = $model->getProperties( $set );
 
-        return $array;
+        return $propertyArray;
     }
 
     /**
-     * @param Model $model
-     * @param integer $key exact key for new item
+     * @return Model[]
      */
-    public function collectModel( Model $model, $key = null )
-    {
-    	if( $key === null ) $this->models[] = $model;
-	    $this->models[$key] = $model;
-    }
-	
-	public function collectModels( $models, $merge = false )
-	{
-    	if( !$merge ) $this->models = $models;
-		$this->models = array_merge( $this->models, $models );
-		return $this;
-	}
-    
-    /**
-     * @param $i
-     * @return Model
-     */
-    public function get( $i )
-    {
-        if(!array_key_exists($i, $this->models)) return null;
-        return $this->models[$i];
-    }
-	
-	/**
-	 * Returns a list of Model objects
-	 * @return Model[]
-	 */
     public function getModels() : array
     {
-    	return $this->models;
-    }
-    
-    /**
-     * @return Model
-     */
-    public function first() : Model
-    {
-        if(count($this->models) === 0) return null;
-        return $this->get(0);
+        return $this->models;
     }
 
     /**
-     * @return Model
+     * @param $id
+     * @return Model|null
      */
-    public function last() : Model
+    public function getModel( $id )
     {
-        if(count($this->models) === 0) return null;
-        return $this->get(count($this->models)-1);
+        return array_key_exists($id, $this->getModels()) ? $this->models[$id] : null;
     }
 
     /**
-     * @return int
+     * @return ModelCollection
      */
-    public function count() : int
+    public function save() : ModelCollection
     {
-        return count($this->models);
+        foreach($this->getModels() as $model) $model->save();
+        return $this;
     }
+
+    /**
+     * @return ModelCollection
+     */
+    public function destroy() : ModelCollection
+    {
+        foreach($this->getModels() as $model) $model->destroy();
+        return $this;
+    }
+
+    /**
+     * @param array $data
+     * @param Model
+     * @return array
+     */
+    public static function parseModels( array $data, $class )
+    {
+        $parsed = [];
+
+        foreach($data as $key => $value)
+        {
+            if(is_array($value)) $parsed[$key] = $class::create($value);
+            if(is_object($value)) $parsed[$key] = $value;
+        }
+
+        return $parsed;
+    }
+
 }

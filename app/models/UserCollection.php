@@ -3,13 +3,14 @@
 namespace models;
 
 use core\ModelCollection;
+use models\User as User;
 
 class UserCollection extends ModelCollection
 {
-    /**
-     * @var User[] $models List of Model objects.
-     */
-    public $models = [];
+    public function __construct(array $models)
+    {
+        parent::__construct(self::parseModels($models, User::class));
+    }
 
 
 }
