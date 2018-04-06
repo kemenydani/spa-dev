@@ -174,5 +174,19 @@ class DB extends \PDO
 
         return $isDeleted;
     }
-
+/*
+    public function getRow($sql, array $params = array())
+    {
+        $q = pg_query_params($this->connection, $sql, $params);
+        if ($q)
+        {
+            $row = pg_fetch_assoc($q);
+            if (is_resource($q))
+            {
+                pg_free_result($q);
+            }
+            return (is_array($row)) ? $row : null;
+        }
+    }
+*/
 }

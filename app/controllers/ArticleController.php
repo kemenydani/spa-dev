@@ -56,7 +56,7 @@ class ArticleController extends ViewController
             $response,
             'route.view.article.read.html.twig',
             [
-                'article'  => $article->getPublicProperties(),
+                'article'  => $article->getProperties(),
                 'comments' => json_encode($comments, true)
             ]
         );
