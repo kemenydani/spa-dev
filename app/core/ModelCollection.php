@@ -6,7 +6,10 @@ use core\Model as Model;
 
 class ModelCollection
 {
-    protected $models = [];
+	/**
+	 * @var Model[] $models List of Model objects.
+	 */
+	protected $models = [];
 
     /**
      * @param array $set
@@ -23,12 +26,20 @@ class ModelCollection
 
     /**
      * @param Model $model
+     * @param integer $key exact key for new item
      */
-    public function collect( Model $model )
+    public function collect( Model $model, $key = null )
     {
-        $this->models[] = $model;
+    	if( $key === null ) $this->models[] = $model;
+	    $this->models[$key] = $model;
     }
-
+	
+	public function collectMultiple( $models, $merge = false )
+	{
+    	if( !$merge ) $this->models = $models;
+		$this->models = array_merge( $this->models, $models );
+	}
+    
     /**
      * @param $i
      * @return Model
@@ -38,7 +49,16 @@ class ModelCollection
         if(!array_key_exists($i, $this->models)) return null;
         return $this->models[$i];
     }
-
+	
+	/**
+	 * Returns a list of Model objects
+	 * @return Model[]
+	 */
+    public function all() : array
+    {
+    	return $this->models;
+    }
+    
     /**
      * @return Model
      */

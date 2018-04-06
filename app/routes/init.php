@@ -17,7 +17,7 @@ $configuration = [
         $settings = [
             //'cache' => $cacheDir
         ];
-
+        
         $view = new \Slim\Views\Twig( __APPDIR__ . '/view/templates', $settings );
 
         $view->getEnvironment()->addGlobal('isLogged', Auth::isLoggedIn());

@@ -4,7 +4,7 @@ namespace controllers;
 
 use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-use \models\Comment;
+use models\Comment;
 use core\DB as DB;
 
 class CommentController extends ViewController

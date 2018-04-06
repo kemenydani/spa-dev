@@ -11,16 +11,21 @@ class Comment extends Model
     public static $table = 'comment';
     public static $columns = ['id', 'pid', 'text', 'user_id'];
 
-    protected $user;
-
+    protected $user = null;
+    
+    public function setUser( User $user )
+    {
+    	$this->user = $user;
+    }
+    
     public function getUser() : Model
     {
-        return User::find($this->getProperty('user_id'));
+    	if( $this->user !== null ) return $this->user;
+    	return User::find($this->getProperty('user_id'));
     }
 
     public static function formatCommentTree( array $comments )
     {
-
         foreach ($comments as $k => &$v) {
             if ($v['pid'] != 0) {
                 if(!array_key_exists('ch', $comments[$v['pid']])) $comments[$v['pid']]['ch'] = array();
@@ -40,6 +45,4 @@ class Comment extends Model
 
         return $comments;
     }
-
-
 }

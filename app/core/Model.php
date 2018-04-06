@@ -15,6 +15,13 @@ abstract class Model
         return DB::$_PREFIX_ . static::$table;
     }
 
+    public function equals( Model $model )
+    {
+	    if(!$model->getProperty( self::$primaryKey ) && !$this->getProperty( self::$primaryKey ) ) return false;
+	    
+    	return (string)$this->getProperty( self::$primaryKey ) === (string)$model->getProperty( self::$primaryKey );
+    }
+    
     public function getProperty( $name )
     {
         if( array_key_exists($name, $this->properties)) return $this->properties[$name];
