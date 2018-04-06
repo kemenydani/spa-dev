@@ -26,10 +26,7 @@ class CommentCollection extends ModelCollection
 
         unset($v);
 
-        foreach ($comments as $k => $v)
-        {
-            if ($v['pid'] != 0) unset($comments[$k]);
-        }
+        foreach ($comments as $k => $v) if ($v['pid'] != 0) unset($comments[$k]);
 
         $comments = array_reverse_recursive($comments);
 
@@ -52,7 +49,6 @@ class CommentCollection extends ModelCollection
 
             $Comment->setProperty('username', $User->getUsername());
             $Comment->setProperty('profile_picture', $User->getProfilePicture());
-
         }
         return $this->getProperties();
     }
