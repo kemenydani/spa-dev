@@ -46,42 +46,22 @@ class Article extends Model
 
 	public function getComments()
     {
+        $id = $this->getId();
+
         $stmt = " SELECT c.*, c.id as id FROM _xyz_article_comment_pivot acp" .
                 " LEFT JOIN _xyz_comment c " .
                 " ON c.id = acp.comment_id " .
-                " WHERE acp.article_id = $this->getId()"
+                " WHERE acp.article_id = $id"
         ;
 
         $sql = DB::instance()->query( $stmt );
 
-        $result = $sql->fetchAll(\PDO::FETCH_UNIQUE|\PDO::FETCH_ASSOC );
+        $rows = $sql->fetchAll(\PDO::FETCH_UNIQUE|\PDO::FETCH_ASSOC );
         
-        $Comments = (new CommentCollection())->collectArray($result);
-        
-        $result = Comment::formatCommentTree($Comments->toArray());
-        
-        /*
-        $users = [];
-        
-        foreach($result as &$comment)
-        {
-            if(array_key_exists($comment['user_id'], $users))
-            {
-                $comment['user'] = $users[$comment['user_id']];
-                continue;
-            }
+        $CommentCollection = (new CommentCollection($rows));
 
-            $user = User::find($comment['user_id']);
+        $result = $CommentCollection->toTree();
 
-            if( $user )
-            {
-                $comment['username'] = $user->getUsername();
-                $comment['profile_picture'] = $user->getProfilePicture();
-            }
-        }
-
-        $result = Comment::formatCommentTree( $result );
-*/
         return $result;
     }
 

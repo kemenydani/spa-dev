@@ -44,7 +44,8 @@ abstract class Model
 
     public function setProperty($name, $value)
     {
-        if(in_array($name, static::$columns)) $this->properties[$name] = $value;
+        //if(in_array($name, static::$columns)) $this->properties[$name] = $value;
+        $this->properties[$name] = $value;
         return $this;
     }
 

@@ -6,10 +6,11 @@ use core\Model as Model;
 
 class ModelCollection
 {
+
 	/**
 	 * @var Model[] $models List of Model objects.
 	 */
-	protected $models = [];
+	public $models = [];
 
     /**
      * @param array $set
@@ -19,7 +20,7 @@ class ModelCollection
     {
         $array = [];
 
-        foreach($this->models as $model) $array[] = $model->getProperties( $set );
+        foreach($this->models as $key => $model) $array[$key] = $model->getProperties( $set );
 
         return $array;
     }
@@ -28,16 +29,17 @@ class ModelCollection
      * @param Model $model
      * @param integer $key exact key for new item
      */
-    public function collect( Model $model, $key = null )
+    public function collectModel( Model $model, $key = null )
     {
     	if( $key === null ) $this->models[] = $model;
 	    $this->models[$key] = $model;
     }
 	
-	public function collectMultiple( $models, $merge = false )
+	public function collectModels( $models, $merge = false )
 	{
     	if( !$merge ) $this->models = $models;
 		$this->models = array_merge( $this->models, $models );
+		return $this;
 	}
     
     /**
@@ -54,7 +56,7 @@ class ModelCollection
 	 * Returns a list of Model objects
 	 * @return Model[]
 	 */
-    public function all() : array
+    public function getModels() : array
     {
     	return $this->models;
     }

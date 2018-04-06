@@ -20,7 +20,6 @@ class Comment extends Model
     
     public function getUser() : Model
     {
-    	if( $this->user !== null ) return $this->user;
     	return User::find($this->getProperty('user_id'));
     }
 

@@ -25,7 +25,12 @@ class User extends Model {
 
     public function getProfilePicture()
     {
-        return 'user_picture/' . $this->getProperty('profile_picture');
+        return '/user_picture/' . $this->getProperty('profile_picture');
+    }
+
+    public function getUsername()
+    {
+        return $this->getProperty('username');
     }
 
     public function logout()
