@@ -1,7 +1,7 @@
 {% extends 'block.full.html.twig' %}
 
 {% block content %}
-    <div class="container-full top-sponsor-row" style="border: 1px solid green">
+    <div class="container-full top-sponsor-row">
         {% include 'widget.sponsor.inline.html.twig'
             with {
             items: {
@@ -15,12 +15,16 @@
             only
         %}
     </div>
-    <div class="container" style="border: 1px solid green">
+    <div class="container">
         <article class="widget-featured-news">
-            ID {{ hlArticles[0].id }}
+            <div class="box box-shadow">
+                <div class="box-body">
+                    ID {{ hlArticles[0].id }}
+                </div>
+            </div>
         </article>
     </div>
-    <div class="container" style="border: 1px solid green">
+    <div class="container">
         <article class="widget-last-news" >
             {% for article in lastArticles %}
                 <li>id: {{ article.id }}</li>
@@ -30,7 +34,7 @@
             ft-any
         </article>
     </div>
-    <div class="container" style="border: 1px solid green">
+    <div class="container">
         <article class="widget-featured-team">
             ft-team
         </article>
