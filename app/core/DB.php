@@ -174,6 +174,25 @@ class DB extends \PDO
 
         return $isDeleted;
     }
+
+    public function getRow($stmt, $binds = [])
+    {
+	    $stmt = "";
+
+        $sql = DB::instance()->prepare($stmt);
+
+	    $i = 1;
+
+        foreach($binds as $key => $value)
+        {
+            $sql->bindValue($i++, $value);
+        }
+
+        $result = $sql->execute($sql);
+
+        return isset($result) ? $result : null;
+    }
+
 /*
     public function getRow($sql, array $params = array())
     {
