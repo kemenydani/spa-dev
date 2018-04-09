@@ -1021,6 +1021,7 @@ div#wrapper {
     position: relative;
     min-width: 100%;
     min-height: 100%;
+    border: 1px solid red;
     display: table-row;
     /* full-height within table el. */
     /* additional wrapper of the view's content, to achieve full height when the view-page is empty */ }
