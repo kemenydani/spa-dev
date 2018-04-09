@@ -13,7 +13,7 @@ class ArticleController extends ViewController
 {
     public function index ( Request $request, Response $response )
     {
-        $articles = Article::all()->toArray();
+        $articles = DB::instance()->getRows('SELECT * FROM _xyz_article');
 
         $this->view->render($response, 'route.view.article.list.html.twig', ['articles' => $articles]);
     }

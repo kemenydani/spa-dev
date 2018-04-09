@@ -11,11 +11,10 @@ class HomeController extends ViewController
 {
     public function index ( Request $request, Response $response )
     {
-        //$articles = DB::instance()->query();
 
 
        $this->view->render($response, 'route.view.home.html.twig', [
-           'articles' => $articles,
+
        ]);
     }
 }

@@ -175,37 +175,50 @@ class DB extends \PDO
         return $isDeleted;
     }
 
-    public function getRow($stmt, $binds = [])
+    public function getRow($stmt = '', $bind = null, $fetch_style = \PDO::FETCH_ASSOC)
     {
-	    $stmt = "";
+        $sth = DB::instance()->prepare($stmt);
 
-        $sql = DB::instance()->prepare($stmt);
+        if(!is_array($bind) && $bind !== null ) $bind = [$bind];
 
-	    $i = 1;
-
-        foreach($binds as $key => $value)
+        if(is_array($bind))
         {
-            $sql->bindValue($i++, $value);
+            $i = 1;
+            foreach ($bind as $key => $value) {
+                $name = is_numeric($key) ? $i : ':' . $key;
+
+                $sth->bindValue($name, $value);
+                $i++;
+            }
         }
 
-        $result = $sql->execute($sql);
+        $sth->execute();
+        $result = $sth->fetch($fetch_style);
 
         return isset($result) ? $result : null;
     }
 
-/*
-    public function getRow($sql, array $params = array())
+    public function getRows($stmt = '', $bind = null, $fetch_style = \PDO::FETCH_ASSOC)
     {
-        $q = pg_query_params($this->connection, $sql, $params);
-        if ($q)
+        $sth = DB::instance()->prepare($stmt);
+
+        if(!is_array($bind) && $bind !== null ) $bind = [$bind];
+
+        if(is_array($bind))
         {
-            $row = pg_fetch_assoc($q);
-            if (is_resource($q))
-            {
-                pg_free_result($q);
+            $i = 1;
+            foreach ($bind as $key => $value) {
+                $name = is_numeric($key) ? $i : ':' . $key;
+
+                $sth->bindValue($name, $value);
+                $i++;
             }
-            return (is_array($row)) ? $row : null;
         }
+
+        $sth->execute();
+        $result = $sth->fetchAll($fetch_style);
+
+        return isset($result) ? $result : null;
     }
-*/
+
 }
