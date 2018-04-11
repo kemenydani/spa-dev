@@ -167,6 +167,11 @@ abstract class Model
         $propName = underscorize(substr($method, 6));
         $action = substr($method, 0, 6);
 
-        if($action === 'format') return $this->getProperty($propName);
+        if($action === 'format')
+        {
+            $method = 'format' . underscoreUpper($propName);
+
+            return method_exists($this, $method) ? $this->$method() : $this->getProperty($propName);
+        }
     }
 }

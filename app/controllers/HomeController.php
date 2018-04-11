@@ -15,6 +15,11 @@ class HomeController extends ViewController
         $hlArticles   = DB::instance()->getRows('SELECT * FROM _xyz_article WHERE highlighted = 1 ORDER BY date_created DESC LIMIT 2');
         $lastArticles = DB::instance()->getRows('SELECT * FROM _xyz_article WHERE highlighted = 0 ORDER BY date_created DESC LIMIT 4');
 
+        var_dump(\models\Article::find(10)->formatTitle());
+
+        var_dump((new ArticleCollection($lastArticles))->getFormatted()); die();
+
+
         $hlArticles   = new ArticleCollection($hlArticles);
         $lastArticles = new ArticleCollection($lastArticles);
 
