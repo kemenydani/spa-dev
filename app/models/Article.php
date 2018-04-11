@@ -13,7 +13,10 @@ class Article extends Model
 	public static $primaryKey = 'id';
 	public static $table = 'article';
 
-	public static $columns = ['id', 'active', 'title', 'title_seo', 'teaser', 'content', 'activation_time', 'date_created'];
+	public static $columns = ['id', 'active', 'title', 'title_seo', 'headline_image', 'teaser', 'content',
+	'activation_time', 'date_created'];
+
+    const IMAGE_PATH = __UPLOADS__ . '/images/article';
 
 	public function categorize( array $new_categories )
 	{
@@ -43,6 +46,11 @@ class Article extends Model
 		
 		DB::instance()->commit();
 	}
+
+    public function getArticleImage()
+    {
+        return '/article_headline/' . $this->getProperty('headline_image');
+    }
 
 	public function getComments()
     {

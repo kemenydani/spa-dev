@@ -15,24 +15,49 @@
             only
         %}
     </div>
-    <div class="container">
-        <article class="widget-featured-news">
-            <div class="box box-shadow">
-                <div class="box-body">
-                    ID {{ hlArticles[0].id }}
+    <div class="container-full">
+        <div class="container">
+            <article class="widget-featured-news">
+                <div class="box article-hl-box box-shadow box-background box-rect">
+                    <div
+                        class="box-head-image"
+                        style="background-image: url({{ hlArticles.getModel(0).getArticleImage() }})"></div>
+
+                    <div class="box-body">
+                        ID {{ hlArticles.getModel(0).getId() }}
+                    </div>
                 </div>
-            </div>
-        </article>
+
+                <div class="box article-hl-box box-shadow box-background box-square">
+                    <div
+                    class="box-head-image"
+                    style="background-image: url({{ hlArticles.getModel(0).getArticleImage() }})"></div>
+
+                    <div class="box-body">
+                        ID {{ hlArticles.getModel(1).getId() }}
+                    </div>
+                </div>
+            </article>
+        </div>
     </div>
-    <div class="container">
-        <article class="widget-last-news" >
-            {% for article in lastArticles %}
-                <li>id: {{ article.id }}</li>
-            {% endfor %}
-        </article>
-        <article class="widget-featured-any">
-            ft-any
-        </article>
+    <div class="container-full" style="background: black">
+        <div class="container">
+            <article class="widget-last-news">
+                <div class="box">
+                    {% for article in lastArticles.getModels() %}
+                        <div class="small-article">id: {{ article.getId() }}</div>
+                    {% endfor %}
+                </div>
+                <div class="box article-hl-box box-shadow box-background" style="width: 400px">
+                    <div class="box-body">
+
+                    </div>
+                </div>
+            </article>
+            <article class="widget-featured-any">
+                ft-any
+            </article>
+        </div>
     </div>
     <div class="container">
         <article class="widget-featured-team">

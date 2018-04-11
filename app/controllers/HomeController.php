@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+use models\ArticleCollection;
 use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
@@ -13,6 +14,9 @@ class HomeController extends ViewController
     {
         $hlArticles = DB::instance()->getRows('SELECT * FROM _xyz_article WHERE highlighted = 1 ORDER BY date_created DESC LIMIT 2');
         $lastArticles = DB::instance()->getRows('SELECT * FROM _xyz_article WHERE highlighted = 0 ORDER BY date_created DESC LIMIT 4');
+
+        $hlArticles = new ArticleCollection($hlArticles);
+        $lastArticles = new ArticleCollection($lastArticles);
 
         $this->view->render($response, 'route.view.home.html.twig', [
             'hlArticles' => $hlArticles,

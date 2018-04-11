@@ -77,7 +77,6 @@ html
   }
 }
 
-
 .sponsor-inline-container
 {
   display: flex;
@@ -85,7 +84,6 @@ html
   flex-wrap: wrap;
   figure.sponsor
   {
-    border: 1px solid yellow;
     margin: 20px 0 20px 0;
     display: block;
     padding: 0;
@@ -93,6 +91,7 @@ html
     max-width: 220px;
     min-height: 100px;
     max-height: 100px;
+    background-repeat: no-repeat;
     background-position: center center;
     background-size: contain;
   }
@@ -297,9 +296,24 @@ div#wrapper
   transform: rotate(45deg);
 }
 
+.widget-featured-news,
+.widget-last-news
+{
+  display: flex;
+  position: relative;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  > .box {
+    &:first-child { flex: 1; margin-right: 15px; }
+    &:last-child { min-width: 370px; }
+  }
+}
+
 .box
 {
-  background: white;
+  &.box-background {
+    background: white;
+  }
   &.box-shadow
   {
     -webkit-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.1);
@@ -307,6 +321,36 @@ div#wrapper
     box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.1);
   }
 
+  &.box-rect {
+
+    .box-head-image {
+      background-position: center center;
+      background-size: cover;
+      width: calc(50% + 10px);
+      max-width: calc(50% + 10px);
+      height: 100%;
+      border-right: 10px solid $primary;
+    }
+
+  }
+
+  &.box-square {
+    .box-head-image {
+      background-position: center center;
+      background-size: cover;
+      width: 100%;
+      max-width: 100%;
+      height: calc(50% + 10px);
+      max-height: calc(50% + 10px);
+      border-bottom: 10px solid $primary;
+    }
+  }
+
+  &.article-hl-box
+  {
+    height: 370px;
+    min-height: 370px;
+  }
   .box-body {
     padding: 15px;
   }
