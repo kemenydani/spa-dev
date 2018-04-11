@@ -42,6 +42,28 @@ abstract class Model
         return $result;
     }
 
+    public function getFormatted( $list = [] )
+    {
+        $list = count($list) === 0 ? static::$columns : $list;
+
+        $result = [];
+
+        foreach($list as $propName)
+        {
+            $method = 'format' . underscoreUpper($propName);
+
+            if(method_exists($this, $method))
+            {
+                $result[] =  $this->$method();
+            }
+            else
+            {
+                $result[] = $this->getProperty($propName);
+            }
+        }
+        return $result;
+    }
+
     public function setProperty($name, $value)
     {
         //if(in_array($name, static::$columns)) $this->properties[$name] = $value;
@@ -139,7 +161,12 @@ abstract class Model
         $propName = underscorize(substr($method, 3));
         $action = substr($method, 0, 3);
 
-        if($action === 'get') return $this->getProperty($propName);
-        if($action === 'set') return $this->setProperty($propName, $arguments[0]);
+        if($action === 'get')    return $this->getProperty($propName);
+        if($action === 'set')    return $this->setProperty($propName, $arguments[0]);
+
+        $propName = underscorize(substr($method, 6));
+        $action = substr($method, 0, 6);
+
+        if($action === 'format') return $this->getProperty($propName);
     }
 }

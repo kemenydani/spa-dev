@@ -12,5 +12,4 @@ class ArticleCollection extends ModelCollection
         parent::__construct(self::parseModels($models, Article::class));
     }
 
-
 }

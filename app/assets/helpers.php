@@ -30,6 +30,11 @@ function underscorize($input)
     return implode('_', $ret);
 }
 
+function underscoreUpper($input)
+{
+    return  str_replace('_', '', ucwords($input, "_"));
+}
+
 function getConfig( $name, $default = null )
 {
 	$files = array_diff(scandir(__APPDIR__ . '/config'), array('.', '..'));
