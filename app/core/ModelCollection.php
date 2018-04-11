@@ -71,6 +71,19 @@ class ModelCollection
     }
 
     /**
+     * @param array $set
+     * @return array
+     */
+    public function getFormatted( $set = [] ) : array
+    {
+        $propertyArray = [];
+
+        foreach($this->getModels() as $key => $model) $propertyArray[$key] = $model->getFormatted( $set );
+
+        return $propertyArray;
+    }
+
+    /**
      * @return Model[]
      */
     public function getModels() : array
