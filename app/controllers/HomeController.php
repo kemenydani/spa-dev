@@ -32,7 +32,6 @@ class HomeController extends ViewController
             'events' => $events
         ];
 
-
         $this->view->render($response, 'route.view.home.html.twig', [
             'hlArticles' => $hlArticles,
             'lastArticles' => $lastArticles
