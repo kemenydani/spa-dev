@@ -305,7 +305,6 @@ div#wrapper
     &:first-child { flex: 1; margin-right: 15px; }
     &:last-child {
       min-width: 365px;  max-width: 365px;
-
       @include mq('tablet-wide', 'max') {
         display: none;
       }
