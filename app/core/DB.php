@@ -149,11 +149,12 @@ class DB extends \PDO
     {
         $stmt = $this->prepareBind($stmt, $bind);
 
-        $stmt->setFetchMode($fetch_style, $class);
+        $stmt->setFetchMode($fetch_style);
+        if($class !== null) $stmt->setFetchMode($fetch_style, $class);
 
         $stmt->execute();
 
-        return $stmt->fetch();
+        return $stmt->fetch($fetch_style);
     }
 
     // TODO : delete this when compatibility issues are solved
@@ -166,11 +167,11 @@ class DB extends \PDO
     {
         $stmt = $this->prepareBind($stmt, $bind);
 
-        $stmt->setFetchMode($fetch_style, $class);
+        $stmt->setFetchMode($fetch_style);
+        if($class !== null) $stmt->setFetchMode($fetch_style, $class);
 
         $stmt->execute();
-
-        return $stmt->fetchAll();
+        return $stmt->fetchAll($fetch_style);
     }
 
     private function prepareBind($stmt = '', $bind = null)

@@ -162,11 +162,11 @@ abstract class Model {
 
             if(method_exists($this, $method))
             {
-                $result[] =  $this->$method();
+                $result[$propName] =  $this->$method();
             }
             else
             {
-                $result[] = $this->getProperty($propName);
+                $result[$propName] = $this->getProperty($propName);
             }
         }
         return $result;

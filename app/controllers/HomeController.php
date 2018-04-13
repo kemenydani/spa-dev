@@ -7,34 +7,35 @@ use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 use core\DB as DB;
+use models\Article as Article;
 
 class HomeController extends ViewController
 {
     public function index ( Request $request, Response $response )
     {
-        $hlArticles   = DB::instance()->getRows('SELECT * FROM _xyz_article WHERE highlighted = 1 ORDER BY date_created DESC LIMIT 2');
-        $lastArticles = DB::instance()->getRows('SELECT * FROM _xyz_article WHERE highlighted = 0 ORDER BY date_created DESC LIMIT 6');
+        $q1 = " SELECT * FROM _xyz_article art " .
+              " WHERE art.highlighted = ? "      .
+              " ORDER BY art.date_created DESC " .
+              " LIMIT 2 "
+        ;
 
-        $hlArticles   = (new ArticleCollection($hlArticles))->getFormatted();
-        $lastArticles = (new ArticleCollection($lastArticles))->getFormatted();
+        $q2 = " SELECT * FROM _xyz_article art " .
+              " WHERE art.highlighted = ? "      .
+              " ORDER BY art.date_created DESC " .
+              " LIMIT 6 "
+        ;
 
-        $featured = [];
-        $lastMatches = [];
-        $topMatch = [];
-        $events = [];
-
-        $layout = [
-            'headline_articles' => $hlArticles,
-            'latest_articles'   => $lastArticles,
-            'featured_content'  => $featured,
-            'top_match'         => $topMatch,
-            'latest_matches'    => $lastMatches,
-            'events' => $events
-        ];
+        $hlArticles  = (ArticleCollection::queryToCollection($q1, 1))->getFormatted();
+        $ltArticles  = (ArticleCollection::queryToCollection($q1, 0))->getFormatted();
 
         $this->view->render($response, 'route.view.home.html.twig', [
-            'hlArticles' => $hlArticles,
-            'lastArticles' => $lastArticles
+            'articles' => [
+                'highlighted' => $hlArticles,
+                'last'        => $ltArticles,
+            ],
+            'events' => [
+
+            ]
         ]);
     }
 }

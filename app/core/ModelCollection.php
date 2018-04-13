@@ -70,6 +70,11 @@ class ModelCollection
         return $propertyArray;
     }
 
+    public static function queryToCollection($query, $binds = null)
+    {
+        return new static(DB::instance()->getAll($query, $binds));
+    }
+
     /**
      * @param array $set
      * @return array
@@ -126,7 +131,6 @@ class ModelCollection
     public static function parseModels( array $data, $class )
     {
         $parsed = [];
-
         foreach($data as $key => $value)
         {
             if(is_array($value)) $parsed[$key] = $class::create($value);
