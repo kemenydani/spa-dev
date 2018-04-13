@@ -10,11 +10,20 @@ use models\Comment as Comment;
 
 class Article extends Model
 {
-	public static $primaryKey = 'id';
-	public static $table = 'article';
+	public static $PKEY = 'id';
+	public static $TABLE = 'article';
 
-	public static $columns = ['id', 'active', 'title', 'title_seo', 'headline_image', 'teaser', 'content',
-	'activation_time', 'date_created'];
+	public static $COLUMNS = [
+	    'id',
+        'active',
+        'title',
+        'title_seo',
+        'headline_image',
+        'teaser',
+        'content',
+        'activation_time',
+        'date_created'
+    ];
 
     const IMAGE_PATH = __UPLOADS__ . '/images/article';
 

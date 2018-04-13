@@ -9,9 +9,19 @@ use core\Hash as Hash;
 
 class User extends Model {
 
-    public static $primaryKey = 'id';
-    public static $table = 'user';
-    public static $columns = ['id', 'username', 'password', 'remember_token', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated'];
+    public static $PKEY = 'id';
+    public static $TABLE = 'user';
+    public static $COLUMNS = [
+        'id',
+        'username',
+        'password',
+        'remember_token',
+        'email',
+        'profile_picture',
+        'country_code',
+        'date_created',
+        'date_updated'
+    ];
 
     const PUBLIC_DATASET = [ 'id', 'username', 'profile_picture', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated' ];
     const SMALL_DATASET = [ 'id', 'username', 'profile_picture', 'email'];

@@ -4,6 +4,284 @@ namespace core;
 
 use core\DB as DB;
 
+abstract class Model {
+    /**
+     * @var string
+     */
+    static $TABLE = '';
+    /**
+     * @var string
+     */
+    static $PKEY = 'id';
+    /**
+     * @var array
+     */
+    static $COLUMNS = [];
+    /**
+     * @var array
+     */
+    protected $props = [];
+
+    public function __construct($props = [])
+    {
+        $this->setProperties($props);
+    }
+
+    private function update()
+    {
+        return DB::instance()->update(static::$TABLE, $this->getProperties(), self::$PKEY, $this->getProperty(self::$PKEY));
+    }
+
+    private function insert()
+    {
+        return DB::instance()->insert(static::$TABLE, $this->getProperties());
+    }
+
+    public function save()
+    {
+        if($this->getProperty(self::$PKEY) !== null)
+        {
+            $this->update();
+        }
+        else
+        {
+            $inserted = $this->insert();
+            if(!$inserted) return false;
+            $this->setProperty(static::$PKEY, DB::instance()->lastInsertId());
+        }
+        return $this;
+    }
+
+    public static function find($value, $key = null)
+    {
+        if(!$key) $key = static::$PKEY;
+
+        $query = " SELECT * FROM " . self::getTable() .
+            " WHERE " . $key . " = ?"
+        ;
+
+        return self::getOne($query, $value);
+        //return DB::instance()->get($query, $value, \PDO::FETCH_CLASS, static::class );
+    }
+
+    public static function findAll( $value, $key = null )
+    {
+        if(!$key) $key = static::$PKEY;
+
+        $query = " SELECT * FROM " . self::getTable() .
+            " WHERE " . $key . " = " . $value
+        ;
+
+        return self::getAll($query);
+    }
+
+    public static function getAll($query = null, $binds = null)
+    {
+        if(!$query === null) $query = " SELECT * FROM " . self::getTable();
+
+        $models = DB::instance()->getAll($query, $binds, \PDO::FETCH_CLASS, static::class );
+
+        return $models;
+    }
+
+    public static function getOne($query, $binds)
+    {
+        var_dump($query);
+        return DB::instance()->get($query, $binds, \PDO::FETCH_CLASS, static::class );
+    }
+
+    /**
+     * @param array $list
+     * @return array
+     */
+    public function getProperties( $list = [] )
+    {
+        if(count($list) === 0) return $this->props;
+
+        $result = [];
+
+        foreach($list as $propName)
+        {
+            if(!array_key_exists($propName, $this->props)) continue;
+            $result[$propName] = $this->props[$propName];
+        }
+        return $result;
+    }
+
+    /**
+     * @param $name
+     * @param $value
+     */
+    public function __set($name, $value)
+    {
+        $this->setProperty($name, $value);
+    }
+
+    /**
+     * @param $name
+     * @param $value
+     * @return $this
+     */
+    public function setProperty($name, $value)
+    {
+        if(in_array($name, self::getColumns())) $this->props[$name] = $value;
+        return $this;
+    }
+
+    /**
+     * @param $name
+     * @return mixed|null
+     */
+    public function getProperty($name)
+    {
+        return array_key_exists($name, $this->props) ? $this->props[$name] : null;
+    }
+
+    /**
+     * @param array $props
+     * @return $this
+     */
+    public function setProperties( array $props)
+    {
+        foreach($props as $name => $value)
+        {
+            if(in_array($name, self::getColumns())) $this->setProperty($name, $value);
+        }
+        return $this;
+    }
+
+    public function getFormatted( $list = [] )
+    {
+        $list = count($list) === 0 ? static::$COLUMNS : $list;
+
+        $result = [];
+
+        foreach($list as $propName)
+        {
+            $method = 'format' . underscoreUpper($propName);
+
+            if(method_exists($this, $method))
+            {
+                $result[] =  $this->$method();
+            }
+            else
+            {
+                $result[] = $this->getProperty($propName);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getTable() : string
+    {
+        return strlen(static::$TABLE) > 0 ? DB::prependPrefix(static::$TABLE) : '';
+    }
+
+    /**
+     * @return string
+     */
+    public static function getPrimaryKey() : string
+    {
+        return isset(static::$PKEY) ? static::$PKEY : self::$PKEY;
+    }
+
+    /**
+     * @return array
+     */
+    public function getColumns() : array
+    {
+        return isset(static::$COLUMNS) ? static::$COLUMNS : self::$COLUMNS;
+    }
+
+    /**
+     * @param array $props
+     * @return static
+     */
+    public static function create( array $props )
+    {
+        $Model = new static();
+        foreach($props as $name => $value) $Model->setProperty($name, $value);
+        return $Model;
+    }
+
+    /**
+     * @param Model $class
+     * @param array $props
+     * @return bool | Model
+     */
+    protected static function make( $class, array $props )
+    {
+        if(class_exists($class)) return $class::create($props);
+        return false;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray() : array
+    {
+        return $this->getProperties();
+    }
+
+    /**
+     * @return bool
+     */
+    public function destroy()
+    {
+        return DB::instance()->delete(static::$TABLE, static::$PKEY, $this->getProperty(static::$PKEY) );
+    }
+
+    /**
+     * @param $column
+     * @param $value
+     * @return bool
+     */
+    public static function delete( $column, $value ) : bool
+    {
+        return DB::instance()->delete( static::$TABLE, $column, $value );
+    }
+
+    /**
+     * @param $column
+     * @param $range
+     * @return bool
+     */
+    public static function deleteIn( $column, $range ) : bool
+    {
+        return DB::instance()->deleteIn( static::$TABLE, $column, $range );
+    }
+
+    /**
+     * @param $method
+     * @param array $arguments
+     * @return Model|mixed|null
+     */
+    public function __call($method, array $arguments)
+    {
+        $propName = underscorize(substr($method, 3));
+        $action = substr($method, 0, 3);
+
+        if($action === 'get')    return $this->getProperty($propName);
+        if($action === 'set')    return $this->setProperty($propName, $arguments[0]);
+
+        $propName = underscorize(substr($method, 6));
+        $action = substr($method, 0, 6);
+
+        if($action === 'format')
+        {
+            $method = 'format' . underscoreUpper($propName);
+
+            return method_exists($this, $method) ? $this->$method() : $this->getProperty($propName);
+        }
+    }
+}
+
+
+
+/*
 abstract class Model
 {
     protected $properties = [];
@@ -175,3 +453,4 @@ abstract class Model
         }
     }
 }
+*/
