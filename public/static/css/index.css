@@ -1065,8 +1065,8 @@ div#wrapper {
 
 .container {
   position: relative;
-  width: 1100px;
-  max-width: 1100px;
+  width: 1140px;
+  max-width: 1140px;
   margin: 0 auto; }
   @media only screen and (max-width: 1247px) {
     .container {
@@ -1159,45 +1159,107 @@ div#wrapper {
   -ms-transform: rotate(45deg);
   transform: rotate(45deg); }
 
-.widget-featured-news,
-.widget-last-news {
+.widget-featured-news {
+  padding-bottom: 15px;
   display: flex;
-  position: relative;
-  margin-top: 15px;
-  margin-bottom: 15px; }
-  .widget-featured-news > .box:first-child,
-  .widget-last-news > .box:first-child {
+  position: relative; }
+  .widget-featured-news > .box:first-child {
     flex: 1;
     margin-right: 15px; }
-  .widget-featured-news > .box:last-child,
-  .widget-last-news > .box:last-child {
-    min-width: 370px; }
+  .widget-featured-news > .box:last-child {
+    min-width: 365px;
+    max-width: 365px; }
+    @media only screen and (max-width: 1023px) {
+      .widget-featured-news > .box:last-child {
+        display: none; } }
 
-.box.box-background {
-  background: white; }
-.box.box-shadow {
-  -webkit-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1);
-  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1); }
-.box.box-rect .box-head-image {
-  background-position: center center;
-  background-size: cover;
-  width: calc(50% + 10px);
-  max-width: calc(50% + 10px);
-  height: 100%;
-  border-right: 10px solid #f6a00c; }
-.box.box-square .box-head-image {
-  background-position: center center;
-  background-size: cover;
-  width: 100%;
-  max-width: 100%;
-  height: calc(50% + 10px);
-  max-height: calc(50% + 10px);
-  border-bottom: 10px solid #f6a00c; }
-.box.article-hl-box {
-  height: 370px;
-  min-height: 370px; }
-.box .box-body {
-  padding: 15px; }
+.hp-second-row {
+  display: flex;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  max-height: 400px; }
+  @media only screen and (max-width: 1247px) {
+    .hp-second-row {
+      padding-left: 15px;
+      padding-right: 15px; } }
+  @media only screen and (max-width: 767px) {
+    .hp-second-row {
+      flex-direction: column;
+      max-height: 800px; } }
+
+.widget-last-news {
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  flex: 1; }
+  .widget-last-news .box {
+    overflow: hidden;
+    max-width: calc(50% - 7.5px);
+    min-width: calc(50% - 7.5px);
+    min-height: calc(200px - 15px);
+    max-height: calc(200px - 15px);
+    margin-bottom: 15px; }
+    @media only screen and (max-width: 1023px) {
+      .widget-last-news .box {
+        min-width: 100%;
+        max-width: 100%; } }
+
+.box {
+  overflow: hidden; }
+  .box.box-background {
+    background: white; }
+  .box.box-shadow {
+    -webkit-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1); }
+  .box .box-title {
+    margin: 0;
+    font-weight: bold;
+    color: black;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif; }
+  .box.box-rect {
+    display: flex; }
+    .box.box-rect .box-head-image {
+      background-position: center center;
+      background-size: cover;
+      width: calc(50% + 10px);
+      max-width: calc(50% + 10px);
+      height: 100%;
+      border-right: 10px solid #f6a00c; }
+  .box.box-square {
+    display: flex;
+    flex-direction: column; }
+    .box.box-square .box-head-image {
+      background-position: center center;
+      background-size: cover;
+      width: 100%;
+      max-width: 100%;
+      height: calc(50% + 10px);
+      max-height: calc(50% + 10px);
+      border-bottom: 10px solid #f6a00c; }
+  .box.featured-content-box {
+    margin-left: 15px;
+    min-height: 370px;
+    min-width: 365px;
+    max-width: 365px; }
+    @media only screen and (max-width: 1247px) {
+      .box.featured-content-box {
+        max-width: 350px;
+        min-width: 350px; } }
+    @media only screen and (max-width: 767px) {
+      .box.featured-content-box {
+        min-width: 100%;
+        margin-left: 0; } }
+  .box.article-hl-box {
+    height: 365px;
+    min-height: 365px;
+    min-width: 365px; }
+    .box.article-hl-box:last-child {
+      max-width: 365px; }
+  .box .box-body {
+    padding: 15px;
+    flex: 1; }
 
 /*# sourceMappingURL=index.css.map */

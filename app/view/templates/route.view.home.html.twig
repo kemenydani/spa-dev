@@ -21,42 +21,47 @@
                 <div class="box article-hl-box box-shadow box-background box-rect">
                     <div
                         class="box-head-image"
-                        style="background-image: url({{ hlArticles.getModel(0).getArticleImage() }})"></div>
+                        style="background-image: url({{ articles.hl[0].headline_image }})"></div>
 
                     <div class="box-body">
-                        ID {{ hlArticles[0].title }}
+                        <h1 class="box-title">{{ articles.hl[0].title }}</h1>
+                        <p>{{ articles.hl[0].teaser }}</p>
                     </div>
                 </div>
-
+                {% if articles.hl[1] %}
                 <div class="box article-hl-box box-shadow box-background box-square">
                     <div
                     class="box-head-image"
-                    style="background-image: url({{ hlArticles.getModel(0).getArticleImage() }})"></div>
+                    style="background-image: url({{ articles.hl[1].headline_image }})"></div>
 
                     <div class="box-body">
-                        ID {{ hlArticles[1].id }}
+                        <h2 class="box-title">{{ articles.hl[1].title }}</h2>
+                        <p>{{ articles.hl[1].teaser }}</p>
                     </div>
                 </div>
+                {% endif %}
             </article>
         </div>
     </div>
     <div class="container-full" style="background: black">
-        <div class="container">
+        <div class="container hp-second-row">
             <article class="widget-last-news">
-                <div class="box">
-                    {% for article in lastArticles.getModels() %}
-                        <div class="small-article">id: {{ article.getId() }}</div>
-                    {% endfor %}
-                </div>
-                <div class="box article-hl-box box-shadow box-background" style="width: 400px">
-                    <div class="box-body">
+                {% for lastArticle in articles.lt %}
 
+                    <div class="box article-lt-box box-shadow box-background box-rect">
+                        <div class="box-body">
+                            <h1 class="box-title">{{ lastArticle.title }}</h1>
+                            <p>{{ lastArticle.teaser }}</p>
+                        </div>
                     </div>
+
+                {% endfor %}
+            </article>
+            <div class="box featured-content-box box-shadow box-background box-square">
+                <div class="box-body">
+
                 </div>
-            </article>
-            <article class="widget-featured-any">
-                ft-any
-            </article>
+            </div>
         </div>
     </div>
     <div class="container">

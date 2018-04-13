@@ -186,8 +186,8 @@ div#wrapper
 {
   position: relative;
 
-  width: 1100px;
-  max-width: 1100px;
+  width: 1140px;
+  max-width: 1140px;
   margin: 0 auto;
 
   //@include mq('desktop',     'max') { width: 1000px; max-width: 1000px;}
@@ -296,21 +296,57 @@ div#wrapper
   transform: rotate(45deg);
 }
 
-.widget-featured-news,
-.widget-last-news
+.widget-featured-news
 {
+  padding-bottom: 15px;
   display: flex;
   position: relative;
-  margin-top: 15px;
-  margin-bottom: 15px;
   > .box {
     &:first-child { flex: 1; margin-right: 15px; }
-    &:last-child { min-width: 370px; }
+    &:last-child {
+      min-width: 365px;  max-width: 365px;
+
+      @include mq('tablet-wide', 'max') {
+        display: none;
+      }
+    }
   }
+}
+
+.hp-second-row
+{
+  display: flex;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  max-height: 400px;
+  @include mq('desktop', 'max') { padding-left: 15px; padding-right: 15px;  }
+  @include mq('tablet', 'max') {
+    flex-direction: column; max-height: 800px;
+  }
+}
+
+.widget-last-news {
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  flex: 1;
+
+  .box {
+    overflow: hidden;
+    max-width: calc(50% - 7.5px);
+    min-width: calc(50% - 7.5px);
+    min-height: calc(200px - 15px);
+    max-height: calc(200px - 15px);
+    margin-bottom: 15px;
+    @include mq('tablet-wide', 'max') { min-width: 100%; max-width: 100%;  }
+  }
+
 }
 
 .box
 {
+  overflow: hidden;
   &.box-background {
     background: white;
   }
@@ -320,10 +356,19 @@ div#wrapper
     -moz-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.1);
     box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.1);
   }
+  .box-title {
+    margin: 0;
+    font-weight: bold;
+    color: $dark;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+  }
+  &.box-rect
+  {
+    display: flex;
 
-  &.box-rect {
-
-    .box-head-image {
+    .box-head-image
+    {
       background-position: center center;
       background-size: cover;
       width: calc(50% + 10px);
@@ -334,8 +379,13 @@ div#wrapper
 
   }
 
-  &.box-square {
-    .box-head-image {
+  &.box-square
+  {
+    display: flex;
+    flex-direction: column;
+
+    .box-head-image
+    {
       background-position: center center;
       background-size: cover;
       width: 100%;
@@ -346,12 +396,29 @@ div#wrapper
     }
   }
 
+  &.featured-content-box {
+    margin-left: 15px;
+    min-height: 370px;
+    min-width: 365px;
+    max-width: 365px;
+    @include mq('desktop', 'max') { max-width: 350px; min-width: 350px;  }
+    @include mq('tablet', 'max') {
+      min-width: 100%;
+      margin-left: 0;
+    }
+  }
+
   &.article-hl-box
   {
-    height: 370px;
-    min-height: 370px;
+    height: 365px;
+    min-height: 365px;
+    min-width: 365px;
+    &:last-child {
+      max-width: 365px;
+    }
   }
   .box-body {
     padding: 15px;
+    flex: 1;
   }
 }

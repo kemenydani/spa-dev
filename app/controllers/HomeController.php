@@ -26,12 +26,12 @@ class HomeController extends ViewController
         ;
 
         $hlArticles  = (ArticleCollection::queryToCollection($q1, 1))->getFormatted();
-        $ltArticles  = (ArticleCollection::queryToCollection($q1, 0))->getFormatted();
+        $ltArticles  = (ArticleCollection::queryToCollection($q2, 0))->getFormatted();
 
         $this->view->render($response, 'route.view.home.html.twig', [
             'articles' => [
-                'highlighted' => $hlArticles,
-                'last'        => $ltArticles,
+                'hl' => $hlArticles,
+                'lt'        => $ltArticles,
             ],
             'events' => [
 
