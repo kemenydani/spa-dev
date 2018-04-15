@@ -148,13 +148,12 @@ class DB extends \PDO
     public function get($stmt = '', $bind = null, $fetch_style = \PDO::FETCH_ASSOC, $class = null)
     {
         $stmt = $this->prepareBind($stmt, $bind);
-
-        $stmt->setFetchMode($fetch_style);
+        
         if($class !== null) $stmt->setFetchMode($fetch_style, $class);
 
         $stmt->execute();
-
-        return $stmt->fetch($fetch_style);
+	
+	    return $class === null ? $stmt->fetch($fetch_style) : $stmt->fetch();
     }
 
     // TODO : delete this when compatibility issues are solved
@@ -165,13 +164,13 @@ class DB extends \PDO
 
     public function getAll($stmt = '', $bind = null, $fetch_style = \PDO::FETCH_ASSOC, $class = null)
     {
+    	//var_dump();
         $stmt = $this->prepareBind($stmt, $bind);
-
-        $stmt->setFetchMode($fetch_style);
+        
         if($class !== null) $stmt->setFetchMode($fetch_style, $class);
 
         $stmt->execute();
-        return $stmt->fetchAll($fetch_style);
+        return $class === null ? $stmt->fetchAll($fetch_style) : $stmt->fetchAll();
     }
 
     private function prepareBind($stmt = '', $bind = null)

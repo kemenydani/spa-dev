@@ -2,12 +2,14 @@
 
 namespace controllers;
 
-use models\ArticleCollection;
 use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 use core\DB as DB;
 use models\Article as Article;
+
+use models\ArticleCollection;
+use models\SquadCollection;
 
 class HomeController extends ViewController
 {
@@ -28,14 +30,24 @@ class HomeController extends ViewController
         $hlArticles  = (ArticleCollection::queryToCollection($q1, 1))->getFormatted();
         $ltArticles  = (ArticleCollection::queryToCollection($q2, 0))->getFormatted();
 
+        $q3 = " SELECT * FROM _xyz_squad sq " .
+	          " WHERE sq.featured = ? "       .
+	          " ORDER BY sq.featured DESC "
+        ;
+        
+        $squadCollection = (SquadCollection::queryToCollection($q3, 1));
+        
         $this->view->render($response, 'route.view.home.html.twig', [
             'articles' => [
                 'hl' => $hlArticles,
-                'lt'        => $ltArticles,
+                'lt' => $ltArticles,
             ],
             'events' => [
-
-            ]
+            	'upcoming' => null,
+				'matches' => null,
+	            'events' => null
+            ],
+	        'squads' => $squadCollection
         ]);
     }
 }

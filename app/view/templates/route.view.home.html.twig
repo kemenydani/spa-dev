@@ -66,7 +66,17 @@
     </div>
     <div class="container">
         <article class="widget-featured-team">
-            ft-team
+            {% for squad in squads.getModels() %}
+                11
+                <div>
+                    {% for member in squad.getMembers() %}
+                        <div>
+                            22
+                        </div>
+                    {% endfor %}
+                </div>
+
+            {% endfor %}
         </article>
     </div>
 {% endblock %}

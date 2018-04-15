@@ -69,25 +69,44 @@ abstract class Model {
         if(!$key) $key = static::$PKEY;
 
         $query = " SELECT * FROM " . self::getTable() .
-            " WHERE " . $key . " = " . $value
+            " WHERE " . $key . " = ? "
         ;
-
-        return self::getAll($query);
+        
+        return self::getAll($query, 1);
     }
-
+    
     public static function getAll($query = null, $binds = null)
     {
-        if(!$query === null) $query = " SELECT * FROM " . self::getTable();
-
-        $models = DB::instance()->getAll($query, $binds, \PDO::FETCH_CLASS, static::class );
-
+    	$stmt = "";
+    	if(is_string($query)) $stmt = $query;
+        if(is_null($query) || is_array($query)) $stmt = " SELECT * FROM " . self::getTable();
+        if(is_array($query))
+        {
+        	$commaList = substr(implode(' = ?,', array_keys($query)), 0, -1);
+        	$stmt .= " WHERE " . $commaList;
+        	$binds = array_values($query);
+        }
+        
+	    $models = DB::instance()->getAll($stmt, $binds, \PDO::FETCH_CLASS, static::class );
+        var_dump($models);die();
         return $models;
     }
 
-    public static function getOne($query, $binds)
+    public static function getOne($query = null, $binds = null)
     {
-        var_dump($query);
-        return DB::instance()->get($query, $binds, \PDO::FETCH_CLASS, static::class );
+	    $stmt = "";
+	    if(is_string($query)) $stmt = $query;
+	    if(is_null($query) || is_array($query)) $stmt = " SELECT * FROM " . self::getTable();
+	    if(is_array($query))
+	    {
+		    $commaList = substr(implode(' = ?,', array_keys($query)), 0, -1);
+		    $stmt .= " WHERE " . $commaList;
+		    $binds = array_values($query);
+	    }
+    	
+	    $model = DB::instance()->get($query, $binds, \PDO::FETCH_CLASS, static::class );
+	    
+        return $model;
     }
 
     /**
