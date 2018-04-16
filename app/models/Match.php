@@ -20,7 +20,7 @@ class Match extends Model
 
     public function getEnemyTeam()
     {
-        return EnemyTeam::find($this->getEnemyTeamId(), 'enemy_team_id');
+        return EnemyTeam::find($this->getEnemyTeamId(), 'id');
     }
 
     /**

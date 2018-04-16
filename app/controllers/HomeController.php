@@ -2,11 +2,14 @@
 
 namespace controllers;
 
+use models\MatchMap;
 use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 use core\DB as DB;
+
 use models\Article as Article;
+use models\Match as Match;
 
 use models\ArticleCollection;
 use models\SquadCollection;
@@ -15,6 +18,16 @@ class HomeController extends ViewController
 {
     public function index ( Request $request, Response $response )
     {
+
+        echo 1;
+
+        $Match = Match::find(1);
+
+        var_dump($Match->getMaps());
+
+
+        die();
+
         $q1 = " SELECT * FROM _xyz_article art " .
               " WHERE art.highlighted = ? "      .
               " ORDER BY art.date_created DESC " .
