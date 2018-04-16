@@ -75,7 +75,7 @@
                     {% set topMatch = topMatches.first() %}
                     <div class="widget-body">
                         <div class="match-info">
-                            {{ topMatch.getEventName() }}
+                            {{ topMatch.getEvent().getName() }}
                             {{ topMatch.getDate() }}
                             {{ topMatch.getGame().getName() }}
                         </div>
