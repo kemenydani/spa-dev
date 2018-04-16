@@ -69,7 +69,7 @@ abstract class Model {
         if(!$key) $key = static::$PKEY;
 
         $query = " SELECT * FROM " . self::getTable() .
-            " WHERE " . $key . " = ? "
+                 " WHERE " . $key . " = ? "
         ;
         
         return self::getAll($query, 1);
@@ -88,7 +88,6 @@ abstract class Model {
         }
         
 	    $models = DB::instance()->getAll($stmt, $binds, \PDO::FETCH_CLASS, static::class );
-        var_dump($models);die();
         return $models;
     }
 

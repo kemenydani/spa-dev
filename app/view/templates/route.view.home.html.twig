@@ -64,14 +64,15 @@
             </div>
         </div>
     </div>
+
     <div class="container">
         <article class="widget-featured-team">
-            {% for squad in squads.getModels() %}
-                11
+            {% for sk, squad in squads.getModels() %}
+                {{ squad.getName() }}
                 <div>
-                    {% for member in squad.getMembers() %}
+                    {% for mk, member in squad.getMembers() %}
                         <div>
-                            22
+                            {{ member.getUserId() }}
                         </div>
                     {% endfor %}
                 </div>

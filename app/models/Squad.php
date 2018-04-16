@@ -37,5 +37,24 @@ class Squad extends Model
 	{
 		return $this->getProperty('id');
 	}
-	
+
+    public function getName()
+    {
+        return $this->getProperty('name');
+    }
+
+    public function getGameId()
+    {
+        return $this->getProperty('game_id');
+    }
+
+    public function getHeaderImage()
+    {
+        return $this->getProperty('header_image');
+    }
+
+    public function getPosition()
+    {
+        return $this->getProperty('position');
+    }
 }

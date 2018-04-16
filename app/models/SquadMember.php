@@ -13,5 +13,26 @@ class SquadMember extends Model
 		'id',
 		'name',
 		'squad_id',
+        'user_id'
 	];
+
+    public function getId()
+    {
+        return $this->getProperty('id');
+    }
+
+    public function getName()
+    {
+        return $this->getProperty('name');
+    }
+
+    public function getSquadId()
+    {
+        return $this->getProperty('squad_id');
+    }
+
+	public function getUserId()
+    {
+	    return $this->getProperty('user_id');
+    }
 }
