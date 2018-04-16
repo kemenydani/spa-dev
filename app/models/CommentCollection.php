@@ -37,7 +37,7 @@ class CommentCollection extends ModelCollection
     {
         $found = [];
 
-        $
+        // TODO:: rework this to have the images and names
         foreach($this->getModels() as $Comment)
         {
             $userId = $Comment->getProperty('user_id');
@@ -51,6 +51,7 @@ class CommentCollection extends ModelCollection
             $Comment->setProperty('username', $User->getUsername());
             $Comment->setProperty('profile_picture', $User->formatProfilePicture());
         }
+        // TODO:: now allows to set only model props defined in $COLUMNS
         return $this->getProperties();
     }
 
