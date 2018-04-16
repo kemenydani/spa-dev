@@ -66,6 +66,11 @@ class Article extends Model
         return '/article_headline/' . $this->getProperty('headline_image');
     }
 
+    public function getId()
+    {
+	    return $this->getProperty('id');
+    }
+
 	public function getComments()
     {
         $id = $this->getId();

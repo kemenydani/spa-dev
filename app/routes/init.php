@@ -46,6 +46,7 @@ require_once 'user.php';
 
 require_once 'api.php';
 require_once 'upload.php';
+require_once 'storage.php';
 
 // Boot
 try {

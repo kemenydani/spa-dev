@@ -37,6 +37,7 @@ class CommentCollection extends ModelCollection
     {
         $found = [];
 
+        $
         foreach($this->getModels() as $Comment)
         {
             $userId = $Comment->getProperty('user_id');
@@ -48,7 +49,7 @@ class CommentCollection extends ModelCollection
             if(!$User) continue;
 
             $Comment->setProperty('username', $User->getUsername());
-            $Comment->setProperty('profile_picture', $User->getProfilePicture());
+            $Comment->setProperty('profile_picture', $User->formatProfilePicture());
         }
         return $this->getProperties();
     }

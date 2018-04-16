@@ -7,8 +7,9 @@ use \models\SquadMember as SquadMember;
 
 class Squad extends Model
 {
-	const IMAGE_PATH = __UPLOADS__ . '/images/squad';
-	
+	const IMAGE_PATH = __UPLOADS__ . '/images/squad_logo';
+    const NO_LOGO_IMAGE = 'no_squad_logo.png';
+
 	public static $PKEY = 'id';
 	public static $TABLE = 'squad';
 	
@@ -72,6 +73,11 @@ class Squad extends Model
     public function formatLogo()
     {
         return self::IMAGE_PATH . DIRECTORY_SEPARATOR . $this->getLogo();
+    }
+
+    public function requestLogo()
+    {
+        return '/squad_logo/' . $this->getLogo();
     }
 
     public function getPosition()

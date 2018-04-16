@@ -5,6 +5,8 @@ namespace core;
 use core\DB as DB;
 
 abstract class Model {
+
+    const IMAGE_PATH = null;
     /**
      * @var string
      */
@@ -91,6 +93,17 @@ abstract class Model {
 	    $models = DB::instance()->getAll($stmt, $binds, \PDO::FETCH_CLASS, static::class );
 
         return $models;
+    }
+
+    public static function getRealImagePath($filename)
+    {
+        if(static::IMAGE_PATH)
+        {
+            $path = static::IMAGE_PATH . DIRECTORY_SEPARATOR . $filename;
+            if(!file_exists($path)) return null;
+            return $path;
+        }
+        return null;
     }
 
     public static function getOne($query = null, $binds = null)

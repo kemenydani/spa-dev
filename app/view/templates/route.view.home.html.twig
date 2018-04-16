@@ -80,7 +80,7 @@
                             {{ topMatch.getGame().getName() }}
                         </div>
                         <div class="team-logo">
-                            {{ topMatch.getSquad().getName() }}
+                            <img src="{{ topMatch.getSquad().requestLogo() }}">
                         </div>
                         <div class="team-logo">
                             {{ topMatch.getEnemyTeam().getName() }}

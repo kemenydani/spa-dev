@@ -15,6 +15,8 @@ class EnemyTeam extends Model
         'game_id',
     ];
 
+    const IMAGE_PATH = __UPLOADS__ . '/images/enemy_team';
+
     public function getId()
     {
         return $this->getProperty('id');
@@ -28,6 +30,11 @@ class EnemyTeam extends Model
     public function getLogo()
     {
         return $this->getProperty('logo');
+    }
+
+    public function formatLogo()
+    {
+        return self::IMAGE_PATH . DIRECTORY_SEPARATOR . $this->getLogo();
     }
 
     public function getGameId()

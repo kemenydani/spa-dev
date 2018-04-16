@@ -26,6 +26,7 @@ class User extends Model {
     const PUBLIC_DATASET = [ 'id', 'username', 'profile_picture', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated' ];
     const SMALL_DATASET = [ 'id', 'username', 'profile_picture', 'email'];
     const IMAGE_PATH = __UPLOADS__ . '/images/user';
+    const NO_USER_IMAGE = 'no_user_image.png';
 
     const FIELD_RULES = [
         'username' => 'required|unique|max:20',
@@ -33,15 +34,53 @@ class User extends Model {
         'password' => 'required'
     ];
 
-    public function getProfilePicture()
-    {
-        return '/user_picture/' . $this->getProperty('profile_picture');
-    }
-
     public function getUsername()
     {
         return $this->getProperty('username');
     }
+
+    public function getId()
+    {
+        return $this->getProperty('id');
+    }
+
+    public function getEmail()
+    {
+        return $this->getProperty('email');
+    }
+
+    public function getCountryCode()
+    {
+        return $this->getProperty('country_code');
+    }
+
+    public function getPassword()
+    {
+        return $this->getProperty('password');
+    }
+
+    public function getRememberToken()
+    {
+        return $this->getProperty('remember_token');
+    }
+
+    public function getProfilePicture()
+    {
+        return $this->getProperty('profile_picture');
+    }
+
+    public function formatProfilePicture()
+    {
+        return '/profile_picture/' . $this->getProfilePicture();
+    }
+
+
+
+
+
+
+
+
 
     public function logout()
     {

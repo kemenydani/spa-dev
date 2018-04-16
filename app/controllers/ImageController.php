@@ -25,4 +25,9 @@ class ImageController extends Controller
         readfile($path);
         return $response->withHeader('Content-Type', $type)->withHeader('Content-Length', filesize($path));
     }
+
+    public function getImageFromStorage(Request $request, Response $response, $args)
+    {
+        $fileName = $args['filename'];
+    }
 }
