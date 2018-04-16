@@ -273,6 +273,68 @@ table {
       /* override */
       margin: 0; } }
 
+.match-event-container {
+  padding-top: 40px;
+  padding-bottom: 40px; }
+  .match-event-container div.widget-group {
+    background: black;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    align-content: stretch; }
+    .match-event-container div.widget-group > div.widget {
+      max-width: calc(33.3334% - 10px);
+      min-width: calc(33.3334% - 10px);
+      padding-left: 15px;
+      padding-right: 15px; }
+      .match-event-container div.widget-group > div.widget > div.widget-title {
+        height: 50px;
+        min-height: 50px;
+        max-height: 50px;
+        overflow: hidden; }
+        .match-event-container div.widget-group > div.widget > div.widget-title > * {
+          line-height: 50px;
+          height: 50px;
+          min-height: 50px;
+          max-height: 50px;
+          padding-bottom: 10px;
+          margin: 0;
+          display: inline-block;
+          border-bottom: 5px solid #f6a00c;
+          font-weight: bold;
+          font-family: 'Roboto', sans-serif;
+          color: white; }
+      .match-event-container div.widget-group > div.widget:first-child {
+        padding-left: 15px;
+        padding-right: 15px; }
+  .match-event-container .last-match-list-holder ul {
+    list-style-type: none;
+    padding: 0; }
+    .match-event-container .last-match-list-holder ul li {
+      line-height: 40px;
+      height: 40px;
+      color: #dbdbdb;
+      display: flex;
+      align-items: center;
+      align-content: center; }
+  .match-event-container .last-match-list-holder .team {
+    flex: 1; }
+  .match-event-container .last-match-list-holder .score {
+    align-self: flex-end; }
+  .match-event-container .last-match-list-holder .game {
+    background: #f6a00c;
+    color: white;
+    margin-right: 10px;
+    display: inline;
+    text-align: center;
+    min-width: 50px;
+    max-width: 50px;
+    max-height: 25px;
+    line-height: 25px;
+    width: 50px;
+    overflow: hidden;
+    text-transform: uppercase; }
+
 header#main-header {
   height: 150px;
   min-height: 150px;

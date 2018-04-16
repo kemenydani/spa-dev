@@ -68,3 +68,82 @@
   }
 
 }
+
+.match-event-container
+{
+  padding-top: 40px;
+  padding-bottom: 40px;
+  div.widget-group
+  {
+    background: black;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    align-content: stretch;
+    > div.widget {
+      max-width: calc(33.3334% - 10px);
+      min-width: calc(33.3334% - 10px);
+      padding-left: 15px;
+      padding-right: 15px;
+      > div.widget-title {
+        height: 50px;
+        min-height: 50px;
+        max-height: 50px;
+        overflow: hidden;
+        > * {
+          line-height: 50px;
+          height: 50px;
+          min-height: 50px;
+          max-height: 50px;
+          padding-bottom: 10px;
+          margin: 0;
+          display: inline-block;
+          border-bottom: 5px solid $primary;
+          font-weight: bold;
+          font-family: 'Roboto', sans-serif;
+          color: white;
+        }
+      }
+      &:first-child {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+    }
+  }
+  .last-match-list-holder
+  {
+    ul {
+      list-style-type: none;
+      padding: 0;
+      li {
+        line-height: 40px;
+        height: 40px;
+        color: $lightgrey;
+        display: flex;
+        align-items: center;
+        align-content: center;
+      }
+    }
+    .team {
+      flex: 1;
+    }
+    .score {
+      align-self: flex-end;
+    }
+    .game {
+      background: $primary;
+      color: $light;
+      margin-right: 10px;
+      display: inline;
+      text-align: center;
+      min-width: 50px;
+      max-width: 50px;
+      max-height: 25px;
+      line-height: 25px;
+      width: 50px;
+      overflow: hidden;
+      text-transform: uppercase;
+    }
+  }
+}
+

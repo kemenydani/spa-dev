@@ -65,6 +65,59 @@
         </div>
     </div>
 
+    <div class="container-full">
+        <div class="container match-event-container">
+            <div class="widget-group">
+                <div class="widget top-match">
+                    <div class="widget-title">
+                        <h2>TOP MATCH</h2>
+                    </div>
+                    {% set topMatch = topMatches.first() %}
+                    <div class="widget-body">
+                        <div class="match-info">
+                            {{ topMatch.getEventName() }}
+                            {{ topMatch.getDate() }}
+                            {{ topMatch.getGame().getName() }}
+                        </div>
+                        <div class="team-logo">
+                            {{ topMatch.getSquad().getName() }}
+                        </div>
+                        <div class="team-logo">
+                            {{ topMatch.getEnemyTeam().getName() }}
+                        </div>
+                    </div>
+                </div>
+                <div class="widget last-match-list-holder">
+                    <div class="widget-title">
+                        <h2>LAST MATCHES</h2>
+                    </div>
+                    <ul>
+                        {% for mk, match in matches.getModels() %}
+                            <li>
+                                <span class="game">{{ match.getGame().getNameShort() }}</span>
+                                <span class="team">
+                                    <span class="vs">vs.</span>
+                                    <span class="enemy-name">{{ match.getEnemyTeam().getName() }}</span>
+                                </span>
+                                <span class="score">
+                                    <span class="score-home">{{ match.getTotalHomeScore() }}</span>
+                                    <span class="sep-char">:</span>
+                                    <span class="score-enemy">{{ match.getTotalEnemyScore() }}</span>
+                                </span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="widget event-list">
+                    <div class="widget-title">
+                        <h2>EVENTS</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-full" style="background: black">
     <div class="container">
         <article class="widget-featured-team">
             {% for sk, squad in squads.getModels() %}
@@ -79,5 +132,6 @@
 
             {% endfor %}
         </article>
+    </div>
     </div>
 {% endblock %}

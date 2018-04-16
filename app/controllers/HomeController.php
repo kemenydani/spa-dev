@@ -13,21 +13,12 @@ use models\Match as Match;
 
 use models\ArticleCollection;
 use models\SquadCollection;
+use models\MatchCollection;
 
 class HomeController extends ViewController
 {
     public function index ( Request $request, Response $response )
     {
-
-        echo 1;
-
-        $Match = Match::find(1);
-
-        var_dump($Match->getMaps());
-
-
-        die();
-
         $q1 = " SELECT * FROM _xyz_article art " .
               " WHERE art.highlighted = ? "      .
               " ORDER BY art.date_created DESC " .
@@ -48,18 +39,30 @@ class HomeController extends ViewController
 	          " ORDER BY sq.featured DESC "
         ;
         
-        $squadCollection = (SquadCollection::queryToCollection($q3, 1));
-        
+        $squadCollection = SquadCollection::queryToCollection($q3, 1);
+
+        $q4 = " SELECT * FROM _xyz_match mc " .
+              " ORDER BY mc.id DESC "         .
+              " LIMIT 5 "
+        ;
+
+        $ltMatches = MatchCollection::queryToCollection($q4);
+
+        $q5 = " SELECT * FROM _xyz_match mc " .
+              " WHERE mc.featured = ? "       .
+              " ORDER BY mc.id DESC "         .
+              " LIMIT 1 "
+        ;
+
+        $topMatches = MatchCollection::queryToCollection($q5, true);
+
         $this->view->render($response, 'route.view.home.html.twig', [
             'articles' => [
                 'hl' => $hlArticles,
                 'lt' => $ltArticles,
             ],
-            'events' => [
-            	'upcoming' => null,
-				'matches' => null,
-	            'events' => null
-            ],
+            'topMatches' => $topMatches,
+            'matches' => $ltMatches,
 	        'squads' => $squadCollection
         ]);
     }

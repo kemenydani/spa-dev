@@ -4,6 +4,8 @@ namespace models;
 
 use \core\Model as Model;
 
+use models\Squad as Squad;
+use models\Category as Category;
 use models\MatchMap as MatchMap;
 use models\EnemyTeam as EnemyTeam;
 
@@ -15,8 +17,20 @@ class Match extends Model
         'id',
         'squad_id',
         'enemy_team_id',
-        'event_name'
+        'event_name',
+        'game_id',
+        'featured'
     ];
+
+    public function getGame()
+    {
+        return Category::getGame($this->getGameId());
+    }
+
+    public function getSquad()
+    {
+        return Squad::find($this->getSquadId(), 'id');
+    }
 
     public function getEnemyTeam()
     {
@@ -69,6 +83,11 @@ class Match extends Model
         return $this->getProperty('id');
     }
 
+    public function getGameId()
+    {
+        return $this->getProperty('game_id');
+    }
+
     public function getSquadId()
     {
         return $this->getProperty('squad_id');
@@ -82,6 +101,11 @@ class Match extends Model
     public function getEventName()
     {
         return $this->getProperty('enemy_team_id');
+    }
+
+    public function getFeatured()
+    {
+        return $this->getProperty('featured');
     }
 
 }

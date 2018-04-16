@@ -16,6 +16,16 @@ class ModelCollection
         $this->setModels( $models );
     }
 
+    public function first()
+    {
+        return array_values($this->getModels())[0];
+    }
+
+    public function last()
+    {
+        return end($this->getModels());
+    }
+
     /**
      * @param Model[]
      * @return ModelCollection

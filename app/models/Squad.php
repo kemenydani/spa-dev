@@ -17,6 +17,7 @@ class Squad extends Model
 		'name',
 		'game_id',
 		'header_image',
+        'logo',
 		'position',
 	];
 
@@ -24,7 +25,12 @@ class Squad extends Model
 	{
 		return SquadMember::findAll($this->getId(), 'squad_id');
 	}
-	
+
+    public function getGame()
+    {
+        return Category::getGame($this->getGameId());
+    }
+
 	public function getMember($member_id)
 	{
 		return SquadMember::getOne([
@@ -51,6 +57,21 @@ class Squad extends Model
     public function getHeaderImage()
     {
         return $this->getProperty('header_image');
+    }
+
+    public function formatHeaderImage()
+    {
+        return self::IMAGE_PATH . DIRECTORY_SEPARATOR . $this->getHeaderImage();
+    }
+
+    public function getLogo()
+    {
+        return $this->getProperty('logo');
+    }
+
+    public function formatLogo()
+    {
+        return self::IMAGE_PATH . DIRECTORY_SEPARATOR . $this->getLogo();
     }
 
     public function getPosition()

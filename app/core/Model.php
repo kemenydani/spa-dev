@@ -82,12 +82,14 @@ abstract class Model {
         if(is_null($query) || is_array($query)) $stmt = " SELECT * FROM " . self::getTable();
         if(is_array($query))
         {
-        	$commaList = substr(implode(' = ?,', array_keys($query)), 0, -1);
-        	$stmt .= " WHERE " . $commaList;
+            $commaList = "";
+            foreach($query as $key => $value) $commaList .= " " . $key . " = ? AND";
+            $stmt .= " WHERE" . substr($commaList, 0, -3);
         	$binds = array_values($query);
         }
         
 	    $models = DB::instance()->getAll($stmt, $binds, \PDO::FETCH_CLASS, static::class );
+
         return $models;
     }
 
@@ -98,12 +100,13 @@ abstract class Model {
 	    if(is_null($query) || is_array($query)) $stmt = " SELECT * FROM " . self::getTable();
 	    if(is_array($query))
 	    {
-		    $commaList = substr(implode(' = ?,', array_keys($query)), 0, -1);
-		    $stmt .= " WHERE " . $commaList;
+		    $commaList = "";
+		    foreach($query as $key => $value) $commaList .= " " . $key . " = ? AND";
+		    $stmt .= " WHERE" . substr($commaList, 0, -3);
 		    $binds = array_values($query);
 	    }
-    	
-	    $model = DB::instance()->get($query, $binds, \PDO::FETCH_CLASS, static::class );
+
+	    $model = DB::instance()->get($stmt, $binds, \PDO::FETCH_CLASS, static::class );
 	    
         return $model;
     }
