@@ -17,7 +17,7 @@ class Match extends Model
         'id',
         'squad_id',
         'enemy_team_id',
-        'event_name',
+        'event_id',
         'game_id',
         'featured'
     ];
@@ -29,14 +29,19 @@ class Match extends Model
 
     public function getSquad()
     {
-        return Squad::find($this->getSquadId(), 'id');
+        return Squad::find($this->getSquadId());
     }
 
     public function getEnemyTeam()
     {
-        return EnemyTeam::find($this->getEnemyTeamId(), 'id');
+        return EnemyTeam::find($this->getEnemyTeamId());
     }
 
+    public function getEvent()
+    {
+	    return Event::find($this->getEventId());
+    }
+    
     /**
      * @return MatchMap[]
      */
@@ -98,7 +103,7 @@ class Match extends Model
         return $this->getProperty('enemy_team_id');
     }
 
-    public function getEventName()
+    public function getEventId()
     {
         return $this->getProperty('enemy_team_id');
     }
