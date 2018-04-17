@@ -72,45 +72,65 @@
                     <div class="widget-title">
                         <h2>TOP MATCH</h2>
                     </div>
-                    {% set topMatch = topMatches.first() %}
+                    {% set tm = topMatches.first() %}
                     <div class="widget-body">
                         <div class="match-info">
-                            {{ topMatch.getEvent().getName() }}
-                            {{ topMatch.getDate() }}
-                            {{ topMatch.getGame().getName() }}
+                            {{ tm.getEvent().getName() }}
+                            {{ tm.getDate() }}
+                            {{ tm.getGame().getName() }}
                         </div>
-                        <div class="team-logo">
-                            <img src="{{ topMatch.getSquad().requestLogo() }}">
-                        </div>
-                        <div class="team-logo">
-                            {{ topMatch.getEnemyTeam().getName() }}
+                        <div class="result-holder">
+                            <div class="team-logo-holder">
+                                <div class="team-logo" style="background-image: url({{ tm.getSquad().requestLogo() }})"></div>
+                            </div>
+                            <div class="result">
+                                <span class="score-num">{{ tm.formatTotalHomeScore() }}</span>
+                                <span class="spacer">-</span>
+                                <span class="score-num">{{ tm.formatTotalEnemyScore() }}</span>
+                            </div>
+                            <div class="team-logo-holder">
+                                <div class="team-logo" style="background-image: url({{ tm.getEnemyTeam().requestLogo() }})"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="widget last-match-list-holder">
+                <div class="widget last-matches">
                     <div class="widget-title">
                         <h2>LAST MATCHES</h2>
                     </div>
-                    <ul>
-                        {% for mk, match in matches.getModels() %}
-                            <li>
-                                <span class="game">{{ match.getGame().getNameShort() }}</span>
-                                <span class="team">
-                                    <span class="vs">vs.</span>
-                                    <span class="enemy-name">{{ match.getEnemyTeam().getName() }}</span>
-                                </span>
-                                <span class="score">
-                                    <span class="score-home">{{ match.getTotalHomeScore() }}</span>
-                                    <span class="sep-char">:</span>
-                                    <span class="score-enemy">{{ match.getTotalEnemyScore() }}</span>
-                                </span>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                    <div class="widget-body">
+                        <ul>
+                            {% for mk, match in matches.getModels() %}
+                                <li>
+                                    <span class="game">{{ match.getGame().getNameShort() }}</span>
+                                    <span class="team">
+                                        <span class="vs">vs.</span>
+                                        <span class="enemy-name">{{ match.getEnemyTeam().getName() }}</span>
+                                    </span>
+                                    <span class="score">
+                                        <span class="score-home">{{ match.formatTotalHomeScore() }}</span>
+                                        <span class="sep-char">-</span>
+                                        <span class="score-enemy">{{ match.formatTotalEnemyScore() }}</span>
+                                    </span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
                 <div class="widget event-list">
                     <div class="widget-title">
                         <h2>EVENTS</h2>
+                    </div>
+                    <div class="widget-body">
+                        <ul class="widget-body">
+
+                            {% for ek, event in ltEvents.getModels() %}
+                                <li>
+                                    <span class="name">{{ event.getName()}}</span>
+                                    <span class="date">{{ event.getStartDate()|date('d M Y')}}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
             </div>

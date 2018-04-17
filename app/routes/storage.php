@@ -31,13 +31,13 @@ $app->get('/article_headline/{filename}', function( $request, $response, $args )
     return modelImageResponse($response, '');
 });
 
-$app->get('/enemy_logo/{filename}', function( $request, $response, $args )
+$app->get('/enemy_team_logo/{filename}', function( $request, $response, $args )
 {
     $path = EnemyTeam::getRealImagePath($args['filename']);
 
     if($path) return modelImageResponse($response, $path);
 
-    return modelImageResponse($response, '');
+    return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . Squad::NO_LOGO_IMAGE );
 });
 
 $app->get('/squad_logo/{filename}', function( $request, $response, $args )

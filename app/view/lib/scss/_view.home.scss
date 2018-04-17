@@ -69,6 +69,27 @@
 
 }
 
+
+/*
+<div class="widget-body">
+                        <div class="match-info">
+                            {{ tm.getEvent().getName() }}
+                            {{ tm.getDate() }}
+                            {{ tm.getGame().getName() }}
+                        </div>
+                        <div class="result-holder">
+                            <div class="team-logo" style="background-image: url({{ tm.getSquad().requestLogo() }})"></div>
+                            <div class="result">
+                                <span class="score-num">{{ tm.getTotalHomeScore() }}</span>
+                                <span class="spacer">-</span>
+                                <span class="score-num">{{ tm.getTotalEnemyScore() }}</span>
+                            </div>
+                            <div class="team-logo" style="background-image: url({{ tm.getEnemyTeam().requestLogo() }})"></div>
+                        </div>
+                    </div>
+ */
+
+
 .match-event-container
 {
   padding-top: 40px;
@@ -80,55 +101,116 @@
     align-items: stretch;
     justify-content: space-between;
     align-content: stretch;
+    position: relative;
+
     > div.widget {
+      padding-bottom: 30px;
+      padding-top: 20px;
       max-width: calc(33.3334% - 10px);
       min-width: calc(33.3334% - 10px);
-      padding-left: 15px;
-      padding-right: 15px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
       > div.widget-title {
-        height: 50px;
-        min-height: 50px;
-        max-height: 50px;
         overflow: hidden;
+        margin-bottom: 10px;
         > * {
-          line-height: 50px;
-          height: 50px;
-          min-height: 50px;
-          max-height: 50px;
           padding-bottom: 10px;
           margin: 0;
           display: inline-block;
           border-bottom: 5px solid $primary;
           font-weight: bold;
-          font-family: 'Roboto', sans-serif;
+          font-family: 'Montserrat', sans-serif;
           color: white;
         }
       }
-      &:first-child {
-        padding-left: 15px;
-        padding-right: 15px;
+      > div.widget-body {
+        flex: 1;
+        position: relative;
+        height: 100%;
+        overflow: hidden;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        li {
+          margin-top: 15px;
+          line-height: 24px;
+          height: 24px;
+          color: lighten($darkergrey, 20);
+          display: flex;
+          align-items: center;
+          align-content: center;
+          font-weight: 400;
+          font-family: 'Roboto', sans-serif;
+        }
       }
     }
   }
-  .last-match-list-holder
-  {
-    ul {
-      list-style-type: none;
-      padding: 0;
-      li {
-        line-height: 40px;
-        height: 40px;
-        color: $lightgrey;
+  .widget.last-matches {
+    padding-left: 15px;
+    padding-right: 15px;
+    background: darken($darkergrey, 20);
+  }
+  .widget.event-list {
+    padding-right: 15px;
+  }
+  .widget.top-match {
+    padding-left: 15px;
+    .widget-body {
+      display: flex;
+      flex-direction: column;
+      .match-info {
+        flex: 1;
+      }
+      .result-holder {
         display: flex;
-        align-items: center;
+        justify-content: space-between;
         align-content: center;
+        align-items: center;
+        height: 101px;
+        max-height: 101px;
+        background: darken($darkergrey, 20);
+        .result {
+          color: $primary;
+          font-size: 40px;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: bold;
+        }
+        .team-logo-holder {
+          width: 101px;
+          height: 101px;
+          min-width: 101px;
+          min-height: 101px;
+          border-radius: 1px;
+          max-width: 101px;
+          max-height: 101px;
+          padding: 5px;
+          position: relative;
+          .team-logo {
+            background-size: contain;
+            background-position: center center;
+            width: 100%;
+            height: 100%;
+          }
+        }
       }
     }
-    .team {
+  }
+  .last-matches, .event-list
+  {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    .team, .name {
       flex: 1;
     }
     .score {
       align-self: flex-end;
+      font-size: 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
     }
     .game {
       background: $primary;
@@ -138,12 +220,17 @@
       text-align: center;
       min-width: 50px;
       max-width: 50px;
-      max-height: 25px;
-      line-height: 25px;
+      max-height: 24px;
+      line-height: 24px;
       width: 50px;
       overflow: hidden;
       text-transform: uppercase;
+      border-radius: 1px;
     }
+
+  }
+  .event-list {
+
   }
 }
 

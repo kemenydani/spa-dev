@@ -17,6 +17,11 @@ class EnemyTeam extends Model
 
     const IMAGE_PATH = __UPLOADS__ . '/images/enemy_team';
 
+    public function requestLogo()
+    {
+        return '/enemy_team_logo/' . $this->getLogo();
+    }
+
     public function getId()
     {
         return $this->getProperty('id');

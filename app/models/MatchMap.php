@@ -14,6 +14,7 @@ class MatchMap extends Model
         'name',
         'score_home',
         'score_enemy',
+        'show_real'
     ];
 
     public function isWin()
@@ -40,14 +41,51 @@ class MatchMap extends Model
         return $this->getProperty('name');
     }
 
-    public function getScoreHome()
+    public function getShowReal()
     {
-        return $this->getProperty('score_home');
+        return (bool)$this->getProperty('show_real');
+    }
+
+    /**
+     * @param int $score
+     * @param int $scoreCompareTo
+     * @return int
+     */
+    public static function toOneBitResult( int $score, int $scoreCompareTo ) : int
+    {
+        if($score > $scoreCompareTo) return 1;
+        if($score < $scoreCompareTo) return 0;
+        return 1;
+    }
+
+    public function getScoreHome() : int
+    {
+        return (int)$this->getProperty('score_home');
     }
 
     public function getScoreEnemy() : int
     {
         return (int)$this->getProperty('score_enemy');
+    }
+
+    public function formatScoreHome() : int
+    {
+        $scoreHome =  $this->getScoreHome();
+        if($this->getShowReal() === false)
+        {
+            return self::toOneBitResult($scoreHome, $this->getScoreEnemy());
+        }
+        return $scoreHome;
+    }
+
+    public function formatScoreEnemy() : int
+    {
+        $scoreEnemy =  $this->getScoreEnemy();
+        if($this->getShowReal() === false)
+        {
+            return self::toOneBitResult($scoreEnemy, $this->getScoreHome());
+        }
+        return $scoreEnemy;
     }
 
 }

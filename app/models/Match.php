@@ -61,6 +61,14 @@ class Match extends Model
         return $score;
     }
 
+    public function formatTotalEnemyScore() : int
+    {
+        $maps = $this->getMaps();
+        $score = 0;
+        if($maps) foreach($maps as $map) $score += $map->formatScoreEnemy();
+        return $score;
+    }
+
     /**
      * @return int
      */
@@ -72,10 +80,23 @@ class Match extends Model
         return $score;
     }
 
+    public function formatTotalHomeScore() : int
+    {
+        $maps = $this->getMaps();
+        $score = 0;
+        if($maps) foreach($maps as $map) $score += $map->formatScoreHome();
+        return $score;
+    }
+
+    /**
+     * @param int $score1
+     * @param int $score2
+     */
+
     /**
      * @return array
      */
-    public function getTotalScore() : array
+    public function getTotalScore( $real = false ) : array
     {
         return [
             'home' => $this->getTotalHomeScore(),

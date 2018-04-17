@@ -9,7 +9,7 @@ $darkergrey: rgb( 69, 69, 69 );
 $primary: rgb( 246, 160, 12 );
 
 @import './_normalize';
-@import url('https://fonts.googleapis.com/css?family=Roboto|Montserrat|Montserrat:500|Montserrat:700|Lato');
+@import url('https://fonts.googleapis.com/css?family=Roboto|Roboto:300|Roboto:400|Roboto:500|Montserrat|Montserrat:500|Montserrat:700|Lato|Open+Sans');
 @import './mixins';
 @import './common';
 
@@ -21,7 +21,12 @@ $primary: rgb( 246, 160, 12 );
 @import '../../templates/route.view.user.auth';
 @import '../../templates/route.view.article.read';
 
-*   { box-sizing: border-box; }
+*   {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased !important;
+  -webkit-filter: blur(0.000001px) !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
 img { -ms-interpolation-mode: bicubic; }
 
 a {

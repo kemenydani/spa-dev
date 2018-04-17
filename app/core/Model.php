@@ -68,13 +68,13 @@ abstract class Model {
 
     public static function findAll( $value, $key = null )
     {
-        if(!$key) $key = static::$PKEY;
+        if($key === null) $key = static::$PKEY;
 
         $query = " SELECT * FROM " . self::getTable() .
                  " WHERE " . $key . " = ? "
         ;
         
-        return self::getAll($query, 1);
+        return self::getAll($query, $value);
     }
     
     public static function getAll($query = null, $binds = null)

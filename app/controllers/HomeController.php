@@ -14,6 +14,7 @@ use models\Match as Match;
 use models\ArticleCollection;
 use models\SquadCollection;
 use models\MatchCollection;
+use models\EventCollection;
 
 class HomeController extends ViewController
 {
@@ -46,21 +47,28 @@ class HomeController extends ViewController
               " LIMIT 5 "
         ;
 
-        $ltMatches = MatchCollection::queryToCollection($q4);
-
         $q5 = " SELECT * FROM _xyz_match mc " .
-              " WHERE mc.featured = ? "       .
-              " ORDER BY mc.id DESC "         .
-              " LIMIT 1 "
+            " WHERE mc.featured = ? "         .
+            " ORDER BY mc.id DESC "           .
+            " LIMIT 1 "
         ;
 
+        $ltMatches = MatchCollection::queryToCollection($q4);
         $topMatches = MatchCollection::queryToCollection($q5, true);
+
+        $q6 = " SELECT * FROM _xyz_event ev " .
+              " ORDER BY ev.start_date DESC " .
+              " LIMIT 5 "
+        ;
+
+        $ltEvents = EventCollection::queryToCollection($q6);
 
         $this->view->render($response, 'route.view.home.html.twig', [
             'articles' => [
                 'hl' => $hlArticles,
                 'lt' => $ltArticles,
             ],
+            'ltEvents' => $ltEvents,
             'topMatches' => $topMatches,
             'matches' => $ltMatches,
 	        'squads' => $squadCollection
