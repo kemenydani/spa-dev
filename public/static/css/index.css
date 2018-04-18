@@ -1,5 +1,5 @@
 /*! normalize.css v1.0.1 | MIT License | git.io/normalize */
-@import url("https://fonts.googleapis.com/css?family=Roboto|Roboto:300|Roboto:400|Roboto:500|Montserrat|Montserrat:500|Montserrat:700|Lato|Open+Sans");
+@import url("https://fonts.googleapis.com/css?family=Roboto|Roboto:300|Roboto:400|Roboto:500|Montserrat|Montserrat:500|Montserrat:700|Lato|Open+Sans|Noto+Sans|PT+Sans|Ubuntu");
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section, summary {
   display: block; }
 
@@ -319,7 +319,7 @@ table {
           display: inline-block;
           border-bottom: 5px solid #f6a00c;
           font-weight: bold;
-          font-family: 'Montserrat', sans-serif;
+          font-family: 'Noto Sans', sans-serif;
           color: white; }
       .match-event-container div.widget-group > div.widget > div.widget-body {
         flex: 1;
@@ -338,7 +338,7 @@ table {
           line-height: 24px;
           height: 24px;
           color: #787878;
-          font-family: 'Roboto', sans-serif; }
+          font-family: 'Noto Sans', sans-serif; }
   .match-event-container .widget.last-matches {
     padding-left: 15px;
     padding-right: 15px;
@@ -355,7 +355,7 @@ table {
         text-align: center; }
         .match-event-container .widget.top-match .widget-body .match-info > .event-name {
           color: #f6a00c;
-          font-family: 'Montserrat', sans-serif;
+          font-family: 'Noto Sans', sans-serif;
           font-weight: bold; }
         .match-event-container .widget.top-match .widget-body .match-info > .game {
           font-weight: 400;
@@ -398,7 +398,7 @@ table {
       flex: 1; }
     .match-event-container .last-matches .score, .match-event-container .event-list .score {
       align-self: flex-end;
-      font-size: 20px;
+      font-size: 16px;
       font-family: 'Montserrat', sans-serif;
       font-weight: bold;
       color: #f6a00c; }
@@ -420,8 +420,8 @@ table {
       text-align: center;
       min-width: 50px;
       max-width: 50px;
-      min-height: 22px;
-      max-height: 22px;
+      min-height: 20px;
+      max-height: 20px;
       display: flex;
       justify-content: center;
       align-content: center;
@@ -431,7 +431,8 @@ table {
       text-transform: uppercase;
       border-radius: 1px;
       font-size: 11px;
-      font-weight: 400; }
+      font-weight: 400;
+      font-family: 'Noto Sans', sans-serif; }
 
 header#main-header {
   height: 150px;
