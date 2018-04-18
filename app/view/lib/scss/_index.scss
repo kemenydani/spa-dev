@@ -13,13 +13,15 @@ $primary: rgb( 246, 160, 12 );
 @import './mixins';
 @import './common';
 
-@import './view.home';
 @import './_component.header';
 @import './_component.footer';
 
 @import '../../templates/route.view.user.profile';
 @import '../../templates/route.view.user.auth';
 @import '../../templates/route.view.article.read';
+
+@import '../../templates/route.view.home.scss';
+
 
 *   {
   box-sizing: border-box;

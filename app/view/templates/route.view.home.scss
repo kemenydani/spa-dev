@@ -1,4 +1,3 @@
-@import './mixins';
 
 .home-grid
 {
@@ -68,27 +67,6 @@
   }
 
 }
-
-
-/*
-<div class="widget-body">
-                        <div class="match-info">
-                            {{ tm.getEvent().getName() }}
-                            {{ tm.getDate() }}
-                            {{ tm.getGame().getName() }}
-                        </div>
-                        <div class="result-holder">
-                            <div class="team-logo" style="background-image: url({{ tm.getSquad().requestLogo() }})"></div>
-                            <div class="result">
-                                <span class="score-num">{{ tm.getTotalHomeScore() }}</span>
-                                <span class="spacer">-</span>
-                                <span class="score-num">{{ tm.getTotalEnemyScore() }}</span>
-                            </div>
-                            <div class="team-logo" style="background-image: url({{ tm.getEnemyTeam().requestLogo() }})"></div>
-                        </div>
-                    </div>
- */
-
 
 .match-event-container
 {
@@ -233,7 +211,7 @@
       font-size: 13px;
     }
     .event-name {
-     // font-weight: 700;
+      // font-weight: 700;
       color: $lightgrey;
       flex: 1;
       font-size: 13px;
@@ -270,3 +248,65 @@
   }
 }
 
+#featured-squad-full-container
+{
+  background: $dark;
+  border-bottom: 5px solid $primary;
+  min-height: 450px;
+  height: 450px;
+  position: relative;
+
+  > .container {
+    min-height: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .squad
+  {
+    border: 2px solid magenta;
+    height: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    .squad-game
+    {
+      border: 1px solid red;
+      height: 120px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+    }
+    .players
+    {
+      width: 100%;
+      border: 1px solid blue;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      align-content: flex-end;
+      .player
+      {
+        width: 200px;
+        height: 260px;
+        border: 1px solid orange;
+        position: relative;
+        display: flex;
+        align-content: flex-end;
+        align-items: flex-end;
+        padding: 0px 10px 10px 10px;
+        .nameplate
+        {
+            background: $primary;
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+        }
+      }
+    }
+  }
+}

@@ -137,20 +137,30 @@
         </div>
     </div>
 
-    <div class="container-full" style="background: black">
+    <div class="container-full" id="featured-squad-full-container">
     <div class="container">
-        <article class="widget-featured-team">
-            {% for sk, squad in squads.getModels() %}
-                {{ squad.getName() }}
-                <div>
-                    {% for mk, member in squad.getMembers() %}
-                        <div>
-                            {{ member.getUserId() }}
-                        </div>
-                    {% endfor %}
+        <article class="squad">
+            {% set squad = squads.first() %}
+            <div class="squad-game">game</div>
+            <div class="players">
+                <div class="player">
+                    <div class="nameplate">name</div>
+                </div>
+                <div class="player">
+                    <div class="nameplate">name</div>
+                </div>
+                <div class="player">
+                    <div class="nameplate">name</div>
+                </div>
+                <div class="player">
+                    <div class="nameplate">name</div>
+                </div>
+                <div class="player">
+                    <div class="nameplate">name</div>
                 </div>
 
-            {% endfor %}
+            </div>
+
         </article>
     </div>
     </div>
