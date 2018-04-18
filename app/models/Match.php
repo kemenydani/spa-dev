@@ -19,7 +19,8 @@ class Match extends Model
         'enemy_team_id',
         'event_id',
         'game_id',
-        'featured'
+        'featured',
+        'date_played'
     ];
 
     public function getGame()
@@ -103,6 +104,12 @@ class Match extends Model
             'enemy' => $this->getTotalEnemyScore(),
         ];
     }
+
+    public function getDatePlayed()
+    {
+        return $this->getProperty('date_played');
+    }
+
 
     public function getId()
     {

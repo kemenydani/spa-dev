@@ -75,9 +75,9 @@
                     {% set tm = topMatches.first() %}
                     <div class="widget-body">
                         <div class="match-info">
-                            {{ tm.getEvent().getName() }}
-                            {{ tm.getDate() }}
-                            {{ tm.getGame().getName() }}
+                            <h2 class="event-name">{{ tm.getEvent().getName() }}</h2>
+                            <span class="date">{{ tm.getDatePlayed() }}</span>
+                            <span class="game">{{ tm.getGame().getName() }}</span>
                         </div>
                         <div class="result-holder">
                             <div class="team-logo-holder">
@@ -126,8 +126,8 @@
 
                             {% for ek, event in ltEvents.getModels() %}
                                 <li>
-                                    <span class="name">{{ event.getName()}}</span>
-                                    <span class="date">{{ event.getStartDate()|date('d M Y')}}</span>
+                                    <span class="event-name">{{ event.getName()}}</span>
+                                    <span class="event-date">{{ event.getStartDate()|date('d M Y')}}</span>
                                 </li>
                             {% endfor %}
                         </ul>

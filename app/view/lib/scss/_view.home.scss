@@ -115,6 +115,7 @@
         overflow: hidden;
         margin-bottom: 10px;
         > * {
+          font-size: 26px;
           padding-bottom: 10px;
           margin: 0;
           display: inline-block;
@@ -136,13 +137,15 @@
         margin: 0;
         li {
           margin-top: 15px;
+
+          display: flex;
+          align-content: center;
+          align-items: center;
           line-height: 24px;
+
           height: 24px;
           color: lighten($darkergrey, 20);
-          display: flex;
-          align-items: center;
-          align-content: center;
-          font-weight: 400;
+
           font-family: 'Roboto', sans-serif;
         }
       }
@@ -163,6 +166,17 @@
       flex-direction: column;
       .match-info {
         flex: 1;
+        text-align: center;
+        > .event-name {
+          color: $primary;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: bold;
+        }
+        > .game {
+          font-weight: 400;
+          text-transform: uppercase;
+          color: $lightgrey;
+        }
       }
       .result-holder {
         display: flex;
@@ -193,6 +207,7 @@
             background-position: center center;
             width: 100%;
             height: 100%;
+            border: 1px solid $primary;
           }
         }
       }
@@ -211,21 +226,41 @@
       font-size: 20px;
       font-family: 'Montserrat', sans-serif;
       font-weight: bold;
+      color: $primary;
+    }
+    .enemy-name {
+      font-weight: 700;
+      color: $lightgrey;
+      font-size: 13px;
+    }
+    .event-name {
+      font-weight: 700;
+      color: $lightgrey;
+      flex: 1;
+      font-size: 13px;
+    }
+    .event-date {
+      color: $primary;
     }
     .game {
       background: $primary;
       color: $light;
-      margin-right: 10px;
-      display: inline;
+      margin-right: 7px;
       text-align: center;
       min-width: 50px;
       max-width: 50px;
-      max-height: 24px;
-      line-height: 24px;
+      min-height: 22px;
+      max-height: 22px;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
       width: 50px;
       overflow: hidden;
       text-transform: uppercase;
       border-radius: 1px;
+      font-size: 11px;
+      font-weight: 400;
     }
 
   }

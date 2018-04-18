@@ -313,6 +313,7 @@ table {
         overflow: hidden;
         margin-bottom: 10px; }
         .match-event-container div.widget-group > div.widget > div.widget-title > * {
+          font-size: 26px;
           padding-bottom: 10px;
           margin: 0;
           display: inline-block;
@@ -331,13 +332,12 @@ table {
         margin: 0; }
         .match-event-container div.widget-group > div.widget ul li {
           margin-top: 15px;
+          display: flex;
+          align-content: center;
+          align-items: center;
           line-height: 24px;
           height: 24px;
           color: #787878;
-          display: flex;
-          align-items: center;
-          align-content: center;
-          font-weight: 400;
           font-family: 'Roboto', sans-serif; }
   .match-event-container .widget.last-matches {
     padding-left: 15px;
@@ -351,7 +351,16 @@ table {
       display: flex;
       flex-direction: column; }
       .match-event-container .widget.top-match .widget-body .match-info {
-        flex: 1; }
+        flex: 1;
+        text-align: center; }
+        .match-event-container .widget.top-match .widget-body .match-info > .event-name {
+          color: #f6a00c;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: bold; }
+        .match-event-container .widget.top-match .widget-body .match-info > .game {
+          font-weight: 400;
+          text-transform: uppercase;
+          color: #dbdbdb; }
       .match-event-container .widget.top-match .widget-body .result-holder {
         display: flex;
         justify-content: space-between;
@@ -379,7 +388,8 @@ table {
             background-size: contain;
             background-position: center center;
             width: 100%;
-            height: 100%; }
+            height: 100%;
+            border: 1px solid #f6a00c; }
   .match-event-container .last-matches, .match-event-container .event-list {
     position: relative;
     display: flex;
@@ -390,21 +400,38 @@ table {
       align-self: flex-end;
       font-size: 20px;
       font-family: 'Montserrat', sans-serif;
-      font-weight: bold; }
+      font-weight: bold;
+      color: #f6a00c; }
+    .match-event-container .last-matches .enemy-name, .match-event-container .event-list .enemy-name {
+      font-weight: 700;
+      color: #dbdbdb;
+      font-size: 13px; }
+    .match-event-container .last-matches .event-name, .match-event-container .event-list .event-name {
+      font-weight: 700;
+      color: #dbdbdb;
+      flex: 1;
+      font-size: 13px; }
+    .match-event-container .last-matches .event-date, .match-event-container .event-list .event-date {
+      color: #f6a00c; }
     .match-event-container .last-matches .game, .match-event-container .event-list .game {
       background: #f6a00c;
       color: white;
-      margin-right: 10px;
-      display: inline;
+      margin-right: 7px;
       text-align: center;
       min-width: 50px;
       max-width: 50px;
-      max-height: 24px;
-      line-height: 24px;
+      min-height: 22px;
+      max-height: 22px;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
       width: 50px;
       overflow: hidden;
       text-transform: uppercase;
-      border-radius: 1px; }
+      border-radius: 1px;
+      font-size: 11px;
+      font-weight: 400; }
 
 header#main-header {
   height: 150px;
@@ -1157,7 +1184,6 @@ div#wrapper {
     position: relative;
     min-width: 100%;
     min-height: 100%;
-    border: 1px solid red;
     display: table-row;
     /* full-height within table el. */
     /* additional wrapper of the view's content, to achieve full height when the view-page is empty */ }

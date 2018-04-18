@@ -8,7 +8,7 @@ use \models\SquadMember as SquadMember;
 class Squad extends Model
 {
 	const IMAGE_PATH = __UPLOADS__ . '/images/squad_logo';
-    const NO_LOGO_IMAGE = 'no_squad_logo.png';
+    const NO_LOGO_IMAGE = 'no_logo_dark.jpg';
 
 	public static $PKEY = 'id';
 	public static $TABLE = 'squad';
