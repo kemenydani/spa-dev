@@ -956,7 +956,6 @@ footer#main-footer {
           font-size: 26px;
           padding-bottom: 10px;
           margin: 0;
-          display: inline-block;
           border-bottom: 5px solid #f6a00c;
           font-weight: bold;
           font-family: 'Montserrat', sans-serif;
@@ -1080,14 +1079,12 @@ footer#main-footer {
     height: 100%;
     position: relative; }
   #featured-squad-full-container .squad {
-    border: 2px solid magenta;
     height: 100%;
     min-height: 100%;
     display: flex;
     flex-direction: column;
     background-position: bottom center; }
     #featured-squad-full-container .squad .squad-game {
-      border: 1px solid red;
       height: 120px;
       width: 100%;
       display: flex;
@@ -1100,7 +1097,6 @@ footer#main-footer {
       letter-spacing: 2px; }
     #featured-squad-full-container .squad .players {
       width: 100%;
-      border: 1px solid blue;
       flex: 1;
       display: flex;
       justify-content: center;
@@ -1109,7 +1105,6 @@ footer#main-footer {
       #featured-squad-full-container .squad .players .player {
         width: 200px;
         height: 260px;
-        border: 1px solid orange;
         position: relative;
         display: flex;
         align-content: flex-end;
@@ -1127,6 +1122,26 @@ footer#main-footer {
           line-height: 30px;
           text-align: center; }
 
+@media only screen and (max-width: 1023px) {
+  #featured-squad-full-container, #home-match-container-full {
+    margin-left: -15px !important;
+    margin-right: -15px !important; }
+
+  #home-match-container-full {
+    padding-bottom: 0;
+    margin-bottom: 0; }
+
+  .match-event-container .widget-group .widget {
+    min-width: 50% !important;
+    padding-left: 15px;
+    padding-right: 15px; }
+  .match-event-container .widget-group .widget.event-list {
+    display: none !important; } }
+@media only screen and (max-width: 639px) {
+  .match-event-container .widget-group {
+    flex-direction: column !important; }
+  .match-event-container .widget-group .widget {
+    min-width: 100% !important; } }
 * {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased !important;
