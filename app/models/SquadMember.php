@@ -16,6 +16,12 @@ class SquadMember extends Model
         'user_id'
 	];
 
+    public function formatName()
+    {
+        if($this->getName()) return $this->getName();
+        return User::find($this->getUserId())->getUserName();
+    }
+
     public function getId()
     {
         return $this->getProperty('id');

@@ -57,3 +57,12 @@ $app->get('/squad_header/{filename}', function( $request, $response, $args )
 
     return modelImageResponse($response, '');
 });
+
+$app->get('/squad_home_wallpaper/{filename}', function( $request, $response, $args )
+{
+    $path = Squad::getRealImagePath($args['filename']);
+
+    if($path) return modelImageResponse($response, $path);
+
+    return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . Squad::NO_HOME_WALLPAPER);
+});

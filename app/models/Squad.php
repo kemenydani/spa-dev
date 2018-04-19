@@ -7,8 +7,9 @@ use \models\SquadMember as SquadMember;
 
 class Squad extends Model
 {
-	const IMAGE_PATH = __UPLOADS__ . '/images/squad_logo';
-    const NO_LOGO_IMAGE = 'no_logo_dark.jpg';
+	const IMAGE_PATH = __UPLOADS__ . '/images/squad';
+    const NO_LOGO_IMAGE = 'no-logo-dark.jpg';
+    const NO_HOME_WALLPAPER = 'no-squad-wallpaper.jpg';
 
 	public static $PKEY = 'id';
 	public static $TABLE = 'squad';
@@ -18,6 +19,7 @@ class Squad extends Model
 		'name',
 		'game_id',
 		'header_image',
+        'home_wallpaper',
         'logo',
 		'position',
 	];
@@ -39,7 +41,7 @@ class Squad extends Model
 			'id' => $member_id
 		]);
 	}
-	
+
 	public function getId()
 	{
 		return $this->getProperty('id');
@@ -63,6 +65,21 @@ class Squad extends Model
     public function formatHeaderImage()
     {
         return self::IMAGE_PATH . DIRECTORY_SEPARATOR . $this->getHeaderImage();
+    }
+
+    public function getHomeWallpaper()
+    {
+        return $this->getProperty('home_wallpaper');
+    }
+
+    public function pathHomeWallpaper()
+    {
+        return self::IMAGE_PATH . DIRECTORY_SEPARATOR . $this->getHomeWallpaper();
+    }
+
+    public function requestHomeWallpaper()
+    {
+        return '/squad_home_wallpaper/' . $this->getHomeWallpaper();
     }
 
     public function getLogo()

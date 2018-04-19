@@ -269,6 +269,7 @@
     min-height: 100%;
     display: flex;
     flex-direction: column;
+    background-position: bottom center;
     .squad-game
     {
       border: 1px solid red;
@@ -278,6 +279,10 @@
       justify-content: center;
       align-items: center;
       align-content: center;
+      color: $light;
+      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 2px;
     }
     .players
     {
@@ -298,6 +303,11 @@
         align-content: flex-end;
         align-items: flex-end;
         padding: 0px 10px 10px 10px;
+        color: $light;
+        text-transform: uppercase;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+        font-weight: bold;
         .nameplate
         {
             background: $primary;

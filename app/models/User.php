@@ -26,7 +26,7 @@ class User extends Model {
     const PUBLIC_DATASET = [ 'id', 'username', 'profile_picture', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated' ];
     const SMALL_DATASET = [ 'id', 'username', 'profile_picture', 'email'];
     const IMAGE_PATH = __UPLOADS__ . '/images/user';
-    const NO_USER_IMAGE = 'no_user_image.png';
+    const NO_USER_IMAGE = 'no-user-image.png';
 
     const FIELD_RULES = [
         'username' => 'required|unique|max:20',
