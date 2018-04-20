@@ -146,7 +146,7 @@
             </div>
             <div class="players">
                 {% for pk, member in squad.getMembers() %}
-                    <div class="player">
+                    <div class="player" style="background-image: url({{ member.requestHomeAvatar() }})">
                         <div class="nameplate">{{ member.formatName() }}</div>
                     </div>
                 {% endfor %}

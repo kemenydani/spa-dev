@@ -13,7 +13,8 @@ class SquadMember extends Model
 		'id',
 		'name',
 		'squad_id',
-        'user_id'
+        'user_id',
+		'home_avatar'
 	];
 
     public function formatName()
@@ -32,6 +33,21 @@ class SquadMember extends Model
         return $this->getProperty('name');
     }
 
+    public function getHomeAvatar()
+    {
+	    return $this->getProperty('home_avatar');
+    }
+	
+	public function pathHomeAvatar()
+	{
+		return self::IMAGE_PATH . DIRECTORY_SEPARATOR . $this->getHomeAvatar();
+	}
+	
+	public function requestHomeAvatar()
+	{
+		return '/squadMemberHomeAvatar/' . $this->getHomeAvatar();
+	}
+	
     public function getSquadId()
     {
         return $this->getProperty('squad_id');

@@ -8,20 +8,21 @@ $darkgrey: rgb( 98, 98, 98 );
 $darkergrey: rgb( 69, 69, 69 );
 $primary: rgb( 246, 160, 12 );
 
+
 @import './_normalize';
 @import url('https://fonts.googleapis.com/css?family=Anton|Roboto|Roboto:300|Roboto:400|Roboto:500|Montserrat|Montserrat:500|Montserrat:700|Lato|Open+Sans|Noto+Sans|PT+Sans|Ubuntu');
 @import './mixins';
 @import './common';
 
-@import './_component.header';
-@import './_component.footer';
+@import '../../templates/index.header.scss';
+@import '../../templates/index.footer.scss';
 
-@import '../../templates/route.view.user.profile';
+
 @import '../../templates/route.view.user.auth';
 @import '../../templates/route.view.article.read';
 
 @import '../../templates/route.view.home.scss';
-
+@import '../../templates/route.view.user.profile.scss';
 
 *   {
   box-sizing: border-box;

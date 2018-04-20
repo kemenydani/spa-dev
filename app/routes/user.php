@@ -1,3 +1,3 @@
 <?php
 
-$app->get('/profile', 'controllers\UserController:index');
+$app->get('/profile/{username}', 'controllers\UserController:index');

@@ -216,7 +216,6 @@ header#main-header {
   min-height: 150px;
   max-height: 150px;
   position: relative;
-  margin-bottom: 70px;
   border-top: 10px solid #f6a00c;
   background: black;
   display: flex;
@@ -301,9 +300,9 @@ header#main-header {
       align-items: center;
       align-content: center;
       position: relative;
-      /*
-      background-image: none, url("../drawable/header-logo-vector-bg.svg"), url("../drawable/header-logo-raster-bg.png");
-            */
+    /*
+    background-image: none, url("../drawable/header-logo-vector-bg.svg"), url("../drawable/header-logo-raster-bg.png");
+  		*/
       background-repeat: no-repeat;
       background-position-y: bottom;
       background-position-x: center;
@@ -388,56 +387,6 @@ footer#main-footer {
         width: 100%;
         text-align: center;
         border-top: 1px solid #626262; } }
-
-#profile-area .profile-cover {
-  min-height: 300px;
-  position: relative;
-  margin-bottom: 20px;
-  background: black; }
-#profile-area .profile-image {
-  border: 1px solid black;
-  width: 200px;
-  min-width: 100px;
-  position: relative; }
-  #profile-area .profile-image:before {
-    display: block;
-    content: "";
-    width: 200px;
-    min-width: 100px;
-    padding-top: 100%; }
-#profile-area .profile-details {
-  margin-top: 20px;
-  background: white;
-  border-top: 1px solid #dbdbdb;
-  padding: 20px;
-  margin-bottom: 20px; }
-  #profile-area .profile-details .title {
-    margin-top: 0;
-    padding-bottom: 5px;
-    border-bottom: 5px solid #f6a00c;
-    display: inline-block;
-    font-weight: bold;
-    font-family: 'Montserrat', sans-serif;
-    color: black; }
-  #profile-area .profile-details .detail-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0; }
-    #profile-area .profile-details .detail-list > li {
-      line-height: 40px;
-      border-bottom: 1px solid #dbdbdb; }
-      #profile-area .profile-details .detail-list > li:last-child {
-        border-bottom: none; }
-      #profile-area .profile-details .detail-list > li > span.label {
-        color: black;
-        font-weight: bold;
-        font-family: 'Montserrat', sans-serif;
-        min-width: 200px;
-        width: 200px;
-        display: inline-block;
-        font-size: 0.9em; }
-      #profile-area .profile-details .detail-list > li > span.value {
-        display: inline-block; }
 
 #auth-area {
   box-sizing: border-box;
@@ -1114,7 +1063,10 @@ footer#main-footer {
         text-transform: uppercase;
         font-family: 'Montserrat', sans-serif;
         font-size: 16px;
-        font-weight: bold; }
+        font-weight: bold;
+        background-size: contain;
+        background-position: center bottom;
+        background-repeat: no-repeat; }
         #featured-squad-full-container .squad .players .player .nameplate {
           background: #f6a00c;
           width: 100%;
@@ -1142,10 +1094,95 @@ footer#main-footer {
     flex-direction: column !important; }
   .match-event-container .widget-group .widget {
     min-width: 100% !important; } }
+.container-full.route-header {
+  overflow: visible; }
+  .container-full.route-header.profile-route-header {
+    height: 300px;
+    background: #090909;
+    display: flex;
+    overflow: visible !important; }
+
+.container.profile-header-container {
+  position: relative;
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  flex-direction: column;
+  align-items: center;
+  overflow: visible !important; }
+  .container.profile-header-container .username {
+    text-align: center; }
+  .container.profile-header-container .username h1 {
+    text-transform: uppercase;
+    color: #f6a00c;
+    font-size: 35px; }
+  .container.profile-header-container .user-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+    border: 15px solid #090909;
+    background-size: contain !important;
+    background-position: center center;
+    margin-bottom: -85px; }
+
+.container.container-user-details {
+  background: white;
+  margin-top: 100px; }
+
+#profile-area .profile-cover {
+  min-height: 300px;
+  position: relative;
+  margin-bottom: 20px;
+  background: black; }
+#profile-area .profile-image {
+  border: 1px solid black;
+  width: 200px;
+  min-width: 100px;
+  position: relative; }
+  #profile-area .profile-image:before {
+    display: block;
+    content: "";
+    width: 200px;
+    min-width: 100px;
+    padding-top: 100%; }
+#profile-area .profile-details {
+  margin-top: 20px;
+  background: white;
+  border-top: 1px solid #dbdbdb;
+  padding: 20px;
+  margin-bottom: 20px; }
+  #profile-area .profile-details .title {
+    margin-top: 0;
+    padding-bottom: 5px;
+    border-bottom: 5px solid #f6a00c;
+    display: inline-block;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    color: black; }
+  #profile-area .profile-details .detail-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0; }
+    #profile-area .profile-details .detail-list > li {
+      line-height: 40px;
+      border-bottom: 1px solid #dbdbdb; }
+      #profile-area .profile-details .detail-list > li:last-child {
+        border-bottom: none; }
+      #profile-area .profile-details .detail-list > li > span.label {
+        color: black;
+        font-weight: bold;
+        font-family: 'Montserrat', sans-serif;
+        min-width: 200px;
+        width: 200px;
+        display: inline-block;
+        font-size: 0.9em; }
+      #profile-area .profile-details .detail-list > li > span.value {
+        display: inline-block; }
+
 * {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased !important;
-  -webkit-filter: blur(0.000001px) !important;
+  -webkit-filter: blur(0px) !important;
   -moz-osx-font-smoothing: grayscale !important; }
 
 img {

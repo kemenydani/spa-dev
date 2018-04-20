@@ -73,14 +73,11 @@ class User extends Model {
     {
         return '/profile_picture/' . $this->getProfilePicture();
     }
-
-
-
-
-
-
-
-
+    
+	public function requestProfilePicture()
+	{
+		return '/userRequestProfilePicture/' . $this->getProfilePicture();
+	}
 
     public function logout()
     {

@@ -1,10 +1,30 @@
 {% extends 'block.full.html.twig' %}
 
 {% block content %}
-    <div class="container" style="min-height: 100%; flex: 1;">
+
+	<div class="container-full route-header profile-route-header">
+		<div class="container profile-header-container">
+			<div class="username">
+				<h1>{{ user.getUserName() }}</h1>
+				<h3>DANIEL KEMENY</h3>
+			</div>
+			<div class="user-image" style="background: url({{ user.requestProfilePicture() }})">
+
+			</div>
+		</div>
+	</div>
+
+	<div class="container-full">
+		<div class="container container-user-details" style="height: 800px;">
+
+		</div>
+	</div>
+
+
+    <div class="container" style="min-height: 100%; flex: 1; display: none;">
 		<div id="profile-area">
     		{% verbatim %}
-			<div class="profile-cover">
+			<div class="profile-cover" style="display: none;">
 				<div class="profile-image" v-on:click="browse()">
 
 				</div>

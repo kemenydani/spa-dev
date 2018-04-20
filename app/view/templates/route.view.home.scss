@@ -298,7 +298,6 @@
       {
         width: 200px;
         height: 260px;
-
         position: relative;
         display: flex;
         align-content: flex-end;
@@ -309,6 +308,9 @@
         font-family: 'Montserrat', sans-serif;
         font-size: 16px;
         font-weight: bold;
+        background-size: contain;
+        background-position: center bottom;
+        background-repeat: no-repeat;
         .nameplate
         {
             background: $primary;

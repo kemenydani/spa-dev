@@ -1,7 +1,19 @@
 <footer id="main-footer">
     <!-- row -->
     <div class="container-full footer-sponsor-row">
-        {% include 'widget.sponsor.inline.html.twig' with {'class': 'widget-sponsor-footer'} %}
+        {% include 'widget.sponsor.inline.html.twig'
+            with {
+            items: {
+                'corsair'      : 'https://id.steelseries.com/static/img/ss-logo-white.ba17f91a43b4.png',
+                'razer'        : 'https://id.steelseries.com/static/img/ss-logo-white.ba17f91a43b4.png',
+                'steelseries'  : 'https://id.steelseries.com/static/img/ss-logo-white.ba17f91a43b4.png',
+                'thermaltake'  : 'https://id.steelseries.com/static/img/ss-logo-white.ba17f91a43b4.png',
+            },
+            limit: 4,
+            class: 'widget-sponsor-footer'
+        }
+            only
+        %}
     </div>
     <!-- row -->
     <div class="container-full footer-content-row">
