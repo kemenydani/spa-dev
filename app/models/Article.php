@@ -22,7 +22,8 @@ class Article extends Model
         'teaser',
         'content',
         'activation_time',
-        'date_created'
+        'date_created',
+		'comments_enabled'
     ];
 
     const IMAGE_PATH = __UPLOADS__ . '/images/article';
@@ -70,6 +71,11 @@ class Article extends Model
     {
 	    return $this->getProperty('id');
     }
+	
+	public function getCommentsEnabled()
+	{
+		return $this->getProperty('comments_enabled');
+	}
 
 	public function getComments()
     {
