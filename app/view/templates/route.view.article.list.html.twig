@@ -1,11 +1,103 @@
 {% extends 'block.full.html.twig' %}
 
 {% block content %}
-    <div class="container">
-        {% for article in articles %}
+    <div class="container-full" id="route-view-article-list">
+        <div class="container-full route-header article-route-header">
+            <div class="container article-header-container">
+                article head
+            </div>
+        </div>
+        {% verbatim %}
+        <div class="container article-list-container" id="article-list">
+            <div class="search-article-form">
+                <input v-model="searchParams.title" placeholder="Search" type="text">
+                <button v-on:click="search()">SEARCH</button>
+            </div>
+            <article v-for="(article, key) in models" v-bind:key="key" class="article">
+                <h2 class="title">{{ article.title }}</h2>
+                <p class="text">{{ article.teaser }}</p>
+            </article>
 
-            <li>id: {{ article.id }}</li>
-
-        {% endfor %}
+        </div>
+        {% endverbatim %}
     </div>
+
+    <script type="text/javascript">
+
+		(function($, Vue){
+
+			var __ARTICLES__ = {% autoescape false %}{{ articles }}{% endautoescape %};
+
+			var EventBus = new Vue();
+
+			var app = new Vue({
+				el: '#article-list',
+				data: function () {
+					return {
+						models: [],
+						totalCount: 0,
+						startAt : 0,
+                        searchParams : {
+							title: null
+                        }
+					}
+				},
+				methods: {
+					bottomVisible : function()
+                    {
+	                    var spaceBelow = $(window).height() - $('#article-list')[0].getBoundingClientRect().bottom;
+	                    return spaceBelow > -100;
+					},
+                    loadArticles: function()
+                    {
+	                    return $.getJSON("/article/loadInfinity/", { search: this.searchParams, startAt: this.startAt })
+							.then(function(response){
+								this.totalCount = parseInt(response.total);
+								return response.models;
+							}.bind(this));
+                    },
+					loadMore : function()
+					{
+						this.loadArticles().then(function(articles)
+						{
+							$.each(articles, function(i,article){ this.models.push(article); }.bind(this));
+							this.startAt += 2;
+						}
+						.bind(this))
+					},
+					search : function()
+					{
+						this.startAt = 0;
+						this.totalCount = 0;
+						this.loadArticles().then(function(articles)
+						{
+							this.models = articles;
+						}
+						.bind(this))
+					}
+				},
+				created: function()
+                {
+                	this.loadMore();
+
+                	var block = false;
+					window.addEventListener('scroll', function() {
+						if(this.bottomVisible() === true && block === false) {
+
+							if(this.totalCount > this.models.length)
+							{
+								this.loadMore();
+								block = true;
+							}
+							setTimeout(function(){
+								block = false;
+							}, 1000);
+                        }
+					}.bind(this));
+				}
+			});
+
+		}(jQuery, Vue));
+    </script>
+
 {% endblock %}

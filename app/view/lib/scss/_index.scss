@@ -17,12 +17,13 @@ $primary: rgb( 246, 160, 12 );
 @import '../../templates/index.header.scss';
 @import '../../templates/index.footer.scss';
 
-
-@import '../../templates/route.view.user.auth';
-@import '../../templates/route.view.article.read';
-
 @import '../../templates/route.view.home.scss';
+
+@import '../../templates/route.view.user.auth.scss';
 @import '../../templates/route.view.user.profile.scss';
+
+@import '../../templates/route.view.article.read.scss';
+@import '../../templates/route.view.article.list.scss';
 
 *   {
   box-sizing: border-box;
@@ -152,7 +153,7 @@ div#wrapper
     }
 
     .layout-full {
-      //height: 100%; flex: 1; position: relative; display: flex; flex-wrap: wrap;
+      height: 100%; flex: 1; position: relative; display: flex; flex-wrap: wrap; min-height: 100%;
     }
 
     /* additional wrapper of the view's content, to achieve full height when the view-page is empty */

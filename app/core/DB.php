@@ -12,6 +12,8 @@ class DB extends \PDO
     static $_USERNAME_;
     static $_PASSWORD_;
 
+    public $stmt = null;
+    
     public function __construct($dsn, $username, $password, $options)
     {
         parent::__construct($dsn, $username, $password, $options);
@@ -20,6 +22,10 @@ class DB extends \PDO
         $this->exec("set names utf8");
     }
 
+    public function stmt(){
+    	return $this->stmt;
+    }
+    
     public static function instance()
     {
         if ( self::$_instance === null )
@@ -156,6 +162,11 @@ class DB extends \PDO
 	    return $class === null ? $stmt->fetch($fetch_style) : $stmt->fetch();
     }
 
+    public function totalRowCount()
+    {
+	    return (int)$this->query('SELECT FOUND_ROWS()')->fetch(\PDO::FETCH_COLUMN);
+    }
+    
     // TODO : delete this when compatibility issues are solved
     public function getRows($stmt = '', $bind = null, $fetch_style = \PDO::FETCH_ASSOC, $class = null)
     {
@@ -164,13 +175,13 @@ class DB extends \PDO
 
     public function getAll($stmt = '', $bind = null, $fetch_style = \PDO::FETCH_ASSOC, $class = null)
     {
-    	//var_dump();
-        $stmt = $this->prepareBind($stmt, $bind);
+        $this->stmt = $this->prepareBind($stmt, $bind);
         
-        if($class !== null) $stmt->setFetchMode($fetch_style, $class);
-
-        $stmt->execute();
-        return $class === null ? $stmt->fetchAll($fetch_style) : $stmt->fetchAll();
+        if($class !== null) $this->stmt->setFetchMode($fetch_style, $class);
+	
+	    $this->stmt->execute();
+        
+        return $class === null ?  $this->stmt->fetchAll($fetch_style) :  $this->stmt->fetchAll();
     }
 
     private function prepareBind($stmt = '', $bind = null)
@@ -182,7 +193,8 @@ class DB extends \PDO
         if(is_array($bind))
         {
             $i = 1;
-            foreach ($bind as $key => $value) {
+            foreach ($bind as $key => $value)
+            {
                 $name = is_numeric($key) ? $i : ':' . $key;
 
                 $stmt->bindValue($name, $value);
