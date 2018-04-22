@@ -81,7 +81,12 @@ class Squad extends Model
     {
         return '/squad_home_wallpaper/' . $this->getHomeWallpaper();
     }
-
+	
+	public function requestHeaderImage()
+	{
+		return '/squad_header_image/' . $this->getHeaderImage();
+	}
+    
     public function getLogo()
     {
         return $this->getProperty('logo');

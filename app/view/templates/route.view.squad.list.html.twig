@@ -1,0 +1,13 @@
+{% extends 'block.full.html.twig' %}
+
+{% block content %}
+    <div class="container-full">
+        <div class="container" style="background: black;">
+            {% for sk, squad in squads.getModels() %}
+                <article class="squad" style="background-image: url({{ squad.requestHeaderImage() }})">
+                    {{ squad.getName() }}
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

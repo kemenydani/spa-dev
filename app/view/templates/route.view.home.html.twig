@@ -142,12 +142,12 @@
         {% set squad = squads.first() %}
         <article class="squad" style="background-image: url({{ squad.requestHomeWallpaper() }})">
             <div class="squad-game">
-                <h1>{{ squad.getName() }}</h1>
+                <a href="/squad/{{ squad.getName() }}"><h1>{{ squad.getName() }}</h1></a>
             </div>
             <div class="players">
                 {% for pk, member in squad.getMembers() %}
                     <div class="player" style="background-image: url({{ member.requestHomeAvatar() }})">
-                        <div class="nameplate">{{ member.formatName() }}</div>
+                        <a href="/profile/{{ member.getUser().getUserName() }}" class="nameplate">{{ member.formatName() }}</a>
                     </div>
                 {% endfor %}
             </div>

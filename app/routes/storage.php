@@ -13,7 +13,7 @@ function modelImageResponse(Response $response, $path)
     return $response->withHeader('Content-Type', $type)->withHeader('Content-Length', filesize($path));
 }
 
-$app->get('/userRequestProfilePicture/{filename}', function( $request, $response, $args )
+$app->get('/userRequestProfilePicture/[{filename}]', function( $request, $response, $args )
 {
     $path = User::getRealImagePath($args['filename']);
 
@@ -22,7 +22,7 @@ $app->get('/userRequestProfilePicture/{filename}', function( $request, $response
     return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . User::NO_USER_IMAGE);
 });
 
-$app->get('/article_headline/{filename}', function( $request, $response, $args )
+$app->get('/article_headline/[{filename}]', function( $request, $response, $args )
 {
     $path = Article::getRealImagePath($args['filename']);
 
@@ -31,7 +31,7 @@ $app->get('/article_headline/{filename}', function( $request, $response, $args )
     return modelImageResponse($response,__NOIMAGE__ . DIRECTORY_SEPARATOR . 'no-image-grey-cross.jpg' );
 });
 
-$app->get('/enemy_team_logo/{filename}', function( $request, $response, $args )
+$app->get('/enemy_team_logo/[{filename}]', function( $request, $response, $args )
 {
     $path = EnemyTeam::getRealImagePath($args['filename']);
 
@@ -40,7 +40,7 @@ $app->get('/enemy_team_logo/{filename}', function( $request, $response, $args )
     return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . Squad::NO_LOGO_IMAGE );
 });
 
-$app->get('/squad_logo/{filename}', function( $request, $response, $args )
+$app->get('/squad_logo/[{filename}]', function( $request, $response, $args )
 {
     $path = Squad::getRealImagePath($args['filename']);
 
@@ -49,16 +49,17 @@ $app->get('/squad_logo/{filename}', function( $request, $response, $args )
     return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . Squad::NO_LOGO_IMAGE );
 });
 
-$app->get('/squad_header/{filename}', function( $request, $response, $args )
+$app->get('/squad_header_image/[{filename}]', function( $request, $response, $args )
 {
+	return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . 'no-image-grey-cross.jpg' );
     $path = Squad::getRealImagePath($args['filename']);
 
     if($path) return modelImageResponse($response, $path);
 
-    return modelImageResponse($response, '');
+    return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . 'no-image-grey-cross.jpg' );
 });
 
-$app->get('/squad_home_wallpaper/{filename}', function( $request, $response, $args )
+$app->get('/squad_home_wallpaper/[{filename}]', function( $request, $response, $args )
 {
     $path = Squad::getRealImagePath($args['filename']);
 
@@ -68,7 +69,7 @@ $app->get('/squad_home_wallpaper/{filename}', function( $request, $response, $ar
 });
 
 
-$app->get('/squadMemberHomeAvatar/{filename}', function( $request, $response, $args )
+$app->get('/squadMemberHomeAvatar/[{filename}]', function( $request, $response, $args )
 {
 	$path = Squad::getRealImagePath($args['filename']);
 	

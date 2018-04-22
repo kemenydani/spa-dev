@@ -3,6 +3,7 @@
 namespace models;
 
 use \core\Model as Model;
+use \models\User as User;
 
 class SquadMember extends Model
 {
@@ -57,4 +58,9 @@ class SquadMember extends Model
     {
 	    return $this->getProperty('user_id');
     }
+	
+	public function getUser()
+	{
+		return User::find($this->getUserId());
+	}
 }
