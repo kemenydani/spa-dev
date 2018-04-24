@@ -2,8 +2,21 @@
 
 {% block content %}
 
-    <div class="container">
-        foo
+<div class="container-full" id="route-view-squad-view">
+    <div class="container-full route-header squad-view-route-header"
+         style="background-image: url({{ squad.requestHeaderImage() }})"
+    >
+        <div class="container squad-header-container">
+            {{ squad.getName() }}
+        </div>
     </div>
+    <div class="container member-list-container" id="member-list">
+        {% for mk, member in squad.getMembers() %}
+            <article class="member">
+                {{ member.formatName() }}
+            </article>
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock %}

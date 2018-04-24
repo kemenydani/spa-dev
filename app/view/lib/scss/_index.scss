@@ -17,6 +17,8 @@ $primary: rgb( 246, 160, 12 );
 @import '../../templates/index.header.scss';
 @import '../../templates/index.footer.scss';
 
+@import '../../templates/route.scss';
+
 @import '../../templates/route.view.home.scss';
 
 @import '../../templates/route.view.user.auth.scss';
@@ -25,11 +27,16 @@ $primary: rgb( 246, 160, 12 );
 @import '../../templates/route.view.article.read.scss';
 @import '../../templates/route.view.article.list.scss';
 
+@import '../../templates/route.view.squad.list.scss';
+
 *   {
   box-sizing: border-box;
+  /*
   -webkit-font-smoothing: antialiased !important;
   -webkit-filter: blur(0.000001px) !important;
   -moz-osx-font-smoothing: grayscale !important;
+
+  */
 }
 img { -ms-interpolation-mode: bicubic; }
 

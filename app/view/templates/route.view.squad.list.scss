@@ -1,0 +1,17 @@
+#route-view-article-list
+{
+
+  .squad-list-container {
+
+    .squad-list {
+      padding-bottom: 15px;
+      .squad {
+        margin-top: 15px;
+        min-height: 220px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    }
+  }
+}

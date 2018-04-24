@@ -9,15 +9,20 @@
         </div>
         {% verbatim %}
         <div class="container article-list-container" id="article-list">
-            <div class="search-article-form">
-                <input v-model="searchParams.title" placeholder="Search" type="text">
-                <button v-on:click="search()">SEARCH</button>
+            <div class="search-article">
+                <div class="info">Loaded {{ models.length }} from total {{ total }} articles</div>
+                <div class="form">
+					<input v-on:keyup.enter="search()" v-model="searchParams.title" placeholder="Search" type="text">
+					<button v-on:click="search()">SEARCH</button>
+                </div>
             </div>
             <article v-for="(article, key) in models" v-bind:key="key" class="article">
                 <h2 class="title">{{ article.title }}</h2>
                 <p class="text">{{ article.teaser }}</p>
             </article>
-
+            <div v-if="loading" class="loading-articles">
+              <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
+			</div>
         </div>
         {% endverbatim %}
     </div>
@@ -26,7 +31,8 @@
 
 		(function($, Vue){
 
-			var __ARTICLES__ = {% autoescape false %}{{ articles }}{% endautoescape %};
+			var ARTICLES = {% autoescape false %}{{ articles }}{% endautoescape %};
+			var LIMIT = {% autoescape false %}{{ limit }}{% endautoescape %};
 
 			var EventBus = new Vue();
 
@@ -34,9 +40,11 @@
 				el: '#article-list',
 				data: function () {
 					return {
-						models: [],
-						totalCount: 0,
-						startAt : 0,
+						models: ARTICLES.models,
+						total: parseInt(ARTICLES.total),
+						limit: parseInt(LIMIT),
+						startAt: parseInt(LIMIT),
+					  	loading: false,
                         searchParams : {
 							title: null
                         }
@@ -52,23 +60,24 @@
                     {
 	                    return $.getJSON("/article/loadInfinity/", { search: this.searchParams, startAt: this.startAt })
 							.then(function(response){
-								this.totalCount = parseInt(response.total);
+								this.total = parseInt(response.total);
 								return response.models;
-							}.bind(this));
+							}
+							.bind(this));
                     },
 					loadMore : function()
 					{
-						this.loadArticles().then(function(articles)
+						return this.loadArticles().then(function(articles)
 						{
 							$.each(articles, function(i,article){ this.models.push(article); }.bind(this));
-							this.startAt += 2;
+							this.startAt += this.limit;
 						}
 						.bind(this))
 					},
 					search : function()
 					{
 						this.startAt = 0;
-						this.totalCount = 0;
+						this.total = 0;
 						this.loadArticles().then(function(articles)
 						{
 							this.models = articles;
@@ -78,20 +87,19 @@
 				},
 				created: function()
                 {
-                	this.loadMore();
-
-                	var block = false;
-					window.addEventListener('scroll', function() {
-						if(this.bottomVisible() === true && block === false) {
-
-							if(this.totalCount > this.models.length)
+					window.addEventListener('scroll', function()
+					{
+						if(this.bottomVisible() === true && this.loading === false)
+						{
+							if(this.total > this.models.length)
 							{
-								this.loadMore();
-								block = true;
+								this.loading = true;
+								this.loadMore().then(function()
+								{
+									this.loading = false;
+								}
+								.bind(this));
 							}
-							setTimeout(function(){
-								block = false;
-							}, 1000);
                         }
 					}.bind(this));
 				}

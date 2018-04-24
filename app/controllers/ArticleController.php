@@ -12,46 +12,55 @@ use models\User as User;
 
 class ArticleController extends ViewController
 {
+    const INFINITE_LIMIT = 6;
+
     public function index ( Request $request, Response $response )
     {
-	    $q1 = " SELECT * FROM _xyz_article art " .
-		      " WHERE 1 "      .
-		      " ORDER BY art.date_created DESC " .
-		      " LIMIT 2"
-		;
-	    
-	    $articles  = (ArticleCollection::queryToCollection($q1))->getFormatted();
+	    $data  = $this->getMore();
 
-        $this->view->render($response, 'route.view.article.list.html.twig', ['articles' => json_encode($articles)]);
+        $this->view->render($response, 'route.view.article.list.html.twig',
+            [
+                'articles' => json_encode($data),
+                'limit' => static::INFINITE_LIMIT
+            ]
+        );
     }
 
-    public function getLoadInfinite( Request $request, Response $response ){
-    	
+    public function getLoadInfinite( Request $request, Response $response )
+    {
 	    $search = $request->getQueryParam('search');
 	    $startAt = $request->getQueryParam('startAt') ? $request->getQueryParam('startAt') : 0;
 	    
-	    $params = [];
-	    $where = "";
-	    $i = 0;
-    	foreach($search as $key => $value)
-    	{
-    		if(empty($value)) continue;
-		    $params[] = $value;
-		    $where .= $i === 0 ? ' WHERE ' . $key . ' = ? ' : ' AND ' . $key . ' = ? ';
-		    $i++;
-    	}
-    	
-	    $q1 = " SELECT SQL_CALC_FOUND_ROWS * FROM _xyz_article " .
-		      " {$where} " .
-		      " ORDER BY date_created DESC " .
-		      " LIMIT 2 OFFSET " . (int)$startAt
-	    ;
-    	
-	    $articles = (ArticleCollection::queryToCollection($q1, $params))->getFormatted();
-	
-	    $total = DB::instance()->totalRowCount();
-	    
-	    return $response->withStatus(200)->withJson(['models' => $articles, 'total' => $total]);
+	    $data = $this->getMore($search, $startAt);
+
+	    return $response->withStatus(200)->withJson($data);
+
+    }
+
+    protected function getMore($search = [], $startAt = 0)
+    {
+        $params = [];
+        $where = "";
+        $i = 0;
+        foreach($search as $key => $value)
+        {
+            if(empty($value)) continue;
+            $params[] = $value;
+            $where .= $i === 0 ? ' WHERE ' . $key . ' = ? ' : ' AND ' . $key . ' = ? ';
+            $i++;
+        }
+
+        $q1 = " SELECT SQL_CALC_FOUND_ROWS * FROM _xyz_article " .
+            " {$where} " .
+            " ORDER BY date_created DESC " .
+            " LIMIT ".static::INFINITE_LIMIT." OFFSET " . (int)$startAt
+        ;
+
+        $articles = (ArticleCollection::queryToCollection($q1, $params))->getFormatted();
+
+        $total = DB::instance()->totalRowCount();
+
+        return ['models' => $articles, 'total' => $total];
     }
     
     public function postComment( Request $request, Response $response )

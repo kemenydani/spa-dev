@@ -1,0 +1,16 @@
+<div class="container-full" id="route-view-partner-view">
+    <div class="container-full route-header partner-view-route-header"
+         style="background-image: url({{ partner.requestHeaderImage() }})"
+    >
+        <div class="container partner-header-container">
+            {{ partner.getName() }}
+        </div>
+    </div>
+    <div class="container member-list-container" id="member-list">
+        {% for mk, member in partner.getMembers() %}
+            <article class="member">
+                {{ member.formatName() }}
+            </article>
+        {% endfor %}
+    </div>
+</div>

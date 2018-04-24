@@ -15,8 +15,9 @@ class SquadController extends ViewController
         $this->view->render($response, 'route.view.squad.list.html.twig', ['squads' => new SquadCollection(Squad::getAll())]);
     }
     
-    public function getViewSquad( Request $request, Response $response )
+    public function getViewSquad( Request $request, Response $response, $args )
     {
-	    $this->view->render($response, 'route.view.squad.view.html.twig');
+        $squad = Squad::find($args['name'], 'name');
+	    $this->view->render($response, 'route.view.squad.view.html.twig', ['squad' => $squad]);
     }
 }
