@@ -1,16 +1,23 @@
-<div class="container-full" id="route-view-partner-view">
-    <div class="container-full route-header partner-view-route-header"
-         style="background-image: url({{ partner.requestHeaderImage() }})"
-    >
-        <div class="container partner-header-container">
-            {{ partner.getName() }}
-        </div>
-    </div>
-    <div class="container member-list-container" id="member-list">
-        {% for mk, member in partner.getMembers() %}
-            <article class="member">
-                {{ member.formatName() }}
+{% extends 'block.full.html.twig' %}
+
+{% block content %}
+
+<div class="container-full" id="route-view-partner-list">
+    <div class="container partner-list-container" id="partner-list">
+        {% for pk, partner in partners %}
+            <article class="partner">
+                <div class="logo" style="background-image: url({{ partner.requestLogo() }})">
+
+                </div>
+                <div class="body">
+                    <h2 class="name">{{ partner.getName() }}</h2>
+                    <p class="desc">
+                        {{ partner.getDescription() }}
+                    </p>
+                </div>
             </article>
         {% endfor %}
     </div>
 </div>
+
+{% endblock %}

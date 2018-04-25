@@ -5,6 +5,7 @@ use models\User as User;
 use models\Article as Article;
 use models\EnemyTeam as EnemyTeam;
 use models\Squad as Squad;
+use models\Partner as Partner;
 
 function modelImageResponse(Response $response, $path)
 {
@@ -76,4 +77,13 @@ $app->get('/squadMemberHomeAvatar/[{filename}]', function( $request, $response, 
 	if($path) return modelImageResponse($response, $path);
 	
 	return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . Squad::NO_HOME_WALLPAPER);
+});
+
+$app->get('/requestPartnerLogo/[{filename}]', function( $request, $response, $args )
+{
+    $path = Partner::getRealImagePath($args['filename']);
+
+    if($path) return modelImageResponse($response, $path);
+
+    return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . 'no-image-grey-cross.jpg' );
 });

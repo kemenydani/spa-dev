@@ -34,21 +34,10 @@ $configuration = [
 
 $app = new \Slim\App( new \Slim\Container( $configuration ) );
 
-// Routes
-require_once 'auth.php';
-require_once 'home.php';
-require_once 'article.php';
-require_once 'squad.php';
-require_once 'video.php';
-require_once 'stream.php';
-require_once 'partner.php';
-require_once 'user.php';
+$routes = glob(__APPDIR__ . DIRECTORY_SEPARATOR . 'routes/*.php');
 
-require_once 'api.php';
-require_once 'upload.php';
-require_once 'storage.php';
+foreach ($routes as $file) require_once $file;
 
-// Boot
 try {
     $app->run();
     //throw new Exception();

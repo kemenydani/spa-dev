@@ -17,6 +17,6 @@ if( __DEBUG__ ) error_reporting(E_ALL);
 require_once __ROOT__   . '/vendor/autoload.php';
 require_once __APPDIR__ . '/assets/helpers.php';
 require_once __APPDIR__ . '/assets/db_config.php';
-require_once __APPDIR__ . '/routes/init.php';
+require_once __APPDIR__ . '/core/init.php';
 
 session_write_close();
