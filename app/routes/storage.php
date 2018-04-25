@@ -14,7 +14,7 @@ function modelImageResponse(Response $response, $path)
     return $response->withHeader('Content-Type', $type)->withHeader('Content-Length', filesize($path));
 }
 
-$app->get('/userRequestProfilePicture/[{filename}]', function( $request, $response, $args )
+$app->get('/userProfilePicture/[{filename}]', function( $request, $response, $args )
 {
     $path = User::getRealImagePath($args['filename']);
 

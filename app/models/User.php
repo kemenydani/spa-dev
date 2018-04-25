@@ -71,7 +71,7 @@ class User extends Model {
 
     public function formatProfilePicture()
     {
-        return '/profile_picture/' . $this->getProfilePicture();
+        return '/userProfilePicture/' . $this->getProfilePicture();
     }
     
 	public function requestProfilePicture()

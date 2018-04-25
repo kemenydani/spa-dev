@@ -1,3 +1,7 @@
+.vanish {
+  display: none; opacity: 0; visibility: hidden; position: absolute; width: 0; height: 0;
+}
+
 .container-full.route-header {
   overflow: visible;
   &.profile-route-header {

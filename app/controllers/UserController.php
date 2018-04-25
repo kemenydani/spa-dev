@@ -12,7 +12,11 @@ class UserController extends ViewController
 
     public function index ( Request $request, Response $response, $args)
     {
-        $this->view->render($response, 'route.view.user.profile.html.twig', ['user' => User::find($args['username'], 'username')]);
+        $user = User::find($args['username'], 'username');
+
+        if($user) $user = $user->getFormatted(User::PUBLIC_DATASET);
+
+        $this->view->render($response, 'route.view.user.profile.html.twig', ['user' => $user]);
     }
 
     public function uploadPicture ( Request $request, Response $response, $args )

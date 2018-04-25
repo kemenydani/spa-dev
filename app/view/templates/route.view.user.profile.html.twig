@@ -3,17 +3,18 @@
 {% block content %}
 
 {% verbatim %}
-<div class="container-full" id="view-profile">
+
+<div class="container-full" id="user-profile">
 	<div class="container-full route-header profile-route-header">
 		<div class="container profile-header-container">
 			<div class="username">
 				<h1></h1>
 				<h3>DANIEL KEMENY</h3>
 			</div>
-			<input type="file"
-				   style="display: none; opacity: 0; visibility: hidden; position: absolute; width: 0; height: 0;
-			">
-			<div class="user-image" v-on:click="browse()" style="background: url()"></div>
+			<div
+				class="user-image"
+				v-on:click="showModal = true"
+				v-bind:style="{ backgroundImage: 'url(' + user.getProfilePicture() + ')' }"></div>
 		</div>
 	</div>
 
@@ -22,25 +23,66 @@
 			foo
 		</div>
 	</div>
+	<modal v-if="showModal" v-on:close="showModal = false">
+		<div slot="header">
+			<h2>Edit Picture</h2>
+		</div>
+		<div slot="body">
+			<div id="picture-form">
+				<div>
+					<div
+						class="user-picture"
+						v-on:click="browse()"
+						v-bind:style="{ backgroundImage: 'url(' + user.getProfilePicture() + ')' }">
+						<!-- input vanished -->
+						<input type="file" class="vanish" id="profile-picture-input">
+					</div>
+				</div>
+			</div>
+		</div>
+	</modal>
 </div>
+
 {% endverbatim %}
+
+{% include 'vue.component.modal.html.twig' %}
 
 <script>
 
 (function($, Vue){
 
+	var User = function(props = {})
+	{
+		var self = this;
+		self.props = props;
+
+		this.getProperty = function(name)
+		{
+			return self.props.hasOwnProperty(name) ? self.props[name] : null;
+		};
+
+		this.getProfilePicture = function(){
+			return self.getProperty('profile_picture');
+		};
+
+	};
+
+	var __USER__ = {% autoescape false %}{{ user|json_encode }}{% endautoescape %};
+
 	var app = new Vue({
-		el: '#view-profile',
+		el: '#user-profile',
 		data: function () {
 			return {
-
+				user : new User(__USER__),
+				showModal: false
 			}
 		},
 		methods: {
 			browse(){
 				this.getFileInput().trigger('click');
 			},
-			profileImageInput( event ){
+			profileImageInput( event )
+			{
 				this.uploadFile( event.target.files, 'profile_picture' ).then(function( filepath ){
 					console.log(filepath)
 				}).catch(function(){
@@ -99,7 +141,7 @@
 				});
 			},
 			getFileInput(){
-				return $(this.$el).find('#profile_image_input');
+				return $(this.$el).find('#profile-picture-input');
 			}
 		},
 		created(){
