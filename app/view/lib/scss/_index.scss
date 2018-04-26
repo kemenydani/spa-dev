@@ -29,6 +29,9 @@ $primary: rgb( 246, 160, 12 );
 
 @import '../../templates/route.view.squad.list.scss';
 
+/* vue */
+@import '../../templates/vue.component.modal.scss';
+
 *   {
   box-sizing: border-box;
   /*
@@ -60,6 +63,13 @@ html, body
   min-height: 100%;
   width: 100%;
   min-width: 100%;
+}
+
+body {
+  &.modal-open {
+    overflow: hidden;
+    position: fixed;
+  }
 }
 
 html
