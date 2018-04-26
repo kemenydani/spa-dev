@@ -213,13 +213,80 @@ table {
 
 header#main-header {
   height: 150px;
-  min-height: 150px;
-  max-height: 150px;
-  position: relative;
   border-top: 10px solid #f6a00c;
   background: black;
   display: flex;
+  flex-wrap: nowrap;
   justify-content: center; }
+  header#main-header .header-aside {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    overflow: visible; }
+    header#main-header .header-aside .icon {
+      margin: 2px; }
+    header#main-header .header-aside.header-left {
+      justify-content: flex-start;
+      padding: 0 15px 0 15px; }
+    header#main-header .header-aside.header-right {
+      justify-content: flex-end; }
+    header#main-header .header-aside .user-area {
+      overflow: visible;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      align-items: center;
+      padding-left: 15px;
+      padding-right: 15px; }
+      header#main-header .header-aside .user-area .username {
+        color: #f6a00c;
+        text-transform: uppercase;
+        font-weight: bold; }
+      header#main-header .header-aside .user-area .logout > a {
+        color: #626262; }
+      header#main-header .header-aside .user-area .user-picture {
+        border: 2px solid #f6a00c;
+        margin: 10px; }
+      header#main-header .header-aside .user-area > div {
+        text-align: center;
+        white-space: nowrap; }
+  header#main-header .header-center-container {
+    display: flex;
+    justify-content: center; }
+    header#main-header .header-center-container .navigation {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 1.6em; }
+      header#main-header .header-center-container .navigation ul {
+        list-style-type: none;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center; }
+      header#main-header .header-center-container .navigation.nav-left {
+        justify-content: flex-start; }
+      header#main-header .header-center-container .navigation.nav-right {
+        justify-content: flex-end; }
+    header#main-header .header-center-container .brand-holder {
+      width: 290px;
+      padding: 10px 0 10px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      align-content: center; }
+      header#main-header .header-center-container .brand-holder .brand {
+        position: relative;
+        height: 100%; }
+        header#main-header .header-center-container .brand-holder .brand img {
+          width: auto;
+          height: 100%; }
   header#main-header .menu {
     display: none;
     min-width: 100%;
@@ -229,91 +296,97 @@ header#main-header {
     background: #111111;
     top: 140px;
     z-index: 5; }
-  header#main-header .header-aside {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    overflow: visible; }
-    header#main-header .header-aside.header-left {
-      justify-content: flex-start;
-      padding: 0; }
-      header#main-header .header-aside.header-left .icon {
-        margin: 2px; }
-    header#main-header .header-aside.header-right {
-      justify-content: flex-end; }
-      header#main-header .header-aside.header-right .user-area {
-        overflow: visible;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        align-items: center;
-        padding-left: 15px;
-        padding-right: 15px; }
-        header#main-header .header-aside.header-right .user-area .username {
-          color: #f6a00c;
-          text-transform: uppercase;
-          font-weight: bold; }
-        header#main-header .header-aside.header-right .user-area .logout > a {
-          color: #626262; }
-        header#main-header .header-aside.header-right .user-area .user-picture {
-          border: 2px solid #f6a00c;
-          margin: 10px; }
-        header#main-header .header-aside.header-right .user-area > div {
-          text-align: center;
-          white-space: nowrap; }
-  header#main-header .header-center-container {
-    display: flex;
-    justify-content: center; }
-    @media only screen and (max-width: 1247px) {
-      header#main-header .header-center-container {
-        max-width: 80%;
-        font-size: 0.7em; } }
-    header#main-header .header-center-container .navigation {
-      display: flex;
-      align-items: center;
-      flex: 1; }
-      @media only screen and (max-width: 1023px) {
-        header#main-header .header-center-container .navigation {
-          display: none; } }
-      header#main-header .header-center-container .navigation ul {
-        font-family: 'Montserrat', sans-serif;
-        font-weight: bold;
-        text-transform: uppercase;
-        font-size: 1.6em;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        padding: 0;
-        list-style-type: none; }
-      header#main-header .header-center-container .navigation.nav-left {
-        justify-content: flex-start; }
-      header#main-header .header-center-container .navigation.nav-right {
-        justify-content: flex-end; }
-    header#main-header .header-center-container .brand-holder {
-      padding-top: 10px;
-      padding-bottom: 10px;
-      width: 290px;
-      /* height: 200px; */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      align-content: center;
-      position: relative;
-    /*
-    background-image: none, url("../drawable/header-logo-vector-bg.svg"), url("../drawable/header-logo-raster-bg.png");
-  		*/
-      background-repeat: no-repeat;
-      background-position-y: bottom;
-      background-position-x: center;
-      z-index: 10; }
-      header#main-header .header-center-container .brand-holder .brand {
-        position: relative;
-        height: 100%; }
-        header#main-header .header-center-container .brand-holder .brand img {
-          width: auto;
-          height: 100%; }
 
+/*
+nav#side-nav
+{
+	background: rgba(0, 0, 0, 0.5);
+	position: absolute;
+	z-index: 10;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+
+	.nav-body {
+		width: 30%;
+		background: black;
+		height: 100%;
+		z-index: 15;
+		position: absolute;
+		-webkit-box-shadow: 10px 0px 85px 0px rgba(0,0,0,0.75);
+		-moz-box-shadow: 10px 0px 85px 0px rgba(0,0,0,0.75);
+		box-shadow: 10px 0px 85px 0px rgba(0,0,0,0.75);
+		padding-left: 60px;
+		padding-top: 60px;
+		ul {
+			list-style-type: none;
+			color: white;
+			font-size: 1.6em;
+			font-family: 'Montserrat', sans-serif;
+			padding: 0;
+			margin: 0;
+			text-transform: uppercase;
+			font-weight: bold;
+			li {
+				padding: 15px 0 15px 0;
+			}
+		}
+	}
+}
+*/
+nav#side-nav {
+  height: 100%;
+  width: 400px;
+  max-width: 0;
+  position: absolute;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  -webkit-box-shadow: 10px 0px 200px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 0px 200px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 0px 200px 0px rgba(0, 0, 0, 0.75); }
+  nav#side-nav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s; }
+  nav#side-nav a:hover {
+    color: #f1f1f1; }
+  nav#side-nav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px; }
+
+@media screen and (max-height: 450px) {
+  nav#side-nav {
+    padding-top: 15px; }
+
+  nav#side-nav a {
+    font-size: 18px; } }
+@media only screen and (max-width: 767px) {
+  nav#side-nav {
+    width: 60%; } }
+@media only screen and (max-width: 559px) {
+  nav#side-nav {
+    width: 80%; } }
+@media only screen and (max-width: 399px) {
+  nav#side-nav {
+    width: 95%; } }
+@media only screen and (max-width: 1023px) {
+  header#main-header .header-center-container .navigation {
+    display: none; }
+
+  header#main-header .header-aside.header-left .icons {
+    display: none; } }
 footer#main-footer {
   background: black; }
   footer#main-footer .footer-sponsor-row {

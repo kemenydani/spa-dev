@@ -7,9 +7,12 @@
             }
             only
         %}
-        <span class="hidden-desktop" style="display: none">
-			<i class="fa fa-bars fa-3x"></i>
+
+        {% verbatim %}
+        <span class="hidden-desktop">
+			<i v-on:click="open = !open" class="fa fa-bars fa-3x"></i>
 		</span>
+		{% endverbatim %}
     </div>
     <div class="container header-center-container">
         <nav class="navigation nav-left">
@@ -43,4 +46,113 @@
             menu
         </div>
     </nav>
+
 </header>
+
+<nav id="side-nav" class="sidenav">
+    <a class="closebtn" v-on:click="open = false">&times;</a>
+    <a href="/home">Home</a>
+    <a href="/articles">Articles</a>
+    <a href="/squads">Squads</a>
+    <a href="/videos">Videos</a>
+    <a href="/streams">Streams</a>
+    <a href="/partners">Partners</a>
+</nav>
+
+
+<script>
+
+$(document).ready(function(){
+
+	(function($, Vue){
+
+		var EventBus = new Vue();
+
+        new Vue({
+            el: '#main-header',
+            data: function()
+            {
+            	return {
+            		open: false
+                }
+            },
+            methods : {
+            	openSideNav: function(){
+                    EventBus.$emit('openSideNav');
+                },
+	            closeSideNav: function(){
+			        EventBus.$emit('closeSideNav');
+	            }
+            },
+            watch : {
+            	'open' : function(v)
+                {
+            		return v === true ? this.openSideNav() : this.closeSideNav();
+                }
+            },
+            created : function()
+            {
+	            EventBus.$on('sideNavOpened', function() {
+		            this.open = true;
+	            }
+		        .bind(this));
+
+	            EventBus.$on('sideNavClosed', function() {
+		            this.open = false;
+	            }
+		        .bind(this));
+            }
+        });
+
+		new Vue({
+          el: '#side-nav',
+          data: function()
+          {
+            return {
+                open: false
+            }
+          },
+          watch : {
+          	open : function(bool)
+            {
+            	if(bool === true)
+            	{
+			        $(this.$el).css('max-width', '100%');
+			        EventBus.$emit('sideNavOpened');
+                }
+                else
+                {
+			        $(this.$el).css('max-width', '0');
+	                EventBus.$emit('sideNavClosed');
+                }
+            }
+          },
+          created : function()
+          {
+          	EventBus.$on('openSideNav', function()
+            {
+          		this.open = true;
+            }
+            .bind(this));
+
+	        EventBus.$on('closeSideNav', function()
+            {
+		        this.open = false;
+	        }
+	        .bind(this));
+
+	        $(document).on('mouseup', function(event)
+            {
+	            if ($(event.target).closest($(this.$el)).length === 0) {
+			        this.open = false;
+	            }
+            }
+            .bind(this));
+          }
+        });
+
+	}(jQuery, Vue))
+
+});
+
+</script>
