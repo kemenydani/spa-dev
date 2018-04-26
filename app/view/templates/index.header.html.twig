@@ -9,7 +9,7 @@
         %}
 
         {% verbatim %}
-        <span class="hidden-desktop">
+        <span id="side-nav-trigger" class="hidden-desktop">
 			<i v-on:click="open = !open" class="fa fa-bars fa-3x"></i>
 		</span>
 		{% endverbatim %}
@@ -23,12 +23,15 @@
             </ul>
         </nav>
         <div class="brand-holder">
-            <a class="brand" href="/home">
+            <div class="brand" href="/home">
+                <img src="static/drawable/avenue-logo-shape.svg"  alt="Logo description">
+                <!--
                 <picture>
                     <source type="image/svg+xml" srcset="static/drawable/avenue-logo-shape.svg">
                     <img src="static/drawable/avenue-logo-shape.png"  alt="Logo description">
                 </picture>
-            </a>
+                -->
+            </div>
         </div>
         <nav class="navigation nav-right">
             <ul>

@@ -222,23 +222,22 @@ header#main-header {
     flex: 1;
     display: flex;
     align-items: center;
-    overflow: visible; }
+    overflow: visible;
+    padding: 0 15px 0 15px;
+    min-width: 80px;
+    max-width: 300px; }
     header#main-header .header-aside .icon {
       margin: 2px; }
     header#main-header .header-aside.header-left {
-      justify-content: flex-start;
-      padding: 0 15px 0 15px; }
+      justify-content: flex-start; }
     header#main-header .header-aside.header-right {
       justify-content: flex-end; }
     header#main-header .header-aside .user-area {
       overflow: visible;
       height: 100%;
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
-      align-items: center;
-      padding-left: 15px;
-      padding-right: 15px; }
+      align-items: center; }
       header#main-header .header-aside .user-area .username {
         color: #f6a00c;
         text-transform: uppercase;
@@ -248,9 +247,12 @@ header#main-header {
       header#main-header .header-aside .user-area .user-picture {
         border: 2px solid #f6a00c;
         margin: 10px; }
-      header#main-header .header-aside .user-area > div {
-        text-align: center;
-        white-space: nowrap; }
+      header#main-header .header-aside .user-area button.signup {
+        background: #f6a00c;
+        border-radius: 2px;
+        color: #dbdbdb;
+        border: none;
+        padding: 5px 10px 5px 10px; }
   header#main-header .header-center-container {
     display: flex;
     justify-content: center; }
@@ -261,7 +263,7 @@ header#main-header {
       font-family: 'Montserrat', sans-serif;
       font-weight: bold;
       text-transform: uppercase;
-      font-size: 1.6em; }
+      font-size: 22px; }
       header#main-header .header-center-container .navigation ul {
         list-style-type: none;
         width: 100%;
@@ -275,15 +277,14 @@ header#main-header {
       header#main-header .header-center-container .navigation.nav-right {
         justify-content: flex-end; }
     header#main-header .header-center-container .brand-holder {
-      width: 290px;
+      width: 260px;
       padding: 10px 0 10px 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      align-content: center; }
+      position: relative; }
       header#main-header .header-center-container .brand-holder .brand {
+        width: 100%;
         position: relative;
-        height: 100%; }
+        height: 100%;
+        text-align: center; }
         header#main-header .header-center-container .brand-holder .brand img {
           width: auto;
           height: 100%; }
@@ -366,27 +367,89 @@ nav#side-nav {
     font-size: 36px;
     margin-left: 50px; }
 
-@media screen and (max-height: 450px) {
-  nav#side-nav {
-    padding-top: 15px; }
-
-  nav#side-nav a {
-    font-size: 18px; } }
-@media only screen and (max-width: 767px) {
-  nav#side-nav {
-    width: 60%; } }
-@media only screen and (max-width: 559px) {
-  nav#side-nav {
-    width: 80%; } }
-@media only screen and (max-width: 399px) {
-  nav#side-nav {
-    width: 95%; } }
-@media only screen and (max-width: 1023px) {
-  header#main-header .header-center-container .navigation {
-    display: none; }
-
+@media only screen and (max-width: 1439px) {
   header#main-header .header-aside.header-left .icons {
     display: none; } }
+@media only screen and (max-width: 1247px) {
+  header#main-header {
+    flex-direction: row-reverse; }
+
+  header#main-header .header-center-container .navigation {
+    display: none; } }
+@media only screen and (max-width: 1023px) {
+  header#main-header {
+    max-height: 100px; } }
+@media only screen and (max-width: 399px) {
+  header#main-header .header-center-container .brand-holder {
+    width: 120px; } }
+/*
+@include mq('tablet', 'max') {
+	nav#side-nav {
+		width: 60%;
+	}
+}
+@include mq('phablet', 'max') {
+	nav#side-nav  {
+		width: 80%;
+	}
+}
+@include mq('phone', 'max') {
+	nav#side-nav  {
+		width: 95%;
+	}
+}
+@include mq('phone-wide', 'max') {
+  header#main-header .header-aside {
+    width: 80px;
+    max-width: 80px;
+    border: 1px solid blue;
+  }
+}
+@include mq('phone-small', 'max') {
+  header#main-header .header-center-container {
+   // width: 100px;
+  }
+}
+
+
+@include mq('desktop', 'max') {
+
+  header#main-header {
+    height: 100px;
+  }
+
+  header#main-header .header-aside.header-left {
+    .icons {
+      display: none;
+    }
+  }
+
+  header#main-header .header-aside {
+    width: 100px;
+    min-width: 100px;
+  }
+
+  header#main-header .header-center-container .brand-holder {
+    width: 120px;
+  }
+
+  header#main-header .header-center-container .navigation {
+    display: none;
+  }
+
+  header#main-header .header-center-container {
+    max-width: 70%;
+  }
+
+  header#main-header .header-center-container .brand-holder .brand img {
+    width: 80%;
+  }
+
+  header#main-header .header-center-container  .navigation {
+    font-size: 18px !important;
+  }
+}
+*/
 footer#main-footer {
   background: black; }
   footer#main-footer .footer-sponsor-row {
@@ -1267,12 +1330,15 @@ footer#main-footer {
 
 #route-view-article-list {
   min-height: 100%;
-  position: relative; }
+  position: relative;
+  overflow: visible; }
   #route-view-article-list .container-full.article-route-header {
     background: #090909;
     height: 400px;
     padding-top: 15px;
-    padding-bottom: 15px; }
+    padding-bottom: 15px;
+    margin-left: -15px;
+    margin-right: -15px; }
   #route-view-article-list .container.article-list-container {
     min-height: 100%;
     padding-top: 15px; }
@@ -1332,6 +1398,14 @@ footer#main-footer {
       padding-top: 20px;
       overflow: hidden; }
 
+@media only screen and (max-width: 767px) {
+  #route-view-article-list .container.article-list-container .info {
+    display: none; }
+  #route-view-article-list .container.article-list-container .form {
+    min-width: 100%; } }
+@media only screen and (max-width: 1023px) {
+  .container-full.article-route-header {
+    display: none; } }
 #route-view-article-list .squad-list-container .squad-list {
   padding-bottom: 15px; }
   #route-view-article-list .squad-list-container .squad-list .squad {
@@ -1486,6 +1560,9 @@ html {
     background-repeat: no-repeat;
     background-position: center center;
     background-size: contain; }
+  @media only screen and (max-width: 767px) {
+    .sponsor-inline-container {
+      display: none; } }
 
 div#wrapper {
   position: relative;

@@ -121,6 +121,9 @@ html
     background-position: center center;
     background-size: contain;
   }
+  @include mq('tablet', 'max') {
+      display: none;
+  }
 }
 
 div#wrapper

@@ -12,21 +12,21 @@ header#main-header {
 	display: flex;
 	align-items: center;
 	overflow: visible;
+    padding: 0 15px 0 15px;
+    min-width:80px;
+    max-width: 300px;
     //border: 1px solid lightgreen;
     .icon { margin: 2px; }
     .icons { }
-	&.header-left { justify-content: flex-start; padding: 0 15px 0 15px; }
+	&.header-left { justify-content: flex-start;}
 	&.header-right { justify-content: flex-end; }
 	.user-area
 	{
 		  overflow: visible;
 		  height: 100%;
 		  display: flex;
-		  justify-content: center;
 		  flex-wrap: wrap;
 		  align-items: center;
-		  padding-left: 15px;
-		  padding-right: 15px;
 		  .username {
 			  color: $primary;
 			  text-transform: uppercase;
@@ -37,9 +37,12 @@ header#main-header {
 			  border: 2px solid $primary;
 			  margin: 10px;
 		  }
-		  > div {
-			  text-align: center;
-			  white-space: nowrap;
+		  button.signup {
+			background: $primary;
+            border-radius: 2px;
+            color: $lightgrey;
+            border: none;
+            padding: 5px 10px 5px 10px;
 		  }
 	  }
   }
@@ -54,7 +57,7 @@ header#main-header {
 	  font-family: 'Montserrat', sans-serif;
       font-weight: bold;
       text-transform: uppercase;
-      font-size: 1.6em;
+      font-size: 22px;
 	  ul {
         list-style-type: none;
 		width: 100%;
@@ -69,16 +72,14 @@ header#main-header {
 	  &.nav-right { justify-content: flex-end;   }
 	}
 	.brand-holder {
-	  //border: 1px solid greenyellow;
-	  width: 290px;
+	  width: 260px;
 	  padding: 10px 0 10px 0;
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	  align-content: center;
+      position: relative;
 	  .brand {
+        width: 100%;
 		position: relative;
 		height: 100%;
+        text-align: center;
 		img { width: auto; height: 100%; }
 	  }
 	}
@@ -93,6 +94,7 @@ header#main-header {
 	top: 140px;
 	z-index: 5;
   }
+
 }
 
 /*
@@ -173,44 +175,98 @@ nav#side-nav {
   }
 }
 
-
-@media screen and (max-height: 450px) {
-  nav#side-nav {padding-top: 15px;}
-  nav#side-nav a {font-size: 18px;}
+@include mq('desktop-wide', 'max') {
+  header#main-header .header-aside {
+    &.header-left .icons { display: none; }
+  }
 }
 
+@include mq('desktop', 'max') {
+  header#main-header {
+    flex-direction: row-reverse;
+  }
+  header#main-header .header-center-container .navigation {
+     display: none;
+  }
+}
 
 @include mq('tablet-wide', 'max') {
-	nav#side-nav {
-		//display: none;
-	}
+  header#main-header {
+      max-height: 100px;
+  }
 }
 
+@include mq('phone', 'max') {
+  header#main-header .header-center-container .brand-holder {
+    width: 120px;
+  }
+}
+
+/*
 @include mq('tablet', 'max') {
 	nav#side-nav {
 		width: 60%;
 	}
 }
-
 @include mq('phablet', 'max') {
 	nav#side-nav  {
 		width: 80%;
 	}
 }
-
 @include mq('phone', 'max') {
 	nav#side-nav  {
 		width: 95%;
 	}
 }
-
-@include mq('tablet-wide', 'max') {
-
-
-	header#main-header .header-center-container .navigation {
-		display: none;
-	}
-	header#main-header .header-aside.header-left .icons {
-		display: none;
-	}
+@include mq('phone-wide', 'max') {
+  header#main-header .header-aside {
+    width: 80px;
+    max-width: 80px;
+    border: 1px solid blue;
+  }
 }
+@include mq('phone-small', 'max') {
+  header#main-header .header-center-container {
+   // width: 100px;
+  }
+}
+
+
+@include mq('desktop', 'max') {
+
+  header#main-header {
+    height: 100px;
+  }
+
+  header#main-header .header-aside.header-left {
+    .icons {
+      display: none;
+    }
+  }
+
+  header#main-header .header-aside {
+    width: 100px;
+    min-width: 100px;
+  }
+
+  header#main-header .header-center-container .brand-holder {
+    width: 120px;
+  }
+
+  header#main-header .header-center-container .navigation {
+    display: none;
+  }
+
+  header#main-header .header-center-container {
+    max-width: 70%;
+  }
+
+  header#main-header .header-center-container .brand-holder .brand img {
+    width: 80%;
+  }
+
+  header#main-header .header-center-container  .navigation {
+    font-size: 18px !important;
+  }
+}
+*/

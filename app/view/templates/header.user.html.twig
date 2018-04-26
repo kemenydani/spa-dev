@@ -1,5 +1,4 @@
-<div class="user-area" style="">
-
+<div class="user-area">
     {% if isLogged %}
         <div>
                 <div class="username">{{ AuthUser.getUsername() }}</div>
@@ -7,10 +6,6 @@
         </div>
         <div class="user-picture" style="background-image: url({{ AuthUser.getProfilePicture() }})"></div>
     {% else %}
-        <div><a href="/auth">SIGNUP</a></div>
+        <button class="signup"><a href="/auth"></a></button>
     {% endif %}
-<!--
-    <div class="username"><b>JOHN DOE&nbsp;</b></div>
-    <div class="photo"><i class="fa fa-user fa-3x"></i></div>
-    -->
 </div>
