@@ -128,7 +128,7 @@
   }
 }
 
-.container-full.headline-container-full { padding-bottom: 60px; }
+.container-full.headline-container-full { padding-bottom: 50px; }
 .container-full.article-container-full {
   background: black;
   padding-bottom: 50px;
@@ -138,7 +138,15 @@
     color: $primary;
   }
 }
-.container-full.match-container-full { padding-top: 30px; padding-bottom: 30px; }
+.container-full.match-container-full {
+  padding-top: 0;
+  padding-bottom: 50px;
+  .home-section-header {
+    background-color: $dark;
+    margin-bottom: 50px;
+    color: $primary;
+  }
+}
 .container-full.squad-container-full {
   background: black;
   border-bottom: 10px solid $primary;
@@ -156,8 +164,182 @@
   }
 }
 .container.headline-container {  background: black; }
-.container.match-container { background: black; }
+.container.match-container {
+    background: $dark;
+    .widget {
+        //padding-top: 5px;
+        //padding-bottom: 5px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        > .widget-title {
+          overflow: hidden;
+          height: 50px;
+          max-height: 50px;
+          line-height: 50px;
+          //margin-bottom: 10px;
 
+          > * {
+            font-size: 26px;
+            padding-bottom: 10px;
+            margin: 0;
+            //display: inline-block;
+            //border-bottom: 5px solid $primary;
+            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 1px;
+            color: white;
+          }
+        }
+        > .widget-body {
+          flex: 1;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          overflow: hidden;
+         // background: $darkgrey;
+          .footer {
+            margin-top: auto;
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: space-between;
+            width: 100%;
+            .more {
+              background: $primary;
+              padding: 3px 10px 3px 10px;
+              color: $light;
+            }
+          }
+        }
+        ul {
+          list-style-type: none;
+          padding: 0;
+          margin: 0;
+          li {
+
+            border-bottom: 1px solid $darkergrey;
+
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+            line-height: 50px;
+
+            height: 50px;
+            color: lighten($darkergrey, 20);
+
+            font-family: 'Noto Sans', sans-serif;
+
+          }
+        }
+      }
+    .widget.widget-last-matches {
+      //background: darken($darkergrey, 20);
+    }
+    .widget.widget-top-match {
+      .widget-body {
+        display: flex;
+        flex-direction: column;
+
+        .match-info {
+          text-align: center;
+          > .event-name {
+            color: $primary;
+            font-weight: bold;
+          }
+          > .game {
+            font-weight: 400;
+            text-transform: uppercase;
+            color: $lightgrey;
+          }
+        }
+        .result-holder {
+          display: flex;
+          justify-content: space-between;
+          padding-top: 15px;
+          height: 150px;
+          max-height: 150px;
+          border-bottom: 1px solid $darkergrey;
+          .result {
+            color: $primary;
+            font-size: 40px;
+            font-weight: bold;
+          }
+          .team-logo-holder {
+            width: 101px;
+            height: 101px;
+            min-width: 101px;
+            min-height: 101px;
+            border-radius: 1px;
+            max-width: 101px;
+            max-height: 101px;
+
+            position: relative;
+            .team-logo {
+              background-size: contain;
+              background-position: center center;
+              width: 100%;
+              height: 100%;
+              border: 1px solid $darkergrey;
+            }
+          }
+        }
+      }
+    }
+    .widget-last-matches, .widget-event-list
+    {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      .team, .name {
+        flex: 1;
+      }
+      .score {
+        align-self: flex-end;
+        //font-size: 16px;
+        font-weight: bold;
+        color: $primary;
+      }
+      .enemy-name {
+        //font-weight: 700;
+        color: $lightgrey;
+        font-size: 13px;
+      }
+      .event-name {
+        // font-weight: 700;
+        color: $lightgrey;
+        flex: 1;
+        font-size: 13px;
+      }
+      .event-date {
+        color: $primary;
+        //font-size: 16px;
+        font-weight: bold;
+      }
+      .game {
+        background: $darkergrey;
+        color: $light;
+        margin-right: 7px;
+        text-align: center;
+        min-width: 50px;
+        max-width: 50px;
+        min-height: 20px;
+        max-height: 20px;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        width: 50px;
+        overflow: hidden;
+        text-transform: uppercase;
+        border-radius: 1px;
+        font-size: 10px;
+        font-weight: 400;
+      }
+
+    }
+}
 .container.squad-container {
   background: $dark;
   min-height: 450px;
@@ -217,6 +399,7 @@
   }
 }
 
+
 @include mq('desktop', 'max') {
   .container-full.squad-container-full  {
     display: none;
@@ -229,7 +412,7 @@
     min-width: calc(100% + 30px);
 
     padding-bottom: 0;
-    padding-top: 15px;
+    //padding-top: 15px;
 
     border-bottom: 10px solid $primary;
   }
@@ -279,6 +462,7 @@
     }
   }
   .container-full.match-container-full {
+    display: none;
     padding-top: 0;
     .container.match-container {
       .fbi {
@@ -321,7 +505,7 @@
   }
 }
 
-@include mq('tablet-small', 'max') {
+@include mq('tablet', 'max') {
 
   .container.headline-container {
 
@@ -330,14 +514,13 @@
     }
 
   }
-
-  .container.article-container, .container.match-container {
+  .container.article-container {
 
     .flex-box {
       flex-direction: column;
       max-height: none;
       .fbi {
-        min-width: calc(100% - 10px);
+        min-width: calc(100% - 10px) !important;
         min-height: 370px;
         &.article-item { &:nth-child(4), &:nth-child(3) { display: none !important; } }
       }

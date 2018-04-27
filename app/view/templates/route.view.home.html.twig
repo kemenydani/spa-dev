@@ -6,10 +6,11 @@
             with {
             items: {
                 'corsair'      : 'https://cdn.worldvectorlogo.com/logos/corsair-2.svg',
-                'razer'        : 'https://seeklogo.com/images/R/razer-logo-B4E375B409-seeklogo.com.png',
                 'steelseries'  : 'http://cerebral-overload.com/wp-content/uploads/2017/11/Steelseries-Logo.png',
+                'corsair2'      : 'https://cdn.worldvectorlogo.com/logos/corsair-2.svg',
+                'steelseries2'  : 'http://cerebral-overload.com/wp-content/uploads/2017/11/Steelseries-Logo.png',
             },
-            limit: null,
+            limit: 4,
             class: 'widget-sponsor-top'
         }
             only
@@ -95,11 +96,92 @@
     </div>
 
     <div class="container-full match-container-full">
+        <div class="home-section-header">
+            ACTIVITY
+        </div>
         <section class="container match-container">
             <div class="flex-box">
-                <div class="fbi fbi-tall"></div>
-                <div class="fbi fbi-tall"></div>
-                <div class="fbi fbi-tall event-list"></div>
+                <div class="fbi fbi-tall widget widget-top-match">
+                    <div class="widget-title">
+                        <h2>TOP MATCH</h2>
+                    </div>
+                    {% set tm = topMatches.first() %}
+                    <div class="widget-body">
+                        <div class="result-holder">
+                            <div class="team-logo-holder">
+                                <div class="team-logo" style="background-image: url({{ tm.getSquad().requestLogo() }})"></div>
+                            </div>
+                            <div class="result">
+                                <span class="score-num">{{ tm.formatTotalHomeScore() }}</span>
+                                <span class="spacer">-</span>
+                                <span class="score-num">{{ tm.formatTotalEnemyScore() }}</span>
+                            </div>
+                            <div class="team-logo-holder">
+                                <div class="team-logo" style="background-image: url({{ tm.getEnemyTeam().requestLogo() }})"></div>
+                            </div>
+                        </div>
+                        <ul>
+                            <li>
+                               foo
+                            </li>
+                            <li>
+foo
+                            </li>
+                        </ul>
+                        <div class="match-info" style="display: none">
+                            <h2 class="event-name">{{ tm.getEvent().getName() }}</h2>
+                            <span class="date"></span>
+                            <span class="game">{{ tm.getGame().getName() }}</span>
+                        </div>
+                        <div class="footer">
+                            <a class="more" href="">Show More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="fbi fbi-tall widget  widget-last-matches">
+                    <div class="widget-title">
+                        <h2>MATCHES</h2>
+                    </div>
+                    <div class="widget-body">
+                        <ul>
+                            {% for mk, match in matches.getModels() %}
+                                <li>
+                                    <span class="game">{{ match.getGame().getNameShort() }}</span>
+                                    <span class="team">
+                                        <span class="vs">vs.</span>
+                                        <span class="enemy-name">{{ match.getEnemyTeam().getName() }}</span>
+                                    </span>
+                                    <span class="score">
+                                        <span class="score-home">{{ match.formatTotalHomeScore() }}</span>
+                                        <span class="sep-char">-</span>
+                                        <span class="score-enemy">{{ match.formatTotalEnemyScore() }}</span>
+                                    </span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="footer">
+                            <a class="more" href="">Show More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="fbi fbi-tall widget widget-event-list">
+                    <div class="widget-title">
+                        <h2>EVENTS</h2>
+                    </div>
+                    <div class="widget-body">
+                        <ul>
+                            {% for ek, event in ltEvents.getModels() %}
+                                <li>
+                                    <span class="event-name">{{ event.getName()}}</span>
+                                    <span class="event-date">{{ event.getStartDate()|date('d M Y')}}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="footer">
+                            <a class="more" href="">Show More</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
