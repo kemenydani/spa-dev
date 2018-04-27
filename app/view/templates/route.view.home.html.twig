@@ -1,6 +1,131 @@
 {% extends 'block.full.html.twig' %}
 
 {% block content %}
+    <div class="container-full top-sponsors-container-full">
+        {% include 'widget.sponsor.inline.html.twig'
+            with {
+            items: {
+                'corsair'      : 'https://cdn.worldvectorlogo.com/logos/corsair-2.svg',
+                'razer'        : 'https://seeklogo.com/images/R/razer-logo-B4E375B409-seeklogo.com.png',
+                'steelseries'  : 'http://cerebral-overload.com/wp-content/uploads/2017/11/Steelseries-Logo.png',
+            },
+            limit: null,
+            class: 'widget-sponsor-top'
+        }
+            only
+        %}
+    </div>
+    <div class="container-full headline-container-full">
+        <section class="container headline-container">
+            <div class="flex-box">
+                <div class="fbi fbi-wide article-item">
+                    <div class="image" style="background-image: url({{ articles.hl[0].headline_image }})">
+                        <div class="mask"></div>
+                    </div>
+                    <div class="body">
+                        <h2 class="title title-large">{{ articles.hl[0].title }}</h2>
+                        <div class="info">foo</div>
+                        <p class="teaser">{{ articles.hl[0].teaser }}</p>
+                        <div class="footer">
+                            <a class="more" href="">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="fbi fbi-tall article-item">
+                    <div class="image" style="background-image: url({{ articles.hl[1].headline_image }})">
+                        <div class="mask"></div>
+                    </div>
+                    <div class="body">
+                        <h2 class="title">{{ articles.hl[1].title }}</h2>
+                        <p class="teaser">{{ articles.hl[1].teaser }}</p>
+                        <div class="footer">
+                            <a class="more" href="">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="container-full article-container-full">
+        <section class="container article-container">
+            <div class="home-section-header">
+                ARTICLES
+            </div>
+            <div class="flex-box">
+                <div class="fbi article-item">
+                    <div class="body">
+                        <h2 class="title">Article Title</h2>
+                        <p class="teaser">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                        <div class="footer">
+                            <a class="more" href="">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="fbi article-item">
+                    <div class="body">
+                        <h2 class="title">Article Title</h2>
+                        <p class="teaser">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                        <div class="footer">
+                            <a class="more" href="">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="fbi article-item">
+                    <div class="body">
+                        <h2 class="title">Article Title</h2>
+                        <p class="teaser">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                        <div class="footer">
+                            <a class="more" href="">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="fbi article-item">
+                    <div class="body">
+                        <h2 class="title">Article Title</h2>
+                        <p class="teaser">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                        <div class="footer">
+                            <a class="more" href="">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="fbi fbi-tall featured-content"></div>
+            </div>
+        </section>
+    </div>
+
+    <div class="container-full match-container-full">
+        <section class="container match-container">
+            <div class="flex-box">
+                <div class="fbi fbi-tall"></div>
+                <div class="fbi fbi-tall"></div>
+                <div class="fbi fbi-tall event-list"></div>
+            </div>
+        </section>
+    </div>
+
+    <div class="container-full squad-container-full">
+        <div class="home-section-header">
+            MEET AVENUE
+        </div>
+        <section class="container squad-container">
+            {% set squad = squads.first() %}
+            <div class="squad" style="background-image: url({{ squad.requestHomeWallpaper() }})">
+                <div class="squad-game">
+                    <a href="/squad/{{ squad.getName() }}"><h1>{{ squad.getName() }}</h1></a>
+                </div>
+                <div class="players">
+                    {% for pk, member in squad.getMembers() %}
+                        <div class="player" style="background-image: url({{ member.requestHomeAvatar() }})">
+                            <a href="/profile/{{ member.getUser().getUserName() }}" class="nameplate">{{ member.formatName() }}</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!--
     <div class="container-full top-sponsor-row">
         {% include 'widget.sponsor.inline.html.twig'
             with {
@@ -151,8 +276,9 @@
                     </div>
                 {% endfor %}
             </div>
-
         </article>
     </div>
     </div>
+
+    -->
 {% endblock %}

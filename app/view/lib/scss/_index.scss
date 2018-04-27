@@ -199,13 +199,13 @@ div#wrapper
 
   footer#main-footer
   {
-    min-width: 100%;
+    width: 100%;
     display: table-footer-group; /* sticks the footer to the bottom */
 
     @supports ( display: flex ) { display: block; /* override */ }
   }
 
-  #main-content, #main-footer/*  #main-header */
+  #main-content, #main-footer /*  #main-header */
   {
     @include mq('desktop', 'max') { padding-left: 15px; padding-right: 15px; }
   }
@@ -235,7 +235,7 @@ div#wrapper
 
 .container-full
 {
-  min-width: 100%;
+  width: 100%;
   overflow: hidden;
   position: relative;
 

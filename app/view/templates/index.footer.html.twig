@@ -1,6 +1,6 @@
 <footer id="main-footer">
     <!-- row -->
-    <div class="container-full footer-sponsor-row">
+    <div style="display: none" class="container-full footer-sponsors-container-full">
         {% include 'widget.sponsor.inline.html.twig'
             with {
             items: {
@@ -16,7 +16,7 @@
         %}
     </div>
     <!-- row -->
-    <div class="container-full footer-content-row">
+    <div  class="container-full footer-content-row">
         <div class="container site-map-container">
             {% include 'index.footer.sitemap.html.twig'
                 with {
