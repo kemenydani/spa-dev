@@ -10,15 +10,15 @@
             <h2 class="form-title">CONTACT</h2>
 
             <div class="input-field">
-                <input type="email" name="email" v-model="fields.email" placeholder="Your email">
+                <input type="email" name="email" v-model="fields.email" placeholder="Your email" required>
             </div>
 
             <div class="input-field">
-                <textarea name="message" v-model="field.message" rows="5"></textarea>
+                <textarea name="message" v-model="fields.message" rows="5" required></textarea>
             </div>
 
             <div class="input-field">
-                <select name="target" v-model="field.target">
+                <select name="target" v-model="fields.target" required>
                     <option>John Doe</option>
                     <option>John Doe2</option>
                     <option>Administrator</option>
