@@ -29,7 +29,7 @@ class HomeController extends ViewController
         $q2 = " SELECT * FROM _xyz_article art " .
               " WHERE art.highlighted = ? "      .
               " ORDER BY art.date_created DESC " .
-              " LIMIT 6 "
+              " LIMIT 4 "
         ;
 
         $hlArticles  = (ArticleCollection::queryToCollection($q1, 1))->getFormatted();

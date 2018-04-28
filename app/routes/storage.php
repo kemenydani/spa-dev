@@ -52,7 +52,6 @@ $app->get('/squad_logo/[{filename}]', function( $request, $response, $args )
 
 $app->get('/squad_header_image/[{filename}]', function( $request, $response, $args )
 {
-	return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . 'no-image-grey-cross.jpg' );
     $path = Squad::getRealImagePath($args['filename']);
 
     if($path) return modelImageResponse($response, $path);

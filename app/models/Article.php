@@ -62,6 +62,11 @@ class Article extends Model
         return '/article_headline/' . $this->getProperty('headline_image');
     }
 
+    public function readLink()
+    {
+	    return '/article/read/' . $this->getTitle();
+    }
+    
     public function formatHeadlineImage()
     {
         return '/article_headline/' . $this->getProperty('headline_image');

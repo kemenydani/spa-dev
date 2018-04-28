@@ -1,22 +1,35 @@
 /*
 Error: Undefined variable: "$light".
-        on line 4 of route.view.squad.view.scss
+        on line 6 of route.view.partner.list.scss
 
-1: #route-view-squad-view {
-2: 
-3: 	#member-list {
-4: 	  background: $light;
-5: 	  padding: 15px;
-6: 	}
-7:  
-8:   
-9: }
+1: #route-view-partner-list {
+2:   overflow: visible;
+3:   #partner-list {
+4: 	padding-top: 15px;
+5: 	.partner {
+6: 	  background: $light;
+7: 	  padding: 15px;
+8: 	  margin-bottom: 15px;
+9: 	}
+10:   }
+11:   
 
 Backtrace:
-route.view.squad.view.scss:4
+route.view.partner.list.scss:6
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/variable.rb:49:in `_perform'
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `with_base'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `visit'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block (2 levels) in visit_rule'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `map'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block in visit_rule'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:431:in `visit_rule'
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
@@ -76,4 +89,4 @@ C:/Ruby23-x64/bin/scss:23:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$light\".\A         on line 4 of route.view.squad.view.scss\A \A 1: #route-view-squad-view {\A 2: \A 3: 	#member-list {\A 4: 	  background: $light;\A 5: 	  padding: 15px;\A 6: 	}\A 7:  \A 8:   \A 9: }"; }
+  content: "Error: Undefined variable: \"$light\".\A         on line 6 of route.view.partner.list.scss\A \A 1: #route-view-partner-list {\A 2:   overflow: visible;\A 3:   #partner-list {\A 4: 	padding-top: 15px;\A 5: 	.partner {\A 6: 	  background: $light;\A 7: 	  padding: 15px;\A 8: 	  margin-bottom: 15px;\A 9: 	}\A 10:   }\A 11:   "; }

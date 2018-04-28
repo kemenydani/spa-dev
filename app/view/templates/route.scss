@@ -1,6 +1,17 @@
+@import '../lib/scss/mixins';
+
 .route-header
 {
   min-height: 400px;
   background-size: cover;
   background-position: center center;
+  
+}
+
+@include mq('desktop', 'max') {
+  .route-header {
+    min-width: calc( 100% + 30px );
+    margin-left: -15px !important;
+    margin-right: -15px  !important;
+  }
 }

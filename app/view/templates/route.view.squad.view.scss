@@ -1,0 +1,41 @@
+#route-view-squad-view {
+	overflow: visible;
+  	position: relative;
+  	.squad-view-route-header {
+	  background-color: $dark;
+	  position: relative;
+	  -webkit-box-shadow: 0px 0px 47px 0px rgba(0,0,0,0.4);
+	  -moz-box-shadow: 0px 0px 47px 0px rgba(0,0,0,0.4);
+	  box-shadow: 0px 0px 47px 0px rgba(0,0,0,0.4);
+	  margin-bottom: 15px;
+	  display: flex;
+	  align-content: center;
+	  align-items: center;
+	  justify-content: center;
+	  .squad-header-container {
+		color: $light;
+		font-size: 40px;
+		z-index: 4;
+		text-align: center;
+		text-transform: uppercase;
+		font-weight: bold;
+	  }
+	  .overlay {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background: rgba($primary, 0.7);
+		z-index: 1;
+	  }
+	}
+	#member-list {
+	  padding-top: 15px;
+	  .member {
+		background: $light;
+		padding: 15px;
+		margin-bottom: 15px;
+	  }
+	}
+}
