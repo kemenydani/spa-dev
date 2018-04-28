@@ -1,62 +1,67 @@
 {% extends 'block.full.html.twig' %}
 
 {% block content %}
-    <div class="container-full" id="route-view-contact">
-        <div class="container contact-container" id="contact-area">
 
-            <div id="contact-form">
+<div class="container-full" id="route-view-contact">
+    <div class="container contact-container" id="contact-area">
+        {% verbatim %}
+        <form id="contact-form">
 
-                <h2 class="form-title">CONTACT</h2>
+            <h2 class="form-title">CONTACT</h2>
 
-                <div class="input-field">
-                    <input type="email" placeholder="Your email">
-                </div>
-
-                <div class="input-field">
-                    <textarea rows="5">
-
-                    </textarea>
-                </div>
-
-                <div class="input-field">
-                    <select>
-                        <option>John Doe</option>
-                        <option>John Doe2</option>
-                        <option>Administrator</option>
-                    </select>
-                </div>
-
-                <button class="button button-primary">SEND</button>
+            <div class="input-field">
+                <input type="email" name="email" v-model="fields.email" placeholder="Your email">
             </div>
 
-        </div>
+            <div class="input-field">
+                <textarea name="message" v-model="field.message" rows="5"></textarea>
+            </div>
+
+            <div class="input-field">
+                <select name="target" v-model="field.target">
+                    <option>John Doe</option>
+                    <option>John Doe2</option>
+                    <option>Administrator</option>
+                </select>
+            </div>
+
+            <button class="button button-primary">SEND</button>
+        </form>
+        {% endverbatim %}
     </div>
+</div>
 
-    <script>
+<script>
 
-        $(document).ready(function(){
+    $(document).ready(function(){
 
-	        (function($, Vue){
+        (function($, Vue){
 
-		        new Vue({
-			        el : "#contact-area",
-			        data : function(){
-				        return {
+            new Vue({
+                el : "#contact-area",
+                data : function(){
+                    return {
+                        fields: {
+                            email: null,
+                            message: null,
+                            target: null
+                        }
+                    }
+                },
+                methods : {
+                    postMessage : function(){
 
-				        }
-			        },
-			        methdos : {
+                    }
+                },
+                created : function(){
+                    console.log('foo')
+                }
+            });
 
-			        },
-			        created : function(){
-                        console.log('foo')
-			        }
-		        });
+        }(jQuery, Vue));
 
-	        }(jQuery, Vue));
+    });
 
-        });
-
-    </script>
+</script>
 
 {% endblock %}

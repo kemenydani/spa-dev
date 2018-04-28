@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,mBAAoB;EAClB,QAAQ,EAAE,OAAO;EACjB,QAAQ,EAAE,QAAQ;EAClB,iCAAc;IACf,WAAW,EAAE,IAAI",
+"sources": ["route.view.contact.scss"],
+"names": [],
+"file": "route.view.contact.css"
+}
