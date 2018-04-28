@@ -1,0 +1,103 @@
+// input
+.input-field-group {
+  min-width: 100%;
+  position: relative;
+  > .field-wrap {
+	display: flex;
+	width: 100%;
+  }
+  .input-field {
+	margin-bottom:0px;
+	display: inline-block;
+  }
+  >.field-info {
+	
+  }
+}
+.field-info {
+  color :red;
+  //border: 1px solid red;
+  width: 100%;
+  display: block;
+  line-height:25px;
+  height: 25px;
+  text-align: left;
+}
+
+.button {
+
+  border: none;
+  background: none;
+  height: 45px;
+  line-height: 45px;
+  
+  color: $light;
+  text-transform: uppercase;
+  padding: 0 20px 0 20px;
+  
+  cursor: pointer;
+  
+  text-align: center;
+  
+  &.button-primary { background: $primary; }
+  &.button-light { background: $light; color: $dark; }
+  &.button-dark { background: $dark; }
+}
+
+.input-field {
+  width: 100%;
+  margin-bottom: 5px;
+  
+  input, textarea, select {
+	width: 100%;
+	font-size: 1.2em;
+	background: $light;
+	border: 1px solid $darkergrey;
+	outline: none;
+  }
+  
+  input, select {
+	height: 45px;
+	padding: 0 10px 0 10px;
+  }
+  
+  option {
+	//-webkit-appearance: menulist-button;
+	height: 45px !important;
+	min-height: 45px !important;
+  }
+  
+  
+  textarea {
+	resize: vertical;
+	padding: 10px;
+  }
+  
+  &.input-remember {
+	display: flex;
+	justify-content: center;
+	margin-top: 25px;
+  }
+  &:last-child {
+	margin-bottom: 0;
+  }
+  &.captcha-field {
+	text-align: center;
+	> div {
+	  margin: 0 auto;
+	  display: inline-block;
+	}
+  }
+  .input-status-wrapper
+  {
+	border: 1px solid $darkergrey;
+	background: $light;
+	display: flex;
+	> input { border: none; }
+	.input-status { width: 45px; height: 45px; text-align: center; line-height: 45px; cursor: pointer; }
+  }
+  .invalid, .input-status-wrapper.invalid {
+	border: 1px solid red;
+  }
+
+}

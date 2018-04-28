@@ -3,7 +3,60 @@
 {% block content %}
     <div class="container-full" id="route-view-contact">
         <div class="container contact-container" id="contact-area">
-            contact page
+
+            <div id="contact-form">
+
+                <h2 class="form-title">CONTACT</h2>
+
+                <div class="input-field">
+                    <input type="email" placeholder="Your email">
+                </div>
+
+                <div class="input-field">
+                    <textarea rows="5">
+
+                    </textarea>
+                </div>
+
+                <div class="input-field">
+                    <select>
+                        <option>John Doe</option>
+                        <option>John Doe2</option>
+                        <option>Administrator</option>
+                    </select>
+                </div>
+
+                <button class="button button-primary">SEND</button>
+            </div>
+
         </div>
     </div>
+
+    <script>
+
+        $(document).ready(function(){
+
+	        (function($, Vue){
+
+		        new Vue({
+			        el : "#contact-area",
+			        data : function(){
+				        return {
+
+				        }
+			        },
+			        methdos : {
+
+			        },
+			        created : function(){
+                        console.log('foo')
+			        }
+		        });
+
+	        }(jQuery, Vue));
+
+        });
+
+    </script>
+
 {% endblock %}

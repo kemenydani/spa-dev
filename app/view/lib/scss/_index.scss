@@ -13,6 +13,7 @@ $primary: rgb( 246, 160, 12 );
 @import url('https://fonts.googleapis.com/css?family=Anton|Roboto|Roboto:300|Roboto:400|Roboto:500|Montserrat|Montserrat:500|Montserrat:700|Lato|Open+Sans|Noto+Sans|PT+Sans|Ubuntu');
 @import './mixins';
 @import './common';
+@import './input';
 
 @import '../../templates/index.header.scss';
 @import '../../templates/index.footer.scss';
@@ -31,6 +32,8 @@ $primary: rgb( 246, 160, 12 );
 @import '../../templates/route.view.squad.view.scss';
 
 @import '../../templates/route.view.partner.list.scss';
+
+@import '../../templates/route.view.contact.scss';
 /* vue */
 @import '../../templates/vue.component.modal.scss';
 
