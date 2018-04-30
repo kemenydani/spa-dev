@@ -32,6 +32,7 @@ class PayPal
 	    }
 	
 	    // Append paypal return addresses
+	    $querystring .= "rm=2&";
 	    $querystring .= "return=".urlencode(stripslashes(self::$successRoute))."&";
 	    $querystring .= "cancel_return=".urlencode(stripslashes(self::$cancelRoute))."&";
 	    $querystring .= "notify_url=".urlencode(self::$notifyRoute);
