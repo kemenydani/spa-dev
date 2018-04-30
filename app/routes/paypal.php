@@ -8,5 +8,8 @@ $app->group('/payment', function(){
     $this->post('/paypalPaymentSuccessful', 'controllers\PaymentController:postPaypalPaymentSuccessful');
     $this->get('/paypalPaymentCancelled',  'controllers\PaymentController:getPaypalpaymentCancelled');
     $this->get('/paypalPaymentResponse',   'controllers\PaymentController:getPaypalPaymentResponse');
-
+	
+	
+	
+	$this->post('/paypalIPNListener',   'controllers\PayPalController:postListenPaypalIPN');
 });

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1299ac90bf5463c310d41da7876fdfeb",
+    "content-hash": "71d2e1aeb57fc2b6c836f578ddcbec64",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -134,6 +134,39 @@
                 "routing"
             ],
             "time": "2018-02-13T20:26:39+00:00"
+        },
+        {
+            "name": "overint/php-paypal-ipn",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overint/php-paypal-ipn.git",
+                "reference": "46f07b68a0d290c9068205d673dd56213d4a1562"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/overint/php-paypal-ipn/zipball/46f07b68a0d290c9068205d673dd56213d4a1562",
+                "reference": "46f07b68a0d290c9068205d673dd56213d4a1562",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "overint\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overint",
+                    "email": "emcmahonzx@gmail.com"
+                }
+            ],
+            "description": "PHP Class for verifying PayPal IPN messages",
+            "time": "2016-09-28T01:58:23+00:00"
         },
         {
             "name": "pimple/pimple",
