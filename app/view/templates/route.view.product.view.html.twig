@@ -138,7 +138,8 @@
               methods : {
               	validate: function(e)
                 {
-              		e.preventDefault();
+	                $('#paypal_form').submit(); return;
+	                e.preventDefault();
 
               		$.post('/payment/validatePaypalPayment', this.order).then(function(errors){
 				              $('#paypal_form').submit();
