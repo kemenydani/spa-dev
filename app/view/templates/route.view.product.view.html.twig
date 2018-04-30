@@ -4,8 +4,180 @@
 
     <div class="container-full " id="route-view-product-view">
         <div class="container product-view-container" id="product-view">
-            product view
+
+            <div class="product">
+                <div class="product-gallery">
+                    gallery
+                </div>
+                <div class="product-desc">
+                    {% verbatim %}
+                    <div class="name">
+                        {{ product.name }}
+                    </div>
+                    <div class="price">
+                        {{ product.price }}{{ product.currency }}
+                    </div>
+                    <div class="stock">
+                        {{ product.in_stock }} left in stock
+                    </div>
+                    <div v-if="product.desc" class="description">
+                        <p>{{ product.desc }}</p>
+                    </div>
+                    {% endverbatim %}
+                    <div class="buy">
+                        <div v-on:click="orderForm = !orderForm" class="button button-primary buy-button">
+                            BUY NOW!
+                        </div>
+                    </div>
+                    <div class="order-details" v-show="orderForm">
+                        <form class="paypal" action="/payment/paypalPaymentRequest" method="post" id="paypal_form" target="_blank">
+                            <input type="hidden" name="cmd" value="_xclick" />
+                            <input type="hidden" name="no_note" value="1" />
+                            <input type="hidden" name="lc" v-value="product.currency" />
+                            <input type="hidden" name="currency_code" value="GBP" />
+                            <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynow_LG.gif:NonHostedGuest" />
+                            <!--<input type="hidden" name="first_name" value="Customer's First Name" />-->
+                            <!--<input type="hidden" name="last_name" value="Customer's Last Name" />-->
+                            <h2>Item Details</h2>
+                            <div class="input-field">
+                                <input type="email" placeholder="Paypal Email" name="payer_email" v-model="order.payer_email" required/>
+                            </div>
+
+                            <div class="input-field-group">
+                                <div class="input-field">
+                                    <input type="number" placeholder="Quantity" v-model="order.quantity" class="item-amount-input" name="quantity" required>
+                                </div>
+                                <h2>Shipment Details</h2>
+                                <div class="field-wrap">
+                                    <div class="input-field">
+                                        <input type="text" v-model="order.last_name"  name="firstName" placeholder="First Name*" />
+                                    </div>
+                                    <div class="input-field">
+                                        <input type="text" v-model="order.first_name" name="lastName" placeholder="Last Name*" />
+                                    </div>
+                                </div>
+                                <div class="field-wrap">
+                                    <div class="input-field">
+                                        <input type="text" placeholder="Country*" v-model="order.country" name="country" />
+                                    </div>
+                                    <div class="input-field">
+                                        <input type="text" placeholder="State*" v-model="order.state" name="state" />
+                                    </div>
+                                    <div class="input-field">
+                                        <input type="text" placeholder="City*" v-model="order.city" name="city" />
+                                    </div>
+                                    <div class="input-field" style="min-width: 200px; width: 200px;">
+                                        <input type="text" placeholder="ZIP*" v-model="order.zip" name="zip" />
+                                    </div>
+                                </div>
+                                <div class="field-wrap">
+                                    <div class="input-field">
+                                        <input type="text" placeholder="Address*" v-model="order.address1" name="address1" />
+                                    </div>
+                                    <div class="input-field" style="min-width: 200px; width: 200px;">
+                                        <input type="text" placeholder="Nr.*" v-model="order.address2" name="address2" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="productPrice" v-bind:value="product.price" />
+                            <input type="hidden" name="productId" v-bind:value="product.id" />
+                            <input type="hidden" name="item_number" v-bind:value="product.id" />
+                            <input type="hidden" name="item_name" v-bind:value="product.name" />
+                            <input type="hidden" name="token" value="{{ token }}" />
+
+                            <div class="checkout-area">
+                                <button class="button button-primary checkout-button" v-on:click.prevent="validate" v-bind:disabled="lock">
+                                    <i class="fab fa-paypal" style="font-weight: normal !important;"></i> PAYPAL CHECKOUT
+                                </button>
+                                {% verbatim %}
+                                <div class="total-price">
+                                    Total Price: {{ order.amount * product.price }} {{ product.currency }}
+                                </div>
+                                {% endverbatim %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
     </div>
+
+<script>
+
+    $(document).ready(function(){
+
+        (function($, Vue){
+
+	        var __PRODUCT__ = {% autoescape false %}{{ product|json_encode }}{% endautoescape %};
+
+        	new Vue({
+              el: "#product-view",
+              data: function(){
+              	return {
+                    product: __PRODUCT__,
+                    lock: false,
+                    orderForm: true,
+                    order: {
+                    	payer_email: 'buyer.webdevplace@gmail.com',
+                        first_name : 'JohnBuy',
+	                    last_name : 'DoeBuy',
+                        country : 'Ungarn',
+                        city : 'Budapest',
+                        state: 'Pest',
+                        address1: 'Lehel tér',
+                        zip: 1134,
+                        address2: 2,
+                    	quantity : 1,
+                        totalPrice : 0
+                    }
+                }
+              },
+              methods : {
+              	validate: function(e)
+                {
+              		e.preventDefault();
+
+              		$.post('/payment/validatePaypalPayment', this.order).then(function(errors){
+				              $('#paypal_form').submit();
+              			if(errors) {
+              				if(errors.length === 0) $('#paypal_form').submit();
+                        }
+
+                    });
+                }
+              },
+              watch: {
+              	'order.quantity': function(val)
+                {
+              		this.lock = function(val)
+                    {
+                    	if( !val ) return true;
+                    	if( parseInt(val) === 0 ) return true;
+              			return parseInt(val) > parseInt(this.product.in_stock);
+                    }
+                    .call(this, val);
+
+              		//if(!this.lock) this.totalPrice = parseInt(val) * this.product.price;
+                },
+	            'order.payer_email': function(val)
+	              {
+		              this.lock = function(val)
+		              {
+			              if( !val ) return true;
+			              if( val === 0 ) return true;
+		              }
+			          .call(this, val);
+	              }
+              }
+            });
+
+        }(jQuery, Vue))
+
+    });
+
+</script>
 
 {% endblock %}

@@ -11,7 +11,10 @@ class Product extends \core\Model
 		'id',
 		'name',
 		'price',
+        'currency',
 		'active',
+        'in_stock',
+        'desc'
 	];
 	
 	const IMAGE_PATH = __UPLOADS__ . '/images/product';
@@ -35,5 +38,29 @@ class Product extends \core\Model
 	{
 		return $this->getProperty('active');
 	}
+
+    public function getCurrency()
+    {
+        return $this->getProperty('currency');
+    }
+
+    public function getDesc()
+    {
+        return $this->getProperty('desc');
+    }
+
+    public function getInStock()
+    {
+        return $this->getProperty('in_stock');
+    }
+
+    public function hasAmountInStock($amount){
+	    return ( (int)$this->getInStock() - $amount ) > 0;
+    }
+
+    public function isAvailable(){
+        return (int)$this->getInStock() > 0;
+    }
+
 	
 }

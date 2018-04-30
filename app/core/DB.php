@@ -44,11 +44,15 @@ class DB extends \PDO
 
     public function insert( $table, array $params )
     {
+        var_dump($params);
+
         $commaNames  = implode(',', array_keys($params));
         $commaBinds= join(",", array_pad([], count($params), "?"));
 
+        $what = strlen($commaNames) && strlen($commaBinds) ? " ({$commaNames}) VALUES ({$commaBinds}) " : ' DEFAULT VALUES';
+
         $stmt = " INSERT INTO " . self::prependPrefix($table) .
-            " .({$commaNames}) VALUES ({$commaBinds}) "
+            $what
         ;
 
         $sql = DB::instance()->prepare( $stmt );

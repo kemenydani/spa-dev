@@ -1,0 +1,76 @@
+#route-view-product-view {
+  overflow: visible;
+  position: relative;
+
+  #product-view {
+
+    padding: 15px 0 15px 0;
+
+    .product {
+
+      display: flex;
+      flex-direction: row;
+
+      .product-gallery {
+
+        width: 340px;
+
+      }
+      .product-desc{
+        padding: 15px;
+        flex: 1;
+        background: $light;
+
+        .name {
+          font-size: 35px;
+          color: $primary;
+          padding: 0 0 15px 0;
+          font-weight: bold;
+        }
+        .price {
+          font-size: 20px;
+          font-family: 'Montserrat', sans-serif;
+          color: $dark;
+        }
+        .stock {
+          color: $darkgrey;
+        }
+        .description {
+
+        }
+        .order-details {
+          background: $lightgrey;
+          padding: 15px;
+
+          .input-field {
+            margin-bottom: 15px;
+          }
+
+          .checkout-area {
+            display: flex;
+            align-content: center;
+            align-items: center;
+            .total-price {
+              padding-left: 15px;
+              font-size: 16px;
+            }
+            .checkout-button {
+              font-weight: bold;
+              background: #205ea8;
+            }
+          }
+        }
+        .buy {
+          border-top: 1px solid $lightgrey;
+          margin-top: 10px;
+          padding-top: 10px;
+          .buy-button {
+            width: 100%;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+
+}

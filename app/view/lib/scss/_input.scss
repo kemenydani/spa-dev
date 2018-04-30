@@ -38,7 +38,11 @@
   cursor: pointer;
   
   text-align: center;
-  
+
+  &:disabled {
+    opacity: 0.5;
+  }
+
   &.button-primary { background: $primary; }
   &.button-light { background: $light; color: $dark; }
   &.button-dark { background: $dark; }

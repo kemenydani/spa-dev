@@ -239,6 +239,8 @@ table {
   padding: 0 20px 0 20px;
   cursor: pointer;
   text-align: center; }
+  .button:disabled {
+    opacity: 0.5; }
   .button.button-primary {
     background: #f6a00c; }
   .button.button-light {
@@ -2027,6 +2029,54 @@ footer#main-footer {
       background: white;
       padding: 15px;
       margin-bottom: 15px; }
+
+#route-view-product-view {
+  overflow: visible;
+  position: relative; }
+  #route-view-product-view #product-view {
+    padding: 15px 0 15px 0; }
+    #route-view-product-view #product-view .product {
+      display: flex;
+      flex-direction: row; }
+      #route-view-product-view #product-view .product .product-gallery {
+        width: 340px; }
+      #route-view-product-view #product-view .product .product-desc {
+        padding: 15px;
+        flex: 1;
+        background: white; }
+        #route-view-product-view #product-view .product .product-desc .name {
+          font-size: 35px;
+          color: #f6a00c;
+          padding: 0 0 15px 0;
+          font-weight: bold; }
+        #route-view-product-view #product-view .product .product-desc .price {
+          font-size: 20px;
+          font-family: 'Montserrat', sans-serif;
+          color: black; }
+        #route-view-product-view #product-view .product .product-desc .stock {
+          color: #626262; }
+        #route-view-product-view #product-view .product .product-desc .order-details {
+          background: #dbdbdb;
+          padding: 15px; }
+          #route-view-product-view #product-view .product .product-desc .order-details .input-field {
+            margin-bottom: 15px; }
+          #route-view-product-view #product-view .product .product-desc .order-details .checkout-area {
+            display: flex;
+            align-content: center;
+            align-items: center; }
+            #route-view-product-view #product-view .product .product-desc .order-details .checkout-area .total-price {
+              padding-left: 15px;
+              font-size: 16px; }
+            #route-view-product-view #product-view .product .product-desc .order-details .checkout-area .checkout-button {
+              font-weight: bold;
+              background: #205ea8; }
+        #route-view-product-view #product-view .product .product-desc .buy {
+          border-top: 1px solid #dbdbdb;
+          margin-top: 10px;
+          padding-top: 10px; }
+          #route-view-product-view #product-view .product .product-desc .buy .buy-button {
+            width: 100%;
+            font-weight: bold; }
 
 #route-view-partner-list {
   overflow: visible; }
