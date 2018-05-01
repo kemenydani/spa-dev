@@ -48,9 +48,9 @@ class PayPalController extends ViewController
 		$data['payment_amount'] 	= $postData['mc_gross'];
 		$data['payment_currency']	= $postData['mc_currency'];
 		$data['txn_id']				= $postData['txn_id'];
-		$data['receiver_email'] 	= $postData['receiver_email'];
+		//$data['receiver_email'] 	= $postData['receiver_email'];
 		$data['payer_email'] 		= $postData['payer_email'];
-		$data['custom'] 			= $postData['custom'];
+		//$data['custom'] 			= $postData['custom'];
 		
 		// post back to PayPal system to validate
 		$header = "POST /cgi-bin/webscr HTTP/1.0\r\n";
