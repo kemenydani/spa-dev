@@ -26,6 +26,9 @@ class PayPalController extends ViewController
 	
 	public function postPaymentResponse(Request $request, Response $response, $args)
 	{
+		$p = Payment::create(['product_id' => 111]);
+		$p->save();
+		
 		// Response from Paypal
 		$postData = $request->getParsedBody();
 		
@@ -125,7 +128,7 @@ class PayPalController extends ViewController
 	
 	}
 	
-	public function getPaymentSuccessful(Request $request, Response $response, $args)
+	public function postPaymentSuccessful(Request $request, Response $response, $args)
 	{
 	
 	}

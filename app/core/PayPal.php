@@ -5,7 +5,7 @@ namespace core;
 class PayPal
 {
     static $businessEmail = 'business.webdevplace@gmail.com';
-    static $successRoute  = 'http://dev1.webdevplace.com/paypal/paymentSuccessful';
+    static $successRoute  = 'http://dev1.webdevplace.com/paypal/paymentResponse';
     static $cancelRoute   = 'http://dev1.webdevplace.com/paypal/paymentCancelled';
     static $notifyRoute   = 'http://dev1.webdevplace.com/paypal/paymentResponse';
 

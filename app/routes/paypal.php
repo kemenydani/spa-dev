@@ -5,7 +5,7 @@ $app->group('/paypal', function()
 	// request
     $this->post('/paymentRequest',    'controllers\PayPalController:postPaymentRequest');
     // success
-    $this->get('/paymentSuccessful', 'controllers\PayPalController:getPaymentSuccessful');
+    $this->post('/paymentSuccessful', 'controllers\PayPalController:postPaymentSuccessful');
     // cancel
     $this->get('/paymentCancelled',  'controllers\PayPalController:getPaymentCancelled');
     // notify/response
