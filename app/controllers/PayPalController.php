@@ -95,6 +95,7 @@ class PayPalController extends ViewController
 			$payment_status = strtolower($postData['payment_status']);
 			
 			$Payment->setProperty('txn_id', $postData['txn_id']);
+			$Payment->setProperty('ipn_track_id', $postData['ipn_track_id']);
 			$Payment->setProperty('payer_id', $postData['payer_id']);
 			$Payment->setProperty('payer_email', $postData['payer_email']);
 			$Payment->setProperty('currency', $postData['mc_currency']);
@@ -109,6 +110,7 @@ class PayPalController extends ViewController
 			
 			/*
 			 * Process IPN
+			 * https://github.com/paypal/ipn-code-samples/blob/master/php/example_usage_advanced.php
 			 * A list of variables is available here:
 			 * https://developer.paypal.com/webapps/developer/docs/classic/ipn/integration-guide/IPNandPDTVariables/
 			 */
