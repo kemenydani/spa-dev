@@ -21,7 +21,7 @@ class PayPalController extends ViewController
 		
 		// checks ...
 		
-		$response->redirect(PayPal::generateUrl($formData));
+		return $response->withRedirect(PayPal::generateUrl($formData));
 	}
 	
 	public function postPaymentResponse(Request $request, Response $response, $args)
