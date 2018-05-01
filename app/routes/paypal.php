@@ -1,12 +1,14 @@
 <?php
 
-$app->post('/payment/validatePaypalPayment', 'controllers\PaymentController:postValidatePaypalPayment');
-
-$app->group('/payment', function(){
-
-    $this->post('/paypalPaymentRequest',    'controllers\PaymentController:postPaypalPaymentRequest');
-    $this->get('/paypalPaymentSuccessful', 'controllers\PaymentController:getPaypalPaymentSuccessful');
-    $this->get('/paypalPaymentCancelled',  'controllers\PaymentController:getPaypalpaymentCancelled');
-    $this->get('/paypalPaymentResponse',   'controllers\PaymentController:postPaypalPaymentResponse');
+$app->group('/paypal', function()
+{
+	// request
+    $this->post('/paymentRequest',    'controllers\PayPalController:postPaymentRequest');
+    // success
+    $this->get('/paymentSuccessful', 'controllers\PayPalController:getPaymentSuccessful');
+    // cancel
+    $this->get('/paymentCancelled',  'controllers\PayPalController:getPaymentCancelled');
+    // notify/response
+    $this->post('/paymentResponse',   'controllers\PayPalController:postPaymentResponse');
 
 });

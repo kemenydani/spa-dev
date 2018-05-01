@@ -2,7 +2,24 @@
 
 {% block content %}
 
-    <div class="container-full " id="route-view-product-view">
+    <form class="paypal" action="paypal/paymentRequest" method="post" id="paypal_form" target="_blank">
+        <input type="hidden" name="cmd" value="_xclick" />
+        <input type="hidden" name="no_note" value="1" />
+        <input type="hidden" name="lc" value="UK" />
+        <input type="hidden" name="item_name" value="itemName" />
+        <input type="hidden" name="item_amount" value="itemAmount" />
+        <input type="hidden" name="lc" value="UK" />
+        <input type="hidden" name="currency_code" value="GBP" />
+        <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynow_LG.gif:NonHostedGuest" />
+        <input type="hidden" name="first_name" value="Customer's First Name"  />
+        <input type="hidden" name="last_name" value="Customer's Last Name"  />
+        <input type="hidden" name="payer_email" value="customer@example.com"  />
+        <input type="hidden" name="item_number" value="123456" />
+        <input type="submit" name="submit" value="Submit Payment"/>
+    </form>
+
+{#
+<div class="container-full " id="route-view-product-view">
         <div class="container product-view-container" id="product-view">
 
             <div class="product">
@@ -180,5 +197,5 @@
     });
 
 </script>
-
+#}
 {% endblock %}

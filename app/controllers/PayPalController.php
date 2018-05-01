@@ -2,96 +2,134 @@
 
 namespace controllers;
 
-use \Psr\Http\Message\RequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
-use overint\PaypalIPN as PaypalIPN;
+use \Slim\Http\Request as Request;
+use \Slim\Http\Response as Response;
 
-use models\Product as Product;
 use models\Payment as Payment;
-use core\PayPal as Paypal;
+use core\PayPal as PayPal;
 
 use core\Session as Session;
 
+
+
 class PayPalController extends ViewController
 {
-   
-    public function postListenPaypalIPN( Request $request, Response $response )
-    {
-	    // reading posted data from directly from $_POST causes serialization
-// issues with array data in POST
-// reading raw POST data from input stream instead.
-	    $raw_post_data = file_get_contents('php://input');
-	    $raw_post_array = explode('&', $raw_post_data);
-	    $myPost = array();
-	    foreach ($raw_post_array as $keyval) {
-		    $keyval = explode ('=', $keyval);
-		    if (count($keyval) == 2)
-			    $myPost[$keyval[0]] = urldecode($keyval[1]);
-	    }
-// read the post from PayPal system and add 'cmd'
-	    $req = 'cmd=_notify-validate';
-	    if(function_exists('get_magic_quotes_gpc')) {
-		    $get_magic_quotes_exists = true;
-	    }
-	    foreach ($myPost as $key => $value) {
-		    if($get_magic_quotes_exists == true && get_magic_quotes_gpc() == 1) {
-			    $value = urlencode(stripslashes($value));
-		    } else {
-			    $value = urlencode($value);
-		    }
-		    $req .= "&$key=$value";
-	    }
-
-
-// STEP 2: Post IPN data back to paypal to validate
 	
-	    $ch = curl_init('https://www.paypal.com/cgi-bin/webscr');
-	    curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-	    curl_setopt($ch, CURLOPT_POST, 1);
-	    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-	    curl_setopt($ch, CURLOPT_POSTFIELDS, $req);
-	    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
-	    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-	    curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
-	    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: Close'));
-
-// In wamp like environments that do not come bundled with root authority certificates,
-// please download 'cacert.pem' from "http://curl.haxx.se/docs/caextract.html" and set the directory path
-// of the certificate as shown below.
-// curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '/cacert.pem');
-	    if( !($res = curl_exec($ch)) ) {
-		    // error_log("Got " . curl_error($ch) . " when processing IPN data");
-		    curl_close($ch);
-		    exit;
-	    }
-	    curl_close($ch);
-
-
-// STEP 3: Inspect IPN validation result and act accordingly
+	public function postPaymentRequest(Request $request, Response $response, $args)
+	{
+		$formData = $request->getParsedBody();
+		
+		// checks ...
+		
+		$response->redirect(PayPal::generateUrl($formData));
+	}
 	
-	    if (strcmp ($res, "VERIFIED") == 0) {
-		    // check whether the payment_status is Completed
-		    // check that txn_id has not been previously processed
-		    // check that receiver_email is your Primary PayPal email
-		    // check that payment_amount/payment_currency are correct
-		    // process payment
+	public function postPaymentResponse(Request $request, Response $response, $args)
+	{
+		// Response from Paypal
+		$postData = $request->getParsedBody();
 		
-		    // assign posted variables to local variables
-		    $item_name = $_POST['item_name'];
-		    $item_number = $_POST['item_number'];
-		    $payment_status = $_POST['payment_status'];
-		    $payment_amount = $_POST['mc_gross'];
-		    $payment_currency = $_POST['mc_currency'];
-		    $txn_id = $_POST['txn_id'];
-		    $receiver_email = $_POST['receiver_email'];
-		    $payer_email = $_POST['payer_email'];
+		// read the post from PayPal system and add 'cmd'
+		$req = 'cmd=_notify-validate';
+		foreach ($postData as $key => $value)
+		{
+			$value = urlencode(stripslashes($value));
+			$value = preg_replace('/(.*[^%^0^D])(%0A)(.*)/i','${1}%0D%0A${3}',$value);// IPN fix
+			$req .= "&$key=$value";
+		}
 		
-		    $p = Payment::create(['product_id' => 20]);
-		    $p->save();
+		// assign posted variables to local variables
+		$data['item_name']			= $postData['item_name'];
+		$data['item_number'] 		= $postData['item_number'];
+		$data['payment_status'] 	= $postData['payment_status'];
+		$data['payment_amount'] 	= $postData['mc_gross'];
+		$data['payment_currency']	= $postData['mc_currency'];
+		$data['txn_id']				= $postData['txn_id'];
+		$data['receiver_email'] 	= $postData['receiver_email'];
+		$data['payer_email'] 		= $postData['payer_email'];
+		$data['custom'] 			= $postData['custom'];
 		
-	    } else if (strcmp ($res, "INVALID") == 0) {
-		    // log for manual investigation
-	    }
-	    
-    }
+		// post back to PayPal system to validate
+		$header = "POST /cgi-bin/webscr HTTP/1.0\r\n";
+		$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
+		$header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
+		// handshake?
+		$fp = fsockopen ('ssl://www.sandbox.paypal.com', 443, $errno, $errstr, 30);
+		
+		if (!$fp)
+		{
+			// HTTP ERROR
+		}
+		else
+		{
+			fputs($fp, $header . $req);
+			while (!feof($fp))
+			{
+				$res = fgets ($fp, 1024);
+				if (strcmp($res, "VERIFIED") == 0)
+				{
+					// Used for debugging
+					mail('kemenydani93@gmail.com', 'PAYPAL POST - VERIFIED RESPONSE', print_r($_POST, true));
+					/*
+					// Validate payment (Check unique txnid & correct price)
+					$valid_txnid = check_txnid($data['txn_id']);
+					$valid_price = check_price($data['payment_amount'], $data['item_number']);
+					*/
+					$valid_txnid = true;
+					$valid_price = true;
+					// PAYMENT VALIDATED & VERIFIED!
+					if ($valid_txnid && $valid_price)
+					{
+						/*
+						$orderid = updatePayments($data);
+						*/
+						
+						$p = Payment::create(['product_id' => 20]);
+						$p->save();
+						
+						$orderid = $p->getId();
+						
+						if ($orderid) {
+							// Payment has been made & successfully inserted into the Database
+						} else {
+							// Error inserting into DB
+							// E-mail admin or alert user
+							 mail('kemenydani93@gmail.com', 'PAYPAL POST - INSERT INTO DB WENT WRONG', print_r($data, true));
+						}
+					}
+					else
+					{
+						// Payment made but data has been changed
+						// E-mail admin or alert user
+					}
+					
+				}
+				else if (strcmp ($res, "INVALID") == 0)
+				{
+					
+					// PAYMENT INVALID & INVESTIGATE MANUALY!
+					// E-mail admin or alert user
+					
+					// Used for debugging
+					@mail("kemenydani93@gmail.com", "PAYPAL DEBUGGING", "Invalid Response<br />data = <pre>".print_r($_POST, true)."</pre>");
+				}
+			}
+			fclose ($fp);
+		}
+	}
+	
+	//
+	
+	public function getPaymentCancelled(Request $request, Response $response, $args)
+	{
+	
+	}
+	
+	public function getPaymentSuccessful(Request $request, Response $response, $args)
+	{
+	
+	}
+	
+	////
+	
 }
