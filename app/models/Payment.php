@@ -10,18 +10,20 @@ class Payment extends \core\Model
 	public static $COLUMNS = [
 		'id',
 		'product_id',
-		'product_name',
-		'amount',
-		'total',
-		'quantity',
-		'txnid',
-		'payer_id',
-		'session_id',
 		'payment_status',
+		'pending_reason',
+		'product_name',
+		'quantity',
+		'gross',
+		'amount',
+		'currency',
+		'payer_id',
+		'payer_email',
+		'session_id',
+		'txn_id',
+		'ipn_track_id',
 		'date_checkout',
-		'date_confirmed',
-		'date_accepted',
-		'date_rejected',
+		'last_updated',
 		'post'
 	];
 
@@ -30,25 +32,6 @@ class Payment extends \core\Model
 		return $this->getProperty('id');
 	}
 	
-	public function getTxnId()
-	{
-		return $this->getProperty('txnid');
-	}
-	
-	public function getPaymentAmount()
-	{
-		return $this->getProperty('payment_status');
-	}
-	
-	public function getItemId()
-	{
-		return $this->getProperty('item_id');
-	}
-
-    public function getCreatedTime()
-    {
-        return $this->getProperty('created_time');
-    }
 	public function getPost()
 	{
 		return $this->getProperty('post');
