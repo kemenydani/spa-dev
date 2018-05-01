@@ -5,9 +5,9 @@ namespace core;
 class PayPal
 {
     static $businessEmail = 'business.webdevplace@gmail.com';
-    static $successRoute  = 'http://dev1.webdevplace.com/paypal/paymentResponse';
+    static $successRoute  = 'http://dev1.webdevplace.com/paypal/paymentsuccess';
     static $cancelRoute   = 'http://dev1.webdevplace.com/paypal/paymentCancelled';
-    static $notifyRoute   = 'http://dev1.webdevplace.com/paypal/paymentResponse';
+    static $notifyRoute   = 'http://dev1.webdevplace.com/paypal/ipnlistener';
 
     public static function generateUrl( array $formData )
     {
@@ -25,7 +25,7 @@ class PayPal
 	
 	    // Append paypal return addresses
 	    $url .= "rm=2&";
-	    $url .= "return=".urlencode(stripslashes(self::$successRoute))."&";
+	    //$url .= "return=".urlencode(stripslashes(self::$successRoute))."&";
 	    $url .= "cancel_return=".urlencode(stripslashes(self::$cancelRoute))."&";
 	    $url .= "notify_url=".urlencode(self::$notifyRoute);
 

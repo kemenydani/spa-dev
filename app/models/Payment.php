@@ -9,7 +9,8 @@ class Payment extends \core\Model
 	
 	public static $COLUMNS = [
 		'id',
-        'product_id'
+        'product_id',
+		'post'
 	];
 
 	public function getId()
@@ -36,5 +37,10 @@ class Payment extends \core\Model
     {
         return $this->getProperty('created_time');
     }
+	public function getPost()
+	{
+		return $this->getProperty('post');
+	}
+ 
 	
 }
