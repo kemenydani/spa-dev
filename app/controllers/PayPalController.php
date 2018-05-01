@@ -21,12 +21,14 @@ class PayPalController extends ViewController
 		$formData = $request->getParsedBody();
 		
 		$Payment = Payment::create([
-			'product_id'    => (int)$formData['item_number'],
-			'product_name'  => (int)$formData['item_name'],
-			'amount'        => (float)$formData['amount'],
-			'quantity'      => (int)$formData['quantity'],
-			'date_checkout' => date('Y-m-d H:i:s'),
-			'session_id'    => session_id(),
+			'product_id'     => (int)$formData['item_number'],
+			'product_name'   => $formData['item_name'],
+			'amount'         => (float)$formData['item_amount'],
+			'total'          => (float)$formData['item_amount'] * (int)$formData['quantity'],
+			'quantity'       => (int)$formData['quantity'],
+			'date_checkout'  => date('Y-m-d H:i:s'),
+			'session_id'     => session_id(),
+			'payment_status' => 'unconfirmed'
 		]);
 		
 		$Payment->save();
