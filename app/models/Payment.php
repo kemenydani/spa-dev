@@ -9,8 +9,16 @@ class Payment extends \core\Model
 	
 	public static $COLUMNS = [
 		'id',
-        'product_id',
-		'post'
+		'product_id',
+		'product_name',
+		'amount',
+		'quantity',
+		'txnid',
+		'payer_id',
+		'date_checkout',
+		'date_confirmed',
+		'date_accepted',
+		'date_rejected',
 	];
 
 	public function getId()
