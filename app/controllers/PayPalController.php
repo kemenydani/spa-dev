@@ -35,7 +35,7 @@ class PayPalController extends ViewController
 		
 		if(!$Payment->getId()) return false;
 		
-		return $response->withRedirect(PayPal::generateUrl($formData));
+		return $response->withRedirect(PayPal::generateUrl($formData, $Payment));
 	}
 	
 	public function postIPNListener(Request $request, Response $response, $args)
@@ -46,15 +46,28 @@ class PayPalController extends ViewController
 		$verified = $ipn->verifyIPN();
 		if ($verified)
 		{
-			//$postData = $request->getParsedBody();
+			$postData = $request->getParsedBody();
 			
+			$custom = $postData['custom'];
+			$custom = explode(':', $custom);
+			list($session_id, $payment_id) = $custom;
 			
+			$Payment = Payment::find($payment_id);
+			
+			$Payment->setProperty('txnid', 'foo');
+			$Payment->setProperty('payer_id', 'bar');
+			
+			$Payment->save();
 			
 			/*
 			 * Process IPN
 			 * A list of variables is available here:
 			 * https://developer.paypal.com/webapps/developer/docs/classic/ipn/integration-guide/IPNandPDTVariables/
 			 */
+		}
+		else
+		{
+		
 		}
 		// Reply with an empty 200 response to indicate to paypal the IPN was received correctly.
 		header("HTTP/1.1 200 OK");
