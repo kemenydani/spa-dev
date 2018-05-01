@@ -15,6 +15,7 @@ class Payment extends \core\Model
 		'quantity',
 		'txnid',
 		'payer_id',
+		'session_id',
 		'date_checkout',
 		'date_confirmed',
 		'date_accepted',
