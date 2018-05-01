@@ -99,12 +99,12 @@ class PayPalController extends ViewController
 			$payment_status = strtolower($postData['payment_status']);
 			
 			$Payment->setProperty('txn_id', $postData['txn_id']); //
-			//$Payment->setProperty('ipn_track_id', $postData['ipn_track_id']);
+			$Payment->setProperty('ipn_track_id', $postData['ipn_track_id']);
 			$Payment->setProperty('payer_id', $postData['payer_id']); //
 			$Payment->setProperty('payer_email', $postData['payer_email']); //
 			$Payment->setProperty('currency', $postData['mc_currency']); //
 			$Payment->setProperty('quantity', $postData['quantity']); //
-			//$Payment->setProperty('gross', $postData['mc_gross']);
+			$Payment->setProperty('gross', $postData['mc_gross']);
 			$Payment->setProperty('payment_status', $payment_status); //
 			$Payment->setProperty('pending_reason', $postData['pending_reason']); //
 			$Payment->setProperty('last_updated', date('Y-m-d H:i:s'));
