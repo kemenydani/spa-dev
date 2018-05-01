@@ -2,6 +2,8 @@
 
 namespace core;
 
+use models\Product as Product;
+
 class PayPal
 {
     static $businessEmail = 'business.webdevplace@gmail.com';
@@ -23,12 +25,15 @@ class PayPal
 		    $url .= "$key=$value&";
 	    }
 	
+	    $url .= "custom=".urlencode(session_id());
+	    
 	    // Append paypal return addresses
 	    $url .= "rm=2&";
 	    //$url .= "return=".urlencode(stripslashes(self::$successRoute))."&";
 	    $url .= "cancel_return=".urlencode(stripslashes(self::$cancelRoute))."&";
 	    $url .= "notify_url=".urlencode(self::$notifyRoute);
-
+	    
+	    
         return 'https://www.sandbox.paypal.com/cgi-bin/webscr'.$url;
     }
 }

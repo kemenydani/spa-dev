@@ -20,9 +20,20 @@ class PayPalController extends ViewController
 	{
 		$formData = $request->getParsedBody();
 		
-		// checks ...
+		$Payment = Payment::create([
+			'product_id'    => (int)$formData['item_number'],
+			'product_name'  => (int)$formData['item_name'],
+			'amount'        => (float)$formData['amount'],
+			'quantity'      => (int)$formData['quantity'],
+			'date_checkout' => date('Y-m-d H:i:s'),
+			'session_id'    => session_id(),
+		]);
 		
-		return $response->withRedirect(PayPal::generateUrl($formData, 301));
+		$Payment->save();
+		
+		if(!$Payment->getId()) return false;
+		
+		return $response->withRedirect(PayPal::generateUrl($formData));
 	}
 	
 	public function postIPNListener(Request $request, Response $response, $args)
@@ -31,9 +42,12 @@ class PayPalController extends ViewController
 		// Use the sandbox endpoint during testing.
 		$ipn->useSandbox();
 		$verified = $ipn->verifyIPN();
-		if ($verified) {
-			$pr = Payment::create(['product_id' => 333, 'post' => json_encode($request->getParsedBody())]);
-			$pr->save();
+		if ($verified)
+		{
+			//$postData = $request->getParsedBody();
+			
+			
+			
 			/*
 			 * Process IPN
 			 * A list of variables is available here:
