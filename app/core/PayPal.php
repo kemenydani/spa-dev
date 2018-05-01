@@ -29,6 +29,6 @@ class PayPal
 	    $url .= "cancel_return=".urlencode(stripslashes(self::$cancelRoute))."&";
 	    $url .= "notify_url=".urlencode(self::$notifyRoute);
 
-        return $url;
+        return 'https://www.sandbox.paypal.com/cgi-bin/webscr'.$url;
     }
 }
