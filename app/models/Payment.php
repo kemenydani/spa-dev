@@ -22,6 +22,7 @@ class Payment extends \core\Model
 		'date_confirmed',
 		'date_accepted',
 		'date_rejected',
+		'post'
 	];
 
 	public function getId()
