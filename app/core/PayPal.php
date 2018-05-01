@@ -11,7 +11,7 @@ class PayPal
     static $cancelRoute   = 'http://dev1.webdevplace.com/paypal/paymentCancelled';
     static $notifyRoute   = 'http://dev1.webdevplace.com/paypal/ipnlistener';
 
-    public static function generateUrl( array $formData, Payment $Payment )
+    public static function generateUrl( array $formData, $payment_id )
     {
 	    $url = '';
 	
@@ -25,10 +25,7 @@ class PayPal
 		    $url .= "$key=$value&";
 	    }
 	
-	    $url .= "custom=".urlencode(session_id() . ':' . $Payment->getId());
-	    
-	    // Append paypal return addresses
-	    $url .= "rm=2&";
+	    $url .= "custom=".urlencode(session_id() . ':' . $payment_id);
 	    //$url .= "return=".urlencode(stripslashes(self::$successRoute))."&";
 	    $url .= "cancel_return=".urlencode(stripslashes(self::$cancelRoute))."&";
 	    $url .= "notify_url=".urlencode(self::$notifyRoute);
