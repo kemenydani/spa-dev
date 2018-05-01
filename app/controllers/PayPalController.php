@@ -54,8 +54,9 @@ class PayPalController extends ViewController
 			
 			$Payment = Payment::find($payment_id);
 			
-			$Payment->setProperty('txnid', 'foo');
-			$Payment->setProperty('payer_id', 'bar');
+			$Payment->setProperty('txnid', $postData['txn_id']);
+			$Payment->setProperty('payer_id', $postData['payer_id']);
+			$Payment->setProperty('payment_status', $postData['verify_sign']);
 			
 			$Payment->save();
 			
