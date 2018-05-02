@@ -8,8 +8,6 @@ use \Slim\Http\Response as Response;
 
 use models\Payment as Payment;
 use core\PayPal as PayPal;
-use core\Token as Token;
-
 
 use core\Session as Session;
 
@@ -20,7 +18,10 @@ class PayPalController extends ViewController
 	{
 		$formData = $request->getParsedBody();
 
-        if(!Token::validate($formData['token'])) die();
+        if(!hash_equals(Session::get('token'), $formData['token'])) {
+            echo 'Token error';
+            die();
+        }
 
         $Product = Product::find($formData['item_number']);
 
