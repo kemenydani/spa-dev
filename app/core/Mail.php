@@ -16,6 +16,8 @@ class Mail extends PHPMailer
 	{
 		parent::__construct($exceptions);
 		
+		$this->isHTML(true);
+		/*
 		try
 		{
 			if(getConfig('smtp.enabled'))
@@ -35,11 +37,13 @@ class Mail extends PHPMailer
 			);
 			
 			$this->isHTML(true);
+		
 		}
 		catch (\Exception $e)
 		{
 			return false;
 		}
+		*/
 	}
 	
 	public static function renderTemplateContactDetails()

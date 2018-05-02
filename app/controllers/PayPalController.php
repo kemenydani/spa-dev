@@ -118,12 +118,10 @@ class PayPalController extends ViewController
         if($payment_status === 'completed')
         {
         	$mail = new Mail();
-        	
+        	$mail->setFrom('admin@webdevplace.com', 'Avenue Espots Shop');
 	        $mail->Subject = 'Payment completed';
-	  
 	        $mail->Body = '<b>Foo!</b>';
 	        $mail->AltBody = 'Foo!';
-	
 	        $mail->send();
         }
         
