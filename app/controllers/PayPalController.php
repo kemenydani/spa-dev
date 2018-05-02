@@ -121,15 +121,8 @@ class PayPalController extends ViewController
         	
 	        $mail->Subject = 'Payment completed';
 	  
-	        $mail->Body = Mail::renderTemplatePayPalCompletedOrder([
-	            'recipient' => 'First Last',
-		        'item_name' => $Payment->getProductName(),
-		        'gross'     => $Payment->getGross(),
-		        'currency'  => $Payment->getCurrency(),
-		        'quantity'  => $Payment->getQuantity(),
-	        ]);
-
-	        //$mail->AltBody = 'Your payment has been completed yaay!';
+	        $mail->Body = '<b>Foo!</b>';
+	        $mail->AltBody = 'Foo!';
 	
 	        $mail->send();
         }
