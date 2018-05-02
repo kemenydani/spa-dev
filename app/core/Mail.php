@@ -18,7 +18,7 @@ class Mail extends PHPMailer
 		
 		try
 		{
-			if(getConfig('smtp.enabled') === true)
+			if(getConfig('smtp.enabled'))
 			{
 				$this->isSMTP();  // Set mailer to use SMTP
 				$this->Host       = getConfig('smtp.hosts');  // Specify main and backup SMTP servers
@@ -30,7 +30,7 @@ class Mail extends PHPMailer
 			}
 			
 			$this->setFrom(
-				getConfig('email.default.address', getConfig('organisation.email')),
+				getConfig('email.default.email', getConfig('organisation.email')),
 				getConfig('email.default.from', getConfig('organisation.name'))
 			);
 			
@@ -40,8 +40,6 @@ class Mail extends PHPMailer
 		{
 			return false;
 		}
-		
-		return $this;
 	}
 	
 	public static function renderTemplateContactDetails()
