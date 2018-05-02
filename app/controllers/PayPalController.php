@@ -11,6 +11,8 @@ use core\PayPal as PayPal;
 
 use core\Session as Session;
 
+use PHPMailer\PHPMailer\PHPMailer as PHPMailer;
+
 class PayPalController extends ViewController
 {
 
@@ -113,6 +115,22 @@ class PayPalController extends ViewController
             $Product->setProperty('in_stock', $newStockCount);
         }
 
+        if($payment_status === 'completed')
+        {
+        	$mail = new PHPMailer(true);
+	
+	        $mail->setFrom('admin@webdevplace.com', 'Mailer');
+	        $mail->addAddress('kemenydani93@gmail.com', 'Kemény Dániel');     // Add a recipient
+	
+	        //Content
+	        $mail->isHTML(true);                                  // Set email format to HTML
+	        $mail->Subject = 'Avenue Esports: Payment completed';
+	        $mail->Body    = 'Your payment has been completed <b>yaay!</b>';
+	        $mail->AltBody = 'Your payment has been completed yaay!';
+	
+	        $mail->send();
+        }
+        
         // Handshake sign for PayPal
         return $response->withStatus(200, 'OK');
 	}
