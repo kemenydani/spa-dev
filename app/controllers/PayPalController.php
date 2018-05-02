@@ -11,7 +11,7 @@ use core\PayPal as PayPal;
 
 use core\Session as Session;
 
-use PHPMailer\PHPMailer\PHPMailer as PHPMailer;
+use core\Mail as Mail;
 
 class PayPalController extends ViewController
 {
@@ -108,7 +108,7 @@ class PayPalController extends ViewController
         $Payment->save();
 
         $Product = Product::find($postData['item_number']);
-
+        
         if(PayPal::paymentFailed($payment_status))
         {
             $newStockCount = (int)$Product->getProperty('in_stock') + (int)$Payment->getProperty('quantity');
@@ -117,16 +117,19 @@ class PayPalController extends ViewController
 
         if($payment_status === 'completed')
         {
-        	$mail = new PHPMailer(true);
-	
-	        $mail->setFrom('admin@webdevplace.com', 'Mailer');
-	        $mail->addAddress('kemenydani93@gmail.com', 'Kemény Dániel');     // Add a recipient
-	
-	        //Content
-	        $mail->isHTML(true);                                  // Set email format to HTML
-	        $mail->Subject = 'Avenue Esports: Payment completed';
-	        $mail->Body    = 'Your payment has been completed <b>yaay!</b>';
-	        $mail->AltBody = 'Your payment has been completed yaay!';
+        	$mail = new Mail();
+        	
+	        $mail->Subject = 'Payment completed';
+	  
+	        $mail->Body = Mail::renderTemplatePayPalCompletedOrder([
+	            'recipient' => 'First Last',
+		        'item_name' => $Payment->getProductName(),
+		        'gross'     => $Payment->getGross(),
+		        'currency'  => $Payment->getCurrency(),
+		        'quantity'  => $Payment->getQuantity(),
+	        ]);
+
+	        //$mail->AltBody = 'Your payment has been completed yaay!';
 	
 	        $mail->send();
         }
