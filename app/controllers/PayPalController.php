@@ -56,6 +56,8 @@ class PayPalController extends ViewController
 
 		if(!$Payment->getId()) return $response->withStatus(404, 'Unable to handle your payment request. Please contact the administrator.');
 
+		PayPal::$successRoute = $_SERVER['HTTP_REFERER'] . '?s=' . $Payment->getSessionId() . '&pid=' . $Payment->getId();
+
 		return $response->withRedirect(PayPal::generateUrl($formData, $Payment->getId()));
 	}
 	

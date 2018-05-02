@@ -2,8 +2,8 @@
 
 namespace controllers;
 
-use \Psr\Http\Message\RequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+use \Slim\Http\Request as Request;
+use \Slim\Http\Response as Response;
 
 use models\Product as Product;
 use core\Session as Session;
@@ -18,6 +18,9 @@ class ProductController extends ViewController
     
     public function getViewProduct( Request $request, Response $response, $args )
     {
+        //var_dump($request->getQueryParams());
+        //TODO: manage return params to display success / whatever message on the product page
+
         $product = Product::find($args['name'], 'name');
 
         if(!Session::exists('token')) Session::put('token', bin2hex(random_bytes(32)));

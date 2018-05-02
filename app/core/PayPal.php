@@ -19,7 +19,7 @@ class PayPal extends PaypalIPN
 		    $url .= "$key=$value&";
 	    }
 	
-	    $url .= "custom=".urlencode(session_id() . ':' . $payment_id);
+	    $url .= "custom=".urlencode(session_id() . ':' . $payment_id)."&";
 	    $url .= "return=".urlencode(stripslashes(self::$successRoute))."&";
 	    $url .= "cancel_return=".urlencode(stripslashes(self::$cancelRoute))."&";
 	    

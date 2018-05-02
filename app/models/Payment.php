@@ -31,8 +31,13 @@ class Payment extends \core\Model
 	{
 		return $this->getProperty('id');
 	}
-	
-	public function getPost()
+
+    public function getSessionId()
+    {
+        return $this->getProperty('session_id');
+    }
+
+    public function getPost()
 	{
 		return $this->getProperty('post');
 	}
