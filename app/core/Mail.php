@@ -60,7 +60,8 @@ class Mail extends PHPMailer
 	
 	public static function renderTemplatePayPalCompletedOrder($details)
 	{
-	
+		return 'foo';
+		/*
 		return '<b>Dear '.$details['recipient'].'<b><br><br>' .
 			   'Your payment is completed. <br><br>' .
 			   '<b>You ordered <a href="#">' . $details['quantity'] . '×' . $details['item_name'] . '</a></b><br>' .
@@ -69,6 +70,7 @@ class Mail extends PHPMailer
 		       'If you have any questions, feel free to contact us! <br><br>' .
 		       'Regards,<br>' .
 		       self::renderTemplateContactDetails();
+		*/
 	}
 	
 }
