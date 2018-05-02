@@ -55,7 +55,7 @@ class Product extends \core\Model
     }
 
     public function hasAmountInStock($amount){
-	    return ( (int)$this->getInStock() - $amount ) > 0;
+	    return ( (int)$this->getInStock() - (int)$amount ) >= 0;
     }
 
     public function isAvailable(){

@@ -1,18 +1,15 @@
 <?php
 
+use core\PayPal as PayPal;
+
 $app->group('/paypal', function()
 {
-	// request
     $this->post('/paymentRequest',    'controllers\PayPalController:postPaymentRequest');
-    // ipn listen
-	$this->post('/ipnlistener',   'controllers\PayPalController:postIPNListener');
-    // success
-    $this->post('/paymentsuccess', 'controllers\PayPalController:getPaymentSuccessful');
-    
-    //
-    
-    // cancel
-    $this->get('/paymentCancelled',  'controllers\PayPalController:getPaymentCancelled');
-    // notify/response
-    $this->post('/paymentResponse',   'controllers\PayPalController:postPaymentResponse');
+	$this->post('/ipnListener',       'controllers\PayPalController:postIPNListener');
+
+    $this->get('/paymentSuccessful', 'controllers\PayPalController:getPaymentSuccessful');
+    $this->get('/paymentCancelled',   'controllers\PayPalController:getPaymentCancelled');
 });
+
+PayPal::$successRoute = __HOST__ . '/paypal/paymentSuccessful';
+PayPal::$cancelRoute  = __HOST__ . '/paypal/paymentCancelled';

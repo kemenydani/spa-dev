@@ -2054,20 +2054,27 @@ footer#main-footer {
           font-family: 'Montserrat', sans-serif;
           color: black; }
         #route-view-product-view #product-view .product .product-desc .stock {
-          color: #626262; }
+          color: #42b983; }
         #route-view-product-view #product-view .product .product-desc .order-details {
           background: #dbdbdb;
           padding: 15px; }
-          #route-view-product-view #product-view .product .product-desc .order-details .input-field {
-            margin-bottom: 15px; }
-          #route-view-product-view #product-view .product .product-desc .order-details .checkout-area {
+          #route-view-product-view #product-view .product .product-desc .order-details form {
             display: flex;
-            align-content: center;
-            align-items: center; }
-            #route-view-product-view #product-view .product .product-desc .order-details .checkout-area .total-price {
-              padding-left: 15px;
-              font-size: 16px; }
-            #route-view-product-view #product-view .product .product-desc .order-details .checkout-area .checkout-button {
+            justify-content: space-between; }
+            #route-view-product-view #product-view .product .product-desc .order-details form .order-summary {
+              display: flex;
+              align-content: center;
+              align-items: center; }
+            #route-view-product-view #product-view .product .product-desc .order-details form .total {
+              font-size: 18px;
+              font-weight: bold; }
+            #route-view-product-view #product-view .product .product-desc .order-details form .input-field {
+              width: 70px;
+              margin: 0;
+              padding-right: 10px; }
+              #route-view-product-view #product-view .product .product-desc .order-details form .input-field input[name="quantity"] {
+                text-align: center; }
+            #route-view-product-view #product-view .product .product-desc .order-details form .checkout-button {
               font-weight: bold;
               background: #205ea8; }
         #route-view-product-view #product-view .product .product-desc .buy {

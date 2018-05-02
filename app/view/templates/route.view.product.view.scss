@@ -33,7 +33,7 @@
           color: $dark;
         }
         .stock {
-          color: $darkgrey;
+          color: #42b983;
         }
         .description {
 
@@ -42,17 +42,26 @@
           background: $lightgrey;
           padding: 15px;
 
-          .input-field {
-            margin-bottom: 15px;
-          }
-
-          .checkout-area {
+          form {
             display: flex;
-            align-content: center;
-            align-items: center;
-            .total-price {
-              padding-left: 15px;
-              font-size: 16px;
+            justify-content: space-between;
+
+            .order-summary {
+              display: flex;
+              align-content: center;
+              align-items: center;
+            }
+            .total {
+              font-size: 18px;
+              font-weight: bold;
+            }
+            .input-field {
+              width: 70px;
+              margin: 0;
+              padding-right: 10px;
+              input[name="quantity"] {
+                text-align: center;
+              }
             }
             .checkout-button {
               font-weight: bold;

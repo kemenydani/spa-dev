@@ -12,6 +12,8 @@ define('__STORAGE__', __ROOT__    . '/storage' );
 define('__UPLOADS__', __STORAGE__ . '/uploads');
 define('__NOIMAGE__', __APPDIR__ . '/view/images/noimage');
 
+define('__HOST__', $_SERVER['HTTP_HOST']);
+
 if( __DEBUG__ ) error_reporting(E_ALL);
 
 require_once __ROOT__   . '/vendor/autoload.php';

@@ -2,23 +2,17 @@
 
 namespace core;
 
-use models\Payment as Payment;
+use core\PaypalIPN as PaypalIPN;
 
-class PayPal
+class PayPal extends PaypalIPN
 {
-    static $businessEmail = 'business.webdevplace@gmail.com';
-    static $successRoute  = 'http://dev1.webdevplace.com/paypal/paymentsuccess';
-    static $cancelRoute   = 'http://dev1.webdevplace.com/paypal/paymentCancelled';
-    static $notifyRoute   = 'http://dev1.webdevplace.com/paypal/ipnlistener';
+    static $successRoute;
+    static $cancelRoute;
 
     public static function generateUrl( array $formData, $payment_id )
     {
-	    $url = '';
-	
-	    // Firstly Append paypal account to querystring
-	    $url .= "?business=".urlencode(self::$businessEmail)."&";
-	
-	    //loop for posted values and append to querystring
+	    $url = "?business=".urlencode(getConfig('paypal_business_email'))."&";
+
 	    foreach($formData as $key => $value)
 	    {
 		    $value = urlencode(stripslashes($value));
@@ -26,10 +20,20 @@ class PayPal
 	    }
 	
 	    $url .= "custom=".urlencode(session_id() . ':' . $payment_id);
-	    //$url .= "return=".urlencode(stripslashes(self::$successRoute))."&";
+	    $url .= "return=".urlencode(stripslashes(self::$successRoute))."&";
 	    $url .= "cancel_return=".urlencode(stripslashes(self::$cancelRoute))."&";
-	    $url .= "notify_url=".urlencode(self::$notifyRoute);
 	    
         return 'https://www.sandbox.paypal.com/cgi-bin/webscr'.$url;
     }
+
+    public static function validateCheckoutForm( array $formData )
+    {
+
+    }
+
+    public static function paymentFailed( $status )
+    {
+
+    }
+
 }

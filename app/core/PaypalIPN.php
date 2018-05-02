@@ -58,12 +58,12 @@ class PaypalIPN
 	 * Sends the incoming post data back to PayPal using the cURL library.
 	 *
 	 * @return bool
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function verifyIPN()
 	{
 		if ( ! count($_POST)) {
-			throw new Exception("Missing POST Data");
+			throw new \Exception("Missing POST Data");
 		}
 		
 		$raw_post_data = file_get_contents('php://input');
@@ -122,13 +122,13 @@ class PaypalIPN
 			$errno = curl_errno($ch);
 			$errstr = curl_error($ch);
 			curl_close($ch);
-			throw new Exception("cURL error: [$errno] $errstr");
+			throw new \Exception("cURL error: [$errno] $errstr");
 		}
 		
 		$info = curl_getinfo($ch);
 		$http_code = $info['http_code'];
 		if ($http_code != 200) {
-			throw new Exception("PayPal responded with http code $http_code");
+			throw new \Exception("PayPal responded with http code $http_code");
 		}
 		
 		curl_close($ch);

@@ -1,7 +1,6 @@
 <?php
 
 use core\Auth as Auth;
-use models\User as User;
 
 // Slim configuration
 $configuration = [
