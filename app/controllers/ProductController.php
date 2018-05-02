@@ -6,7 +6,9 @@ use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 use models\Product as Product;
-use core\Session as Session;
+
+use core\Token as Token;
+
 //use models\ProductCollection as ProductCollection;
 
 class ProductController extends ViewController
@@ -20,9 +22,7 @@ class ProductController extends ViewController
     {
         $product = Product::find($args['name'], 'name');
 
-        if(!Session::exists('token')) Session::put('token', bin2hex(random_bytes(32)));
-
-        $token = Session::get('token');
+        $token = Token::get();
 
 	    $this->view->render($response, 'route.view.product.view.html.twig', ['token' => $token, 'product' => $product->getFormatted()]);
     }
