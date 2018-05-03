@@ -52,10 +52,11 @@ $app->get('/squad_logo/[{filename}]', function( $request, $response, $args )
 
 $app->get('/squad_header_image/[{filename}]', function( $request, $response, $args )
 {
-    $path = Squad::getRealImagePath($args['filename']);
-
-    if($path) return modelImageResponse($response, $path);
-
+    if(!empty($args['filename']))
+    {
+        $path = Squad::getRealImagePath($args['filename']);
+        if (file_exists($path)) return modelImageResponse($response, $path);
+    }
     return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . 'no-image-grey-cross.jpg' );
 });
 

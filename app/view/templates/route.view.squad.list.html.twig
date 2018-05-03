@@ -1,12 +1,15 @@
 {% extends 'block.full.html.twig' %}
 
 {% block content %}
-    <div class="container-full" id="route-view-article-list">
+    <div class="container-full" id="route-view-squad-list">
         <div class="container squad-list-container">
             <div class="squad-list">
             {% for sk, squad in squads.getModels() %}
-                <div class="squad" style="background-image: url({{ squad.requestHeaderImage() }})">
-                    <a href="/squad/{{ squad.getName() }}"><h2>{{ squad.getName() }}</h2></a>
+                <div class="squad">
+                    <div class="body">
+                        <h2 class="title"><a href="/squad/{{ squad.getName() }}">{{ squad.getName() }}</a></h2>
+                    </div>
+                    <div class="bg-image" style="background-image: url({{ squad.requestHeaderImage() }})"></div>
                 </div>
             {% endfor %}
             </div>

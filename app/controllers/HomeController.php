@@ -50,7 +50,7 @@ class HomeController extends ViewController
         $q5 = " SELECT * FROM _xyz_match mc " .
             " WHERE mc.featured = ? "         .
             " ORDER BY mc.id DESC "           .
-            " LIMIT 1 "
+            " LIMIT 3 "
         ;
 
         $ltMatches = MatchCollection::queryToCollection($q4);

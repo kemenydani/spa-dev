@@ -5,10 +5,10 @@
         {% include 'widget.sponsor.inline.html.twig'
             with {
             items: {
-                'corsair'      : 'https://cdn.worldvectorlogo.com/logos/corsair-2.svg',
-                'steelseries'  : 'http://cerebral-overload.com/wp-content/uploads/2017/11/Steelseries-Logo.png',
-                'corsair2'      : 'https://cdn.worldvectorlogo.com/logos/corsair-2.svg',
-                'steelseries2'  : 'http://cerebral-overload.com/wp-content/uploads/2017/11/Steelseries-Logo.png',
+                'corsair'      : '',
+                'steelseries'  : '',
+                'corsair2'      : '',
+                'steelseries2'  : '',
             },
             limit: 4,
             class: 'widget-sponsor-top'
@@ -96,12 +96,9 @@
                             </div>
                         </div>
                         <ul>
-                            <li>
-                               foo
-                            </li>
-                            <li>
-foo
-                            </li>
+                            {% for match in topMatches.getModels()|slice(0) %}
+                                <li>{{ match.getId() }}</li>
+                            {% endfor %}
                         </ul>
                         <div class="match-info" style="display: none">
                             <h2 class="event-name">{{ tm.getEvent().getName() }}</h2>

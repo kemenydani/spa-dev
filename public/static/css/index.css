@@ -1999,14 +1999,56 @@ footer#main-footer {
 @media only screen and (max-width: 1023px) {
   .container-full.article-route-header {
     display: none; } }
-#route-view-article-list .squad-list-container .squad-list {
+#route-view-squad-list .squad-list-container .squad-list {
   padding-bottom: 15px; }
-  #route-view-article-list .squad-list-container .squad-list .squad {
+  #route-view-squad-list .squad-list-container .squad-list .squad {
     margin-top: 15px;
     min-height: 220px;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover; }
+    height: 220px;
+    position: relative;
+    -webkit-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2); }
+    #route-view-squad-list .squad-list-container .squad-list .squad .bg-image {
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      -webkit-filter: grayscale(100%);
+      /* Safari 6.0 - 9.0 */
+      filter: grayscale(100%);
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0; }
+    #route-view-squad-list .squad-list-container .squad-list .squad .body {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex; }
+      #route-view-squad-list .squad-list-container .squad-list .squad .body .title {
+        padding: 5px 10px 5px 10px;
+        margin: 0;
+        text-transform: uppercase;
+        font-size: 40px;
+        display: inline-block;
+        background: #f6a00c;
+        line-height: 100%;
+        align-self: flex-end; }
+        #route-view-squad-list .squad-list-container .squad-list .squad .body .title > a, #route-view-squad-list .squad-list-container .squad-list .squad .body .title a:hover {
+          color: white; }
+@media only screen and (max-width: 1023px) {
+  #route-view-squad-list .squad-list .squad .body .title {
+    font-size: 30px !important;
+    padding: 5px 10px 5px 10px !important; } }
+@media only screen and (max-width: 767px) {
+  #route-view-squad-list .squad-list .squad .body .title {
+    font-size: 25px !important;
+    padding: 5px 5px 5px 5px !important; } }
 
 #route-view-squad-view {
   overflow: visible;
@@ -2014,29 +2056,48 @@ footer#main-footer {
   #route-view-squad-view .squad-view-route-header {
     background-color: black;
     position: relative;
-    -webkit-box-shadow: 0px 0px 47px 0px rgba(0, 0, 0, 0.4);
-    -moz-box-shadow: 0px 0px 47px 0px rgba(0, 0, 0, 0.4);
-    box-shadow: 0px 0px 47px 0px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 0 0 47px 0 rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0 0 47px 0 rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 47px 0 rgba(0, 0, 0, 0.4);
     margin-bottom: 15px;
-    display: flex;
-    align-content: center;
-    align-items: center;
-    justify-content: center; }
-    #route-view-squad-view .squad-view-route-header .squad-header-container {
-      color: white;
-      font-size: 40px;
-      z-index: 4;
-      text-align: center;
-      text-transform: uppercase;
-      font-weight: bold; }
-    #route-view-squad-view .squad-view-route-header .overlay {
+    display: flex; }
+    #route-view-squad-view .squad-view-route-header .body {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      min-height: 100%;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      height: auto;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+      text-align: center; }
+      #route-view-squad-view .squad-view-route-header .body .title {
+        color: white;
+        padding: 5px 10px 5px 10px;
+        margin: 0;
+        text-transform: uppercase;
+        font-size: 40px;
+        display: inline-block;
+        background: #f6a00c;
+        line-height: 100%; }
+        #route-view-squad-view .squad-view-route-header .body .title > a, #route-view-squad-view .squad-view-route-header .body .title a:hover {
+          color: white; }
+    #route-view-squad-view .squad-view-route-header .bg-image {
       position: absolute;
       top: 0;
       right: 0;
       bottom: 0;
       left: 0;
-      background: rgba(246, 160, 12, 0.7);
-      z-index: 1; }
+      z-index: 0;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      -webkit-filter: grayscale(100%);
+      /* Safari 6.0 - 9.0 */
+      filter: grayscale(100%); }
   #route-view-squad-view #member-list {
     padding-top: 15px; }
     #route-view-squad-view #member-list .member {

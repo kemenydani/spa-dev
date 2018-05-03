@@ -4,30 +4,48 @@
   	.squad-view-route-header {
 	  background-color: $dark;
 	  position: relative;
-	  -webkit-box-shadow: 0px 0px 47px 0px rgba(0,0,0,0.4);
-	  -moz-box-shadow: 0px 0px 47px 0px rgba(0,0,0,0.4);
-	  box-shadow: 0px 0px 47px 0px rgba(0,0,0,0.4);
+	  -webkit-box-shadow: 0 0 47px 0 rgba(0,0,0,0.4);
+	  -moz-box-shadow: 0 0 47px 0 rgba(0,0,0,0.4);
+	  box-shadow: 0 0 47px 0 rgba(0,0,0,0.4);
 	  margin-bottom: 15px;
-	  display: flex;
-	  align-content: center;
-	  align-items: center;
-	  justify-content: center;
-	  .squad-header-container {
-		color: $light;
-		font-size: 40px;
-		z-index: 4;
-		text-align: center;
-		text-transform: uppercase;
-		font-weight: bold;
-	  }
-	  .overlay {
+		display: flex;
+		.body {
+			position: relative;
+			z-index: 2;
+			width: 100%;
+			min-height: 100%;
+			padding: 15px;
+			background: rgba($dark, 0.3);
+			display: flex;
+			height: auto;
+			justify-content: center;
+			align-items: center;
+			align-content: center;
+			text-align: center;
+			.title {
+				color: $light;
+				padding: 5px 10px 5px 10px;
+				margin: 0;
+				text-transform: uppercase;
+				font-size: 40px;
+				display: inline-block;
+				background: $primary;
+				line-height: 100%;
+				> a, a:hover {
+					color: $light;
+				}
+			}
+		}
+
+	  .bg-image {
 		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		background: rgba($primary, 0.7);
-		z-index: 1;
+		top: 0;right: 0;bottom: 0;left: 0;
+		z-index: 0;
+		  background-position: center center;
+		  background-repeat: no-repeat;
+		  background-size: cover;
+		  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+		  filter: grayscale(100%);
 	  }
 	}
 	#member-list {
