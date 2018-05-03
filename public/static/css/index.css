@@ -1834,88 +1834,8 @@ footer#main-footer {
       color: #626262; }
   #article-read #article-comments {
     padding-left: 40px;
-    padding-right: 40px; }
-  #article-read .comment-tree {
-    margin-top: 20px; }
-    #article-read .comment-tree:not(:nth-child(1)) {
-      margin-left: 60px;
-      border-left: 4px solid #f6a00c; }
-    #article-read .comment-tree .comment {
-      margin-bottom: 20px;
-      position: relative; }
-      #article-read .comment-tree .comment .comment {
-        padding-left: 10px !important; }
-      #article-read .comment-tree .comment .content {
-        display: flex; }
-        #article-read .comment-tree .comment .content .user-picture {
-          background: #666;
-          width: 50px;
-          min-width: 50px;
-          min-height: 50px;
-          line-height: 50px;
-          color: white;
-          border-radius: 90px;
-          height: 50px;
-          margin-right: 10px;
-          text-align: center;
-          background-size: cover;
-          background-position: center center; }
-        #article-read .comment-tree .comment .content .body {
-          flex: 1; }
-          #article-read .comment-tree .comment .content .body p {
-            line-height: 25px;
-            padding: 0;
-            margin: 0; }
-            #article-read .comment-tree .comment .content .body p .username {
-              font-weight: bold;
-              color: #f6a00c; }
-        #article-read .comment-tree .comment .content .controls {
-          height: 35px;
-          line-height: 35px;
-          border-bottom: 1px dotted #dbdbdb;
-          display: flex; }
-          #article-read .comment-tree .comment .content .controls .reply-trigger {
-            display: block;
-            padding-right: 10px;
-            height: 100%;
-            font-size: 12px;
-            color: #dbdbdb;
-            cursor: pointer;
-            -webkit-user-select: none;
-            /* Safari */
-            -moz-user-select: none;
-            /* Firefox */
-            -ms-user-select: none;
-            /* IE10+/Edge */
-            user-select: none;
-            /* Standard */ }
-          #article-read .comment-tree .comment .content .controls .reply-from {
-            background: lightblue;
-            display: block; }
-          #article-read .comment-tree .comment .content .controls .reply-input {
-            border-radius: 2px;
-            border: 1px solid #dbdbdb;
-            font-size: 12px;
-            height: 25px;
-            padding-left: 5px; }
-          #article-read .comment-tree .comment .content .controls button {
-            font-size: 12px;
-            background: none;
-            height: 25px;
-            color: #f6a00c;
-            cursor: pointer;
-            border: 1px solid #f6a00c;
-            border-radius: 2px; }
-    #article-read .comment-tree .footer {
-      margin-left: 10px; }
-      #article-read .comment-tree .footer button.showMore {
-        font-size: 12px;
-        color: lightgrey;
-        background: none;
-        border: 1px solid #dbdbdb;
-        border-radius: 2px;
-        padding: 3px;
-        cursor: pointer; }
+    padding-right: 40px;
+    padding-bottom: 40px; }
 
 #route-view-article-list {
   min-height: 100%;
@@ -2112,7 +2032,7 @@ footer#main-footer {
   @media only screen and (max-width: 767px) {
     #route-view-squad-view #member-list .member {
       max-width: 100% !important;
-      min-width: 100%; } }
+      min-width: 100% !important; } }
 
 #route-view-product-view {
   overflow: visible;
@@ -2326,6 +2246,88 @@ footer#main-footer {
     margin: 0;
     border-radius: 0;
     border: none; } }
+.comment-tree {
+  margin-top: 20px; }
+  .comment-tree:not(:nth-child(1)) {
+    margin-left: 60px;
+    border-left: 4px solid #f6a00c; }
+  .comment-tree .comment {
+    margin-bottom: 20px;
+    position: relative; }
+    .comment-tree .comment .comment {
+      padding-left: 10px !important; }
+    .comment-tree .comment .content {
+      display: flex; }
+      .comment-tree .comment .content .user-picture {
+        background: #666;
+        width: 50px;
+        min-width: 50px;
+        min-height: 50px;
+        line-height: 50px;
+        color: white;
+        border-radius: 90px;
+        height: 50px;
+        margin-right: 10px;
+        text-align: center;
+        background-size: cover;
+        background-position: center center; }
+      .comment-tree .comment .content .body {
+        flex: 1; }
+        .comment-tree .comment .content .body p {
+          line-height: 25px;
+          padding: 0;
+          margin: 0; }
+          .comment-tree .comment .content .body p .username {
+            font-weight: bold;
+            color: #f6a00c; }
+      .comment-tree .comment .content .controls {
+        height: 35px;
+        line-height: 35px;
+        border-bottom: 1px dotted #dbdbdb;
+        display: flex; }
+        .comment-tree .comment .content .controls .reply-trigger {
+          display: block;
+          padding-right: 10px;
+          height: 100%;
+          font-size: 12px;
+          color: #dbdbdb;
+          cursor: pointer;
+          -webkit-user-select: none;
+          /* Safari */
+          -moz-user-select: none;
+          /* Firefox */
+          -ms-user-select: none;
+          /* IE10+/Edge */
+          user-select: none;
+          /* Standard */ }
+        .comment-tree .comment .content .controls .reply-from {
+          background: lightblue;
+          display: block; }
+        .comment-tree .comment .content .controls .reply-input {
+          border-radius: 2px;
+          border: 1px solid #dbdbdb;
+          font-size: 12px;
+          height: 25px;
+          padding-left: 5px; }
+        .comment-tree .comment .content .controls button {
+          font-size: 12px;
+          background: none;
+          height: 25px;
+          color: #f6a00c;
+          cursor: pointer;
+          border: 1px solid #f6a00c;
+          border-radius: 2px; }
+  .comment-tree .footer {
+    margin-left: 10px; }
+    .comment-tree .footer button.showMore {
+      font-size: 12px;
+      color: lightgrey;
+      background: none;
+      border: 1px solid #dbdbdb;
+      border-radius: 2px;
+      padding: 3px;
+      cursor: pointer; }
+
 * {
   box-sizing: border-box;
   /*

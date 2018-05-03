@@ -14,7 +14,7 @@
                 {{ article.content }}
             </p>
         </article>
-        <div>
+        <div id="article-comments">
             {% include 'widget.comments.html.twig' with { comments : comments, model : 'article' } %}
         </div>
     </div>
