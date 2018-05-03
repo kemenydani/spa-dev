@@ -1,58 +1,57 @@
 
 {% verbatim %}
-foo
-     <!-- comments -->
-    <comment-tree v-bind:level="0" v-bind:comments="comments"></comment-tree>
+ <!-- comments -->
+ <div id="comments">
+  <comment-tree v-bind:level="0" v-bind:comments="comments"></comment-tree>
+</div>
+<script type='x-template' id='template-comment-tree'>
+    <div class="comment-tree">
+        <comment-tree-item
+            v-if="index < limit"
+            v-for="(comment,index) in model"
+            v-bind:key="comment.id"
+            v-bind:level="level"
+            v-bind:comment="comment"
+            class="comment"></comment-tree-item>
 
-    <script type='x-template' id='template-comment-tree'>
-        <div class="comment-tree">
-            <comment-tree-item
-                v-if="index < limit"
-                v-for="(comment,index) in model"
-                v-bind:key="comment.id"
-                v-bind:level="level"
-                v-bind:comment="comment"
-                class="comment"></comment-tree-item>
-
-            <div class="footer" v-if="comments.length > limit">
-                <button v-on:click="showMore" class="showMore">
-                    {{ limit === 0 ? 'Show Replies (' + comments.length + ')' : 'Show More'}}
-                </button>
-            </div>
+        <div class="footer" v-if="comments.length > limit">
+            <button v-on:click="showMore" class="showMore">
+                {{ limit === 0 ? 'Show Replies (' + comments.length + ')' : 'Show More'}}
+            </button>
         </div>
-    </script>
+    </div>
+</script>
 
-    <script type='x-template' id='template-comment-tree-item'>
-        <div class="comment">
-            <div class="content">
+<script type='x-template' id='template-comment-tree-item'>
+    <div class="comment">
+        <div class="content">
 
-                <div class="user-picture" v-bind:style="{ backgroundImage: 'url(' + data.profile_picture + ')' }"></div>
-                <div class="body">
-                    <p><a class="username">{{ data.username }}&nbsp;</a>{{ data.text }}</p>
-                    <div class="controls">
-                        <div class="reply-trigger">
-                            <span v-on:click="replyForm.show = !replyForm.show">Reply</span>
-                            <span v-if="hasChildren()" v-on:click="showReplies = !showReplies">
-                                {{ showReplies ? 'Hide Replies' : 'Show Replies' }}
-                            </span>
-                        </div>
-                        <div class="reply-form" v-if="replyForm.show">
-                            <input class="reply-input" v-model="replyForm.text" type="text" placeholder="Write your reply..">
-                            <button v-bind:disabled="replyForm.text.length === 0" v-on:click="newReply()">Post Reply</button>
-                        </div>
+            <div class="user-picture" v-bind:style="{ backgroundImage: 'url(' + data.profile_picture + ')' }"></div>
+            <div class="body">
+                <p><a class="username">{{ data.username }}&nbsp;</a>{{ data.text }}</p>
+                <div class="controls">
+                    <div class="reply-trigger">
+                        <span v-on:click="replyForm.show = !replyForm.show">Reply</span>
+                        <span v-if="hasChildren()" v-on:click="showReplies = !showReplies">
+                            {{ showReplies ? 'Hide Replies' : 'Show Replies' }}
+                        </span>
+                    </div>
+                    <div class="reply-form" v-if="replyForm.show">
+                        <input class="reply-input" v-model="replyForm.text" type="text" placeholder="Write your reply..">
+                        <button v-bind:disabled="replyForm.text.length === 0" v-on:click="newReply()">Post Reply</button>
                     </div>
                 </div>
             </div>
-            <comment-tree
-                v-show="hasChildren && showReplies"
-                v-bind:level="level + 1"
-                v-bind:comments="data.ch"></comment-tree>
         </div>
-    </script>
+        <comment-tree
+            v-show="hasChildren && showReplies"
+            v-bind:level="level + 1"
+            v-bind:comments="data.ch"></comment-tree>
+    </div>
+</script>
 
 {% endverbatim %}
 
-<!--
 <script type="text/javascript">
 
 	(function($, Vue){
@@ -140,7 +139,7 @@ foo
 
 		var app = new Vue({
 			components: ['comment-tree', 'comment-tree-item'],
-			el: '#article-comments',
+			el: '#comments',
 			data: function () {
 				return {
 					comments: __COMMENTS__,
@@ -179,4 +178,3 @@ foo
 
 	}(jQuery, Vue));
 </script>
--->

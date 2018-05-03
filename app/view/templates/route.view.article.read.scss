@@ -1,58 +1,46 @@
 
-
 #route-view-article-read {
   padding-top: 15px;
   padding-bottom: 15px;
   overflow: visible;
-}
-#article-read {
-  flex: 1;
-  height: 100%;
-  min-height: 100%;
-  background: $light;
-  overflow: visible;
-  article.article-content {
-    font-family: 'Montserrat', sans-serif;
+  #article-read {
+    flex: 1;
+    height: 100%;
+    min-height: 100%;
+    overflow: visible;
     background: $light;
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-top: 40px;
-    h2.title {
-      font-size: 70px;
-      color: $primary;
+    margin-bottom: 15px;
+    article.article-content {
       font-family: 'Montserrat', sans-serif;
-      text-transform: uppercase;
-      padding: 0;
-      margin: 0;
-      line-height: 80px;
-    }
-    p {
-      line-height: 1.9em;
-    }
-    p.teaser {
-      margin-top: 0;
-      padding-top: 25px;
-      font-size:20px;
-      font-weight: 500;
-      text-indent: 40px;
-      color: $dark;
-      font-family: "Noto Sans", sans-serif;
-    }
-    p.article {
-      font-family: "Noto Sans", sans-serif;
-      border-top: 2px solid $primary;
-      padding-top: 20px;
-      border-bottom: 2px solid $primary;
-      padding-bottom: 20px;
-      font-size: 16px;
-      color: $darkgrey;
+      border-bottom: 10px solid $lightgrey;
+      padding: 30px;
+      h2.title {
+        font-size: 50px;
+        color: $primary;
+        font-family: 'Montserrat', sans-serif;
+        text-transform: uppercase;
+        margin: 0;
+        line-height: 60px;
+      }
+      p {
+        line-height: 1.9em;
+      }
+      p.teaser {
+        font-size:20px;
+        font-weight: 500;
+        color: $dark;
+        font-family: "Noto Sans", sans-serif;
+      }
+      p.article {
+        font-family: "Noto Sans", sans-serif;
+        font-size: 16px;
+        color: $darkgrey;
+      }
     }
   }
-
   #article-comments {
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-bottom: 40px;
+    padding: 40px;
+    background: $light;
+    border-bottom: 10px solid $lightgrey;
   }
-
 }

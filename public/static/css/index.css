@@ -1793,49 +1793,39 @@ footer#main-footer {
   padding-top: 15px;
   padding-bottom: 15px;
   overflow: visible; }
-
-#article-read {
-  flex: 1;
-  height: 100%;
-  min-height: 100%;
-  background: white;
-  overflow: visible; }
-  #article-read article.article-content {
-    font-family: 'Montserrat', sans-serif;
+  #route-view-article-read #article-read {
+    flex: 1;
+    height: 100%;
+    min-height: 100%;
+    overflow: visible;
     background: white;
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-top: 40px; }
-    #article-read article.article-content h2.title {
-      font-size: 70px;
-      color: #f6a00c;
+    margin-bottom: 15px; }
+    #route-view-article-read #article-read article.article-content {
       font-family: 'Montserrat', sans-serif;
-      text-transform: uppercase;
-      padding: 0;
-      margin: 0;
-      line-height: 80px; }
-    #article-read article.article-content p {
-      line-height: 1.9em; }
-    #article-read article.article-content p.teaser {
-      margin-top: 0;
-      padding-top: 25px;
-      font-size: 20px;
-      font-weight: 500;
-      text-indent: 40px;
-      color: black;
-      font-family: "Noto Sans", sans-serif; }
-    #article-read article.article-content p.article {
-      font-family: "Noto Sans", sans-serif;
-      border-top: 2px solid #f6a00c;
-      padding-top: 20px;
-      border-bottom: 2px solid #f6a00c;
-      padding-bottom: 20px;
-      font-size: 16px;
-      color: #626262; }
-  #article-read #article-comments {
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-bottom: 40px; }
+      border-bottom: 10px solid #dbdbdb;
+      padding: 30px; }
+      #route-view-article-read #article-read article.article-content h2.title {
+        font-size: 50px;
+        color: #f6a00c;
+        font-family: 'Montserrat', sans-serif;
+        text-transform: uppercase;
+        margin: 0;
+        line-height: 60px; }
+      #route-view-article-read #article-read article.article-content p {
+        line-height: 1.9em; }
+      #route-view-article-read #article-read article.article-content p.teaser {
+        font-size: 20px;
+        font-weight: 500;
+        color: black;
+        font-family: "Noto Sans", sans-serif; }
+      #route-view-article-read #article-read article.article-content p.article {
+        font-family: "Noto Sans", sans-serif;
+        font-size: 16px;
+        color: #626262; }
+  #route-view-article-read #article-comments {
+    padding: 40px;
+    background: white;
+    border-bottom: 10px solid #dbdbdb; }
 
 #route-view-article-list {
   min-height: 100%;
@@ -1893,7 +1883,8 @@ footer#main-footer {
       background: white;
       margin-bottom: 15px;
       min-height: 100px;
-      padding: 15px; }
+      padding: 15px;
+      border-bottom: 10px solid #dbdbdb; }
       #route-view-article-list .container.article-list-container article.article h2.title {
         font-size: 40px;
         color: #f6a00c;
