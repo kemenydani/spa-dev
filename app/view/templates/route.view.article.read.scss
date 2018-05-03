@@ -1,11 +1,16 @@
-#article-area {
 
+
+#route-view-article-read {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  overflow: visible;
+}
+#article-read {
   flex: 1;
   height: 100%;
   min-height: 100%;
-
   background: $light;
-
+  overflow: visible;
   article.article-content {
     font-family: 'Montserrat', sans-serif;
     background: $light;
@@ -13,13 +18,13 @@
     padding-right: 40px;
     padding-top: 40px;
     h2.title {
-      font-size: 4em;
+      font-size: 70px;
       color: $primary;
       font-family: 'Montserrat', sans-serif;
       text-transform: uppercase;
       padding: 0;
       margin: 0;
-      line-height: 1.5em;
+      line-height: 80px;
     }
     p {
       line-height: 1.9em;
@@ -27,18 +32,19 @@
     p.teaser {
       margin-top: 0;
       padding-top: 25px;
-      font-size: 1.4em;
+      font-size:20px;
       font-weight: 500;
       text-indent: 40px;
       color: $dark;
+      font-family: "Noto Sans", sans-serif;
     }
     p.article {
+      font-family: "Noto Sans", sans-serif;
       border-top: 2px solid $primary;
       padding-top: 20px;
       border-bottom: 2px solid $primary;
       padding-bottom: 20px;
-      font-size: 1.2em;
-      text-indent: 40px;
+      font-size: 16px;
       color: $darkgrey;
     }
   }

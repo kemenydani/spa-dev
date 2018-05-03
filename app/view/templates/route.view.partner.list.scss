@@ -1,13 +1,98 @@
+
 #route-view-partner-list {
   overflow: visible;
   #partner-list {
 	padding-top: 15px;
 	.partner {
-	  background: $light;
-	  padding: 15px;
-	  margin-bottom: 15px;
+		background: $light;
+		margin-bottom: 15px;
+		display: flex;
+		position: relative;
+		overflow: visible;
+
+		.logo-holder {
+			width: 200px;
+			min-width: 200px;
+			height: auto;
+			bottom: 0;
+			position: relative;
+			background-color: $lightgrey;
+			flex: 1;
+			padding: 15px;
+			.logo {
+				background-position: center center;
+				background-size: contain;
+				background-repeat: no-repeat;
+				width: 170px;
+				min-width: 170px;
+				height: 200px;
+				min-height: 200px;
+			}
+		}
+		.body {
+			width: 100%;
+			padding: 15px;
+			overflow: visible;
+			.name {
+				margin-top: 0;
+				font-size: 40px;
+				margin-bottom: 0px;
+			}
+			.desc {
+				font-size: 16px;
+				line-height: 25px;
+				padding: 0;
+				&.ellipsis {
+					max-height: 75px;
+					overflow: hidden;
+				}
+			}
+			button.read-more {
+				cursor: pointer;
+			}
+		}
 	}
   }
-  
-  
+
+	@include mq('tablet', 'max') {
+		#partner-list {
+			.partner {
+				.body {
+					.name {
+						font-size: 30px;
+					}
+
+					p.desc.ellipsis {
+						max-height: 50px;
+					}
+				}
+				.logo-holder {
+					min-width: 150px;
+					width: 150px;
+					.logo {
+						min-width: 130px;
+						min-height: 130px;
+						width: 130px;
+						height: 130px;
+					}
+				}
+			}
+		}
+	}
+
+	@include mq('tablet', 'max') {
+		#partner-list {
+			.partner {
+				flex-direction: column;
+				.logo-holder {
+					width: 100%;
+					min-width: 100%;
+					.logo {
+						margin: 0 auto;
+					}
+				}
+			}
+		}
+	}
+
 }

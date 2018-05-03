@@ -17,7 +17,9 @@
                 </div>
             </div>
             <article v-for="(article, key) in models" v-bind:key="key" class="article">
-                <h2 class="title">{{ article.title }}</h2>
+                <a v-bind:href="'/article/read/' + article.title_seo">
+                  <h2 class="title">{{ article.title }}</h2>
+                </a>
                 <p class="text">{{ article.teaser }}</p>
             </article>
             <div v-if="loading" class="loading-articles">

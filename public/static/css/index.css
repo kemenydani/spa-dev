@@ -241,6 +241,10 @@ table {
   text-align: center; }
   .button:disabled {
     opacity: 0.5; }
+  .button.button-medium {
+    padding: 0 10px 0 10px;
+    height: 35px;
+    line-height: 35px; }
   .button.button-primary {
     background: #f6a00c; }
   .button.button-light {
@@ -1785,58 +1789,65 @@ footer#main-footer {
       #profile-area .profile-details .detail-list > li > span.value {
         display: inline-block; }
 
-#article-area {
+#route-view-article-read {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  overflow: visible; }
+
+#article-read {
   flex: 1;
   height: 100%;
   min-height: 100%;
-  background: white; }
-  #article-area article.article-content {
+  background: white;
+  overflow: visible; }
+  #article-read article.article-content {
     font-family: 'Montserrat', sans-serif;
     background: white;
     padding-left: 40px;
     padding-right: 40px;
     padding-top: 40px; }
-    #article-area article.article-content h2.title {
-      font-size: 4em;
+    #article-read article.article-content h2.title {
+      font-size: 70px;
       color: #f6a00c;
       font-family: 'Montserrat', sans-serif;
       text-transform: uppercase;
       padding: 0;
       margin: 0;
-      line-height: 1.5em; }
-    #article-area article.article-content p {
+      line-height: 80px; }
+    #article-read article.article-content p {
       line-height: 1.9em; }
-    #article-area article.article-content p.teaser {
+    #article-read article.article-content p.teaser {
       margin-top: 0;
       padding-top: 25px;
-      font-size: 1.4em;
+      font-size: 20px;
       font-weight: 500;
       text-indent: 40px;
-      color: black; }
-    #article-area article.article-content p.article {
+      color: black;
+      font-family: "Noto Sans", sans-serif; }
+    #article-read article.article-content p.article {
+      font-family: "Noto Sans", sans-serif;
       border-top: 2px solid #f6a00c;
       padding-top: 20px;
       border-bottom: 2px solid #f6a00c;
       padding-bottom: 20px;
-      font-size: 1.2em;
-      text-indent: 40px;
+      font-size: 16px;
       color: #626262; }
-  #article-area #article-comments {
+  #article-read #article-comments {
     padding-left: 40px;
     padding-right: 40px; }
-  #article-area .comment-tree {
+  #article-read .comment-tree {
     margin-top: 20px; }
-    #article-area .comment-tree:not(:nth-child(1)) {
+    #article-read .comment-tree:not(:nth-child(1)) {
       margin-left: 60px;
       border-left: 4px solid #f6a00c; }
-    #article-area .comment-tree .comment {
+    #article-read .comment-tree .comment {
       margin-bottom: 20px;
       position: relative; }
-      #article-area .comment-tree .comment .comment {
+      #article-read .comment-tree .comment .comment {
         padding-left: 10px !important; }
-      #article-area .comment-tree .comment .content {
+      #article-read .comment-tree .comment .content {
         display: flex; }
-        #article-area .comment-tree .comment .content .user-picture {
+        #article-read .comment-tree .comment .content .user-picture {
           background: #666;
           width: 50px;
           min-width: 50px;
@@ -1849,21 +1860,21 @@ footer#main-footer {
           text-align: center;
           background-size: cover;
           background-position: center center; }
-        #article-area .comment-tree .comment .content .body {
+        #article-read .comment-tree .comment .content .body {
           flex: 1; }
-          #article-area .comment-tree .comment .content .body p {
+          #article-read .comment-tree .comment .content .body p {
             line-height: 25px;
             padding: 0;
             margin: 0; }
-            #article-area .comment-tree .comment .content .body p .username {
+            #article-read .comment-tree .comment .content .body p .username {
               font-weight: bold;
               color: #f6a00c; }
-        #article-area .comment-tree .comment .content .controls {
+        #article-read .comment-tree .comment .content .controls {
           height: 35px;
           line-height: 35px;
           border-bottom: 1px dotted #dbdbdb;
           display: flex; }
-          #article-area .comment-tree .comment .content .controls .reply-trigger {
+          #article-read .comment-tree .comment .content .controls .reply-trigger {
             display: block;
             padding-right: 10px;
             height: 100%;
@@ -1878,16 +1889,16 @@ footer#main-footer {
             /* IE10+/Edge */
             user-select: none;
             /* Standard */ }
-          #article-area .comment-tree .comment .content .controls .reply-from {
+          #article-read .comment-tree .comment .content .controls .reply-from {
             background: lightblue;
             display: block; }
-          #article-area .comment-tree .comment .content .controls .reply-input {
+          #article-read .comment-tree .comment .content .controls .reply-input {
             border-radius: 2px;
             border: 1px solid #dbdbdb;
             font-size: 12px;
             height: 25px;
             padding-left: 5px; }
-          #article-area .comment-tree .comment .content .controls button {
+          #article-read .comment-tree .comment .content .controls button {
             font-size: 12px;
             background: none;
             height: 25px;
@@ -1895,9 +1906,9 @@ footer#main-footer {
             cursor: pointer;
             border: 1px solid #f6a00c;
             border-radius: 2px; }
-    #article-area .comment-tree .footer {
+    #article-read .comment-tree .footer {
       margin-left: 10px; }
-      #article-area .comment-tree .footer button.showMore {
+      #article-read .comment-tree .footer button.showMore {
         font-size: 12px;
         color: lightgrey;
         background: none;
@@ -1964,12 +1975,15 @@ footer#main-footer {
       min-height: 100px;
       padding: 15px; }
       #route-view-article-list .container.article-list-container article.article h2.title {
+        font-size: 40px;
         color: #f6a00c;
         text-transform: uppercase;
         padding: 0;
         margin: 0 0 15px 0; }
       #route-view-article-list .container.article-list-container article.article p.text {
+        font-size: 16px;
         padding: 0;
+        line-height: 25px;
         margin: 0; }
     #route-view-article-list .container.article-list-container .loading-articles {
       text-align: center;
@@ -2091,8 +2105,65 @@ footer#main-footer {
     padding-top: 15px; }
     #route-view-partner-list #partner-list .partner {
       background: white;
-      padding: 15px;
-      margin-bottom: 15px; }
+      margin-bottom: 15px;
+      display: flex;
+      position: relative;
+      overflow: visible; }
+      #route-view-partner-list #partner-list .partner .logo-holder {
+        width: 200px;
+        min-width: 200px;
+        height: auto;
+        bottom: 0;
+        position: relative;
+        background-color: #dbdbdb;
+        flex: 1;
+        padding: 15px; }
+        #route-view-partner-list #partner-list .partner .logo-holder .logo {
+          background-position: center center;
+          background-size: contain;
+          background-repeat: no-repeat;
+          width: 170px;
+          min-width: 170px;
+          height: 200px;
+          min-height: 200px; }
+      #route-view-partner-list #partner-list .partner .body {
+        width: 100%;
+        padding: 15px;
+        overflow: visible; }
+        #route-view-partner-list #partner-list .partner .body .name {
+          margin-top: 0;
+          font-size: 40px;
+          margin-bottom: 0px; }
+        #route-view-partner-list #partner-list .partner .body .desc {
+          font-size: 16px;
+          line-height: 25px;
+          padding: 0; }
+          #route-view-partner-list #partner-list .partner .body .desc.ellipsis {
+            max-height: 75px;
+            overflow: hidden; }
+        #route-view-partner-list #partner-list .partner .body button.read-more {
+          cursor: pointer; }
+  @media only screen and (max-width: 767px) {
+    #route-view-partner-list #partner-list .partner .body .name {
+      font-size: 30px; }
+    #route-view-partner-list #partner-list .partner .body p.desc.ellipsis {
+      max-height: 50px; }
+    #route-view-partner-list #partner-list .partner .logo-holder {
+      min-width: 150px;
+      width: 150px; }
+      #route-view-partner-list #partner-list .partner .logo-holder .logo {
+        min-width: 130px;
+        min-height: 130px;
+        width: 130px;
+        height: 130px; } }
+  @media only screen and (max-width: 767px) {
+    #route-view-partner-list #partner-list .partner {
+      flex-direction: column; }
+      #route-view-partner-list #partner-list .partner .logo-holder {
+        width: 100%;
+        min-width: 100%; }
+        #route-view-partner-list #partner-list .partner .logo-holder .logo {
+          margin: 0 auto; } }
 
 #route-view-contact {
   overflow: visible;

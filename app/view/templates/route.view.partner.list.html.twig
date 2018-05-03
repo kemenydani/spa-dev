@@ -6,18 +6,64 @@
     <div class="container partner-list-container" id="partner-list">
         {% for pk, partner in partners %}
             <article class="partner">
-                <div class="logo" style="background-image: url({{ partner.requestLogo() }})">
-
+                <div class="logo-holder">
+                    <div class="logo" style="background-image: url({{ partner.requestLogo() }})"></div>
                 </div>
                 <div class="body">
                     <h2 class="name">{{ partner.getName() }}</h2>
-                    <p class="desc">
+                    <p data-desc-length="{{  partner.getDescription()|length }}" class="desc ellipsis">
                         {{ partner.getDescription() }}
                     </p>
+                    <button style="display: none;" class="button button-primary button-medium read-more">More</button>
                 </div>
             </article>
         {% endfor %}
     </div>
 </div>
+
+<script>
+
+    $(document).ready(function(){
+
+        (function($){
+
+            var $button = $('.partner .read-more');
+
+            function showHideButton($button)
+            {
+	            $button.each(function(i, el)
+	            {
+
+		            var $p = $(el).parent().find('p.desc');
+		            var $b = $(el).parent().find('.read-more');
+
+		            if ($p[0].scrollHeight >  $p.innerHeight())
+		            {
+			            $b.show();
+		            }
+		            else
+		            {
+			            $b.hide();
+		            }
+	            });
+            }
+
+            showHideButton($button);
+
+            $(window).resize(function(){ showHideButton($button); });
+
+	        $button.on('click', function(event)
+            {
+            	$(event.target).parent().find('.desc').toggleClass('ellipsis', 4000);
+
+	            $(event.target).text($(event.target).text().toLowerCase() === 'more' ? 'less' : 'more');
+
+            });
+
+        }(jQuery));
+
+    })
+
+</script>
 
 {% endblock %}

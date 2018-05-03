@@ -80,9 +80,10 @@ $app->get('/squadMemberHomeAvatar/[{filename}]', function( $request, $response, 
 
 $app->get('/requestPartnerLogo/[{filename}]', function( $request, $response, $args )
 {
-    $path = Partner::getRealImagePath($args['filename']);
-
-    if($path) return modelImageResponse($response, $path);
-
+    if(!empty($args['filename']))
+    {
+        $path = Partner::getRealImagePath($args['filename']);
+        if(file_exists($path)) return modelImageResponse($response, $path);
+    }
     return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . 'no-image-grey-cross.jpg' );
 });
