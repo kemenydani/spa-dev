@@ -6,10 +6,21 @@ use core\Model as Model;
 
 class Video extends Model
 {
-	public static $_UNIQUE_KEY = 'id';
-	public static $_TABLE = 'video';
+    public static $PKEY = 'id';
+    public static $TABLE = 'video';
+    public static $COLUMNS = [
+        'id',
+        'title',
+    ];
 
-    public static $_PROPS = ['id', 'title', 'date_created'];
-    public static $_PROPS_SEARCHABLE = ['id', 'title', 'date_created'];
+    public function getId()
+    {
+        return $this->getProperty('id');
+    }
+
+    public function getName()
+    {
+        return $this->getProperty('name');
+    }
 
 }

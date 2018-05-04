@@ -1,0 +1,21 @@
+{% extends 'block.full.html.twig' %}
+
+{% block content %}
+
+<div class="container-full " id="route-view-squad-view">
+    <div class="container-full route-header squad-view-route-header">
+        <div class="body">
+            <div class="container squad-header-container"><h2 class="title">{{ squad.getName() }}</h2></div>
+        </div>
+       <div class="bg-image" style="background-image: url({{ squad.requestHeaderImage() }})"></div>
+    </div>
+    <div class="container member-list-container" id="member-list">
+        {% for mk, member in squad.getMembers() %}
+            <article class="member">
+                {{ member.formatName() }}
+            </article>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
