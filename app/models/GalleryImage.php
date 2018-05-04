@@ -11,10 +11,11 @@ class GalleryImage extends Image
     public static $COLUMNS = [
         'id',
         'gallery_id',
-        'folder',
-        'filename'
+		'file_name',
     ];
-
+	
+	const IMAGE_PATH = __UPLOADS__ . '/images/gallery';
+    
     public function getGalleryId()
     {
         return $this->getProperty('gallery_id');
@@ -24,10 +25,20 @@ class GalleryImage extends Image
     {
         return Gallery::find($this->getGalleryId());
     }
+	
+	public function getFileName()
+	{
+		return $this->getProperty('file_name');
+	}
 
-    public function deleteImage()
+    public function requestImageUrl()
     {
-
+        return '/requestGalleryImage/' . $this->getFileName();
     }
-
+	
+	public function deleteImage()
+	{
+	
+	}
+    
 }

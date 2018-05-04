@@ -15,7 +15,7 @@ class Gallery extends Model
         'name',
         'folder',
     ];
-
+ 
     public function getId()
     {
         return $this->getProperty('id');

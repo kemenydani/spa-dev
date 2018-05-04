@@ -4,13 +4,9 @@
     <div class="container-full" id="route-view-gallery-list">
         <div class="container gallery-list-container">
             <div class="gallery-list">
-                foo
-            {% for gk, galleries in galleries.getModels() %}
+            {% for gk, gallery in galleries.getModels() %}
                 <div class="gallery">
-                    <div class="body">
-                        <h2 class="title"><a href="/gallery/{{ gallery.getName() }}">{{ gallery.getName() }}</a></h2>
-                    </div>
-                    <div class="bg-image" style="background-image: url({{ gallery.requestHeaderImage() }})"></div>
+                     <h1><a style="color: red" href="/gallery/{{ gallery.getName() }}">{{ gallery.getName() }}</a></h1>
                 </div>
             {% endfor %}
             </div>

@@ -6,12 +6,36 @@ use models\Article as Article;
 use models\EnemyTeam as EnemyTeam;
 use models\Squad as Squad;
 use models\Partner as Partner;
+use models\GalleryImage as GalleryImage;
+
+use Intervention\Image\ImageManager as ImageManager;
 
 function modelImageResponse(Response $response, $path)
 {
     $type = mime_content_type($path);
-    readfile($path);
-    return $response->withHeader('Content-Type', $type)->withHeader('Content-Length', filesize($path));
+    //readfile($path);
+	
+	$ImageManager = new ImageManager(array('driver' => 'gd'));
+	
+	// open an image file
+
+	$img = $ImageManager->make($path);
+	
+	$img->interlace(true);
+	
+	// prevent possible upsizing
+	$img->resize(null, 200, function ($constraint) {
+		$constraint->aspectRatio();
+		$constraint->upsize();
+	});
+	
+	$img->save(__UPLOADS__ . '/images/thumbs/' . md5($path) . '.jpg');
+	
+	return $img->response('jpg');
+	
+	//$response->withHeader('Content-Type', $type);
+	
+    //return $response->withHeader('Content-Type', $type)->withHeader('Content-Length', filesize($path));
 }
 
 $app->get('/userProfilePicture/[{filename}]', function( $request, $response, $args )
@@ -87,4 +111,14 @@ $app->get('/requestPartnerLogo/[{filename}]', function( $request, $response, $ar
         if(file_exists($path)) return modelImageResponse($response, $path);
     }
     return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . 'no-image-grey-cross.jpg' );
+});
+
+$app->get('/requestGalleryImage/[{filename}]', function( $request, $response, $args )
+{
+	if(!empty($args['filename']))
+	{
+		$path = GalleryImage::getRealImagePath($args['filename']);
+		if(file_exists($path)) return modelImageResponse($response, $path);
+	}
+	return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . 'no-image-grey-cross.jpg' );
 });

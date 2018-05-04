@@ -17,9 +17,9 @@ class GalleryController extends ViewController
         $this->view->render($response, 'route.view.gallery.list.html.twig', ['galleries' => $galleries]);
     }
     
-    public function getViewSquad( Request $request, Response $response, $args )
+    public function getViewGallery( Request $request, Response $response, $args )
     {
-        $squad = Gallery::find($args['name'], 'name');
-	    $this->view->render($response, 'route.view.gallery.view.html.twig', ['gallery' => $squad]);
+        $gallery = Gallery::find($args['name'], 'name');
+	    $this->view->render($response, 'route.view.gallery.view.html.twig', ['gallery' => $gallery]);
     }
 }
