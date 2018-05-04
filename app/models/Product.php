@@ -68,6 +68,5 @@ class Product extends \core\Model
 	{
 		return ProductImage::findAll($this->getId(), 'product_id');
 	}
-
 	
 }
