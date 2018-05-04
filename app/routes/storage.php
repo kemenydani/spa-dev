@@ -7,14 +7,16 @@ use models\EnemyTeam as EnemyTeam;
 use models\Squad as Squad;
 use models\Partner as Partner;
 use models\GalleryImage as GalleryImage;
+use models\ProductImage as ProductImage;
 
 use Intervention\Image\ImageManager as ImageManager;
 
 function modelImageResponse(Response $response, $path)
 {
     $type = mime_content_type($path);
-    //readfile($path);
+    readfile($path);
 	
+    /*
 	$ImageManager = new ImageManager(array('driver' => 'gd'));
 	
 	// open an image file
@@ -34,8 +36,8 @@ function modelImageResponse(Response $response, $path)
 	return $img->response('jpg');
 	
 	//$response->withHeader('Content-Type', $type);
-	
-    //return $response->withHeader('Content-Type', $type)->withHeader('Content-Length', filesize($path));
+	*/
+    return $response->withHeader('Content-Type', $type)->withHeader('Content-Length', filesize($path));
 }
 
 $app->get('/userProfilePicture/[{filename}]', function( $request, $response, $args )
@@ -118,6 +120,16 @@ $app->get('/requestGalleryImage/[{filename}]', function( $request, $response, $a
 	if(!empty($args['filename']))
 	{
 		$path = GalleryImage::getRealImagePath($args['filename']);
+		if(file_exists($path)) return modelImageResponse($response, $path);
+	}
+	return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . 'no-image-grey-cross.jpg' );
+});
+
+$app->get('/requestProductImage/[{filename}]', function( $request, $response, $args )
+{
+	if(!empty($args['filename']))
+	{
+		$path = ProductImage::getRealImagePath($args['filename']);
 		if(file_exists($path)) return modelImageResponse($response, $path);
 	}
 	return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . 'no-image-grey-cross.jpg' );

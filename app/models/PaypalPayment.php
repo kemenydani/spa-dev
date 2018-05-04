@@ -2,7 +2,7 @@
 
 namespace models;
 
-class Payment extends \core\Model
+class PaypalPayment extends \core\Model
 {
 	public static $PKEY = 'id';
 	public static $TABLE = 'payment';

@@ -1,0 +1,15 @@
+{% extends 'block.full.html.twig' %}
+
+{% block content %}
+    <div class="container-full" id="route-view-gallery-list">
+        <div class="container gallery-list-container">
+            <div class="gallery-list">
+            {% for gk, gallery in galleries.getModels() %}
+                <div class="gallery">
+                     <h1><a style="color: red" href="/gallery/{{ gallery.getName() }}">{{ gallery.getName() }}</a></h1>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

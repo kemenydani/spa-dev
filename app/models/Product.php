@@ -2,6 +2,8 @@
 
 namespace models;
 
+use Models\ProductImage;
+
 class Product extends \core\Model
 {
 	public static $PKEY = 'id';
@@ -61,6 +63,11 @@ class Product extends \core\Model
     public function isAvailable(){
         return (int)$this->getInStock() > 0;
     }
+	
+	public function getImages()
+	{
+		return ProductImage::findAll($this->getId(), 'product_id');
+	}
 
 	
 }

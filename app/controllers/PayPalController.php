@@ -6,7 +6,7 @@ use models\Product as Product;
 use \Slim\Http\Request as Request;
 use \Slim\Http\Response as Response;
 
-use models\Payment as Payment;
+use models\PaypalPayment as PaypalPayment;
 use core\PayPal as PayPal;
 
 use core\Session as Session;
@@ -33,7 +33,7 @@ class PayPalController extends ViewController
 
         $gross = ( (float)$formData['amount'] * (int)$formData['quantity'] );
 
-		$Payment = Payment::create([
+		$Payment = PaypalPayment::create([
 			'product_id'     => $Product->getId(),
 			'product_name'   => $Product->getName(),
 			'single_price'   => (float)$Product->getPrice(),
@@ -86,7 +86,7 @@ class PayPalController extends ViewController
         $custom = explode(':', $custom);
         list($session_id, $payment_id) = $custom;
 
-        $Payment = Payment::find($payment_id);
+        $Payment = PaypalPayment::find($payment_id);
 
         if(!is_object($Payment)) return $response->withStatus(404, 'Could not find payment data.');
 
