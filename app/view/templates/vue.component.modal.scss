@@ -21,28 +21,44 @@
 .modal-container {
   width: 300px;
   margin: 0px auto;
-  padding: 20px 30px;
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
   transition: all .3s ease;
   font-family: Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+
+  > * {
+    width: 100%;
+  }
+  
 }
 
-.modal-header h3 {
-  margin-top: 0;
+.modal-header {
+  padding: 20px 15px 20px 15px;
+  background: $lightgrey;
   display: flex;
-  color: #42b983;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0 !important;
+  padding: 0 !important;
+  color: $darkgrey;
+}
+
+.modal-body {
+  flex: 1;
+  padding: 15px;
 }
 
 .modal-footer {
   display: flex;
-  border: 1px solid blue;
-}
-
-.modal-body {
-  margin: 20px 0;
-  border: 1px solid red;
+  padding: 15px;
+  justify-content: flex-end;
 }
 
 .modal-default-button {
@@ -74,8 +90,10 @@
 
 @include mq('tablet-wide', 'max') {
   .modal-container {
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
     overflow-y: hidden;
     overflow-x: hidden;
     margin: 0;

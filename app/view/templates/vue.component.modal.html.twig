@@ -1,16 +1,19 @@
-{% verbatim %}
+
 
 <!-- template for the modal component -->
 <script type="text/x-template" id="modal-template">
     <transition name="modal">
         <div class="modal-mask">
             <div class="modal-wrapper">
-                <div class="modal-container">
+                <div class="modal-container" style="{% if width %} width: {{ width }}; {% endif %} {% if height %} height: {{ height }}; {% endif %}">
 
                     <div class="modal-header">
                         <slot name="header">
                             default header
                         </slot>
+                        <div class="modal-cancel">
+                            <i @click="$emit('close')" class="fas fa-times fa-lg"></i>
+                        </div>
                     </div>
 
                     <div class="modal-body">
@@ -31,6 +34,7 @@
         </div>
     </transition>
 </script>
+{% verbatim %}
 
 <script>
 

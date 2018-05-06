@@ -1,7 +1,10 @@
 <?php
 
-namespace controllers;
 
+
+namespace controllers;
+use Intervention\Image\Image as Image;
+use Intervention\Image\ImageManager as ImageManager;
 use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
@@ -21,13 +24,24 @@ class UserController extends ViewController
 
     public function uploadPicture ( Request $request, Response $response, $args )
     {
-        $files = $request->getUploadedFiles();
+    	//$post = $request->getParsedBody();
+	    $files = $request->getUploadedFiles();
+	    
+	    $ImageManager = new ImageManager(array('driver' => 'gd'));
+	    
+	    $f = $files['user_picture'];
+	    
+	    $img = $ImageManager->make($f->getStream());
+	
+	    //$o = json_decode($post['options']);
+	    
+	    //$img->resize($img->width() * $o->zoom, $img->height() * $o->zoom);
+	    
+	    //$img->crop($o->points[0], $o->points[1], $o->points[2], $o->points[3]);
+	    
+	    $img->save(__UPLOADS__ . '/images/user/' . md5('apple') . '.jpg');
 
-        if( array_key_exists('profile_picture', $files ) )
-        {
-            return FileUploadController::upload( $files['profile_picture'], 'images/users/16/profile_picture' );
-        }
-        return $response->withStatus(404, 'Invalid File Key');
+        return $response->withStatus(200)->withJson(1);
     }
 
     public function uploadCover ( Request $request, Response $response, $args )

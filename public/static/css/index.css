@@ -1696,6 +1696,25 @@ footer#main-footer {
   }
 }
 */
+#modal-upload-user-picture #picture-area {
+  width: 100%;
+  margin: 0 auto; }
+#modal-upload-user-picture .modal-body {
+  padding-bottom: 0; }
+#modal-upload-user-picture .modal-footer {
+  padding: 15px 0 0 0; }
+#modal-upload-user-picture #viewport {
+  border: 1px solid lightgrey;
+  width: 100%;
+  height: 300px;
+  background: #dbdbdb;
+  margin: 0 auto;
+  overflow: hidden;
+  /*width: 200px;
+  height: 200px;
+  margin: 20px auto;
+  overflow: hidden;*/ }
+
 .vanish {
   display: none;
   opacity: 0;
@@ -1730,10 +1749,10 @@ footer#main-footer {
     width: 200px;
     height: 200px;
     border-radius: 100px;
-    border: 15px solid #090909;
-    background-size: contain !important;
+    border: 2px solid orange;
+    background-size: cover !important;
     background-position: center center;
-    margin-bottom: -85px; }
+    background-repeat: no-repeat; }
 
 .container.container-user-details {
   background: white;
@@ -2239,25 +2258,37 @@ footer#main-footer {
 .modal-container {
   width: 300px;
   margin: 0px auto;
-  padding: 20px 30px;
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all .3s ease;
-  font-family: Helvetica, Arial, sans-serif; }
-
-.modal-header h3 {
-  margin-top: 0;
+  font-family: Helvetica, Arial, sans-serif;
   display: flex;
-  color: #42b983; }
+  flex-wrap: wrap;
+  flex-direction: column; }
+  .modal-container > * {
+    width: 100%; }
+
+.modal-header {
+  padding: 20px 15px 20px 15px;
+  background: #dbdbdb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+
+.modal-header h2 {
+  margin: 0 !important;
+  padding: 0 !important;
+  color: #626262; }
+
+.modal-body {
+  flex: 1;
+  padding: 15px; }
 
 .modal-footer {
   display: flex;
-  border: 1px solid blue; }
-
-.modal-body {
-  margin: 20px 0;
-  border: 1px solid red; }
+  padding: 15px;
+  justify-content: flex-end; }
 
 /*
  * The following styles are auto-applied to elements with
@@ -2280,8 +2311,10 @@ footer#main-footer {
 
 @media only screen and (max-width: 1023px) {
   .modal-container {
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
     overflow-y: hidden;
     overflow-x: hidden;
     margin: 0;

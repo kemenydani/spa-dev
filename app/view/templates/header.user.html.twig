@@ -1,10 +1,10 @@
 <div class="user-area">
     {% if isLogged %}
         <div>
-                <div class="username">{{ AuthUser.getUsername() }}</div>
+                <a href="/profile/{{ AuthUser.getUsername() }}" class="username">{{ AuthUser.getUsername() }}</a>
                 <div class="logout"><a href="/logout">logout</a></div>
         </div>
-        <div class="user-picture" style="background-image: url({{ AuthUser.getProfilePicture() }})"></div>
+        <a href="/profile/{{ AuthUser.getUsername() }}" class="user-picture" style="background-image: url({{ AuthUser.getProfilePicture() }})"></a>
     {% else %}
         <button class="signup"><a href="/auth"></a></button>
     {% endif %}
