@@ -28,14 +28,19 @@
 	</div>
 
     {% verbatim %}
-	<modal v-if="showModal" v-on:close="showModal = false" id="modal-upload-user-picture">
+	<modal v-if="showModal" v-on:close="showModal = false" v-bind:loading="modalLoading" v-bind:loading-message="modalLoadingMessage" id="modal-upload-user-picture">
 		<div slot="header">
 			<h2>Edit Picture</h2>
 		</div>
 		<div slot="body">
-			<div id="picture-area">
-				<div ref="viewport"  id="viewport" class="img-container"></div>
-				<input ref="input" v-on:input="profileImageInput" type="file" class="vanish" id="profile-picture-input">
+			<div id="picture-area" ref="pictureArea" @dragover.prevent="onDragOver" @drop="onDrop">
+				<div ref="viewport" id="viewport" @click="viewPortBrowse()" class="img-container">
+
+                </div>
+                <div class="hint">
+                  CLICK OR DROP
+                </div>
+				<input ref="input" v-on:input="profileImageInput()" type="file" class="vanish" id="profile-picture-input">
 			</div>
 		</div>
 		<div slot="footer" style="min-width: 100% !important; display: flex;">
@@ -64,21 +69,36 @@
 		data: function () {
 			return {
 				user : user,
-				showModal: true,
+				showModal: false,
+                modalLoading: false,
+                modalLoadingMessage: ''
 			}
 		},
 		methods:
 		{
+			onDragOver(event){},
+			onDrop : function(event){
+                event.stopPropagation();
+                event.preventDefault();
+				this.profileImageInput(event.dataTransfer);
+            },
+            viewPortBrowse : function()
+            {
+                if($(this.$refs['viewport']).hasOwnProperty('croppie')) return false;
+                this.browse();
+            },
 			browse : function(){
 				$(this.$refs['input']).trigger('click');
 			},
-			profileImageInput : function( event )
+			profileImageInput : function( source )
 			{
-				if (event.target.files && event.target.files[0])
+				var input = source || this.$refs['input'];
+
+				if (input.files && input.files[0])
 				{
 					$(this.$refs['viewport']).croppie('destroy');
 					$(this.$refs['viewport']).croppie({
-						viewport: { width: 200, height: 200, },
+						viewport: { width: 200, height: 200, type: 'circle' },
 						boundary: { width: 300, height: 300 }
 					});
 
@@ -87,23 +107,29 @@
 					reader.onload = function (event)
 					{
 						$(this.$refs['viewport']).croppie('bind', {
-								url: event.target.result
+							url: event.target.result
                         });
 					}
 					.bind(this);
 
-					reader.readAsDataURL(event.target.files[0]);
+					reader.readAsDataURL(input.files[0]);
 				}
 			},
 			cropUpload : function()
 			{
-				$(this.$refs['viewport']).croppie('result', 'blob')
+				this.modalLoading = true;
+				this.modalLoadingMessage = 'Cutting Image';
+
+				$(this.$refs['viewport']).croppie('result', { type: 'blob', size:'viewport', format: 'jpg', quality: 1, circle: false })
 				  .then(function(blob)
 				  {
 					this.uploadFile(blob, this.$refs['input'].files[0]).then(function(image)
                     {
                         $(this.$refs['userPicture']).css('background-image', 'url(' + image + ')');
-                        this.showModal = false;
+
+	                    this.modalLoadingMessage = 'Profile Updated!';
+
+                        setTimeout(function(){ this.showModal = false; this.modalLoading = false }.bind(this), 2000);
 					}
 					.bind(this));
 				  }
@@ -135,6 +161,8 @@
 									var percentComplete = evt.loaded / evt.total;
 									percentComplete = percentComplete * 100;
 
+									self.modalLoadingMessage = 'Uploading ' + parseInt(percentComplete) + '%' ;
+
 									if (percentComplete === 100) {
 
 									}
@@ -148,7 +176,6 @@
 						},
 						success: function (response) {
 							resolve(response);
-
 						},
 						complete: function (xhr) {
 							console.log('complete');

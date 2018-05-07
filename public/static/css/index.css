@@ -1703,17 +1703,38 @@ footer#main-footer {
   padding-bottom: 0; }
 #modal-upload-user-picture .modal-footer {
   padding: 15px 0 0 0; }
+#modal-upload-user-picture #picture-area {
+  position: relative;
+  height: 300px;
+  width: 100%; }
 #modal-upload-user-picture #viewport {
-  border: 1px solid lightgrey;
+  border: 3px dashed #ababab;
   width: 100%;
   height: 300px;
-  background: #dbdbdb;
   margin: 0 auto;
   overflow: hidden;
-  /*width: 200px;
-  height: 200px;
-  margin: 20px auto;
-  overflow: hidden;*/ }
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2; }
+#modal-upload-user-picture .hint {
+  z-index: 1;
+  margin: 3px;
+  position: absolute;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #dbdbdb;
+  cursor: pointer; }
 
 .vanish {
   display: none;
@@ -2255,6 +2276,28 @@ footer#main-footer {
   vertical-align: middle;
   position: relative; }
 
+.modal-loading {
+  z-index: 20;
+  background: rgba(219, 219, 219, 0.9);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-direction: column;
+  flex-wrap: nowrap; }
+  .modal-loading > i {
+    font-size: 50px;
+    margin-bottom: 15px; }
+  .modal-loading > span {
+    font-size: 30px; }
+
 .modal-container {
   width: 300px;
   margin: 0px auto;
@@ -2265,7 +2308,8 @@ footer#main-footer {
   font-family: Helvetica, Arial, sans-serif;
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column; }
+  flex-direction: column;
+  position: relative; }
   .modal-container > * {
     width: 100%; }
 

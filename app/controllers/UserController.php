@@ -44,7 +44,9 @@ class UserController extends ViewController
 
 	    if($img->getWidth() > 200 || $img->getHeight() > 200) $img->resize(200, 200);
 
-	    $fileName =  md5($User->getProperty('username')) . '.' . $img->extension;
+	    $fileName =  md5($User->getProperty('username')) . '.jpg';
+
+	    $img->encode('jpg');
 
 	    $img->save(User::IMAGE_PATH . DIRECTORY_SEPARATOR . $fileName );
 
