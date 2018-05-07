@@ -3,12 +3,15 @@
 
 
 namespace controllers;
-use Intervention\Image\Image as Image;
+
+use core\Auth;
 use Intervention\Image\ImageManager as ImageManager;
-use \Psr\Http\Message\RequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+
+use \Slim\Http\Request as Request;
+use \Slim\Http\Response as Response;
 
 use models\User as User;
+use Slim\Http\UploadedFile;
 
 class UserController extends ViewController
 {
@@ -17,31 +20,41 @@ class UserController extends ViewController
     {
         $user = User::find($args['username'], 'username');
 
-        if($user) $user = $user->getFormatted(User::PUBLIC_DATASET);
+        //if($user) $user = $user->getFormatted(User::PUBLIC_DATASET);
 
         $this->view->render($response, 'route.view.user.profile.html.twig', ['user' => $user]);
     }
 
     public function uploadPicture ( Request $request, Response $response, $args )
     {
-    	//$post = $request->getParsedBody();
 	    $files = $request->getUploadedFiles();
-	    
-	    $ImageManager = new ImageManager(array('driver' => 'gd'));
-	    
-	    $f = $files['user_picture'];
-	    
-	    $img = $ImageManager->make($f->getStream());
-	
-	    //$o = json_decode($post['options']);
-	    
-	    //$img->resize($img->width() * $o->zoom, $img->height() * $o->zoom);
-	    
-	    //$img->crop($o->points[0], $o->points[1], $o->points[2], $o->points[3]);
-	    
-	    $img->save(__UPLOADS__ . '/images/user/' . md5('apple') . '.jpg');
 
-        return $response->withStatus(200)->withJson(1);
+        $User = Auth::user();
+
+	    $ImageManager = new ImageManager(array('driver' => 'gd'));
+
+        /* @var $uploadedFile UploadedFile */
+	    $uploadedFile = $files['user_picture'];
+
+	    if(!$uploadedFile) return false;
+
+	    $img = $ImageManager->make($uploadedFile->getStream());
+
+        $img->interlace(true);
+
+	    if($img->getWidth() > 200 || $img->getHeight() > 200) $img->resize(200, 200);
+
+	    $fileName =  md5($User->getProperty('username')) . '.' . $img->extension;
+
+	    $img->save(User::IMAGE_PATH . DIRECTORY_SEPARATOR . $fileName );
+
+	    $User->setProperty('profile_picture', $fileName);
+        $User->save();
+
+	    $img->encode('data-url');
+	    $response->write($img->getEncoded());
+
+        return $response->withStatus(200)->withHeader('Content-Type', $img->mime());
     }
 
     public function uploadCover ( Request $request, Response $response, $args )

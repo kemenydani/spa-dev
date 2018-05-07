@@ -1,7 +1,9 @@
 <?php
 
 error_reporting(0);
-session_start();
+session_start([
+    'read_and_close' => true,
+]);
 
 define('__DEBUG__', true );
 
@@ -21,4 +23,4 @@ require_once __APPDIR__ . '/assets/helpers.php';
 require_once __APPDIR__ . '/assets/db_config.php';
 require_once __APPDIR__ . '/core/init.php';
 
-session_write_close();
+//session_write_close();

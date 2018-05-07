@@ -76,7 +76,7 @@ class User extends Model {
     
 	public function requestProfilePicture()
 	{
-		return '/userRequestProfilePicture/' . $this->getProfilePicture();
+		return '/userProfilePicture/' . $this->getProfilePicture();
 	}
 
     public function logout()
