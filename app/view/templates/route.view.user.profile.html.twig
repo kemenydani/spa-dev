@@ -11,7 +11,7 @@
 
 			</div>
 			<div
-				class="user-image"
+				class="user-image my-user-picture"
 				{% verbatim %}
 				ref="userPicture"
 				v-on:click="showModal = true"
@@ -125,8 +125,7 @@
 				  {
 					this.uploadFile(blob, this.$refs['input'].files[0]).then(function(image)
                     {
-                        $(this.$refs['userPicture']).css('background-image', 'url(' + image + ')');
-
+	                    window.appEventBus.$emit('userPictureChanged', image);
 	                    this.modalLoadingMessage = 'Profile Updated!';
 
                         setTimeout(function(){ this.showModal = false; this.modalLoading = false }.bind(this), 2000);

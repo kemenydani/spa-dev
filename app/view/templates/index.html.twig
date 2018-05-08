@@ -11,8 +11,23 @@
 	<script src="static/dist/polyfill.js"></script>
 	<script src="static/lib/jquery/3.3.1/jquery.min.js"></script>
 	<script src="static/lib/vue/2.5.16/vue.min.js"></script>
-
 	<script src="static/lib/croppie.min.js"></script>
+	<script>
+
+      var appEventBus = new Vue({
+          data : function(){
+              return { }
+          },
+          created : function(){
+              this.$on('userPictureChanged', function( image = null ){
+                $(document).find('.my-user-picture').each(function(i, el){
+                    $(el).css('background-image', 'url(' + image + ')')
+                });
+              });
+          }
+      });
+
+	</script>
 </head>
 <body>
 
