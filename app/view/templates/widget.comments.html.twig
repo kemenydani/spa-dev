@@ -1,8 +1,11 @@
 
 {% verbatim %}
  <!-- comments -->
- <div id="comments">
-  <comment-tree v-bind:level="0" v-bind:comments="comments"></comment-tree>
+<div id="comments">
+	<div class="comment-field">
+		<textarea rows="2"></textarea>
+	</div>
+    <comment-tree v-bind:level="0" v-bind:comments="comments"></comment-tree>
 </div>
 <script type='x-template' id='template-comment-tree'>
     <div class="comment-tree">
@@ -107,16 +110,20 @@
 					}
 				}
 			},
-			created: function(){
+			created: function()
+			{
 				this.data = Object.assign(this.data, this.comment);
 			},
-			watch: {
-				comment: function ( val ) {
+			watch:
+			{
+				comment: function ( val )
+				{
 					this.data = Object.assign(this.data, val);
 				},
 			},
 			methods: {
-				hasChildren: function(){
+				hasChildren: function()
+				{
 					return this.data.ch.length > 0;
 				},
 				newReply: function()
@@ -125,19 +132,22 @@
 
 					var data = { pid: this.data.id, text: this.replyForm.text };
 
-					EventBus.$emit('postComment', data, function( response ){
-						if(response){
+					EventBus.$emit('postComment', data, function( response )
+					{
+						if(response)
+						{
 							this.data.ch.unshift(response);
 							this.$emit('newReply', response);
 							this.replyForm.text = '';
 							this.$forceUpdate();
 						}
-					}.bind(this));
+					}
+					.bind(this));
 				}
 			}
 		});
 
-		var app = new Vue({
+		new Vue({
 			components: ['comment-tree', 'comment-tree-item'],
 			el: '#comments',
 			data: function () {
@@ -145,33 +155,22 @@
 					comments: __COMMENTS__,
 				}
 			},
-			methods: {
-				postComment: function(){
+			methods:
+			{
+				postComment: function()
+				{
 
 				},
-				syncComments:function()
-				{
-					/*
-                    $.post('/syncComments', { } ).then(function(response){
-                        this.comments = response;
-                    }.bind(this));
-                    */
-
-				}
 			},
 			created: function()
 			{
-				setInterval(function(){ this.syncComments(); }.bind(this), 20000);
-
-				EventBus.$on('postComment', function ( data, cb ) {
-
+				EventBus.$on('postComment', function ( data, cb )
+				{
 					data.article_id = 10;
 
-					$.post('/article/postComment', data ).then( function( response ){
-						cb(response);
-					}).catch(function(error){
-						cb(false);
-					});
+					$.post('/article/postComment', data )
+					  .then( function( response ) { cb(response); })
+					  .catch(function( error ) { cb(false); });
 				});
 			}
 		});

@@ -2366,9 +2366,14 @@ footer#main-footer {
     margin: 0;
     border-radius: 0;
     border: none; } }
+#comments .comment-field {
+  padding-bottom: 15px; }
+  #comments .comment-field > textarea {
+    width: 100%; }
+
 .comment-tree {
   margin-top: 20px; }
-  .comment-tree:not(:nth-child(1)) {
+  .comment-tree .comment-tree {
     margin-left: 60px;
     border-left: 4px solid #f6a00c; }
   .comment-tree .comment {

@@ -1,6 +1,18 @@
+#comments {
+
+  .comment-field {
+
+    padding-bottom: 15px;
+
+    > textarea {
+      width: 100%;
+    }
+  }
+}
+
 .comment-tree {
   margin-top: 20px;
-  &:not(:nth-child(1)){
+  .comment-tree {
     margin-left: 60px;
     border-left: 4px solid $primary;
   }
