@@ -3,7 +3,8 @@
  <!-- comments -->
 <div id="comments">
 	<div class="comment-field">
-		<textarea rows="2"></textarea>
+		<input type="text" ref="input">
+		<button v-on:click="postComment"></button>
 	</div>
     <comment-tree v-bind:level="0" v-bind:comments="comments"></comment-tree>
 </div>
@@ -58,6 +59,8 @@
 <script type="text/javascript">
 
 	(function($, Vue){
+
+		var ENDPOINT = '/' + '{{ model }}' + '/postComment';
 
 		var __COMMENTS__ = {% autoescape false %}{{ comments }}{% endautoescape %};
 		// level n -> limits[n]
@@ -157,9 +160,22 @@
 			},
 			methods:
 			{
-				postComment: function()
+				postComment: function(event)
 				{
+					var inp = $(this.$refs['input']);
 
+					var data = { pid: 0, text: inp.val() };
+
+					EventBus.$emit('postComment', data, function( response )
+					{
+						if(response)
+						{
+							this.comments.unshift(response);
+							//this.$emit('newReply', response);
+							this.$forceUpdate();
+						}
+					}
+					.bind(this));
 				},
 			},
 			created: function()
@@ -168,10 +184,11 @@
 				{
 					data.article_id = 10;
 
-					$.post('/article/postComment', data )
+					$.post(ENDPOINT, data )
 					  .then( function( response ) { cb(response); })
 					  .catch(function( error ) { cb(false); });
-				});
+				}
+				.bind(this));
 			}
 		});
 

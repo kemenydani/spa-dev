@@ -36,7 +36,6 @@ abstract class Model {
 
     private function insert()
     {
-        var_dump($this->getProperties());
         return DB::instance()->insert(static::$TABLE, $this->getProperties());
     }
 

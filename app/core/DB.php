@@ -39,13 +39,11 @@ class DB extends \PDO
 
     public static function pivot($table, $columns)
     {
-        return DB::instance()->insert(self::prependPrefix($table), $columns);
+        return DB::instance()->insert($table, $columns);
     }
 
     public function insert( $table, array $params )
     {
-        var_dump($params);
-
         $commaNames  = implode(',', array_keys($params));
         $commaBinds= join(",", array_pad([], count($params), "?"));
 

@@ -4,8 +4,10 @@
             <div class="mask"></div>
         </div>
         <div class="body">
-            <h2 class="title title-large">{{ articles[0].title }}</h2>
-            <div class="info">foo</div>
+            <h2 class="title title-large">
+                <a href="/article/read/{{ articles[0].title_seo }}">{{ articles[0].title }}</a>
+            </h2>
+            <div class="info">{{ articles[0].activation_time|date('d M Y') }}</div>
             <p class="teaser">{{ articles[0].teaser }}</p>
             <div class="footer">
                 <a class="more" href="/article/read/{{ articles[0].title_seo }}">Read More</a>
@@ -17,7 +19,9 @@
             <div class="mask"></div>
         </div>
         <div class="body">
-            <h2 class="title">{{ articles[1].title }}</h2>
+            <h2 class="title">
+                <a href="/article/read/{{ articles[1].title_seo }}">{{ articles[1].title }}</a>
+            </h2>
             <p class="teaser">{{ articles[1].teaser }}</p>
             <div class="footer">
                 <a class="more" href="/article/read/{{ articles[1].title_seo }}">Read More</a>

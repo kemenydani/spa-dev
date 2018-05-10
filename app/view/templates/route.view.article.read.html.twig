@@ -16,9 +16,11 @@
                 </p>
             </article>
         </div>
+        {% if (article.comments_enabled == true ) %}
         <div class="container article-comments-container" id="article-comments">
-                {% include 'widget.comments.html.twig' with { comments : comments, model : 'article' } %}
+            {% include 'widget.comments.html.twig' with { comments : comments, model : 'article' } %}
         </div>
+        {% endif %}
     </div>
 </div>
 
