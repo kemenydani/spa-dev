@@ -1,11 +1,21 @@
-#comments {
-
-  .comment-field {
-
+#comments
+{
+  .comment-field
+  {
     padding-bottom: 15px;
+    display: flex;
+    > .input {
+      margin-right: 15px;
+    }
+  }
+}
 
-    > textarea {
-      width: 100%;
+@include mq('tablet', 'max') {
+  #comments
+  {
+    .comment-field
+    {
+      flex-direction: column;
     }
   }
 }

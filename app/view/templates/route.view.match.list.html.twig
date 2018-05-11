@@ -13,7 +13,7 @@
                 </div>
             </div>
             <article v-for="(match, key) in models" v-bind:key="key" class="match">
-                  <section class="inline-info">
+                  <section v-on:click="toggleMatchInfo" class="inline-info">
                       <div class="left">
                           <span class="game">{{ match.game_name_short }}</span>
                           <span class="vs"> vs. </span>
@@ -52,14 +52,6 @@
 
     <script type="text/javascript">
 
-    $(document).ready(function()
-    {
-        $('article.match > .inline-info').on('click', function( event )
-        {
-            $(event.currentTarget).parent().find('.block-info').slideToggle("fast");
-        });
-    });
-
     (function($, Vue){
 
          var DATA = {% autoescape false %}{{ matches }}{% endautoescape %};
@@ -80,6 +72,10 @@
                 }
             },
             methods: {
+            	toggleMatchInfo : function( event )
+                {
+		            $(event.currentTarget).parent().find('.block-info').slideToggle("fast");
+                },
                 bottomVisible : function()
                 {
                     var spaceBelow = $(window).height() - $('#match-list')[0].getBoundingClientRect().bottom;
@@ -132,7 +128,7 @@
                     }
                 }
                 .bind(this));
-            }
+            },
          });
 
     }(jQuery, Vue));

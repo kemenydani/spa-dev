@@ -76,7 +76,7 @@ class ArticleController extends ViewController
     {
         $formData = $request->getParsedBody();
 
-        $Article = Article::find($formData['article_id']);
+        $Article = Article::find($formData['model_id']);
 
         if(!$Article) return $response->withStatus(404, 'Article not found');
 

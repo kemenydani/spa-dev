@@ -2470,10 +2470,14 @@ footer#main-footer {
     border-radius: 0;
     border: none; } }
 #comments .comment-field {
-  padding-bottom: 15px; }
-  #comments .comment-field > textarea {
-    width: 100%; }
+  padding-bottom: 15px;
+  display: flex; }
+  #comments .comment-field > .input {
+    margin-right: 15px; }
 
+@media only screen and (max-width: 767px) {
+  #comments .comment-field {
+    flex-direction: column; } }
 .comment-tree {
   margin-top: 20px; }
   .comment-tree .comment-tree {

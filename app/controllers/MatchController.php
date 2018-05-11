@@ -90,9 +90,4 @@ class MatchController extends ViewController
         return ['matches' => $res, 'total' => $total];
     }
 
-    public function getViewMatch( Request $request, Response $response, $args )
-    {
-        $match = Match::find($args['name'], 'name');
-	    $this->view->render($response, 'route.view.match.view.html.twig', ['match' => $match]);
-    }
 }

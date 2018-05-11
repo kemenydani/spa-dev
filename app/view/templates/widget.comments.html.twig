@@ -2,9 +2,9 @@
 {% verbatim %}
  <!-- comments -->
 <div id="comments">
-	<div class="comment-field">
-		<input type="text" ref="input">
-		<button v-on:click="postComment"></button>
+	<div class="comment-field input-field">
+		<input type="text" v-on:keyup.enter="postComment" class="input" rows="1" ref="input">
+		<button class="button button-primary" v-on:click="postComment">post</button>
 	</div>
     <comment-tree v-bind:level="0" v-bind:comments="comments"></comment-tree>
 </div>
@@ -61,6 +61,8 @@
 	(function($, Vue){
 
 		var ENDPOINT = '/' + '{{ model }}' + '/postComment';
+
+		var MODEL_ID = "{{ model_id }}";
 
 		var __COMMENTS__ = {% autoescape false %}{{ comments }}{% endautoescape %};
 		// level n -> limits[n]
@@ -164,6 +166,8 @@
 				{
 					var inp = $(this.$refs['input']);
 
+					if(!inp.val()) return false;
+
 					var data = { pid: 0, text: inp.val() };
 
 					EventBus.$emit('postComment', data, function( response )
@@ -173,6 +177,7 @@
 							this.comments.unshift(response);
 							//this.$emit('newReply', response);
 							this.$forceUpdate();
+							inp.val('');
 						}
 					}
 					.bind(this));
@@ -182,7 +187,7 @@
 			{
 				EventBus.$on('postComment', function ( data, cb )
 				{
-					data.article_id = 10;
+					data.model_id = MODEL_ID;
 
 					$.post(ENDPOINT, data )
 					  .then( function( response ) { cb(response); })
