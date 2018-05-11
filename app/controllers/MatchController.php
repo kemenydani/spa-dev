@@ -41,31 +41,31 @@ class MatchController extends ViewController
         $params = [];
         $where = "";
         $i = 0;
-        foreach($search as $key => $value)
+
+        if(array_key_exists('name', $search))
         {
-            if(empty($value)) continue;
-            $params[':'. $key] = $value;
-            $where .= $i === 0 ? ' WHERE ' . $key . ' = ? ' : ' AND ' . $key . ' = ? ';
-            $i++;
+            $name = $search['name'];
+            $where = ' WHERE sq.name LIKE :name OR et.name LIKE :name OR cat.name LIKE :name OR cat.name_short LIKE :name';
+            $params['name'] = '%' . $name . '%';
         }
 
-        $q1 = " SELECT SQL_CALC_FOUND_ROWS 
-                m.id, m.date_played, m.date_created, m.featured,
-                sq.logo AS logo_squad, sq.name AS squad_name,
-                et.logo AS logo_enemy, et.name AS enemy_name,
-                cat.name_short AS game_name_short, cat.name AS game_name,
-                COALESCE(SUM(mm.score_home), 0) AS csh,
-                COALESCE(SUM(mm.score_enemy), 0) AS cse,
-                COALESCE(COUNT(mm.id), 0) AS count_maps
-                FROM _xyz_match m
-                LEFT JOIN _xyz_squad      sq  ON sq.id = m.squad_id
-                LEFT JOIN _xyz_enemy_team et  ON et.id = m.enemy_team_id
-                LEFT JOIN _xyz_category   cat ON cat.id = m.game_id
-                LEFT JOIN _xyz_match_map  mm  ON match_id = m.id
-                /*WHERE m.id = 1*/
-                GROUP BY m.id
-                ORDER BY m.date_created DESC
-                LIMIT ".static::INFINITE_LIMIT." OFFSET " . (int)$startAt
+        $q1 = " SELECT SQL_CALC_FOUND_ROWS " .
+              " m.id, m.date_played, m.date_created, m.featured, " .
+              " sq.logo AS logo_squad, sq.name AS squad_name,    " .
+              " et.logo AS logo_enemy, et.name AS enemy_name,    " .
+              " cat.name_short AS game_name_short, cat.name AS game_name, " .
+              " COALESCE(SUM(mm.score_home), 0) AS csh, " .
+              " COALESCE(SUM(mm.score_enemy), 0) AS cse, " .
+              " COALESCE(COUNT(mm.id), 0) AS count_maps " .
+              " FROM _xyz_match m " .
+              " LEFT JOIN _xyz_squad      sq  ON sq.id = m.squad_id " .
+              " LEFT JOIN _xyz_enemy_team et  ON et.id = m.enemy_team_id " .
+              " LEFT JOIN _xyz_category   cat ON cat.id = m.game_id " .
+              " LEFT JOIN _xyz_match_map  mm  ON match_id = m.id " .
+                $where .
+              " GROUP BY m.id " .
+              " ORDER BY m.date_created DESC " .
+              " LIMIT " . static::INFINITE_LIMIT . " OFFSET " . (int)$startAt
         ;
 
         $matches = DB::instance()->getAll($q1, count($params) ? $params : null);
@@ -78,7 +78,11 @@ class MatchController extends ViewController
             $res[$index]['maps'] = [];
 
             foreach(MatchMap::findAll($match['id'], 'match_id') as $map) {
-                $res[$index]['maps'][] = $map->getFormatted(['name']);
+                $res[$index]['maps'][] = $map->getProperties([
+                    'name',
+                    'score_home',
+                    'score_enemy'
+                ]);
             }
         }
 

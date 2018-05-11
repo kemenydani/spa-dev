@@ -2277,16 +2277,59 @@ footer#main-footer {
     background: white;
     min-height: 50px;
     margin-bottom: 15px;
-    padding: 15px;
-    border-bottom: 10px solid #dbdbdb;
     color: #454545; }
     #route-view-match-list .container.match-list-container article.match .inline-info {
-      display: flex; }
+      display: flex;
+      align-items: center;
+      align-content: center;
+      cursor: pointer;
+      padding: 15px; }
       #route-view-match-list .container.match-list-container article.match .inline-info .left {
-        flex: 1; }
+        flex: 1;
+        display: flex;
+        align-items: center;
+        align-content: center; }
+      #route-view-match-list .container.match-list-container article.match .inline-info .game {
+        background: #454545;
+        color: white;
+        margin-right: 7px;
+        text-align: center;
+        min-width: 50px;
+        max-width: 50px;
+        min-height: 20px;
+        max-height: 20px;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        width: 50px;
+        overflow: hidden;
+        text-transform: uppercase;
+        border-radius: 1px;
+        font-size: 10px;
+        font-weight: 400; }
+      #route-view-match-list .container.match-list-container article.match .inline-info .score {
+        align-self: flex-end;
+        font-weight: bold;
+        color: #f6a00c; }
     #route-view-match-list .container.match-list-container article.match .block-info {
       display: none;
-      overflow: hidden; }
+      overflow: hidden;
+      background: #626262;
+      padding: 0px 15px 0 15px; }
+      #route-view-match-list .container.match-list-container article.match .block-info .map {
+        height: 40px;
+        line-height: 40px;
+        border-bottom: 1px solid #454545;
+        display: flex;
+        color: #dbdbdb; }
+        #route-view-match-list .container.match-list-container article.match .block-info .map .score {
+          font-weight: bold;
+          color: #f6a00c; }
+        #route-view-match-list .container.match-list-container article.match .block-info .map .left {
+          flex: 1; }
+        #route-view-match-list .container.match-list-container article.match .block-info .map:last-child {
+          border: none; }
   #route-view-match-list .container.match-list-container .loading-matches {
     text-align: center;
     padding-bottom: 40px;

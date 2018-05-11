@@ -49,23 +49,74 @@
       background: $light;
       min-height: 50px;
       margin-bottom: 15px;
-      padding: 15px;
-      border-bottom: 10px solid $lightgrey;
+      //border-bottom: 10px solid $lightgrey;
       color: $darkergrey;
 
       .inline-info {
         display: flex;
-
+        align-items: center;
+        align-content: center;
+        cursor: pointer;
+        padding: 15px;
         .left {
           flex: 1;
+          display: flex;
+          align-items: center;
+          align-content: center;
         }
         .right {
 
+        }
+        .game {
+          background: $darkergrey;
+          color: $light;
+          margin-right: 7px;
+          text-align: center;
+          min-width: 50px;
+          max-width: 50px;
+          min-height: 20px;
+          max-height: 20px;
+          display: flex;
+          justify-content: center;
+          align-content: center;
+          align-items: center;
+          width: 50px;
+          overflow: hidden;
+          text-transform: uppercase;
+          border-radius: 1px;
+          font-size: 10px;
+          font-weight: 400;
+        }
+        .score {
+          align-self: flex-end;
+          //font-size: 16px;
+          font-weight: bold;
+          color: $primary;
         }
       }
       .block-info {
         display: none;
         overflow: hidden;
+        background: $darkgrey;
+        padding: 0px 15px 0 15px;
+
+        .map {
+          height: 40px;
+          line-height: 40px;
+          border-bottom: 1px solid $darkergrey;
+          display: flex;
+          color: $lightgrey;
+          .name {}
+          .score {
+            font-weight: bold;
+            color: $primary;
+          }
+          .left { flex: 1; }
+          .right {}
+          &:last-child {
+            border: none;
+          }
+        }
       }
     }
     .loading-matches {

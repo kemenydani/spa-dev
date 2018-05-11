@@ -8,7 +8,7 @@
             <div class="search-match">
                 <div class="info">Loaded {{ models.length }} from total {{ total }} matches</div>
                 <div class="form">
-					<input v-on:keyup.enter="search()" v-model="searchParams.title" placeholder="Search" type="text">
+					<input v-on:keyup.enter="search()" v-model="searchParams.name" placeholder="Search for squad, game, or enemy team" type="text">
 					<button v-on:click="search()">SEARCH</button>
                 </div>
             </div>
@@ -20,12 +20,26 @@
                           <span class="enemy-name">{{ match.enemy_name }}</span>
                       </div>
                       <div class="right">
-                          <span class="score-home">{{ match.csh}}</span>
-                          <span class="score-enemy">{{ match.cse }}</span>
+                          <span class="score">
+                              <span class="score-home">{{ match.csh}}</span>
+                               :
+                              <span class="score-enemy">{{ match.cse }}</span>
+                          </span>
                       </div>
                   </section>
                   <section class="block-info">
-                    foo
+                    <div class="map" v-for="(map, key) in match.maps" v-bind:key="key">
+                      <div class="left">
+                          <span class="name">{{ map.name }}</span>
+                      </div>
+                      <div class="right">
+                          <span class="score">
+                              <span class="score_home">{{ map.score_home }}</span>
+                               :
+                              <span class="score_enemy">{{ map.score_enemy }}</span>
+                          </span>
+                      </div>
+                    </span>
                   </section>
             </article>
             <div v-if="loading" class="loading-matches">
@@ -61,7 +75,7 @@
                     startAt: parseInt(LIMIT),
                     loading: false,
                     searchParams : {
-                        game: null
+                        name: null
                     }
                 }
             },
