@@ -1,18 +1,14 @@
+
 <footer id="main-footer">
     <!-- row -->
-    <div style="display: none" class="container-full footer-sponsors-container-full">
+    <div class="container-full footer-sponsors-container-full">
         {% include 'widget.sponsor.inline.html.twig'
             with {
-            items: {
-                'corsair'      : '',
-                'razer'        : '',
-                'steelseries'  : '',
-                'thermaltake'  : '',
-            },
+            collection: partnersBot,
             limit: 4,
             class: 'widget-sponsor-footer'
         }
-            only
+        only
         %}
     </div>
     <!-- row -->

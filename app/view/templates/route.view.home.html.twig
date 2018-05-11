@@ -4,15 +4,10 @@
     <div class="container-full top-sponsors-container-full">
         {% include 'widget.sponsor.inline.html.twig'
             with {
-            items: {
-                'corsair'      : '',
-                'steelseries'  : '',
-                'corsair2'      : '',
-                'steelseries2'  : '',
-            },
-            limit: 4,
-            class: 'widget-sponsor-top'
-        }
+                collection: partnersTop,
+                limit: 4,
+                class: 'widget-sponsor-top'
+            }
             only
         %}
     </div>
@@ -21,7 +16,6 @@
             {% include 'widget.top.articles.html.twig' with { articles : articles.hl } %}
         </section>
     </div>
-
     <div class="container-full article-container-full">
         <section class="container article-container">
             <div class="home-section-header">
@@ -43,7 +37,6 @@
             </div>
         </section>
     </div>
-
     <div class="container-full match-container-full">
         <div class="home-section-header">
             ACTIVITY
@@ -71,7 +64,18 @@
                         </div>
                         <ul>
                             {% for match in topMatches.getModels()|slice(0) %}
-                                <li>{{ match.getId() }}</li>
+                                <li>
+                                    <span class="game">{{ match.getGame().getNameShort() }}</span>
+                                    <span class="team">
+                                        <span class="vs">vs.</span>
+                                        <span class="enemy-name">{{ match.getEnemyTeam().getName() }}</span>
+                                    </span>
+                                    <span class="score">
+                                        <span class="score-home">{{ match.formatTotalHomeScore() }}</span>
+                                        <span class="sep-char">-</span>
+                                        <span class="score-enemy">{{ match.formatTotalEnemyScore() }}</span>
+                                    </span>
+                                </li>
                             {% endfor %}
                         </ul>
                         <div class="match-info" style="display: none">
@@ -131,7 +135,6 @@
             </div>
         </section>
     </div>
-
     <div class="container-full squad-container-full">
         <div class="home-section-header">
             MEET AVENUE
@@ -152,161 +155,4 @@
             </div>
         </section>
     </div>
-
-    <!--
-    <div class="container-full top-sponsor-row">
-        {% include 'widget.sponsor.inline.html.twig'
-            with {
-            items: {
-                'corsair'      : 'https://cdn.worldvectorlogo.com/logos/corsair-2.svg',
-                'razer'        : 'https://seeklogo.com/images/R/razer-logo-B4E375B409-seeklogo.com.png',
-                'steelseries'  : 'http://cerebral-overload.com/wp-content/uploads/2017/11/Steelseries-Logo.png',
-            },
-            limit: null,
-            class: 'widget-sponsor-top'
-        }
-            only
-        %}
-    </div>
-    <div class="container-full">
-        <div class="container">
-            <article class="widget-featured-news">
-                <div class="box article-hl-box box-shadow box-background box-rect">
-                    <div
-                        class="box-head-image"
-                        style="background-image: url({{ articles.hl[0].headline_image }})"></div>
-
-                    <div class="box-body">
-                        <h1 class="box-title">{{ articles.hl[0].title }}</h1>
-                        <p>{{ articles.hl[0].teaser }}</p>
-                    </div>
-                </div>
-                {% if articles.hl[1] %}
-                <div class="box article-hl-box box-shadow box-background box-square">
-                    <div
-                    class="box-head-image"
-                    style="background-image: url({{ articles.hl[1].headline_image }})"></div>
-
-                    <div class="box-body">
-                        <h2 class="box-title">{{ articles.hl[1].title }}</h2>
-                        <p>{{ articles.hl[1].teaser }}</p>
-                    </div>
-                </div>
-                {% endif %}
-            </article>
-        </div>
-    </div>
-    <div class="container-full" style="background: black">
-        <div class="container hp-second-row">
-            <article class="widget-last-news">
-                {% for lastArticle in articles.lt %}
-
-                    <div class="box article-lt-box box-shadow box-background box-rect">
-                        <div class="box-body">
-                            <h1 class="box-title">{{ lastArticle.title }}</h1>
-                            <p>{{ lastArticle.teaser }}</p>
-                        </div>
-                    </div>
-
-                {% endfor %}
-            </article>
-            <div class="box featured-content-box box-shadow box-background box-square">
-                <div class="box-body">
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-full home-match-container-full" id="home-match-container-full">
-        <div class="container match-event-container">
-            <div class="widget-group">
-                <div class="widget top-match">
-                    <div class="widget-title">
-                        <h2>TOP MATCH</h2>
-                    </div>
-                    {% set tm = topMatches.first() %}
-                    <div class="widget-body">
-                        <div class="match-info">
-                            <h2 class="event-name">{{ tm.getEvent().getName() }}</h2>
-                            <span class="date"></span>
-                            <span class="game">{{ tm.getGame().getName() }}</span>
-                        </div>
-                        <div class="result-holder">
-                            <div class="team-logo-holder">
-                                <div class="team-logo" style="background-image: url({{ tm.getSquad().requestLogo() }})"></div>
-                            </div>
-                            <div class="result">
-                                <span class="score-num">{{ tm.formatTotalHomeScore() }}</span>
-                                <span class="spacer">-</span>
-                                <span class="score-num">{{ tm.formatTotalEnemyScore() }}</span>
-                            </div>
-                            <div class="team-logo-holder">
-                                <div class="team-logo" style="background-image: url({{ tm.getEnemyTeam().requestLogo() }})"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="widget last-matches">
-                    <div class="widget-title">
-                        <h2>MATCHES</h2>
-                    </div>
-                    <div class="widget-body">
-                        <ul>
-                            {% for mk, match in matches.getModels() %}
-                                <li>
-                                    <span class="game">{{ match.getGame().getNameShort() }}</span>
-                                    <span class="team">
-                                        <span class="vs">vs.</span>
-                                        <span class="enemy-name">{{ match.getEnemyTeam().getName() }}</span>
-                                    </span>
-                                    <span class="score">
-                                        <span class="score-home">{{ match.formatTotalHomeScore() }}</span>
-                                        <span class="sep-char">-</span>
-                                        <span class="score-enemy">{{ match.formatTotalEnemyScore() }}</span>
-                                    </span>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-                <div class="widget event-list">
-                    <div class="widget-title">
-                        <h2>EVENTS</h2>
-                    </div>
-                    <div class="widget-body">
-                        <ul class="widget-body">
-
-                            {% for ek, event in ltEvents.getModels() %}
-                                <li>
-                                    <span class="event-name">{{ event.getName()}}</span>
-                                    <span class="event-date">{{ event.getStartDate()|date('d M Y')}}</span>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-full" id="featured-squad-full-container">
-    <div class="container">
-        {% set squad = squads.first() %}
-        <article class="squad" style="background-image: url({{ squad.requestHomeWallpaper() }})">
-            <div class="squad-game">
-                <a href="/squad/{{ squad.getName() }}"><h1>{{ squad.getName() }}</h1></a>
-            </div>
-            <div class="players">
-                {% for pk, member in squad.getMembers() %}
-                    <div class="player" style="background-image: url({{ member.requestHomeAvatar() }})">
-                        <a href="/profile/{{ member.getUser().getUserName() }}" class="nameplate">{{ member.formatName() }}</a>
-                    </div>
-                {% endfor %}
-            </div>
-        </article>
-    </div>
-    </div>
-
-    -->
 {% endblock %}

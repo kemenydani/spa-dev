@@ -1,11 +1,14 @@
 
-{% set limit = ( limit ? limit : 3 ) %}
+{% set limit = ( limit ? limit : 4 ) %}
 
 <article class="container sponsor-inline-container {{ class }}">
 
-    {% for key,item in items if limit > 0 %}
+    {% for key,partner in collection.getModels() if limit > 0 %}
 
-        <figure class="sponsor sponsor-{{ key }}" title="{{ key }}" style="background-image: url('{{ item }}')"></figure>
+        <figure class="sponsor sponsor-{{ key }}"
+                title="{{ key }}"
+                style="background-image: url('{{ partner.requestLogo() }}')">
+        </figure>
 
         {% set limit = limit - 1 %}
 

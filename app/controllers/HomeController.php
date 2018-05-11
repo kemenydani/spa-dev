@@ -2,19 +2,14 @@
 
 namespace controllers;
 
-use models\MatchMap;
 use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-
-use core\DB as DB;
-
-use models\Article as Article;
-use models\Match as Match;
 
 use models\ArticleCollection;
 use models\SquadCollection;
 use models\MatchCollection;
 use models\EventCollection;
+use models\PartnerCollection;
 
 class HomeController extends ViewController
 {
@@ -63,6 +58,21 @@ class HomeController extends ViewController
 
         $ltEvents = EventCollection::queryToCollection($q6);
 
+        $q7 = " SELECT * FROM _xyz_partner pt " .
+              " WHERE featured_top = ? "        .
+              " ORDER BY pt.id ASC"             .
+              " LIMIT 4 "
+        ;
+
+        $q8 = " SELECT * FROM _xyz_partner pt " .
+              " WHERE featured_bottom = ? "     .
+              " ORDER BY pt.id DESC "           .
+              " LIMIT 4 "
+        ;
+
+        $partnersTop = PartnerCollection::queryToCollection($q7, true);
+        $partnersBot = PartnerCollection::queryToCollection($q8, true);
+        
         $this->view->render($response, 'route.view.home.html.twig', [
             'articles' => [
                 'hl' => $hlArticles,
@@ -71,7 +81,9 @@ class HomeController extends ViewController
             'ltEvents' => $ltEvents,
             'topMatches' => $topMatches,
             'matches' => $ltMatches,
-	        'squads' => $squadCollection
+	        'squads' => $squadCollection,
+            'partnersTop' => $partnersTop,
+            'partnersBot' => $partnersBot
         ]);
     }
 }
