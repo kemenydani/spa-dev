@@ -1,15 +1,127 @@
 {% extends 'block.full.html.twig' %}
 
 {% block content %}
-    <div class="container-full" id="route-view-gallery-list">
-        <div class="container gallery-list-container">
-            <div class="gallery-list">
-            {% for gk, gallery in galleries.getModels() %}
-                <div class="gallery">
-                     <h1><a style="color: red" href="/gallery/{{ gallery.getName() }}">{{ gallery.getName() }}</a></h1>
+    <div class="container-full" id="route-view-match-list">
+        {% verbatim %}
+
+        <div class="container match-list-container" id="match-list">
+            <div class="search-match">
+                <div class="info">Loaded {{ models.length }} from total {{ total }} matches</div>
+                <div class="form">
+					<input v-on:keyup.enter="search()" v-model="searchParams.title" placeholder="Search" type="text">
+					<button v-on:click="search()">SEARCH</button>
                 </div>
-            {% endfor %}
             </div>
+            <article v-for="(match, key) in models" v-bind:key="key" class="match">
+                  <section class="inline-info">
+                      <div class="left">
+                          <span class="game">{{ match.game_name_short }}</span>
+                          <span class="vs"> vs. </span>
+                          <span class="enemy-name">{{ match.enemy_name }}</span>
+                      </div>
+                      <div class="right">
+                          <span class="score-home">{{ match.csh}}</span>
+                          <span class="score-enemy">{{ match.cse }}</span>
+                      </div>
+                  </section>
+                  <section class="block-info">
+                    foo
+                  </section>
+            </article>
+            <div v-if="loading" class="loading-matches">
+              <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
+			</div>
         </div>
+        {% endverbatim %}
+
     </div>
+
+    <script type="text/javascript">
+
+    $(document).ready(function()
+    {
+        $('article.match > .inline-info').on('click', function( event )
+        {
+            $(event.currentTarget).parent().find('.block-info').slideToggle("fast");
+        });
+    });
+
+    (function($, Vue){
+
+         var DATA = {% autoescape false %}{{ matches }}{% endautoescape %};
+         var LIMIT = {% autoescape false %}{{ limit }}{% endautoescape %};
+
+         new Vue({
+            el: '#match-list',
+            data: function () {
+                return {
+                    models: DATA.matches,
+                    total: parseInt(DATA.total),
+                    limit: parseInt(LIMIT),
+                    startAt: parseInt(LIMIT),
+                    loading: false,
+                    searchParams : {
+                        game: null
+                    }
+                }
+            },
+            methods: {
+                bottomVisible : function()
+                {
+                    var spaceBelow = $(window).height() - $('#match-list')[0].getBoundingClientRect().bottom;
+                    return spaceBelow > -100;
+                },
+                loadArticles: function()
+                {
+                    return $.getJSON("/match/loadInfinity/", { search: this.searchParams, startAt: this.startAt })
+                        .then(function(response){
+                            this.total = parseInt(response.total);
+                            return response.matches;
+                        }
+                        .bind(this));
+                },
+                loadMore : function()
+                {
+                    return this.loadArticles().then(function(matches)
+                    {
+                        $.each(matches, function(i,match){ this.models.push(match); }.bind(this));
+                        this.startAt += this.limit;
+                    }
+                    .bind(this))
+                },
+                search : function()
+                {
+                    this.startAt = 0;
+                    this.total = 0;
+                    this.loadArticles().then(function(matches)
+                    {
+                        this.models = matches;
+                    }
+                    .bind(this))
+                }
+            },
+            created: function()
+            {
+                window.addEventListener('scroll', function()
+                {
+                    if(this.bottomVisible() === true && this.loading === false)
+                    {
+                        if(this.total > this.models.length)
+                        {
+                            this.loading = true;
+                            this.loadMore().then(function()
+                            {
+                                this.loading = false;
+                            }
+                            .bind(this));
+                        }
+                    }
+                }
+                .bind(this));
+            }
+         });
+
+    }(jQuery, Vue));
+
+    </script>
 {% endblock %}

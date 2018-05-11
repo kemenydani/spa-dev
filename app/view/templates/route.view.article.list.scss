@@ -24,7 +24,7 @@
 	  min-height: 100%;
 	  padding-top: 15px;
 
-	  .search-article {
+	  .search-article, .search-match {
 		margin-bottom: 15px;
 		min-width: 100%;
 		display: flex;
@@ -65,14 +65,14 @@
 			}
 		}
 	  }
-	  
-	  article.article
+	  article.match   { min-height: 50px;}
+	  article.article { min-height: 100px;}
+	  article.article, article.match
 	  {
 		background: $light;
 		margin-bottom: 15px;
-		min-height: 100px;
 		padding: 15px;
-		  border-bottom: 10px solid $lightgrey;
+		border-bottom: 10px solid $lightgrey;
 		h2.title {
 		  font-size: 40px;
 		  color: $primary;
@@ -88,7 +88,7 @@
 		}
 	  }
 
-	  .loading-articles
+	  .loading-articles, .loading-matches
 	  {
 		  text-align: center;
 		  padding-bottom: 40px;

@@ -2,21 +2,90 @@
 
 namespace controllers;
 
+use models\MatchMap;
 use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-use models\Match as Match;
-use models\MatchCollection as MatchCollection;
+use models\Match;
+use core\DB;
 
 class MatchController extends ViewController
 {
+    const INFINITE_LIMIT = 6;
+
     public function index ( Request $request, Response $response )
     {
-        $matches = new MatchCollection(Match::getAll());
+        $data  = $this->getMore();
 
-        $this->view->render($response, 'route.view.match.list.html.twig', ['matches' => $matches]);
+        $this->view->render($response, 'route.view.match.list.html.twig',
+            [
+                'matches' => json_encode($data),
+                'limit' => static::INFINITE_LIMIT
+            ]
+        );
     }
-    
+
+    public function getLoadInfinite( Request $request, Response $response )
+    {
+        $search = $request->getQueryParam('search');
+        $startAt = $request->getQueryParam('startAt') ? $request->getQueryParam('startAt') : 0;
+
+        $data = $this->getMore($search, $startAt);
+
+        return $response->withStatus(200)->withJson($data);
+
+    }
+
+    protected function getMore($search = [], $startAt = 0)
+    {
+        $params = [];
+        $where = "";
+        $i = 0;
+        foreach($search as $key => $value)
+        {
+            if(empty($value)) continue;
+            $params[':'. $key] = $value;
+            $where .= $i === 0 ? ' WHERE ' . $key . ' = ? ' : ' AND ' . $key . ' = ? ';
+            $i++;
+        }
+
+        $q1 = " SELECT SQL_CALC_FOUND_ROWS 
+                m.id, m.date_played, m.date_created, m.featured,
+                sq.logo AS logo_squad, sq.name AS squad_name,
+                et.logo AS logo_enemy, et.name AS enemy_name,
+                cat.name_short AS game_name_short, cat.name AS game_name,
+                COALESCE(SUM(mm.score_home), 0) AS csh,
+                COALESCE(SUM(mm.score_enemy), 0) AS cse,
+                COALESCE(COUNT(mm.id), 0) AS count_maps
+                FROM _xyz_match m
+                LEFT JOIN _xyz_squad      sq  ON sq.id = m.squad_id
+                LEFT JOIN _xyz_enemy_team et  ON et.id = m.enemy_team_id
+                LEFT JOIN _xyz_category   cat ON cat.id = m.game_id
+                LEFT JOIN _xyz_match_map  mm  ON match_id = m.id
+                /*WHERE m.id = 1*/
+                GROUP BY m.id
+                ORDER BY m.date_created DESC
+                LIMIT ".static::INFINITE_LIMIT." OFFSET " . (int)$startAt
+        ;
+
+        $matches = DB::instance()->getAll($q1, count($params) ? $params : null);
+        $total = DB::instance()->totalRowCount();
+        $res = [];
+
+        foreach($matches as $index => $match)
+        {
+            $res[$index] = $match;
+            $res[$index]['maps'] = [];
+
+            foreach(MatchMap::findAll($match['id'], 'match_id') as $map) {
+                $res[$index]['maps'][] = $map->getFormatted(['name']);
+            }
+        }
+
+
+        return ['matches' => $res, 'total' => $total];
+    }
+
     public function getViewMatch( Request $request, Response $response, $args )
     {
         $match = Match::find($args['name'], 'name');
