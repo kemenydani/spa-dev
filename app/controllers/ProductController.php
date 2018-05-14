@@ -47,11 +47,11 @@ class ProductController extends ViewController
 			" LIMIT ".static::INFINITE_LIMIT." OFFSET " . (int)$startAt
 		;
 		
-		$articles = (ProductCollection::queryToCollection($q1, $params))->getFormatted();
+		$products = (ProductCollection::queryToCollection($q1, $params))->getFormatted();
 		
 		$total = DB::instance()->totalRowCount();
 		
-		return ['models' => $articles, 'total' => $total];
+		return ['models' => $products , 'total' => $total];
 	}
     
     public function getViewProduct( Request $request, Response $response, $args )

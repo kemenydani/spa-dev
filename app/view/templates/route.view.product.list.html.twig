@@ -6,7 +6,7 @@
 
         <div class="container product-list-container" id="product-list">
             <div class="search-product">
-                <div class="info">Loaded {{ models.length }} from total {{ total }} productes</div>
+                <div class="info">Loaded {{ models.length }} from total {{ total }} products</div>
                 <div class="form">
 					<input v-on:keyup.enter="search()" v-model="searchParams.name" placeholder="Search for squad, game, or enemy team" type="text">
 					<button v-on:click="search()">SEARCH</button>
@@ -42,7 +42,8 @@
                     </span>
                   </section>
             </article>
-            <div v-if="loading" class="loading-productes">
+
+            <div v-if="loading" class="loading-products">
               <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
 			</div>
         </div>
@@ -54,14 +55,14 @@
 
         (function($, Vue){
 
-            var DATA = {% autoescape false %}{{ productes }}{% endautoescape %};
+            var DATA = {% autoescape false %}{{ products}}{% endautoescape %};
             var LIMIT = {% autoescape false %}{{ limit }}{% endautoescape %};
 
             new Vue({
                 el: '#product-list',
                 data: function () {
                     return {
-                        models: DATA.productes,
+                        models: DATA.products,
                         total: parseInt(DATA.total),
                         limit: parseInt(LIMIT),
                         startAt: parseInt(LIMIT),
@@ -86,15 +87,15 @@
                         return $.getJSON("/product/loadInfinity/", { search: this.searchParams, startAt: this.startAt })
                             .then(function(response){
                                 this.total = parseInt(response.total);
-                                return response.productes;
+                                return response.products;
                             }
                                 .bind(this));
                     },
                     loadMore : function()
                     {
-                        return this.loadArticles().then(function(productes)
+                        return this.loadArticles().then(function(products)
                         {
-                            $.each(productes, function(i,product){ this.models.push(product); }.bind(this));
+                            $.each(products, function(i,product){ this.models.push(product); }.bind(this));
                             this.startAt += this.limit;
                         }
                             .bind(this))
@@ -103,9 +104,9 @@
                     {
                         this.startAt = 0;
                         this.total = 0;
-                        this.loadArticles().then(function(productes)
+                        this.loadArticles().then(function(products)
                         {
-                            this.models = productes;
+                            this.models = products;
                         }
                             .bind(this))
                     }
