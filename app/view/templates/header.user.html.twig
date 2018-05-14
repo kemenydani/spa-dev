@@ -4,7 +4,7 @@
                 <a href="/profile/{{ AuthUser.getUsername() }}" class="username">{{ AuthUser.getUsername() }}</a>
                 <div class="logout"><a href="/logout">logout</a></div>
         </div>
-        <a href="/profile/{{ AuthUser.getUsername() }}" class="user-picture my-user-picture" style="background-image: url({{ AuthUser.getProfilePicture() }})"></a>
+        <a href="/profile/{{ AuthUser.getUsername() }}" class="user-picture my-user-picture" style="background-image: url({{ AuthUser.requestProfilePicture() }})"></a>
     {% else %}
         <button class="signup"><a href="/auth"></a></button>
     {% endif %}

@@ -11,12 +11,12 @@ class CommentCollection extends ModelCollection
         parent::__construct(self::parseModels($models, Comment::class));
     }
 
-    public function toTree()
+    public static function toTree(array $comments)
     {
-        $comments = $this->getPropertiesWithUserProps();
 
         foreach ($comments as $k => &$v)
         {
+            $v['profile_picture'] = User::getProfilePictureUrl($v['profile_picture']);
             if ($v['pid'] != 0)
             {
                 if(!array_key_exists('ch', $comments[$v['pid']])) $comments[$v['pid']]['ch'] = array();

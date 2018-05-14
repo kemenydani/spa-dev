@@ -79,6 +79,11 @@ class User extends Model {
 		return '/userProfilePicture/' . $this->getProfilePicture();
 	}
 
+	public static function getProfilePictureUrl($id)
+    {
+        return'/userProfilePicture/' . $id;
+    }
+
     public function logout()
     {
         Session::delete('userId');

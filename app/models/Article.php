@@ -86,19 +86,17 @@ class Article extends Model
     {
         $id = $this->getId();
 
-        $stmt = " SELECT c.*, c.id as id FROM _xyz_article_comment_pivot acp" .
-                " LEFT JOIN _xyz_comment c " .
-                " ON c.id = acp.comment_id " .
-                " WHERE acp.article_id = $id"
+        $stmt = " SELECT c.*, c.id as id, u.username, u.profile_picture FROM _xyz_article_comment_pivot acp " .
+                " LEFT JOIN _xyz_comment c ON c.id = acp.comment_id " .
+                " LEFT JOIN _xyz_user u ON u.id = c.user_id " .
+                " WHERE acp.article_id = $id "
         ;
 
         $sql = DB::instance()->query( $stmt );
 
         $rows = $sql->fetchAll(\PDO::FETCH_UNIQUE|\PDO::FETCH_ASSOC );
-        
-        $CommentCollection = (new CommentCollection($rows));
 
-        $result = $CommentCollection->toTree();
+        $result = CommentCollection::toTree( $rows  );
 
         return $result;
     }

@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+use core\Auth;
 use models\ArticleCollection as ArticleCollection;;
 use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
@@ -80,7 +81,7 @@ class ArticleController extends ViewController
 
         if(!$Article) return $response->withStatus(404, 'Article not found');
 
-        $User = User::find(1);
+        $User = Auth::user();
 
         $formData['user_id'] = $User->getProperty('id');
 
@@ -88,14 +89,11 @@ class ArticleController extends ViewController
 
         $result = [];
 
-        if( $Comment->getProperty('id') )
-        {
-            $result = $Comment->getProperties();
-            $result['username'] = $User->getProperty('username');
-            $result['profile_picture'] = $User->getProfilePicture();
-        }
+        $data = $Comment->getProperties();
+        $data['username'] = $User->getUsername();
+        $data['profile_picture'] = $User->requestProfilePicture();
 
-        return $response->withJson( $result );
+        return $response->withJson( $data );
     }
 
     public function read ( Request $request, Response $response, $args )
