@@ -7,6 +7,7 @@ namespace controllers;
 use core\Auth;
 use Intervention\Image\ImageManager as ImageManager;
 
+use models\UserProfile;
 use \Slim\Http\Request as Request;
 use \Slim\Http\Response as Response;
 
@@ -20,9 +21,9 @@ class UserController extends ViewController
     {
         $user = User::find($args['username'], 'username');
 
-        //if($user) $user = $user->getFormatted(User::PUBLIC_DATASET);
+        $profile = UserProfile::find($user->getId(), 'user_id');
 
-        $this->view->render($response, 'route.view.user.profile.html.twig', ['user' => $user]);
+        $this->view->render($response, 'route.view.user.profile.html.twig', ['user' => $user, 'profile' => $profile]);
     }
 
     public function uploadPicture ( Request $request, Response $response, $args )

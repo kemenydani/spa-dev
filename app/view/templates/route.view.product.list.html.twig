@@ -1,11 +1,137 @@
 {% extends 'block.full.html.twig' %}
 
 {% block content %}
+    <div class="container-full" id="route-view-product-list">
+        {% verbatim %}
 
-    <div class="container-full " id="route-view-product-list">
         <div class="container product-list-container" id="product-list">
-            product list
+            <div class="search-product">
+                <div class="info">Loaded {{ models.length }} from total {{ total }} productes</div>
+                <div class="form">
+					<input v-on:keyup.enter="search()" v-model="searchParams.name" placeholder="Search for squad, game, or enemy team" type="text">
+					<button v-on:click="search()">SEARCH</button>
+                </div>
+            </div>
+            <article v-for="(product, key) in models" v-bind:key="key" class="product">
+                  <section v-on:click="toggleproductInfo" class="inline-info">
+                      <div class="left">
+                          <span class="game">{{ product.game_name_short }}</span>
+                          <span class="vs"> vs. </span>
+                          <span class="enemy-name">{{ product.enemy_name }}</span>
+                      </div>
+                      <div class="right">
+                          <span class="score">
+                              <span class="score-home">{{ product.csh}}</span>
+                               :
+                              <span class="score-enemy">{{ product.cse }}</span>
+                          </span>
+                      </div>
+                  </section>
+                  <section class="block-info">
+                    <div class="map" v-for="(map, key) in product.maps" v-bind:key="key">
+                      <div class="left">
+                          <span class="name">{{ map.name }}</span>
+                      </div>
+                      <div class="right">
+                          <span class="score">
+                              <span class="score_home">{{ map.score_home }}</span>
+                               :
+                              <span class="score_enemy">{{ map.score_enemy }}</span>
+                          </span>
+                      </div>
+                    </span>
+                  </section>
+            </article>
+            <div v-if="loading" class="loading-productes">
+              <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
+			</div>
         </div>
+        {% endverbatim %}
+
     </div>
 
+    <script type="text/javascript">
+
+        (function($, Vue){
+
+            var DATA = {% autoescape false %}{{ productes }}{% endautoescape %};
+            var LIMIT = {% autoescape false %}{{ limit }}{% endautoescape %};
+
+            new Vue({
+                el: '#product-list',
+                data: function () {
+                    return {
+                        models: DATA.productes,
+                        total: parseInt(DATA.total),
+                        limit: parseInt(LIMIT),
+                        startAt: parseInt(LIMIT),
+                        loading: false,
+                        searchParams : {
+                            name: null
+                        }
+                    }
+                },
+                methods: {
+                    toggleproductInfo : function( event )
+                    {
+                        $(event.currentTarget).parent().find('.block-info').slideToggle("fast");
+                    },
+                    bottomVisible : function()
+                    {
+                        var spaceBelow = $(window).height() - $('#product-list')[0].getBoundingClientRect().bottom;
+                        return spaceBelow > -100;
+                    },
+                    loadArticles: function()
+                    {
+                        return $.getJSON("/product/loadInfinity/", { search: this.searchParams, startAt: this.startAt })
+                            .then(function(response){
+                                this.total = parseInt(response.total);
+                                return response.productes;
+                            }
+                                .bind(this));
+                    },
+                    loadMore : function()
+                    {
+                        return this.loadArticles().then(function(productes)
+                        {
+                            $.each(productes, function(i,product){ this.models.push(product); }.bind(this));
+                            this.startAt += this.limit;
+                        }
+                            .bind(this))
+                    },
+                    search : function()
+                    {
+                        this.startAt = 0;
+                        this.total = 0;
+                        this.loadArticles().then(function(productes)
+                        {
+                            this.models = productes;
+                        }
+                            .bind(this))
+                    }
+                },
+                created: function()
+                {
+                    window.addEventListener('scroll', function()
+                    {
+                        if(this.bottomVisible() === true && this.loading === false)
+                        {
+                            if(this.total > this.models.length)
+                            {
+                                this.loading = true;
+                                this.loadMore().then(function()
+                                {
+                                    this.loading = false;
+                                }
+                                    .bind(this));
+                            }
+                        }
+                    }
+                        .bind(this));
+                },
+            });
+
+        }(jQuery, Vue));
+
+    </script>
 {% endblock %}
