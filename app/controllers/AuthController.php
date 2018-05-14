@@ -93,7 +93,7 @@ class AuthController extends ViewController
         $User = User::create([
             'username' => $username,
             'email' => $email,
-            'password' => $password
+            'password' => password_hash($password, PASSWORD_BCRYPT)
         ]);
 
         $User->save();

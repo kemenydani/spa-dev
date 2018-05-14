@@ -90,30 +90,31 @@ class User extends Model {
         Cookie::delete('user');
     }
 
-    public function login($password, $remember = false)
+    public function login($password = null, $remember = false)
     {
         if($password)
         {
-            // TODO: do proper validation
-            if($this->getPassword() === $password)
+            if(password_verify($password, $this->getProperty('password')))
             {
                 if($remember)
                 {
                     $remember_token = Hash::unique();
 
-                    if(!$this->getRememberToken())
+                    if(!$this->getProperty('remember_token'))
                     {
-                        $this->setRememberToken($remember_token);
+                        $this->setProperty('remember_token', $remember_token);
                         $this->save();
                     }
                     else
                     {
-                        $remember_token = $this->getRememberToken();
+                        $remember_token = $this->getProperty('remember_token');
                     }
                     Cookie::put('user', $remember_token, 604800);
                 }
-                Session::put('userId', $this->getId());
+                Session::put('userId', $this->getProperty('id'));
                 return true;
+            } else {
+                // invalid password
             }
         }
         return false;

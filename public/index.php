@@ -18,6 +18,7 @@ define('__HOST__', $_SERVER['HTTP_HOST']);
 
 if( __DEBUG__ ) error_reporting(E_ALL);
 
+
 require_once __ROOT__   . '/vendor/autoload.php';
 require_once __APPDIR__ . '/assets/helpers.php';
 require_once __APPDIR__ . '/assets/db_config.php';
