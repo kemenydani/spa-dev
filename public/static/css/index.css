@@ -2062,6 +2062,64 @@ footer#main-footer {
       max-width: 100% !important;
       min-width: 100% !important; } }
 
+#route-view-product-list .container.product-list-container {
+  min-height: 100%;
+  padding-top: 15px; }
+  #route-view-product-list .container.product-list-container .search-product {
+    margin-bottom: 15px;
+    min-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid red; }
+    #route-view-product-list .container.product-list-container .search-product .info {
+      border: 1px solid red;
+      text-align: left;
+      background: #f6a00c;
+      color: white;
+      padding-left: 15px;
+      padding-right: 15px;
+      font-family: 'Noto Sans', sans-serif; }
+    #route-view-product-list .container.product-list-container .search-product .form {
+      height: 100%;
+      position: relative;
+      width: calc(50%);
+      display: flex;
+      justify-content: flex-end; }
+      #route-view-product-list .container.product-list-container .search-product .form > * {
+        height: 100%; }
+      #route-view-product-list .container.product-list-container .search-product .form input {
+        background: white;
+        margin-right: 15px;
+        font-size: 16px;
+        padding-left: 10px;
+        flex: 1; }
+      #route-view-product-list .container.product-list-container .search-product .form button {
+        border: none;
+        background: #f6a00c;
+        color: white;
+        font-weight: bold;
+        padding-left: 15px;
+        padding-right: 15px;
+        width: 100px; }
+  #route-view-product-list .container.product-list-container article.product {
+    background: white;
+    min-height: 50px;
+    margin-bottom: 15px;
+    color: #454545; }
+  #route-view-product-list .container.product-list-container .loading-products {
+    text-align: center;
+    padding-bottom: 40px;
+    padding-top: 20px;
+    overflow: hidden; }
+
+@media only screen and (max-width: 767px) {
+  #route-view-product-list .container.product-list-container .info {
+    display: none; }
+  #route-view-product-list .container.product-list-container .form {
+    min-width: 100%; } }
 #route-view-product-view {
   overflow: visible;
   position: relative; }
