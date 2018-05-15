@@ -9,13 +9,22 @@ use models\Product as Product;
 use core\Session as Session;
 use models\ProductCollection as ProductCollection;
 
+use core\DB;
+
 class ProductController extends ViewController
 {
 	const INFINITE_LIMIT = 2;
-	
+
     public function index ( Request $request, Response $response )
     {
-        $this->view->render($response, 'route.view.product.list.html.twig', ['products' => []]);
+        $data  = $this->getMore();
+
+        $this->view->render($response, 'route.view.product.list.html.twig',
+            [
+                'products' => json_encode($data),
+                'limit' => static::INFINITE_LIMIT
+            ]
+        );
     }
 	
 	public function getLoadInfinite( Request $request, Response $response )

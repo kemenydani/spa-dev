@@ -1,0 +1,76 @@
+
+#route-view-product-list {
+
+
+  .container.product-list-container
+  {
+    min-height: 100%;
+    padding-top: 15px;
+    .search-product {
+      margin-bottom: 15px;
+      min-width: 100%;
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      height: 40px;
+      line-height: 40px;
+      border: 1px solid red;
+      .info {
+        text-align: left;
+        background: $primary;
+        color: $light;
+        padding-left: 15px;
+        padding-right: 15px;
+        font-family: 'Noto Sans', sans-serif;
+      }
+      .form {
+        height: 100%;
+        position: relative;
+        width: calc(50%);
+        display: flex;
+        justify-content: flex-end;
+        > * { height: 100%; }
+        input {
+          background: $light;
+          margin-right: 15px;
+          font-size: 16px;
+          padding-left: 10px;
+          flex: 1;
+        }
+        button {
+          border: none;
+          background: $primary;
+          color: $light;
+          font-weight: bold;
+          padding-left: 15px;
+          padding-right: 15px;
+          width: 100px;
+        }
+      }
+    }
+    article.product {
+      background: $light;
+      min-height: 50px;
+      margin-bottom: 15px;
+      //border-bottom: 10px solid $lightgrey;
+      color: $darkergrey;
+    }
+    .loading-products {
+      text-align: center;
+      padding-bottom: 40px;
+      padding-top: 20px;
+      overflow: hidden;
+    }
+  }
+}
+
+@include mq('tablet', 'max') {
+  #route-view-product-list .container.product-list-container {
+    .info {
+      display: none;
+    }
+    .form {
+      min-width: 100%;
+    }
+  }
+}
