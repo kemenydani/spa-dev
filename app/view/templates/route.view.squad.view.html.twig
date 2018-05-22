@@ -12,7 +12,8 @@
     <div class="container member-list-container" id="member-list">
         {% for mk, member in squad.getMembers() %}
             <article class="member">
-                {{ member.formatName() }}
+                <div class="avatar" style="background-image: url({{ member.requestHomeAvatar() }})"></div>
+                <div class="details"></div>
             </article>
         {% endfor %}
     </div>

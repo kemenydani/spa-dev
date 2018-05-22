@@ -2055,8 +2055,16 @@ footer#main-footer {
       max-width: calc(50% - 8px);
       min-width: calc(50% - 8px);
       background: white;
-      padding: 15px;
-      margin-bottom: 15px; }
+      margin-bottom: 15px;
+      padding-left: 20px;
+      padding-top: 20px;
+      background: black; }
+      #route-view-squad-view #member-list .member .avatar {
+        width: 140px;
+        height: 220px;
+        background-size: contain;
+        background-position: bottom center;
+        background-repeat: no-repeat; }
   @media only screen and (max-width: 767px) {
     #route-view-squad-view #member-list .member {
       max-width: 100% !important;
