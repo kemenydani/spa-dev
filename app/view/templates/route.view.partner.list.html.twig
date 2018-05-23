@@ -7,10 +7,10 @@
         {% for pk, partner in partners %}
             <article class="partner">
                 <div class="logo-holder">
-                    <div class="logo" style="background-image: url({{ partner.requestLogo() }})"></div>
+                    <a href="{{ partner.getWebsiteUrl() }}" class="logo" style="display: block; background-image: url({{ partner.requestLogo() }})"></a>
                 </div>
                 <div class="body">
-                    <h2 class="name">{{ partner.getName() }}</h2>
+                    <a href="{{ partner.getWebsiteUrl() }}" class="name">{{ partner.getName() }}</a>
                     <p data-desc-length="{{  partner.getDescription()|length }}" class="desc ellipsis">
                         {{ partner.getDescription() }}
                     </p>

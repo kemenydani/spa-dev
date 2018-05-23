@@ -15,7 +15,9 @@ class SquadMember extends Model
 		'name',
 		'squad_id',
         'user_id',
-		'home_avatar'
+		'home_avatar',
+        'desc',
+        'position'
 	];
 
     public function formatName()
@@ -58,7 +60,17 @@ class SquadMember extends Model
     {
 	    return $this->getProperty('user_id');
     }
-	
+
+    public function getDesc()
+    {
+        return $this->getProperty('desc');
+    }
+
+    public function getPosition()
+    {
+        return $this->getProperty('position');
+    }
+
 	public function getUser()
 	{
 		return User::find($this->getUserId());

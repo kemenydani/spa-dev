@@ -1990,14 +1990,47 @@ footer#main-footer {
       margin-bottom: 15px;
       padding-left: 20px;
       padding-top: 20px;
-      background: black; }
+      background: black;
+      display: flex; }
+      #route-view-squad-view #member-list .member .details {
+        padding-left: 40px;
+        flex: 1;
+        font-size: 16px;
+        line-height: 25px;
+        padding-right: 15px; }
+        #route-view-squad-view #member-list .member .details .name {
+          color: #f6a00c; }
+        #route-view-squad-view #member-list .member .details .position {
+          color: #dbdbdb; }
       #route-view-squad-view #member-list .member .avatar {
+        align-self: flex-end;
         width: 140px;
         height: 220px;
         background-size: contain;
         background-position: bottom center;
-        background-repeat: no-repeat; }
+        background-repeat: no-repeat;
+        position: relative;
+        display: flex;
+        align-content: flex-end;
+        align-items: flex-end;
+        padding: 0px 10px 10px 10px;
+        color: white;
+        text-transform: uppercase;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px; }
+        #route-view-squad-view #member-list .member .avatar .nameplate {
+          background: #f6a00c;
+          width: 100%;
+          height: 30px;
+          line-height: 30px;
+          text-align: center; }
   @media only screen and (max-width: 767px) {
+    #route-view-squad-view #member-list .member {
+      padding-right: 15px;
+      justify-content: center; }
+      #route-view-squad-view #member-list .member .details {
+        display: none; } }
+  @media only screen and (max-width: 399px) {
     #route-view-squad-view #member-list .member {
       max-width: 100% !important;
       min-width: 100% !important; } }
@@ -2199,7 +2232,8 @@ footer#main-footer {
         #route-view-partner-list #partner-list .partner .body .name {
           margin-top: 0;
           font-size: 40px;
-          margin-bottom: 0px; }
+          margin-bottom: 0;
+          color: #f6a00c; }
         #route-view-partner-list #partner-list .partner .body .desc {
           font-size: 16px;
           line-height: 25px;

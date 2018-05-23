@@ -1,7 +1,7 @@
 <div class="user-area">
     {% if isLogged %}
         <div>
-            <a href="/profile/{{ AuthUser.getUsername() }}" class="username">{{ AuthUser.getUsername() }}wykaaaa</a>
+            <a href="/profile/{{ AuthUser.getUsername() }}" class="username">{{ AuthUser.getUsername() }}</a>
             <div class="logout"><a href="/logout">logout</a></div>
         </div>
         <div class="user-picture my-user-picture" style="background-image: url({{ AuthUser.requestProfilePicture() }})"></div>
