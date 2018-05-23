@@ -11,7 +11,7 @@
 					<input
 					    v-on:keyup.enter="search()"
 					    v-model="searchParams.name"
-					    placeholder="Search for squad, game, or enemy team"
+					    placeholder="Search for product"
 					    type="text">
 					<button class="button button-primary" v-on:click="search()">SEARCH</button>
                 </div>
@@ -95,7 +95,8 @@
                                 this.loadMore().then(function()
                                 {
                                     this.loading = false;
-                                }.bind(this));
+                                }
+                                .bind(this));
                             }
                         }
                     }.bind(this));

@@ -13,7 +13,7 @@ use core\DB;
 
 class ProductController extends ViewController
 {
-	const INFINITE_LIMIT = 2;
+	const INFINITE_LIMIT = 4;
 
     public function index ( Request $request, Response $response )
     {
