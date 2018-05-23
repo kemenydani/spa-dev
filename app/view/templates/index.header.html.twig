@@ -7,9 +7,8 @@
             }
             only
         %}
-
         {% verbatim %}
-        <span id="side-nav-trigger" class="hidden-desktop">
+        <span id="side-nav-trigger">
 			<i v-on:click="open = !open" class="fa fa-bars fa-3x"></i>
 		</span>
 		{% endverbatim %}
@@ -54,6 +53,9 @@
 
 <nav id="side-nav" class="sidenav">
     <a class="closebtn" v-on:click="open = false">&times;</a>
+    <div class="user-block">
+        {% include 'header.user.html.twig' with { user : AuthUser } only %}
+    </div>
     <a href="/home">Home</a>
     <a href="/articles">Articles</a>
     <a href="/squads">Squads</a>

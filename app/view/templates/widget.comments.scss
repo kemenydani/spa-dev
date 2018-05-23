@@ -38,11 +38,11 @@
   {
     .comment-tree
     {
-      margin-left: 0;
-      border-left: 0;
+      margin-left: 3px !important;
+      border-left: 2px solid $primary;
     }
     .comment {
-      padding-left: 0 !important;
+      padding-left: 3px !important;
     }
   }
 }
