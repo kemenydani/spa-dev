@@ -1,13 +1,22 @@
 
-{% verbatim %}
+
+
  <!-- comments -->
 <div id="comments">
+    {% if AuthUser %}
 	<div class="comment-field input-field">
 		<input type="text" v-on:keyup.enter="postComment" class="input" rows="1" ref="input">
 		<button class="button button-primary" v-on:click="postComment">post</button>
 	</div>
+    {% else %}
+        <div class="sign-in-note">
+            Please <a href="/auth">Sign in</a> to write comments.
+        </div>
+    {% endif %}
     <comment-tree v-bind:level="0" v-bind:comments="comments"></comment-tree>
 </div>
+
+{% verbatim %}
 <script type='x-template' id='template-comment-tree'>
     <div class="comment-tree">
         <comment-tree-item
@@ -25,25 +34,34 @@
         </div>
     </div>
 </script>
+{% endverbatim %}
 
+{% verbatim %}
 <script type='x-template' id='template-comment-tree-item'>
     <div class="comment">
         <div class="content">
-
             <div class="user-picture" v-bind:style="{ backgroundImage: 'url(' + data.profile_picture + ')' }"></div>
             <div class="body">
-                <p><a class="username">{{ data.username }}&nbsp;</a>{{ data.text }}</p>
+                <p><a v-bind:href="'/profile/' + data.username" class="username">{{ data.username }}&nbsp;</a>{{ data.text }}</p>
                 <div class="controls">
                     <div class="reply-trigger">
+                    {% endverbatim %}
+                    {% if AuthUser %}
                         <span v-on:click="replyForm.show = !replyForm.show">Reply</span>
+                    {% endif %}
+                    {% verbatim %}
                         <span v-if="hasChildren()" v-on:click="showReplies = !showReplies">
                             {{ showReplies ? 'Hide Replies' : 'Show Replies' }}
                         </span>
                     </div>
+                    {% endverbatim %}
+                    {% if AuthUser %}
                     <div class="reply-form" v-if="replyForm.show">
                         <input class="reply-input" v-model="replyForm.text" type="text" placeholder="Write your reply..">
                         <button v-bind:disabled="replyForm.text.length === 0" v-on:click="newReply()">Post Reply</button>
                     </div>
+                    {% endif %}
+                    {% verbatim %}
                 </div>
             </div>
         </div>
@@ -53,7 +71,6 @@
             v-bind:comments="data.ch"></comment-tree>
     </div>
 </script>
-
 {% endverbatim %}
 
 <script type="text/javascript">

@@ -2540,10 +2540,27 @@ footer#main-footer {
   display: flex; }
   #comments .comment-field > .input {
     margin-right: 15px; }
+#comments .sign-in-note {
+  background: #dbdbdb;
+  min-width: 100%;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  padding: 0 15px 0 15px;
+  margin-bottom: 30px;
+  overflow: hidden; }
+  #comments .sign-in-note a {
+    color: #f6a00c; }
 
 @media only screen and (max-width: 767px) {
   #comments .comment-field {
     flex-direction: column; } }
+@media only screen and (max-width: 399px) {
+  #comments .comment-tree {
+    margin-left: 0;
+    border-left: 0; }
+  #comments .comment {
+    padding-left: 0 !important; } }
 .comment-tree {
   margin-top: 20px; }
   .comment-tree .comment-tree {
