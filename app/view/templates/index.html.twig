@@ -8,20 +8,33 @@
 	<link rel="stylesheet" href="static/css/index.css">
 	<link rel="stylesheet" href="static/css/croppie.css">
 	<link rel="stylesheet" async="true" href="static/lib/font-awesome/5.0.8/css/fontawesome-all.min.css">
+	<script src="static/dist/polyfill.js"></script>
+	<script src="static/lib/jquery/3.3.1/jquery.min.js"></script>
+	<script src="static/lib/vue/2.5.16/vue.min.js"></script>
+	<script src="static/lib/croppie.min.js"></script>
 	<script>
 
-      var appEventBus = new Vue({
-          data : function(){
-              return { }
-          },
-          created : function(){
-              this.$on('userPictureChanged', function( image = null ){
-                $(document).find('.my-user-picture').each(function(i, el){
-                    $(el).css('background-image', 'url(' + image + ')')
-                });
-              });
-          }
-      });
+	  window.executeAsync = function(cb){
+		document.addEventListener("DOMContentLoaded", function(){
+			cb();
+		});
+	  };
+
+	  executeAsync(function()
+	  {
+		  window.appEventBus = new Vue({
+			  data : function(){
+				  return { }
+			  },
+			  created : function(){
+				  this.$on('userPictureChanged', function( image = null ){
+					  $(document).find('.my-user-picture').each(function(i, el){
+						  $(el).css('background-image', 'url(' + image + ')')
+					  });
+				  });
+			  }
+		  });
+	  });
 
 	</script>
 </head>
@@ -40,9 +53,5 @@
     {% include 'index.footer.html.twig' %}
 
 </div>
-<script src="static/dist/polyfill.js"></script>
-<script src="static/lib/jquery/3.3.1/jquery.min.js"></script>
-<script src="static/lib/vue/2.5.16/vue.min.js"></script>
-<script src="static/lib/croppie.min.js"></script>
 </body>
 </html>
