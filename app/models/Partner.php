@@ -14,7 +14,8 @@ class Partner extends Model
         'name',
         'logo',
         'website_url',
-        'description'
+        'description',
+        'dark_colored',
     ];
 
     public function getId()
@@ -40,6 +41,15 @@ class Partner extends Model
     public function getDescription()
     {
         return $this->getProperty('description');
+    }
+
+    public function getDarkColored()
+    {
+        return $this->getProperty('dark_colored');
+    }
+
+    public function isDark(){
+        return $this->getDarkColored();
     }
 
     //
