@@ -16,9 +16,17 @@
 					<button class="button button-primary" v-on:click="search()">SEARCH</button>
                 </div>
             </div>
-            <article v-for="(product, key) in models" v-bind:key="key" class="product">
-                {{ product.id }}
-            </article>
+            <div class="product-flex">
+                <article v-for="(product, key) in models" v-bind:key="key" class="product">
+                    <div class="image"
+                       v-bind:style="{ 'background-image': 'url(' + product.image + ')' }">
+                      <div class="foot">
+                          <div class="price">{{ product.price }} {{ product.currency }}</div>
+                          <a v-bind:href="'product/' + product.id " class="details">Details</a>
+                      </div>
+                    </div>
+                </article>
+            </div>
             <div v-if="loading" class="loading-products">
               <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
 			</div>
@@ -62,7 +70,7 @@
                         return $.getJSON("/product/loadInfinity/", { search: this.searchParams, startAt: this.startAt })
                             .then(function(response){
                                 this.total = parseInt(response.total);
-                                return response.products;
+                                return response.models;
                             }.bind(this));
                     },
                     loadMore : function()
@@ -71,7 +79,8 @@
                         {
                             $.each(products, function(i,product){ this.models.push(product); }.bind(this));
                             this.startAt += this.limit;
-                        }.bind(this))
+                        }
+                        .bind(this))
                     },
                     search : function()
                     {

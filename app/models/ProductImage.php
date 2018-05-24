@@ -12,6 +12,7 @@ class ProductImage extends Image
         'id',
         'product_id',
 		'file_name',
+        'preview_image',
     ];
 	
 	const IMAGE_PATH = __UPLOADS__ . '/images/product';
@@ -30,6 +31,16 @@ class ProductImage extends Image
 	{
 		return $this->getProperty('file_name');
 	}
+
+    public function getPreviewImage()
+    {
+        return $this->getProperty('preview_image');
+    }
+
+    public function isPreviewImage()
+    {
+        return $this->getPreviewImage();
+    }
 
     public function requestImageUrl()
     {

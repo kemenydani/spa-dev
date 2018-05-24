@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+use models\ProductImage;
 use \Slim\Http\Request as Request;
 use \Slim\Http\Response as Response;
 
@@ -13,7 +14,7 @@ use core\DB;
 
 class ProductController extends ViewController
 {
-	const INFINITE_LIMIT = 4;
+	const INFINITE_LIMIT = 8;
 
     public function index ( Request $request, Response $response )
     {
@@ -55,12 +56,28 @@ class ProductController extends ViewController
 			" ORDER BY id DESC " .
 			" LIMIT ".static::INFINITE_LIMIT." OFFSET " . (int)$startAt
 		;
-		
-		$products = (ProductCollection::queryToCollection($q1, $params))->getFormatted();
-		
+
+		/* @var \models\ProductCollection $products */
+		$products = (ProductCollection::queryToCollection($q1, $params));
+
+		$data = [];
+
+		foreach($products->getModels() as $i => $product)
+		{
+		    $data[$i] = $product->getFormatted();
+            $data[$i]['image'] = null;
+		    /* @var Product $product */
+		    $previewImage = $product->getPreviewImage();
+            /* @var ProductImage $previewImage */
+		    if($previewImage)
+		    {
+                $data[$i]['image'] = $previewImage->requestImageUrl();
+            }
+        }
+
 		$total = DB::instance()->totalRowCount();
 		
-		return ['models' => $products , 'total' => $total];
+		return ['models' => $data , 'total' => $total];
 	}
     
     public function getViewProduct( Request $request, Response $response, $args )
@@ -68,12 +85,12 @@ class ProductController extends ViewController
         //var_dump($request->getQueryParams());
         //TODO: manage return params to display success / whatever message on the product page
 
-        $product = Product::find($args['name'], 'name');
+        $product = Product::find($args['id'], 'id');
 
         if(!Session::exists('token')) Session::put('token', bin2hex(random_bytes(32)));
 
         $token = Session::get('token');
 
-	    $this->view->render($response, 'route.view.product.view.html.twig', ['token' => $token, 'product' => $product->getFormatted()]);
+	    $this->view->render($response, 'route.view.product.view.html.twig', ['token' => $token, 'product' => $product]);
     }
 }

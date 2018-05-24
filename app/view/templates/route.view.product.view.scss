@@ -12,9 +12,9 @@
       flex-direction: row;
 
       .product-gallery {
-
+        border: 1px solid red;
         width: 340px;
-
+        position: relative;
       }
       .product-desc{
         padding: 15px;

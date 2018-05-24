@@ -1,14 +1,15 @@
 {% extends 'block.full.html.twig' %}
 
 {% block content %}
-
-<script src=""></script>
-
-<div class="container-full " id="route-view-product-view">
+<div class="container-full" id="route-view-product-view">
     <div class="container product-view-container" id="product-view">
         <div class="product">
             <div class="product-gallery">
-                gallery
+                <div class="photos" id="product-image-mosaic">
+                    {% for image in product.getImages() %}
+                        <i data-src="{{ image.requestImageUrl() }}"></i>
+                    {% endfor %}
+                </div>
             </div>
             <div class="product-desc">
                 <div class="name">{{ product.name }}</div>
@@ -58,7 +59,7 @@
 
         (function($, Vue){
 
-	        var __PRODUCT__ = {% autoescape false %}{{ product|json_encode }}{% endautoescape %};
+	        var __PRODUCT__ = {% autoescape false %}{{ product.getFormatted()|json_encode }}{% endautoescape %};
 
         	new Vue({
               el: "#product-view",
@@ -91,8 +92,10 @@
 	                if(parseInt(val) === 0) this.form.quantity = 1;
                 },
               },
-              created: function(){
-
+              mounted: function(){
+	              initPhotos(
+	              	$(this.$el).find('#product-image-mosaic')
+                  );
               }
             });
 

@@ -2,7 +2,7 @@
 
 namespace models;
 
-use Models\ProductImage;
+use models\ProductImage;
 
 class Product extends \core\Model
 {
@@ -68,5 +68,18 @@ class Product extends \core\Model
 	{
 		return ProductImage::findAll($this->getId(), 'product_id');
 	}
+    public function getPreviewImage()
+    {
+        $images = $this->getImages();
+
+        /* @var \models\ProductImage $image */
+
+        foreach($images as $image) if($image->isPreviewImage()) return $image;
+
+        if(count($images)) return $images[0];
+
+        return null;
+    }
+
 	
 }
