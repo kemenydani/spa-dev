@@ -91,6 +91,15 @@ class ProductController extends ViewController
 
         $token = Session::get('token');
 
-	    $this->view->render($response, 'route.view.product.view.html.twig', ['token' => $token, 'product' => $product]);
+        $images = $product->getImages();
+
+        $imageUrls = [];
+
+        foreach($images as $image){
+            /* @var \models\ProductImage $image */
+            $imageUrls[] = $image->requestImageUrl();
+        }
+
+	    $this->view->render($response, 'route.view.product.view.html.twig', ['token' => $token, 'product' => $product, 'images' => $images ]);
     }
 }

@@ -46,7 +46,7 @@ class ProductImage extends Image
     {
         return '/requestProductImage/' . $this->getFileName();
     }
-	
+
 	public function deleteImage()
 	{
 	

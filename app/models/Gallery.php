@@ -36,4 +36,9 @@ class Gallery extends Model
         return GalleryImage::findAll($this->getId(), 'gallery_id');
     }
 
+    public function getImageCollection()
+    {
+        return new GalleryImageCollection($this->getImages());
+    }
+
 }

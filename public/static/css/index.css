@@ -2173,9 +2173,11 @@ footer#main-footer {
       display: flex;
       flex-direction: row; }
       #route-view-product-view #product-view .product .product-gallery {
-        border: 1px solid red;
+        padding-right: 15px;
         width: 340px;
         position: relative; }
+        #route-view-product-view #product-view .product .product-gallery > div {
+          margin-top: -15px; }
       #route-view-product-view #product-view .product .product-desc {
         padding: 15px;
         flex: 1;
@@ -2220,7 +2222,68 @@ footer#main-footer {
           #route-view-product-view #product-view .product .product-desc .buy .buy-button {
             width: 100%;
             font-weight: bold; }
+    #route-view-product-view #product-view #modal-product-gallery .modal-footer {
+      display: none; }
+    #route-view-product-view #product-view #modal-product-gallery .gallery-holder {
+      position: relative !important;
+      overflow: hidden;
+      width: 100%;
+      background: #dbdbdb; }
+      #route-view-product-view #product-view #modal-product-gallery .gallery-holder .currentImageHolder {
+        width: 100%;
+        min-height: 430px;
+        position: relative;
+        background-color: #dbdbdb; }
+      #route-view-product-view #product-view #modal-product-gallery .gallery-holder .currentImage {
+        background-position: center center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        position: absolute;
+        min-height: calc(100% - 30px);
+        top: 15px;
+        left: 15px;
+        bottom: 15px;
+        right: 15px; }
+      #route-view-product-view #product-view #modal-product-gallery .gallery-holder .thumb-slide {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        min-height: 100px;
+        position: relative;
+        display: flex; }
+      #route-view-product-view #product-view #modal-product-gallery .gallery-holder .thumbs {
+        overflow-x: scroll;
+        overflow-y: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        flex-wrap: nowrap;
+        background: #dbdbdb;
+        padding: 15px;
+        flex: 1;
+        position: absolute; }
+        #route-view-product-view #product-view #modal-product-gallery .gallery-holder .thumbs .thumb {
+          cursor: pointer;
+          margin: 0 7px 0 7px;
+          width: 100px;
+          min-width: 100px;
+          height: 65px;
+          background-position: center center;
+          background-size: cover;
+          background-repeat: no-repeat;
+          -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+          -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+          box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5); }
+          #route-view-product-view #product-view #modal-product-gallery .gallery-holder .thumbs .thumb.active {
+            border: 2px solid #f6a00c; }
+          #route-view-product-view #product-view #modal-product-gallery .gallery-holder .thumbs .thumb:hover {
+            border: 2px solid #f6a00c; }
 
+@media only screen and (max-width: 767px) {
+  #modal-product-gallery .currentImage {
+    max-height: 300px !important; } }
 #gallery-mosaic {
   width: 100%;
   border: 1px solid red; }
@@ -2483,6 +2546,8 @@ footer#main-footer {
   display: flex;
   justify-content: space-between;
   align-items: center; }
+  .modal-header .modal-cancel {
+    cursor: pointer; }
 
 .modal-header h2 {
   margin: 0 !important;
@@ -2989,7 +3054,7 @@ div#wrapper {
 .photos {
   width: 100%;
   position: relative;
-  padding-bottom: 10px; }
+  padding-bottom: 15px; }
   .photos i[data-src] {
     display: none;
     visibility: hidden;
@@ -2997,14 +3062,15 @@ div#wrapper {
     max-width: 0;
     min-width: 0; }
   .photos .temp {
-    width: calc(100% + 20px);
+    width: calc(100% + 30px);
     min-width: 100%;
     position: relative;
-    margin-bottom: -10px;
-    border-spacing: 10px;
+    margin-bottom: -15px;
+    border-spacing: 15px;
     border-collapse: separate;
-    margin-left: -10px; }
+    margin-left: -15px; }
     .photos .temp td {
+      cursor: pointer !important;
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center center; }
@@ -3023,6 +3089,8 @@ div#wrapper {
       padding-bottom: 75%; }
     .photos .temp.temp-l .l {
       padding-bottom: 66.6667%; }
+    .photos .temp.temp-p .p {
+      padding-bottom: 100%; }
     .photos .temp.temp-pll .p {
       padding-bottom: 75%; }
     .photos .temp.temp-pll .l {

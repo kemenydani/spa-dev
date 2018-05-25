@@ -11,16 +11,24 @@
     </div>
     <div class="container image-list-container" id="image-list">
         <div id="gallery-mosaic" class="photos">
-            {% for ik, GalleryImage in gallery.getImages() %}
-                <i data-src="{{ GalleryImage.requestImageUrl() }}"></i>
-            {% endfor %}
+
         </div>
     </div>
+
 </div>
 
 <script>
+
+	var __IMAGES__ = {% autoescape false %}{{ gallery.getImageCollection().getUrlArray()|json_encode }}{% endautoescape %};
+
 	$(document).ready(function(){
-		initPhotos($('#gallery-mosaic'));
+
+        var images = $.map(__IMAGES__, function(value, index) {
+            return value;
+        });
+
+		initPhotos($('#gallery-mosaic'), images);
+
     });
 </script>
 

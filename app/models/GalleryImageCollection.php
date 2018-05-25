@@ -11,5 +11,16 @@ class GalleryImageCollection extends ModelCollection
     {
         parent::__construct(self::parseModels($models, GalleryImage::class));
     }
-    
+
+
+    public function getUrlArray()
+    {
+        $arr = [];
+
+        /* @var \models\GalleryImage $GalleryImage */
+        foreach($this->getModels() as $GalleryImage) $arr[] = $GalleryImage->requestImageUrl();
+
+        return $arr;
+    }
+
 }

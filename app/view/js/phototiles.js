@@ -1,11 +1,17 @@
-function initPhotos(container)
+function initPhotos( container, imageArray, options )
 {
-	var images = [];
+	var o = options || {};
+	var images = imageArray || [];
 	var lastTemplate = "";
 	var step = 0;
+	var $container = container;
 	
-	$.each( container.find('i'), function() { images.push( $(this).data('src') ); });
-
+	var showall = true;
+	
+	if(o.hasOwnProperty('showall')) showall = o.showall;
+	
+	//$.each( $container.find('i'), function() { images.push( $(this).data('src') ); });
+	
 	var beautify = function()
 	{
 	
@@ -129,7 +135,7 @@ function initPhotos(container)
 			$wrapper.addClass('temp-rtl');
 		}
 		
-		$wrapper.appendTo( container );
+		$wrapper.appendTo( $container );
 		
 		lastTemplate = template;
 		step++;
@@ -138,11 +144,17 @@ function initPhotos(container)
 	var render = function( urls, sizes )
 	{
 		var pattern = sizes.join(''); // 'llp'
-		
+
 		switch (pattern)
 		{
-			case 'p'   : return 0;
-			case 'l'   : return 0; //renderTemplate('l',   urls, pattern ); return 1;
+			case 'p'   : {
+				if(!showall || images.length > 1) return 0;
+				renderTemplate('p',  urls, pattern ); return 1;
+			}
+			case 'l'   : {
+				if(!showall || images.length > 1) return 0;
+				renderTemplate('l',  urls, pattern ); return 1;
+			}
 			case 'll'  : renderTemplate('ll',  urls, pattern ); return 2;
 			case 'lll' : {
 				if( step % 3 === 0 ) { renderTemplate('ll', urls, pattern); return 2 }

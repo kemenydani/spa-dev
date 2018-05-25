@@ -3,6 +3,7 @@
 namespace models;
 
 use models\ProductImage;
+use models\ProductImageCollection;
 
 class Product extends \core\Model
 {
@@ -63,7 +64,12 @@ class Product extends \core\Model
     public function isAvailable(){
         return (int)$this->getInStock() > 0;
     }
-	
+
+    public function getImageCollection()
+    {
+	    return new ProductImageCollection($this->getImages());
+    }
+
 	public function getImages()
 	{
 		return ProductImage::findAll($this->getId(), 'product_id');

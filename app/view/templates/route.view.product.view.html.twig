@@ -1,11 +1,13 @@
 {% extends 'block.full.html.twig' %}
 
 {% block content %}
+
+
 <div class="container-full" id="route-view-product-view">
     <div class="container product-view-container" id="product-view">
         <div class="product">
             <div class="product-gallery">
-                <div class="photos" id="product-image-mosaic">
+                <div class="photos" id="product-image-mosaic" v-on:click="gallery.show = true">
                     {% for image in product.getImages() %}
                         <i data-src="{{ image.requestImageUrl() }}"></i>
                     {% endfor %}
@@ -50,8 +52,38 @@
                 </div>
             </div>
         </div>
+        {% verbatim %}
+        <modal v-if="gallery.show" v-on:close="gallery.show = false" v-bind:loading="null" v-bind:loading-message="null" id="modal-product-gallery">
+            <div slot="header">
+                <h2>{{ product.name }}</h2>
+            </div>
+            <div slot="body">
+
+              <div class="gallery-holder">
+                  <div class="currentImageHolder">
+                    <div class="currentImage"
+                      v-show="gallery.currentImage == key"
+                      v-for="(image, key) in gallery.images"
+                      v-bind:style="{ 'background-image': 'url(' + image + ')' }"></div>
+                  </div>
+                  <div class="thumb-slide">
+                      <div class="thumbs" id="thumbs">
+                          <div
+                            class="thumb"
+                            v-for="(image, key) in gallery.images"
+                            v-on:click="gallery.currentImage = key"
+                            v-bind:class="[gallery.currentImage == key ? 'active' : '']"
+                            v-bind:style="{ 'background-image': 'url(' + image + ')' }">foo</div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div slot="footer"></div>
+        </modal>
+        {% endverbatim %}
     </div>
 </div>
+{% include 'vue.component.modal.html.twig' with { width: '1000px' } %}
 
 <script>
 
@@ -60,15 +92,21 @@
         (function($, Vue){
 
 	        var __PRODUCT__ = {% autoescape false %}{{ product.getFormatted()|json_encode }}{% endautoescape %};
+	        var __IMAGES__ = {% autoescape false %}{{ product.getImageCollection().getUrlArray()|json_encode }}{% endautoescape %};
 
         	new Vue({
               el: "#product-view",
               data: function(){
               	return {
                     product: __PRODUCT__,
+                    gallery: {
+                    	currentImage : 0,
+                        show : false,
+	                    images : [],
+                    },
                     form: {
                     	show : false,
-	                    lock: false,
+	                    lock : false,
                         quantity: 1
                     }
                 }
@@ -78,7 +116,7 @@
                 {
                 	if(this.form.lock) return e.preventDefault();
 	                $('#paypal_form').submit();
-                }
+                },
               },
               watch: {
               	'form.quantity': function(val)
@@ -92,10 +130,21 @@
 	                if(parseInt(val) === 0) this.form.quantity = 1;
                 },
               },
-              mounted: function(){
-	              initPhotos(
-	              	$(this.$el).find('#product-image-mosaic')
-                  );
+              created : function()
+              {
+	              this.gallery.images = $.map(__IMAGES__, function(value, index) {
+		              return value;
+	              });
+              },
+              mounted: function()
+              {
+              	var $container = $(this.$el).find('#product-image-mosaic');
+
+              	var images = $.map(__IMAGES__, function(value, index) {
+		           return value;
+	            });
+
+	            initPhotos($container , images);
               }
             });
 
