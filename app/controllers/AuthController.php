@@ -6,6 +6,7 @@ use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use models\User as User;
 use core\Auth as Auth;
+use core\Mail;
 
 class AuthController extends ViewController
 {
@@ -99,7 +100,28 @@ class AuthController extends ViewController
         $User->save();
 
         if( !$User->getProperty('id') ) return $response->withStatus(500, 'Failed to insert user to database.');
-
+	
+		$body = "
+		<b>Dear ".$username."!</b>
+		<br>
+		Thank you for registering!
+		Now you can log in with your login with your username and password.<br><br>
+		Best Regards,<br>
+		".getConfig('organisation.name').";";
+        
+        try {
+	        error_reporting(0);
+	        $mail = new Mail();
+	        $mail->setFrom(getConfig('organisation.email'), 'Avenue Esports');
+	        $mail->Subject = 'Registration completed';
+	        $mail->addAddress('kemenydani93@gmail.com', 'foobar');
+	        $mail->Body = $body;
+	        //$mail->AltBody = $body';
+	        $mail->send();
+        } catch (\Exception $e){
+        	// failed to send email
+        }
+        
         return $response->withJson([
             'success' => true,
             'details' => [

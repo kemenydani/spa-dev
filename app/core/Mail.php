@@ -12,11 +12,12 @@ use PHPMailer\PHPMailer\PHPMailer as PHPMailer;
 
 class Mail extends PHPMailer
 {
-	public function __construct( ?bool $exceptions = null )
+	public function __construct( ?bool $exceptions = false )
 	{
 		parent::__construct($exceptions);
 		
 		$this->isHTML(true);
+			$this->SMTPDebug = 0;
 		/*
 		try
 		{
@@ -44,6 +45,7 @@ class Mail extends PHPMailer
 			return false;
 		}
 		*/
+		return $this;
 	}
 	
 	public static function renderTemplateContactDetails()

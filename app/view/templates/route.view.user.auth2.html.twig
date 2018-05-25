@@ -220,6 +220,7 @@
                             {
                                 if( name === 'login') window.location.replace("/home");
                                 if( name === 'register') {
+                                	console.log(20)
                                     this.forms.login.fields.email    = this.forms.register.fields.email;
                                     this.forms.login.fields.password = this.forms.register.fields.password;
                                     this.status.tab = 1;
@@ -273,7 +274,7 @@
                     {
                         if(this.status.tab === 2 && name === 'login')    return this.status.tab = 1;
                         if(this.status.tab === 1 && name === 'register') return this.status.tab = 2;
-
+	                    $(this.$refs[name]).off('submit');
                         $(this.$refs[name]).on('submit', function( event )
                         {
                             event.preventDefault();
