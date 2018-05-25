@@ -27,9 +27,108 @@
             return value;
         });
 
-		initPhotos($('#gallery-mosaic'), images);
+		//initPhotos($('#gallery-mosaic'), images);
 
     });
+
+	(function($, Vue){
+
+		var DATA = {% autoescape false %}{{ images|json_encode }}{% endautoescape %};
+		var LIMIT = {% autoescape false %}{{ limit }}{% endautoescape %};
+        var galleryId = "{{ gallery.getId() }}";
+
+		new Vue({
+			el: '#image-list',
+            data: function () {
+                return {
+                    models: DATA.models,
+                    total: parseInt(DATA.total),
+                    limit: parseInt(LIMIT),
+                    startAt: parseInt(LIMIT),
+                    loading: false,
+                }
+            },
+            methods:
+            {
+                bottomVisible : function()
+                {
+                    var spaceBelow = $(window).height() - $('#gallery-mosaic')[0].getBoundingClientRect().bottom;
+                    return spaceBelow > -100;
+                },
+                loadArticles: function()
+                {
+                    return $.getJSON("/gallery/loadInfinityImages/", { galleryId:galleryId, startAt: this.startAt })
+                        .then(function(response){
+                            this.total = parseInt(response.total);
+                            console.log(response);
+                            return response.models;
+                        }
+                        .bind(this));
+                },
+                loadMore : function()
+                {
+                    return this.loadArticles().then(function(images)
+                    {
+                        $.each(images, function(i,image){ this.models.push(image); }.bind(this));
+
+	                    initPhotos($('#gallery-mosaic'), images);
+
+                        this.startAt += this.limit;
+                    }
+                    .bind(this))
+                },
+                search : function()
+                {
+                    this.startAt = 0;
+                    this.total = 0;
+                    this.loadArticles().then(function(products)
+                    {
+                        this.models = products;
+                    }
+                    .bind(this))
+                }
+            },
+            mounted: function(){
+	            initPhotos($('#gallery-mosaic'), this.models);
+            },
+            created: function()
+            {
+                window.addEventListener('scroll', function()
+                {
+                    if(this.bottomVisible() === true && this.loading === false)
+                    {
+                        if(this.total > this.models.length)
+                        {
+                            this.loading = true;
+                            this.loadMore().then(function()
+                            {
+                                this.loading = false;
+                            }
+                            .bind(this));
+                        }
+                    }
+                }.bind(this));
+            },
+			});
+
+		}(jQuery, Vue));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 
 {% endblock %}
