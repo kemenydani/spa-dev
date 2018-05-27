@@ -115,9 +115,10 @@ class AuthController extends ViewController
 	    $user_id = $User->getId();
 	    
 	    $secret = bin2hex(random_bytes(32));
-	    $activationlink = __HOST__ . '/activatepwreset/&user_id=' . $user_id . '&secret=' . $secret;
+	    $activationlink = __HOST__ . '/activatepwreset/?uid=' . $user_id . '&secret=' . $secret;
 	
 	    $User->setProperty('password_change_secret', $secret);
+	    $User->setProperty('password_temporary', password_hash($password, PASSWORD_BCRYPT));
 	    $User->save();
 	
 	    $body = "
@@ -152,11 +153,55 @@ class AuthController extends ViewController
 		                ->withJson(['message' => 'Password reset request successful']);
     }
     
+    public function validatePasswordReset($queryParams, $User)
+    {
+    
+    }
+    
     public function getActivatePasswordReset( Request $request, Response $response, $args )
     {
     	$queryParams = $request->getQueryParams();
-    	
-    	var_dump($queryParams);
+
+    	if(array_key_exists('uid', $queryParams) && array_key_exists('secret', $queryParams)) {
+		
+		    $user_id = $queryParams['uid'];
+		    $secret  = $queryParams['secret'];
+		
+		    $User = User::find($user_id, 'id');
+
+		    if($User)
+		    {
+			    $storedSecret = $User->getPasswordChangeSecret();
+			
+			    if($storedSecret !== null)
+			    {
+				    if(hash_equals($storedSecret, $secret))
+				    {
+					    $User->setProperty('password', $User->getPasswordTemporary());
+					    $User->setProperty('password_temporary', '');
+					    $User->setProperty('password_change_secret', '');
+					    $User->save();
+					    $message = 'Your password has been successfully changed!';
+				    }
+				    else
+				    {
+					    $message = 'Activation failed. Please start the password recovery progress again <a href='.__HOST__ . '/forgot'.'>here</a>.';
+				    }
+			    }
+			    else
+		        {
+			    	$message = 'Could not find activation key for this user. Please start the password recovery progress again <a href='.__HOST__ . '/forgot'.'>here</a>.';
+			    }
+		    }
+		    else
+	        {
+		    	$message = 'Could not find the user account associated with this password reset request.';
+		    }
+	    } else {
+		    $message = 'Activation link is corrupted.';
+	    }
+	
+	    $this->view->render($response, 'route.view.user.activatepwreset.html.twig', ['message' => $message]);
     }
     
     public function postRegister ( Request $request, Response $response )

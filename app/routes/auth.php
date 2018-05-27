@@ -8,5 +8,5 @@ $app->post('/postRegister', 'controllers\AuthController:postRegister');
 $app->get('/logout', 'controllers\AuthController:getLogout');
 $app->get('/forgot', 'controllers\AuthController:getForgot');
 $app->post('/resetpw', 'controllers\AuthController:postResetPassword');
-$app->get('/activatepwreset', 'controllers\AuthController:getActivatePasswordReset');
+$app->get('/activatepwreset/', 'controllers\AuthController:getActivatePasswordReset');
 $app->post('/auth/checkUnique', 'controllers\AuthController:checkUnique' );

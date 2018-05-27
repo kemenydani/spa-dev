@@ -21,7 +21,8 @@ class User extends Model {
         'country_code',
         'date_created',
         'date_updated',
-	    'password_change_secret'
+	    'password_change_secret',
+	    'password_temporary'
     ];
 
     const PUBLIC_DATASET = [ 'id', 'username', 'profile_picture', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated' ];
@@ -44,7 +45,12 @@ class User extends Model {
     {
 	    return $this->getProperty('password_change_secret');
     }
-    
+	
+	public function getPasswordTemporary()
+	{
+		return $this->getProperty('password_temporary');
+	}
+	
     public function getId()
     {
         return $this->getProperty('id');
