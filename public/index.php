@@ -2,7 +2,7 @@
 
 error_reporting(0);
 session_start([
-    'read_and_close' => true,
+   // 'read_and_close' => true,
 ]);
 
 define('__DEBUG__', true );
@@ -17,7 +17,6 @@ define('__NOIMAGE__', __APPDIR__ . '/view/images/noimage');
 define('__HOST__', $_SERVER['HTTP_HOST']);
 
 if( __DEBUG__ ) error_reporting(E_ALL);
-
 
 require_once __ROOT__   . '/vendor/autoload.php';
 require_once __APPDIR__ . '/assets/helpers.php';

@@ -20,7 +20,8 @@ class User extends Model {
         'profile_picture',
         'country_code',
         'date_created',
-        'date_updated'
+        'date_updated',
+	    'password_change_secret'
     ];
 
     const PUBLIC_DATASET = [ 'id', 'username', 'profile_picture', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated' ];
@@ -39,6 +40,11 @@ class User extends Model {
         return $this->getProperty('username');
     }
 
+    public function getPasswordChangeSecret()
+    {
+	    return $this->getProperty('password_change_secret');
+    }
+    
     public function getId()
     {
         return $this->getProperty('id');

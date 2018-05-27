@@ -7,13 +7,18 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use models\User as User;
 use core\Auth as Auth;
 use core\Mail;
+use core\Session;
 
 class AuthController extends ViewController
 {
 
     public function auth ( Request $request, Response $response )
     {
-        $this->view->render($response, 'route.view.user.auth2.html.twig');
+	    if(!Session::exists('token')) Session::put('token', bin2hex(random_bytes(32)));
+	
+	    $token = Session::get('token');
+    	
+        $this->view->render($response, 'route.view.user.auth2.html.twig', ['token' => $token]);
     }
 
     public function checkUnique( Request $request, Response $response )
@@ -73,6 +78,79 @@ class AuthController extends ViewController
         return null;
     }
 
+    public function getForgot( Request $request, Response $response )
+    {
+	    if(!Session::exists('token')) Session::put('token', bin2hex(random_bytes(32)));
+	
+	    $token = Session::get('token');
+    	
+	    $this->view->render($response, 'route.view.user.forgot.html.twig', ['token' => $token]);
+    }
+    
+    public function postResetPassword( Request $request, Response $response )
+    {
+    	$formData = $request->getParsedBody();
+    	
+	    $email    = $formData['email'];
+	    $password = $formData['password'];
+	    $token    = $formData['token'];
+	
+	    if(!hash_equals(Session::get('token'), $token)) {
+		    echo 'Token error';
+		    die();
+	    }
+	    
+	    $User = User::find($email, 'email');
+
+	    $errors = [];
+	    
+	    if(!$User) $errors['email'] = 'Could not find user associated with this email';
+	    
+	    $validatePw = self::validatePassword($password);
+	    if(strlen($validatePw)) $errors['password'] = $validatePw;
+	    
+	    /* start reset procedure */
+	
+	    $secret = bin2hex(random_bytes(32));
+	    $activationlink = __HOST__ . '/changepw/' . $secret;
+	
+	    $User->setProperty('password_change_secret', $secret);
+	    $User->save();
+	
+	    $username = $User->getUsername();
+	
+	    $body = "
+			<b>Dear ".$username."!</b>
+			<br>
+		    There was a password change request on our website.<br>
+			If it was you, please click here to activate your new password (".$password."): <a href=".$activationlink.">Activate</a><br>
+			If not, perhaps someone tried to steal your account. In this case, please inform or admin team.<br><br>
+		    Best Regards,<br>
+			".getConfig('organisation.name').";";
+	    
+	    try {
+		    error_reporting(0);
+		    $mail = new Mail(false);
+		    $mail->setFrom(getConfig('organisation.email'), 'Avenue Esports');
+		    $mail->Subject = 'Password change request activation';
+		    $mail->addAddress('kemenydani93@gmail.com', $username);
+		    $mail->Body = $body;
+		    $mail->send();
+		    
+	    } catch(\Exception $e){
+		    $errors['mail'] = 'Failed to send activation email. Please contact an administrator to activate it manually.';
+	    }
+	    
+	    if(count($errors))
+	    {
+		    return $response->withStatus(401, 'Could not start the password reset process.')
+			    ->withJson(['error' => $errors]);
+	    }
+	    
+	    return $response->withStatus(200, 'Password reset request successful')
+		                ->withJson(['message' => 'Password reset request successful']);
+    }
+    
     public function postRegister ( Request $request, Response $response )
     {
         $email = $request->getParsedBody()['email'];

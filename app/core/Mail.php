@@ -12,12 +12,12 @@ use PHPMailer\PHPMailer\PHPMailer as PHPMailer;
 
 class Mail extends PHPMailer
 {
-	public function __construct( ?bool $exceptions = false )
+	public function __construct(  )
 	{
-		parent::__construct($exceptions);
+		parent::__construct(false);
 		
 		$this->isHTML(true);
-			$this->SMTPDebug = 0;
+		$this->SMTPDebug = 0;
 		/*
 		try
 		{

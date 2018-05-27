@@ -1,0 +1,95 @@
+{% extends 'block.full.html.twig' %}
+
+{% block content %}
+
+<div class="container-full" id="route-view-user-forgot">
+    <div class="container image-list-container" id="forgot-container">
+        <div class="forgot-area">
+            <form v-on:submit.prevent="postForgot">
+                <div class="input-field">
+                    <input
+                        type="email"
+                        name="email"
+                        id="input-email"
+                        placeholder="Email address of your account"
+                        v-model="form.email">
+                </div>
+                <div class="input-field-group">
+                    <div class="field-wrap">
+                        <div class="input-field">
+                            <input
+                                type="password"
+                                name="password"
+                                id="input-password"
+                                placeholder="Password"
+                                v-model="form.password">
+                        </div>
+                        <div class="input-field">
+                            <input
+                                type="password"
+                                name="password_repeat"
+                                id="input-password-repeat"
+                                placeholder="Password repeat"
+                                v-model="form.password_repeat">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="button button-primary">Reset Password</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    (function($, Vue){
+
+    	var API = '/resetpw';
+
+    	new Vue({
+            el: '#forgot-container',
+            data: function(){
+            	return {
+            		form : {
+            			email : null,
+                        password : null,
+                        password_repeat : null,
+                        token: "{{ token }}",
+                    }
+                }
+            },
+            methods: {
+                submitForgot : function(event){
+                	return new Promise(function(resolve,reject){
+		                $.post(API, this.form)
+			                .then(function( response ){
+				                resolve( response );
+			                })
+			                .catch(function( error ){
+				                reject( error )
+			                });
+                    }.bind(this));
+                },
+                postForgot : function(event){
+                	this.submitForgot(event)
+                        .then(function( response ){
+
+                        })
+                        .catch(function( error ){
+
+                        });
+                }
+            },
+            created: function(){
+
+            },
+            mounted: function(){
+
+            }
+        });
+
+    }(jQuery, Vue));
+
+</script>
+
+{% endblock %}
