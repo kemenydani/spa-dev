@@ -2,8 +2,8 @@
 
 namespace controllers;
 
-use \Psr\Http\Message\RequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use models\User as User;
 use core\Auth as Auth;
 use core\Mail;
@@ -111,13 +111,14 @@ class AuthController extends ViewController
 	    
 	    /* start reset procedure */
 	
+	    $username = $User->getUsername();
+	    $user_id = $User->getId();
+	    
 	    $secret = bin2hex(random_bytes(32));
-	    $activationlink = __HOST__ . '/changepw/' . $secret;
+	    $activationlink = __HOST__ . '/activatepwreset/&user_id=' . $user_id . '&secret=' . $secret;
 	
 	    $User->setProperty('password_change_secret', $secret);
 	    $User->save();
-	
-	    $username = $User->getUsername();
 	
 	    $body = "
 			<b>Dear ".$username."!</b>
@@ -151,9 +152,16 @@ class AuthController extends ViewController
 		                ->withJson(['message' => 'Password reset request successful']);
     }
     
+    public function getActivatePasswordReset( Request $request, Response $response, $args )
+    {
+    	$queryParams = $request->getQueryParams();
+    	
+    	var_dump($queryParams);
+    }
+    
     public function postRegister ( Request $request, Response $response )
     {
-        $email = $request->getParsedBody()['email'];
+        $email    = $request->getParsedBody()['email'];
         $username = $request->getParsedBody()['username'];
         $password = $request->getParsedBody()['password'];
 
