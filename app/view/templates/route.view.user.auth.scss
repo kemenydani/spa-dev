@@ -1,176 +1,41 @@
-#auth-area
+#route-view-user-auth
 {
-  box-sizing: border-box;
-  //border: 3px solid red;
-  position: relative;
-  margin: 30px auto 100px auto;
-  max-width: 500px;
-  min-height: 500px;
-  overflow: hidden;
-  background: $lightgrey;
-
-  @include mq('phablet', 'max') { width: 100%; min-width: 100%;   max-width: 100%; margin-bottom: 20px; margin-top: 0;  }
-
-  .forgot-password a {
-    color: $primary;
-  }
-  
-  .wrap
+  #auth-container
   {
-    position: absolute;
-    bottom: 0; top: 0; left: 0; right: 0;
-    //border: 3px solid blue;
-    min-height: 100%;
-    .form-status-overlay
-    {
-      position: absolute;
-      z-index: 3;
-      bottom: 0; left: 0; right:0; top: 0;
-      text-align: center;
-      font-size: 20px;
-      background: rgba(205, 205, 205, 0.85);
-
-      .status-wrap {
-        position: absolute;
-        top: 50%; left: 50%;
-        transform: translate(-50%,-50%);
-        width: 100%;
-        height: 100px;
-
-        .status-loading-spinner
-        {
-          font-size: 50px;
-          margin: 20px;
-        }
-        .status-info
-        {
-
-        }
-      }
-
-    }
-    .form-tabs
-    {
-      //border: 3px solid green;
-      height: calc( 100% - 50px );
-      .form-tab
-      {
-        padding: 40px;
-        position: relative;
-        height: 100%;
-        //border: 3px solid orange;
-        &.register-form-tab { }
-        &.login-form-tab { }
-        form
-        {
-          //border: 3px solid rebeccapurple;
-          text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    .form-area {
+      .forgot-password a { color: $primary; }
+      .form-tabs {
+        height: calc( 100% - 50px );
+        .form-tab {
+          position: relative;
           height: 100%;
-          &.login-form {
-          
-          }
-          &.register-form {}
-          .form-title
-          {
-            display: inline-block;
-            margin: 0 auto 20px auto;
-            color: $darkergrey;
-            padding: 0;
-            font-size: 60px;
-            text-transform: uppercase;
-            font-family: 'Montserrat', sans-serif;
-            border-bottom: 10px solid $primary;
-            margin-bottom: 50px;
-          }
-          // input
-          .input-field-group {
-            min-width: 100%;
-            position: relative;
-            > .field-wrap {
-              display: flex;
-              width: 100%;
-
-            }
-            .input-field {
-              margin-bottom:0px;
-              display: inline-block;
-            }
-            >.field-info {
-
-            }
-          }
-          .field-info {
-            color :red;
-            //border: 1px solid red;
-            width: 100%;
-            display: block;
-            line-height:25px;
-            height: 25px;
-            text-align: left;
-          }
-          .input-field {
-            width: 100%;
-            margin-bottom: 5px;
-            &.input-remember {
-              display: flex;
-              justify-content: center;
-              margin-top: 25px;
-            }
-            &:last-child {
-              margin-bottom: 0;
-            }
-            &.captcha-field {
-              text-align: center;
-              > div {
-                margin: 0 auto;
-                display: inline-block;
-              }
-            }
-            .input-status-wrapper
-            {
-              border: 1px solid $darkergrey;
-              background: $light;
-              display: flex;
-              > input { border: none; }
-              .input-status { width: 45px; height: 45px; text-align: center; line-height: 45px; cursor: pointer; }
-            }
-            input {
-              width: 100%;
-              height: 45px;
-              padding-left: 10px;
-              font-size: 1.2em;
-              background: $light;
-              border: 1px solid $darkergrey;
-              outline: none;
-            }
-            .invalid, .input-status-wrapper.invalid {
-              border: 1px solid red;
-            }
-          }
+          text-align: center;
         }
       }
-    }
-    .form-tab-navigation {
-      height: 50px;
-      background: black;
-      column-count: 2;
-      column-gap: 0;
-      > button {
-        background: $primary;
-        outline: 0;
-        border: none;
-        text-transform: uppercase;
-        font-family: 'Montserrat', sans-serif;
-        width:100%;
-        display:inline;
+      .form-tab-navigation {
         height: 50px;
-        font-size: 1.5em;
-        color: $light;
-        font-weight: 700;
-        cursor: pointer;
-        &.inactive {
-          background: $darkergrey;
-          opacity: 0.8;
+        background: black;
+        column-count: 2;
+        column-gap: 0;
+        > button {
+          background: $primary;
+          outline: 0;
+          border: none;
+          text-transform: uppercase;
+          font-family: 'Montserrat', sans-serif;
+          width:100%;
+          display:inline;
+          height: 50px;
+          font-size: 1.5em;
+          color: $light;
+          font-weight: 700;
+          cursor: pointer;
+          &.inactive {
+            background: $darkergrey;
+            opacity: 0.8;
+          }
         }
       }
     }

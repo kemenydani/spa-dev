@@ -91,64 +91,88 @@ class AuthController extends ViewController
     {
     	$formData = $request->getParsedBody();
     	
-	    $email    = $formData['email'];
-	    $password = $formData['password'];
-	    $token    = $formData['token'];
+	    $email      = $formData['email'];
+	    $password   = $formData['password'];
+        $password_r = $formData['password_repeat'];
+	    $token      = $formData['token'];
 	
-	    if(!hash_equals(Session::get('token'), $token)) {
-		    echo 'Token error';
-		    die();
-	    }
-	    
-	    $User = User::find($email, 'email');
+	    if(!hash_equals(Session::get('token'), $token)) die();
 
 	    $errors = [];
-	    
-	    if(!$User) $errors['email'] = 'Could not find user associated with this email';
-	    
+
+	    $User = null;
+
+        if(filter_var($email, FILTER_VALIDATE_EMAIL))
+        {
+            $User = User::find($email, 'email');
+            if(!$User) $errors['email'] = 'Could not find user associated with this email.';
+        }
+        else
+        {
+            $errors['email'] = 'Invalid email format';
+        }
+
+        if($password !== $password_r) $errors['password'] = 'Passwords must match.';
+
 	    $validatePw = self::validatePassword($password);
 	    if(strlen($validatePw)) $errors['password'] = $validatePw;
-	    
-	    /* start reset procedure */
-	
-	    $username = $User->getUsername();
-	    $user_id = $User->getId();
-	    
-	    $secret = bin2hex(random_bytes(32));
-	    $activationlink = __HOST__ . '/activatepwreset/?uid=' . $user_id . '&secret=' . $secret;
-	
-	    $User->setProperty('password_change_secret', $secret);
-	    $User->setProperty('password_temporary', password_hash($password, PASSWORD_BCRYPT));
-	    $User->save();
-	
-	    $body = "
-			<b>Dear ".$username."!</b>
-			<br>
-		    There was a password change request on our website.<br>
-			If it was you, please click here to activate your new password (".$password."): <a href=".$activationlink.">Activate</a><br>
-			If not, perhaps someone tried to steal your account. In this case, please inform or admin team.<br><br>
-		    Best Regards,<br>
-			".getConfig('organisation.name').";";
-	    
-	    try {
-		    error_reporting(0);
-		    $mail = new Mail(false);
-		    $mail->setFrom(getConfig('organisation.email'), 'Avenue Esports');
-		    $mail->Subject = 'Password change request activation';
-		    $mail->addAddress('kemenydani93@gmail.com', $username);
-		    $mail->Body = $body;
-		    $mail->send();
-		    
-	    } catch(\Exception $e){
-		    $errors['mail'] = 'Failed to send activation email. Please contact an administrator to activate it manually.';
-	    }
-	    
+
+	    if($User)
+	    {
+	        if(strlen($User->getPasswordChangeSecret() > 0)) $errors['email'] = 'You already have a pending password reset request. Check your email!';
+        }
+
 	    if(count($errors))
 	    {
 		    return $response->withStatus(401, 'Could not start the password reset process.')
 			    ->withJson(['error' => $errors]);
 	    }
-	    
+
+        /* start reset procedure */
+
+        $username = $User->getUsername();
+        $user_id = $User->getId();
+
+        try
+        {
+            $secret = bin2hex(random_bytes(32));
+        }
+        catch(\Exception $e)
+        {
+            $secret = base64_encode(md5($email . date('Y-m-d H:i:s')));
+        }
+
+        $activationLink = __HOST__ . '/activatepwreset/?uid=' . $user_id . '&secret=' . $secret;
+
+        $User->setProperty('password_change_secret', $secret);
+        $User->setProperty('password_temporary', password_hash($password, PASSWORD_BCRYPT));
+        $User->save();
+
+        $body = "
+			<b>Dear ".$username."!</b>
+			<br>
+		    There was a password change request on our website.<br>
+			If it was you, please click <a href=".$activationLink.">here to activate</a> your new password (".$password.").<br>
+			If not, perhaps someone tried to steal your account. In this case, please inform or admin team.<br><br>
+		    Best Regards,<br>
+			".getConfig('organisation.name').";";
+
+        try {
+            error_reporting(0);
+            $mail = new Mail();
+            $mail->setFrom(getConfig('organisation.email'), 'Avenue Esports');
+            $mail->Subject = 'Password change request activation';
+            // TODO: change this to real email
+            $mail->addAddress($User->getEmail(), $username);
+            $mail->Body = $body;
+            $mail->send();
+
+        }
+        catch(\Exception $e)
+        {
+            $errors['email'] = 'Failed to send activation email. Please contact an administrator to activate your request manually.';
+        }
+
 	    return $response->withStatus(200, 'Password reset request successful')
 		                ->withJson(['message' => 'Password reset request successful']);
     }
@@ -162,46 +186,38 @@ class AuthController extends ViewController
     {
     	$queryParams = $request->getQueryParams();
 
-    	if(array_key_exists('uid', $queryParams) && array_key_exists('secret', $queryParams)) {
-		
-		    $user_id = $queryParams['uid'];
-		    $secret  = $queryParams['secret'];
-		
-		    $User = User::find($user_id, 'id');
+        if(!array_key_exists('uid', $queryParams) || !array_key_exists('secret', $queryParams))
+        {
+            echo 'Activation url is corrupted. Please contact an administrator to activate your password manually';
+            die();
+        }
 
-		    if($User)
-		    {
-			    $storedSecret = $User->getPasswordChangeSecret();
-			
-			    if($storedSecret !== null)
-			    {
-				    if(hash_equals($storedSecret, $secret))
-				    {
-					    $User->setProperty('password', $User->getPasswordTemporary());
-					    $User->setProperty('password_temporary', '');
-					    $User->setProperty('password_change_secret', '');
-					    $User->save();
-					    $message = 'Your password has been successfully changed!';
-				    }
-				    else
-				    {
-					    $message = 'Activation failed. Please start the password recovery progress again <a href='.__HOST__ . '/forgot'.'>here</a>.';
-				    }
-			    }
-			    else
-		        {
-			    	$message = 'Could not find activation key for this user. Please start the password recovery progress again <a href='.__HOST__ . '/forgot'.'>here</a>.';
-			    }
-		    }
-		    else
-	        {
-		    	$message = 'Could not find the user account associated with this password reset request.';
-		    }
-	    } else {
-		    $message = 'Activation link is corrupted.';
-	    }
-	
-	    $this->view->render($response, 'route.view.user.activatepwreset.html.twig', ['message' => $message]);
+        $errors = [];
+
+		$user_id = $queryParams['uid'];
+		$urlSecret  = $queryParams['secret'];
+		
+		$User = User::find($user_id, 'id');
+		if(!$User) $errors[] = 'Cold not find user.';
+
+
+		if(count($errors) === 0)
+		{
+            $storedSecret = $User->getPasswordChangeSecret();
+            $tempPassword = $User->getPasswordTemporary();
+
+            if(is_string($storedSecret) && is_string($tempPassword) && hash_equals($storedSecret, $urlSecret))
+            {
+                $User->setProperty('password', $User->getPasswordTemporary());
+                $User->setProperty('password_temporary',     null);
+                $User->setProperty('password_change_secret', null);
+                $User->save();
+            } else {
+                $errors[] = 'Activation url is corrupted. Please contact an administrator.';
+            }
+        }
+
+	    $this->view->render($response, 'route.view.user.activatepwreset.html.twig', ['errors' => $errors]);
     }
     
     public function postRegister ( Request $request, Response $response )

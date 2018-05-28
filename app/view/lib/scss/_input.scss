@@ -16,11 +16,12 @@
 }
 .field-info {
   color :red;
-  //border: 1px solid red;
+
   width: 100%;
   display: block;
   line-height:25px;
-  height: 25px;
+  min-height: 25px;
+
   text-align: left;
 }
 
@@ -52,6 +53,12 @@
   &.button-primary { background: $primary; }
   &.button-light { background: $light; color: $dark; }
   &.button-dark { background: $dark; }
+}
+
+.input-field, .input-field-group {
+  &.invalid {
+    input { border: 1px solid red !important; }
+  }
 }
 
 .input-field {
@@ -86,7 +93,6 @@
   &.input-remember {
 	display: flex;
 	justify-content: center;
-	margin-top: 25px;
   }
   &:last-child {
 	margin-bottom: 0;
@@ -103,7 +109,7 @@
 	border: 1px solid $darkergrey;
 	background: $light;
 	display: flex;
-	> input { border: none; }
+	input { border: none !important; }
 	.input-status { width: 45px; height: 45px; text-align: center; line-height: 45px; cursor: pointer; }
   }
   .invalid, .input-status-wrapper.invalid {

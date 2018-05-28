@@ -1,10 +1,11 @@
 {% extends 'block.full.html.twig' %}
 
 {% block content %}
-    <script src='https://www.google.com/recaptcha/api.js'></script>
-    <div class="container">
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<div class="container-full" id="route-view-user-auth">
+    <div class="container auth-container" id="auth-container">
         {% verbatim %}
-        <div id="auth-area">
+        <div class="form-area">
             <div class="wrap">
                 <div class="form-status-overlay" v-show="status.loading">
                      <div class="status-wrap">
@@ -142,162 +143,158 @@
         </div>
         {% endverbatim %}
     </div>
+</div>
 
-    <script>
+<script>
 
-        (function($, Vue){
+(function($, Vue){
 
-            var app = new Vue({
-                el: '#auth-area',
-                data: function () {
-                    return {
-                        delay: 2000,
-                        status : {
-                            tab: 1,
-                            loading: false,
-                            info: '',
-                            login: {
-                                onStart   : 'Logging in.',
-                                onSuccess : 'Logged in, now redirecting.',
-                                onError   : 'Login failed.'
-                            },
-                            register: {
-                                onStart   : 'Registering.',
-                                onSuccess : 'Registered. Switching to the login tab.',
-                                onError   : 'Failed to register.'
-                            },
+    new Vue({
+        el: '#auth-container',
+        data: function () {
+            return {
+                delay: 2000,
+                status : {
+                    tab: 1,
+                    loading: false,
+                    info: '',
+                    login: {
+                        onStart   : 'Logging in.',
+                        onSuccess : 'Logged in, now redirecting.',
+                        onError   : 'Login failed.'
+                    },
+                    register: {
+                        onStart   : 'Registering.',
+                        onSuccess : 'Registered. Switching to the login tab.',
+                        onError   : 'Failed to register.'
+                    },
+                },
+                forms: {
+                    register: {
+                        action: '/postRegister',
+                        errors: { email : null, username : null, password : null },
+                        showUsernameLoading: false,
+                        showEmailLoading: false,
+                        valid: false,
+                        fields: {
+                            email: '',
+                            username: '',
+                            password: '',
+                            password_repeat: ''
                         },
-                        forms: {
-                            register: {
-                                action: '/postRegister',
-                                errors: { email : null, username : null, password : null },
-                                showUsernameLoading: false,
-                                showEmailLoading: false,
-                                valid: false,
-                                fields: {
-                                    email: '',
-                                    username: '',
-                                    password: '',
-                                    password_repeat: ''
-                                },
-                                settings: {
-                                    showPassword: false
-                                }
-                            },
-                            login: {
-                                action: '/postLogin',
-                                errors: {},
-                                valid: false,
-                                fields: {
-                                    email: 'sno@sno.com',
-                                    password: 'admin',
-                                    remember: true
-                                },
-                                settings: {
-                                    showPassword: false
-                                }
-                            },
+                        settings: {
+                            showPassword: false
+                        }
+                    },
+                    login: {
+                        action: '/postLogin',
+                        errors: {},
+                        valid: false,
+                        fields: {
+                            email: 'sno@sno.com',
+                            password: 'admin',
+                            remember: true
+                        },
+                        settings: {
+                            showPassword: false
+                        }
+                    },
+                }
+            }
+        },
+        watch: {
+            'status.tab' : function( v )
+            {
+                $($('.form-tabs').children()[v-1]).css('opacity', 0).fadeTo(350 , 1);
+            },
+            'status.loading' : function( v )
+            {
+                $('.form-status-overlay').css('opacity', (v === true ? 0 : 1)).fadeTo(600 , (v === true ? 1 : 0));
+            }
+        },
+        methods: {
+            onSuccess : function( name, response )
+            {
+                this.status.info = this.status[name].onSuccess;
+                setTimeout(
+                    function()
+                    {
+                        if( name === 'login') window.location.replace("/home");
+                        if( name === 'register') {
+                            this.forms.login.fields.email    = this.forms.register.fields.email;
+                            this.forms.login.fields.password = this.forms.register.fields.password;
+                            this.status.tab = 1;
+                            this.status.loading = false;
                         }
                     }
-                },
-                watch: {
-                    'status.tab' : function( v )
-                    {
-                        $($('.form-tabs').children()[v-1]).css('opacity', 0).fadeTo(350 , 1);
-                    },
-                    'status.loading' : function( v )
-                    {
-                        $('.form-status-overlay').css('opacity', (v === true ? 0 : 1)).fadeTo(600 , (v === true ? 1 : 0));
-                    },
-                    'forms.register.fields.password' : function( v )
-                    {
+                    .bind(this), this.delay
+                );
+            },
+            onError : function(name,response)
+            {
+                this.status.info = this.status[name].onError;
+                setTimeout(
+                    function() {
+                        this.forms[name].errors = response.details;
+                        this.status.loading = false;
+                    }.bind(this), this.delay
+                );
+            },
+            onSubmitForm : function( name )
+            {
+                this.status.loading = true;
+                this.status.info = this.status[name].onStart;
 
-                    },
-                },
-                methods: {
-                    onSuccess : function( name, response )
-                    {
-                        this.status.info = this.status[name].onSuccess;
-                        setTimeout(
-                            function()
+                setTimeout(function()
+                {
+                    $.post(this.forms[name].action, this.forms[name].fields)
+                        .then(
+                            function( response )
                             {
-                                if( name === 'login') window.location.replace("/home");
-                                if( name === 'register') {
-                                	console.log(20)
-                                    this.forms.login.fields.email    = this.forms.register.fields.email;
-                                    this.forms.login.fields.password = this.forms.register.fields.password;
-                                    this.status.tab = 1;
-                                    this.status.loading = false;
-                                }
-                            }
-                            .bind(this), this.delay
-                        );
-                    },
-                    onError : function(name,response)
-                    {
-                        this.status.info = this.status[name].onError;
-                        setTimeout(
-                            function() {
-                                this.forms[name].errors = response.details;
-                                this.status.loading = false;
-                            }.bind(this), this.delay
-                        );
-                    },
-                    onSubmitForm : function( name )
-                    {
-                        this.status.loading = true;
-                        this.status.info = this.status[name].onStart;
+                                if(!response || !response.hasOwnProperty('success')) throw new Error('Internal Server Error');
 
-                        setTimeout(function()
-                        {
-                            $.post(this.forms[name].action, this.forms[name].fields)
-                                .then(
-                                    function( response )
-                                    {
-                                        if(!response || !response.hasOwnProperty('success')) throw new Error('Internal Server Error');
-
-                                        if(response.success == true) return this.onSuccess( name, response );
-                                        if(response.success == false) return this.onError( name, response );
-                                    }
-                                    .bind(this)
-                                )
-                                .catch(
-                                    function(error)
-                                    {
-                                        this.status.info = error.message;
-                                        setTimeout(function(){ this.status.loading = false; }.bind(this), this.delay + 3000 );
-                                    }
-                                    .bind(this)
-                                )
-                            ;
-                        }
-                        .bind(this), this.delay );
-                    },
-                    switchOrSubmit : function( name )
-                    {
-                        if(this.status.tab === 2 && name === 'login')    return this.status.tab = 1;
-                        if(this.status.tab === 1 && name === 'register') return this.status.tab = 2;
-	                    $(this.$refs[name]).off('submit');
-                        $(this.$refs[name]).on('submit', function( event )
-                        {
-                            event.preventDefault();
-                            if(typeof event.target.checkValidity === 'function') {
-                                if(event.target.checkValidity()) {
-                                    this.onSubmitForm(name);
-                                } else {
-                                    event.target.reportValidity();
-                                }
-                            } else {
-                                this.onSubmitForm(name);
+                                if(response.success == true) return this.onSuccess( name, response );
+                                if(response.success == false) return this.onError( name, response );
                             }
+                            .bind(this)
+                        )
+                        .catch(
+                            function(error)
+                            {
+                                this.status.info = error.message;
+                                setTimeout(function(){ this.status.loading = false; }.bind(this), this.delay + 3000 );
+                            }
+                            .bind(this)
+                        )
+                    ;
+                }
+                .bind(this), this.delay );
+            },
+            switchOrSubmit : function( name )
+            {
+                if(this.status.tab === 2 && name === 'login')    return this.status.tab = 1;
+                if(this.status.tab === 1 && name === 'register') return this.status.tab = 2;
+                $(this.$refs[name]).off('submit');
+                $(this.$refs[name]).on('submit', function( event )
+                {
+                    event.preventDefault();
+                    if(typeof event.target.checkValidity === 'function') {
+                        if(event.target.checkValidity()) {
+                            this.onSubmitForm(name);
+                        } else {
+                            event.target.reportValidity();
                         }
-                        .bind(this)).submit();
+                    } else {
+                        this.onSubmitForm(name);
                     }
                 }
-            });
+                .bind(this)).submit();
+            }
+        }
+    });
 
-        }( jQuery, Vue ));
+}( jQuery, Vue ));
 
-    </script>
+</script>
 
 {% endblock %}

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Dani
- * Date: 2018. 05. 02.
- * Time: 20:08
- */
 
 namespace core;
 
@@ -12,9 +6,9 @@ use PHPMailer\PHPMailer\PHPMailer as PHPMailer;
 
 class Mail extends PHPMailer
 {
-	public function __construct(  )
+	public function __construct( $exceptions = false )
 	{
-		parent::__construct(false);
+		parent::__construct($exceptions);
 		
 		$this->isHTML(true);
 		$this->SMTPDebug = 0;

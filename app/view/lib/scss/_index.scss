@@ -8,6 +8,9 @@ $darkgrey: rgb( 98, 98, 98 );
 $darkergrey: rgb( 69, 69, 69 );
 $primary: rgb( 246, 160, 12 );
 
+$success: lighten(#42b983, 10%);
+$error: lighten(lightcoral, 10%);
+
 @import './_normalize';
 @import url('https://fonts.googleapis.com/css?family=Anton|Roboto|Roboto:300|Roboto:400|Roboto:500|Montserrat|Montserrat:500|Montserrat:700|Lato|Open+Sans|Noto+Sans|PT+Sans|Ubuntu');
 @import './mixins';
@@ -42,6 +45,11 @@ $primary: rgb( 246, 160, 12 );
 @import '../../templates/route.view.match.list.scss';
 
 @import '../../templates/route.view.contact.scss';
+
+@import '../../templates/route.view.user.forgot.scss';
+
+@import '../../templates/route.view.user.activatepwreset.scss';
+
 /* vue */
 @import '../../templates/vue.component.modal.scss';
 
@@ -464,6 +472,26 @@ div#wrapper
     padding: 15px;
     flex: 1;
   }
+}
+
+.msg {
+  padding: 15px;
+  text-align: center;
+  background: $lightgrey;
+  line-height: 25px;
+
+  &.lightgrey a {
+    color: $primary;
+  }
+
+  &.success {
+    background-color: $success;
+  }
+
+  &.error {
+    background-color: $error;
+  }
+
 }
 
 .photos

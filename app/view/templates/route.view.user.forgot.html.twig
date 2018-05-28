@@ -1,45 +1,80 @@
 {% extends 'block.full.html.twig' %}
 
 {% block content %}
-
+{% verbatim %}
 <div class="container-full" id="route-view-user-forgot">
-    <div class="container image-list-container" id="forgot-container">
-        <div class="forgot-area">
-            <form v-on:submit.prevent="postForgot">
-                <div class="input-field">
-                    <input
-                        type="email"
-                        name="email"
-                        id="input-email"
-                        placeholder="Email address of your account"
-                        v-model="form.email">
+    <div class="container forgot-password-container" id="forgot-container">
+        <div class="form-area">
+            <div class="wrap">
+                 <div class="form-status-overlay" v-show="status.loading">
+                     <div class="status-wrap">
+                        <i class="status-loading-spinner fas fa-circle-notch fa-spin"></i>
+                        <div v-html="status.info" class="status-info"></div>
+                     </div>
                 </div>
-                <div class="input-field-group">
-                    <div class="field-wrap">
-                        <div class="input-field">
+                <form v-on:submit.prevent="postForgot">
+                    <h1 class="form-title">RESET PW</h1>
+                    <div class="fields">
+                        <div class="input-field" v-bind:class="{ 'invalid' : errors.email }">
                             <input
-                                type="password"
-                                name="password"
-                                id="input-password"
-                                placeholder="Password"
-                                v-model="form.password">
+                                    type="email"
+                                    name="email"
+                                    id="input-email"
+                                    placeholder="Email address of your account"
+                                    autocomplete="off"
+                                    v-on:input="errors.email = null"
+                                    required
+                                    v-model="form.email">
+                            <span class="field-info">{{ errors.email }}</span>
                         </div>
-                        <div class="input-field">
-                            <input
-                                type="password"
-                                name="password_repeat"
-                                id="input-password-repeat"
-                                placeholder="Password repeat"
-                                v-model="form.password_repeat">
+                        <div class="input-field-group">
+                            <div class="field-wrap">
+                                <div class="input-field">
+                                    <div class="input-status-wrapper" v-bind:class="{ 'invalid' : errors.password }">
+                                        <input
+                                            placeholder="Password"
+                                            type="password"
+                                            name="password"
+                                            autocomplete="off"
+                                            required
+                                            v-on:input="validatePassword"
+                                            v-bind:type="status.showPassword ? 'text' : 'password'"
+                                            v-model="form.password"
+                                        />
+                                        <div class="input-status">
+                                            <i v-on:click="status.showPassword = !status.showPassword" v-bind:class="[ status.showPassword ? 'fa-eye-slash' : 'fa-eye' ]" class="fas"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-field">
+                                    <div class="input-status-wrapper" v-bind:class="{ 'invalid' : errors.password }">
+                                        <input
+                                            placeholder="Password"
+                                            type="password"
+                                            name="password"
+                                            v-on:input="validatePassword"
+                                            autocomplete="off"
+                                            required
+                                            v-bind:type="status.showPassword ? 'text' : 'password'"
+                                            v-model="form.password_repeat"
+                                        />
+                                        <div class="input-status">
+                                            <i v-on:click="status.showPassword = !status.showPassword" v-bind:class="[ status.showPassword ? 'fa-eye-slash' : 'fa-eye' ]" class="fas"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="field-info">{{ errors.password }}</span>
                         </div>
                     </div>
-                </div>
-                <button type="submit" class="button button-primary">Reset Password</button>
-            </form>
+                    <button type="submit" class="button button-primary">Reset Password</button>
+                </form>
+
+            </div>
         </div>
     </div>
 </div>
-
+{% endverbatim %}
 <script>
 
     (function($, Vue){
@@ -50,35 +85,100 @@
             el: '#forgot-container',
             data: function(){
             	return {
+            		status : {
+            			loading : false,
+                        info : null,
+                        showPassword : false,
+                        success: true
+                    },
+                    errors : {
+            			password : null,
+	                    email : null,
+                    },
             		form : {
-            			email : null,
-                        password : null,
-                        password_repeat : null,
+            			email : 'kemenydani93@gmail.com',
+                        password : 'Foobar10',
+                        password_repeat : 'Foobar10',
                         token: "{{ token }}",
                     }
                 }
             },
             methods: {
-                submitForgot : function(event){
-                	return new Promise(function(resolve,reject){
+                submitForgot : function( event )
+                {
+                	return new Promise(function(resolve,reject)
+                    {
 		                $.post(API, this.form)
-			                .then(function( response ){
-				                resolve( response );
-			                })
-			                .catch(function( error ){
-				                reject( error )
+			                .then(function( response ){ resolve( response ); })
+			                .catch(function( response )
+                            {
+			                	var jsonResponse = response.hasOwnProperty('responseText') ? JSON.parse(response.responseText) : { error : {} };
+			                	reject(jsonResponse.error);
 			                });
-                    }.bind(this));
+                    }
+                    .bind(this));
                 },
-                postForgot : function(event){
-                	this.submitForgot(event)
-                        .then(function( response ){
+                postForgot : function( event )
+                {
+                	this.status.loading = true;
+                	this.status.info = 'Processing';
 
-                        })
-                        .catch(function( error ){
+                	setTimeout(function()
+                    {
+	                    this.submitForgot( event )
+		                    .then(function( response )
+		                    {
+			                    this.status.info = 'Success! <br><b>Activation email has been sent!</b><br>Redirecting to login page';
 
-                        });
+			                    setTimeout(function()
+			                    {
+							        window.location.replace("/auth");
+			                    }
+				                .bind(this), 6000);
+		                    }
+			                .bind(this))
+		                    .catch(function( errors )
+		                    {
+			                    this.status.info = 'Failed to reset your password!';
+			                    setTimeout(function()
+			                    {
+				                    this.status.loading = false;
+			                    }
+				                .bind(this), 3000);
+
+
+			                    if(errors.hasOwnProperty('password')) {
+							        this.errors.password = errors.password;
+								}
+								if(errors.hasOwnProperty('email')) {
+									this.errors.email = errors.email;
+								} else if(this.errors.email !== null){
+									this.errors.email = null;
+								}
+		                    }
+			                .bind(this));
+                    }
+                    .bind(this), 2000);
+                },
+                validatePassword : function() {
+                	this.errors.password = function()
+                    {
+                    	if(this.form.password.length === 0) return 'This fields are required';
+	                    if(this.form.password_repeat.length === 0) return 'Please repeat your password';
+	                    if(this.form.password.length < 6 || this.form.password_repeat.length < 6) return 'The password must be minimum 6 characters long';
+	                    if(this.form.password !== this.form.password_repeat) return 'Passwords must match';
+	                    if(!(/[A-Z]/.test(this.form.password))) return "The password must contain at least one uppercase character.";
+	                    if(!(/[0-9]/.test(this.form.password))) return "The password must contain at least one number.";
+                		return null;
+                    }
+                    .call(this);
                 }
+            },
+            watch : {
+	            'status.loading' : function( v )
+	            {
+		            $('.form-status-overlay').css('opacity', (v === true ? 0 : 1)).fadeTo(600 , (v === true ? 1 : 0));
+	            },
             },
             created: function(){
 

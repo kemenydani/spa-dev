@@ -2,10 +2,18 @@
 
 {% block content %}
 
-<div class="container-full" id="route-view-user-forgot">
-    <div class="container image-list-container" id="activate-container">
-        <div class="forgot-area">
-            {{ message }}
+<div class="container-full" id="route-view-user-password-activate">
+    <div class="container activate-password-container" id="activate-container">
+        <div class="activation-area">
+             {% if errors|length > 0 %}
+                 <div class="msg error">
+                {% for error in errors %}
+                    <div>{{ error }}</div>
+                {% endfor %}
+                 </div>
+             {% else %}
+                 <div class="msg success">Your new password has been successfully activated. Click <a href="/auth">here</a> to log in!</div>
+             {% endif %}
         </div>
     </div>
 </div>
