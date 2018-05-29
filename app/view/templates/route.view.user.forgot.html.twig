@@ -112,6 +112,7 @@
 			                .then(function( response ){ resolve( response ); })
 			                .catch(function( response )
                             {
+	                            if(response.status !== 401) reject(response.statusText);
 			                	var jsonResponse = response.hasOwnProperty('responseText') ? JSON.parse(response.responseText) : { error : {} };
 			                	reject(jsonResponse.error);
 			                });

@@ -4,63 +4,198 @@
 
 <div class="container-full" id="route-view-contact">
     <div class="container contact-container" id="contact-area">
-        {% verbatim %}
-        <form id="contact-form">
+        <div class="form-area">
+            <div class="wrap">
+                {% verbatim %}
+                 <div class="form-status-overlay" v-show="status.loading">
+                     <div class="status-wrap">
+                        <i class="status-loading-spinner fas fa-circle-notch fa-spin"></i>
+                        <div v-html="status.info" class="status-info"></div>
+                     </div>
+                 </div>
+                 <form id="contact-form" v-on:submit.prevent="postMessage">
+                     <h1 class="form-title">CONTACT</h1>
+                     <div class="fields">
+                         <div class="input-field" v-bind:class="{ 'invalid' : errors.email }">
+                            <input
+                                    type="email"
+                                    name="email"
+                                    id="input-email"
+                                    placeholder="Your email"
+                                    autocomplete="off"
+                                    v-on:input="errors.email = null"
+                                    required
+                                    v-model="form.email">
+                            <span class="field-info">{{ errors.email }}</span>
+                         </div>
+                         <div class="input-field" v-bind:class="{ 'invalid' : errors.name }">
+                            <input
+                                    type="text"
+                                    name="name"
+                                    id="input-name"
+                                    placeholder="Your name"
+                                    autocomplete="off"
+                                    v-on:input="validateName"
+                                    required
+                                    v-model="form.name">
+                            <span class="field-info">{{ errors.name }}</span>
+                         </div>
+                        <div class="input-field" v-bind:class="{ 'invalid' : errors.message }">
+                            <textarea
+                              name="message"
+                              autocomplete="off"
+                              v-on:input="validateMessage"
+                              v-model="form.message"
+                              rows="5"
+                              id="input-message"
+                              required></textarea>
+                             <span class="field-info">{{ errors.message }}</span>
+                        </div>
 
-            <h2 class="form-title">CONTACT</h2>
-
-            <div class="input-field">
-                <input type="email" name="email" v-model="fields.email" placeholder="Your email" required>
+                        <div class="input-field" style="margin-bottom: 30px">
+                          <input type="text" v-model="form.recipient">
+                            <!--
+                            <select name="target" v-model="form.recipient" required>
+                                <option>John Doe</option>
+                                <option>John Doe2</option>
+                                <option>Administrator</option>
+                            </select>
+                           -->
+                        </div>
+                    </div>
+                     <button class="button button-primary">SEND</button>
+                 </form>
+                 {% endverbatim %}
             </div>
-
-            <div class="input-field">
-                <textarea name="message" v-model="fields.message" rows="5" required></textarea>
-            </div>
-
-            <div class="input-field">
-                <select name="target" v-model="fields.target" required>
-                    <option>John Doe</option>
-                    <option>John Doe2</option>
-                    <option>Administrator</option>
-                </select>
-            </div>
-
-            <button class="button button-primary">SEND</button>
-        </form>
-        {% endverbatim %}
+        </div>
     </div>
 </div>
 
 <script>
 
-    $(document).ready(function(){
+    (function($, Vue){
 
-        (function($, Vue){
+        var API = '/postContactMessage';
 
-            new Vue({
-                el : "#contact-area",
-                data : function(){
-                    return {
-                        fields: {
-                            email: null,
-                            message: null,
-                            target: null
-                        }
+        new Vue({
+            el: '#contact-area',
+            data: function(){
+                return {
+                    status : {
+                        loading : false,
+                        info : null,
+                        showPassword : false,
+                        success: true
+                    },
+                    errors : {
+                        email : null,
+                        name: null,
+                        message : null
+                    },
+                    form : {
+                        email : null,
+                        name:  null,
+                        message : null,
+                        recipient : null,
+                        token: "{{ token }}",
                     }
-                },
-                methods : {
-                    postMessage : function(){
-
-                    }
-                },
-                created : function(){
-                    console.log('foo')
                 }
-            });
+            },
+            methods: {
+	            submitMessageForm : function( )
+                {
+                    return new Promise(function(resolve,reject)
+                    {
+                        $.post(API, this.form)
+                            .then(function( response ){
+                            	resolve( response );
+                            })
+                            .catch(function( response )
+                            {
+                            	if(response.status !== 401) reject(response.statusText);
+                                var jsonResponse = response.hasOwnProperty('responseText') ? JSON.parse(response.responseText) : { error : {} };
+                                reject(jsonResponse.error);
+                            });
+                    }
+                    .bind(this));
+                },
+                postMessage : function( event )
+                {
+                    this.status.loading = true;
+                    this.status.info = 'Processing';
 
-        }(jQuery, Vue));
+                    setTimeout(function()
+                    {
+                        this.submitMessageForm( event )
+                            .then(function( response )
+                            {
+                                this.status.info = 'Success! <br><b>Your message has been sent!</b><br>';
 
-    });
+                                setTimeout(function()
+                                {
+                                    this.status.loading = false;
+	                                this.status.infomessage = false;
+	                                this.reset();
+	                                window.location.replace("/contactMessageSent");
+                                }
+                                .bind(this), 6000);
+                            }
+                            .bind(this))
+                            .catch(function( errors )
+                            {
+                                this.status.info = 'Failed to send your message!';
+                                setTimeout(function()
+                                {
+                                    this.status.loading = false;
+                                }
+                                .bind(this), 3000);
+
+                                if(errors.hasOwnProperty('message')) {
+                                    this.errors.message = errors.message;
+                                }
+                                if(errors.hasOwnProperty('email')) {
+                                    this.errors.email = errors.email;
+                                } else if(this.errors.email !== null){
+                                    this.errors.email = null;
+                                }
+                            }
+                            .bind(this));
+                    }
+                    .bind(this), 2000);
+                },
+                validateMessage : function() {
+                    this.errors.message = function()
+                    {
+                        if(this.form.message.length === 0) return 'This field is required';
+                        if(this.form.message.length < 30) return 'The message must be minimum 30 characters long';
+                        return null;
+                    }
+                    .call(this);
+                },
+                reset(){
+	                $.each(this.form, function(k, f){
+		                if(k !== 'token') this.form[k] = null;
+	                }.bind(this));
+                },
+	            validateName : function() {
+		            this.errors.name = function()
+		            {
+			            if(this.form.name.length === 0) return 'This field is required';
+			            if(this.form.name.length < 3) return 'The name must be minimum 3 characters long';
+			            return null;
+		            }
+			        .call(this);
+	            }
+            },
+            watch : {
+                'status.loading' : function( v )
+                {
+                    $('.form-status-overlay').css('opacity', (v === true ? 0 : 1)).fadeTo(600 , (v === true ? 1 : 0));
+                },
+            },
+        });
+
+    }(jQuery, Vue));
 
 </script>
 

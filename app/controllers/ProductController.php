@@ -31,35 +31,49 @@ class ProductController extends ViewController
 	public function getLoadInfinite( Request $request, Response $response )
 	{
 		$search = $request->getQueryParam('search');
+        $orderBy = $request->getQueryParam('order');
 		$startAt = $request->getQueryParam('startAt') ? $request->getQueryParam('startAt') : 0;
 		
-		$data = $this->getMore($search, $startAt);
+		$data = $this->getMore($search, $startAt, $orderBy);
 		
 		return $response->withStatus(200)->withJson($data);
 	}
 	
-	protected function getMore($search = [], $startAt = 0)
+	protected function getMore($search = null, $startAt = 0, $orderBy = null)
 	{
 		$params = [];
 		$where = "";
-		$i = 0;
-		foreach($search as $key => $value)
+
+		if($search)
 		{
-			if(empty($value)) continue;
-			$params[] = $value;
-			$where .= $i === 0 ? ' WHERE ' . $key . ' = ? ' : ' AND ' . $key . ' = ? ';
-			$i++;
-		}
+		    $params['name'] = '%'. $search .'%';
+		    $where = ' WHERE name LIKE :name OR "desc" LIKE :name ';
+        }
+
+        $order = " ORDER BY name ASC ";
+
+        if($orderBy)
+        {
+		    $orderBy = explode('|', $orderBy);
+		    if(count($orderBy) === 2)
+		    {
+		        list($column,$direct) = $orderBy;
+		        if(in_array($column, Product::$COLUMNS) && ($direct === 'asc' || $direct === 'desc'))
+		        {
+		            $order = ' ORDER BY ' . $column . ' ' . $direct . ' ';
+                }
+            }
+        }
 		
 		$q1 = " SELECT SQL_CALC_FOUND_ROWS * FROM _xyz_product " .
 			" {$where} " .
-			" ORDER BY id DESC " .
+			" {$order} " .
 			" LIMIT ".static::INFINITE_LIMIT." OFFSET " . (int)$startAt
 		;
 
 		/* @var \models\ProductCollection $products */
 		$products = (ProductCollection::queryToCollection($q1, $params));
-
+        $total = DB::instance()->totalRowCount();
 		$data = [];
 
 		foreach($products->getModels() as $i => $product)
@@ -74,8 +88,6 @@ class ProductController extends ViewController
                 $data[$i]['image'] = $previewImage->requestImageUrl();
             }
         }
-
-		$total = DB::instance()->totalRowCount();
 		
 		return ['models' => $data , 'total' => $total];
 	}

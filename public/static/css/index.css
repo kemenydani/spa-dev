@@ -2191,26 +2191,33 @@ footer#main-footer {
     min-width: 100%; } }
 #route-view-contact {
   overflow: visible;
-  position: relative; }
+  position: relative;
+  margin-top: 30px;
+  margin-bottom: 30px; }
   #route-view-contact #contact-form {
-    padding: 15px;
-    width: 50%;
-    margin: 130px auto 130px auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background: #dbdbdb; }
-    #route-view-contact #contact-form .form-title {
-      display: inline-block;
-      margin: 0 auto 30px auto;
-      color: #454545;
-      padding: 0;
-      font-size: 60px;
-      text-transform: uppercase;
-      font-family: 'Montserrat', sans-serif;
-      border-bottom: 10px solid #f6a00c; }
-    #route-view-contact #contact-form .input-field {
-      margin-bottom: 10px; }
+  /*
+padding: 15px;
+width: 50%;
+margin: 130px auto 130px auto;
+display: flex;
+flex-direction: column;
+justify-content: center;
+background: $lightgrey;
+.form-title
+{
+  display: inline-block;
+  margin: 0 auto 30px auto;
+  color: $darkergrey;
+  padding: 0;
+  font-size: 60px;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  border-bottom: 10px solid $primary;
+}
+.input-field {
+  margin-bottom: 10px;
+}
+*/ }
 
 #route-view-user-forgot #forgot-container {
   margin-top: 30px;

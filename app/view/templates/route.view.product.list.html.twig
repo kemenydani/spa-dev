@@ -8,14 +8,29 @@
             <div class="search-product">
                 <div class="info">Loaded {{ models.length }} from total {{ total }} products</div>
                 <div class="form">
-					<input
-					    v-on:keyup.enter="search()"
-					    v-model="searchParams.name"
-					    placeholder="Search for product"
-					    type="text">
+                    <div class="input-field">
+                        <select v-model="searchParams.orderBy" v-on:change="search">
+                          <option value="name|asc">Ascending by name</option>
+                          <option value="name|desc">Descending by name</option>
+                          <option value="price|asc">Ascending by price</option>
+                          <option value="price|desc">Descending by price</option>
+                          <option value="id|asc">Ascending by id</option>
+                          <option value="id|desc">Descending by id</option>
+                          <option value="date|asc">Ascending by date</option>
+                          <option value="date|desc">Descending by date</option>
+                        </select>
+                    </div>
+                    <div class="input-field">
+                        <input
+                            v-on:keyup.enter="search()"
+                            v-model="searchParams.name"
+                            placeholder="Search for product"
+                            type="text">
+					</div>
 					<button class="button button-primary" v-on:click="search()">SEARCH</button>
                 </div>
             </div>
+            <br>
             <div class="product-flex">
                 <article v-for="(product, key) in models" v-bind:key="key" class="product">
                     <div class="image"
@@ -51,7 +66,8 @@
                         startAt: parseInt(LIMIT),
                         loading: false,
                         searchParams : {
-                            name: null
+                            name: null,
+                            orderBy : 'name|asc'
                         }
                     }
                 },
@@ -67,29 +83,35 @@
                     },
                     loadArticles: function()
                     {
-                        return $.getJSON("/product/loadInfinity/", { search: this.searchParams, startAt: this.startAt })
-                            .then(function(response){
+                        return $.getJSON("/product/loadInfinity/", {
+                        	search: this.searchParams.name,
+                            order: this.searchParams.orderBy,
+                            startAt: this.startAt
+                        }).then(function(response){
                                 this.total = parseInt(response.total);
                                 return response.models;
-                            }.bind(this));
+                        }.bind(this));
                     },
                     loadMore : function()
                     {
                         return this.loadArticles().then(function(products)
                         {
+	                        this.startAt += this.limit;
                             $.each(products, function(i,product){ this.models.push(product); }.bind(this));
-                            this.startAt += this.limit;
                         }
                         .bind(this))
                     },
                     search : function()
                     {
+
                         this.startAt = 0;
-                        this.total = 0;
+                        //this.total = 0;
                         this.loadArticles().then(function(products)
                         {
                             this.models = products;
-                        }.bind(this))
+                            this.startAt = this.limit;
+                        }
+                        .bind(this))
                     }
                 },
                 created: function()
