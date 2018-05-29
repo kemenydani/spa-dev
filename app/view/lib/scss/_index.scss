@@ -535,3 +535,16 @@ div#wrapper
     &.temp-lpp .p { padding-bottom: 37.5%;    }
   }
 }
+
+// infinite loader common
+
+.infinite-more {
+  text-align: center;
+  margin-bottom: 40px;
+  margin-top: 10px;
+  font-size: 20px;
+  color: lighten($darkgrey, 40%);
+  font-weight: bold;
+
+  text-transform: uppercase;
+}

@@ -33,17 +33,20 @@
             <br>
             <div class="product-flex">
                 <article v-for="(product, key) in models" v-bind:key="key" class="product">
-                    <div class="image"
+                    <a class="image" style="display: block" v-bind:href="'product/' + product.id "
                        v-bind:style="{ 'background-image': 'url(' + product.image + ')' }">
-                      <div class="foot">
+                    </a>
+                    <div class="foot">
+                          <div class="name"><h2><a v-bind:href="'product/' + product.id ">{{ product.name }}</a></h2></div>
                           <div class="price">{{ product.price }} {{ product.currency }}</div>
-                          <a v-bind:href="'product/' + product.id " class="details">Details</a>
                       </div>
-                    </div>
                 </article>
             </div>
             <div v-if="loading" class="loading-products">
               <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
+			</div>
+			<div v-if="total > models.length" class="infinite-more">
+			  There are {{ total - models.length }} more products...
 			</div>
         </div>
         {% endverbatim %}

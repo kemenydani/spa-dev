@@ -25,6 +25,9 @@
             <div v-if="loading" class="loading-articles">
               <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
 			</div>
+			<div v-if="total > models.length" class="infinite-more">
+			  There are {{ total - models.length }} more articles...
+			</div>
         </div>
         {% endverbatim %}
     </div>
