@@ -54,7 +54,7 @@ class GalleryController extends ViewController
     {
         $gallery = Gallery::find($args['name'], 'name');
 
-	    $this->view->render($response, 'route.view.gallery.view.html.twig', [
+	    $this->view->render($response, 'route.view.gallery.view2.html.twig', [
 	        'gallery' => $gallery,
             'images' => $this->getMoreImages($gallery->getId()),
             'limit' => self::INFINITE_LIMIT,

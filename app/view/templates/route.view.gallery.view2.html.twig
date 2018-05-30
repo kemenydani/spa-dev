@@ -1,0 +1,141 @@
+{% extends 'block.full.html.twig' %}
+
+{% block content %}
+
+<div class="container-full " id="route-view-gallery-view">
+    <div class="container-full route-header gallery-view-route-header" style="display: none">
+        <div class="body">
+            <div class="container gallery-header-container"><h2 class="title">{{ gallery.getName() }}</h2></div>
+        </div>
+       <div class="bg-image" style="background-image: url({{ gallery.requestHeaderImage() }})"></div>
+    </div>
+    <div class="container image-list-container" id="image-list">
+        <div id="gallery-mosaic" class="photos">
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+(function(Vue){
+
+    new Vue({
+        el: "#image-list",
+        data: {
+	        galleryId : 1,
+            total: 0,
+        	queryParams : { startAt : 0, },
+            urls   : [],
+            images : [],
+            sets : [],
+        },
+        methods: {
+            getData : function()
+            {
+                return new Promise(function(resolve, reject)
+                {
+                    fetch('/gallery/loadInfinityImages/?galleryId=' + this.galleryId + '&startAt=' + this.queryParams.startAt)
+                        .then(function(response)
+                        {
+                        	if(!response.ok) throw new Error('Bad request: Unable to load images.');
+                        	resolve(response.json());
+                        })
+                        .catch(function(error) { reject(error) });
+                }
+                .bind(this));
+            },
+	        loadImageUrls : function( )
+            {
+	            this.urls.forEach(function( url, index )
+                {
+                	var image = new Image();
+
+	                image.onload = function()
+                    {
+	                    this.urls.splice(index, 1);
+			            this.images.push(image);
+                    }
+                    .bind(this);
+	
+	                image.src = url;
+                }
+                .bind(this));
+            },
+            analyzeImageSet : function( images, callback )
+            {
+            	var images = images || [];
+                var indexes = [];
+                
+                images.forEach(function(image, index){
+                	if(typeof index !== undefined && index < 2)
+                	{
+			              indexes.push(index);
+                    }
+                }
+                .bind(this));
+	
+	            if(indexes.length) console.log(indexes)
+             
+	            console.log('----------------------------------------')
+                
+            	callback( indexes );
+            }
+        },
+        watch : {
+        	images : {
+        		handler : function( state )
+                {
+                    if(state.length === 0) return false;
+                    
+                    var slice = function()
+                    {
+	                    if(this.urls.length > state.length) return false;
+	                    return state.slice(0, 2);
+                    }
+                    .call(this);
+
+                	this.analyzeImageSet( slice, function( indexes )
+                    {
+	                    indexes.forEach(function( index )
+                        {
+                        	this.images.splice(index, 1);
+                        }
+                        .bind(this))
+                    }
+                    .bind(this));
+                },
+                deep : true
+            }
+        },
+        created : function()
+        {
+	        this.getData()
+                .then(function( data )
+                {
+                    this.total  = data.total;
+                    
+                    data.models.forEach(function(url)
+                    {
+                    	console.log(url);
+                     
+                    	this.urls.push(url)
+                    }
+                    .bind(this));
+	                console.log('--------------');
+	        	    this.loadImageUrls( this.urls );
+                }
+                .bind(this))
+        },
+        mounted: function ()
+        {
+        
+        }
+    });
+
+}(Vue))
+
+</script>
+
+{% endblock %}

@@ -9,6 +9,9 @@
         </div>
        <div class="bg-image" style="background-image: url({{ gallery.requestHeaderImage() }})"></div>
     </div>
+    <div id="imagePreload" >
+
+    </div>
     <div class="container image-list-container" id="image-list">
         <div id="gallery-mosaic" class="photos">
 
@@ -93,6 +96,7 @@
             },
             created: function()
             {
+           
                 window.addEventListener('scroll', function()
                 {
                     if(this.bottomVisible() === true && this.loading === false)

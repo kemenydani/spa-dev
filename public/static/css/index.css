@@ -540,6 +540,8 @@ footer#main-footer {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap; }
+    footer#main-footer .footer-bottom-row .info-container a {
+      color: #626262; }
 
 @media only screen and (max-width: 559px) {
   footer#main-footer .footer-content-row {
@@ -886,9 +888,7 @@ footer#main-footer {
     padding-top: 0; }
 
   .container-full.match-container-full {
-    margin-left: -15px;
-    margin-right: -15px;
-    min-width: calc(100% + 15px);
+    min-width: 100%;
     padding-bottom: 0;
     border-bottom: 10px solid #f6a00c; } }
 @media only screen and (max-width: 1023px) {
@@ -901,8 +901,7 @@ footer#main-footer {
   .container-full.headline-container-full,
   .container-full.article-container-full {
     margin-left: -15px;
-    margin-right: -15px;
-    min-width: calc(100% + 15px); }
+    min-width: calc(100% + 30px); }
 
   .container.headline-container .flex-box {
     flex-direction: column;
