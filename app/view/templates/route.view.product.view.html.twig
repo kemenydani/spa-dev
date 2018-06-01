@@ -72,6 +72,7 @@
             </div>
             <div slot="footer" class="thumb-slide">
 			  <div class="thumbs" id="thumbs">
+			    <div id="thumbsheader">THHHH</div>
 				  <div
 					class="thumb"
 					v-for="(image, key) in gallery.images"
@@ -88,6 +89,12 @@
 		{% include 'widget.comments.html.twig' with { comments : comments, model : 'product' , model_id : product.getId() } %}
 	</div>
 </div>
+
+<script>
+
+	
+</script>
+
 {% include 'vue.component.modal.html.twig' with { width: '1004px' } %}
 
 <script>

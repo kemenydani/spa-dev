@@ -144,21 +144,28 @@
     min-height: 100px;
     flex: 1;
     overflow-y: hidden;
-    display: flex;
+    //display: flex;
+    border: 1px solid green;
 
     .thumbs
     {
       overflow-y: hidden;
-      display: flex;
+      //display: flex;
       justify-content: center;
       align-items: center;
       align-content: center;
       flex-wrap: nowrap;
-      flex: 1;
+      //flex: 1;
+      display: block;
       position: absolute;
+      background: red;
+      width: 200px;
+      height: 100px;
+      z-index: 2000;
       .thumb
       {
         width: 145px;
+        display: none;
         min-width: 154px;
         height: 100px;
         margin: 0 5px 0 5px;
@@ -166,6 +173,8 @@
         background-position: center center;
         background-size: cover;
         background-repeat: no-repeat;
+
+        opacity: 0.6;
 
         -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
         -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
@@ -175,7 +184,7 @@
 
         &:first-child { margin-left: 0; }
         &:last-child { margin-right: 0; }
-        &.active { border: 2px solid $primary; }
+        &.active { border: 2px solid $primary; opacity: 1; }
         &:hover { border: 2px solid $primary; }
       }
     }
