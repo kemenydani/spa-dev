@@ -81,7 +81,9 @@ function dragElement(elmnt) {
   function dragMouseDown(e) {
     e = e || window.event;
     // get the mouse cursor position at startup:
+    console.log(e)
     
+    //do this by checking the event type type=xy instead
     var clientX =  e.hasOwnProperty('clientX') ? e.clientX : e.touches[0].clientX;
     var clientY =  e.hasOwnProperty('clientX') ? e.clientY : e.touches[0].clientY;
     
@@ -95,10 +97,10 @@ function dragElement(elmnt) {
     document.ontouchmove = elementDrag;
   }
 
-  function elementDrag(e) {
+  function elementDrag(e)
+  {
     e = e || window.event;
     
-  
     var clientX =  e.hasOwnProperty('clientX') ? e.clientX : e.touches[0].clientX;
     var clientY =  e.hasOwnProperty('clientX') ? e.clientY : e.touches[0].clientY;
     
