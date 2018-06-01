@@ -13,6 +13,7 @@
                     {% endfor %}
                 </div>
             </div>
+			{%  verbatim %}
             <div class="product-desc">
                 <div class="name">{{ product.name }}</div>
                 <div class="price">{{ product.price }}{{ product.currency }}</div>
@@ -36,11 +37,11 @@
                             <div class="input-field">
                                 <input v-on:keydown.enter.prevent="" type="number" name="quantity" value="1" v-model="form.quantity"/>
                             </div>
-                            {% verbatim %}
+                         
                             <span class="total">
                                 {{ product.price * form.quantity }} {{ product.currency }}
                             </span>
-                            {% endverbatim %}
+                            
                         </div>
                         <div class="checkout-area">
                             <button class="button button-primary checkout-button" v-on:click.prevent="submitForm" v-bind:disabled="form.lock">
@@ -50,11 +51,12 @@
                         <input type="hidden" name="token" value="{{ token }}">
                     </form>
                 </div>
-	
             </div>
+			{%  endverbatim %}
         </div>
+		
         {% verbatim %}
-        <modal v-if="gallery.show" v-on:close="gallery.show = false" v-bind:loading="null" v-bind:loading-message="null" id="modal-product-gallery">
+        <modal v-if="gallery.show" class="gallery-modal" v-on:close="gallery.show = false" v-bind:loading="null" v-bind:loading-message="null" id="modal-product-gallery">
             <div slot="header">
                 <h2>{{ product.name }}</h2>
             </div>
@@ -66,19 +68,18 @@
                       v-for="(image, key) in gallery.images"
                       v-bind:style="{ 'background-image': 'url(' + image + ')' }"></div>
                   </div>
-                  <div class="thumb-slide">
-                      <div class="thumbs" id="thumbs">
-                          <div
-                            class="thumb"
-                            v-for="(image, key) in gallery.images"
-                            v-on:click="gallery.currentImage = key"
-                            v-bind:class="[gallery.currentImage == key ? 'active' : '']"
-                            v-bind:style="{ 'background-image': 'url(' + image + ')' }">foo</div>
-                      </div>
-                  </div>
               </div>
             </div>
-            <div slot="footer"></div>
+            <div slot="footer" class="thumb-slide">
+			  <div class="thumbs" id="thumbs">
+				  <div
+					class="thumb"
+					v-for="(image, key) in gallery.images"
+					v-on:click="gallery.currentImage = key"
+					v-bind:class="[gallery.currentImage == key ? 'active' : '']"
+					v-bind:style="{ 'background-image': 'url(' + image + ')' }">foo</div>
+			  </div>
+			</div>
         </modal>
         {% endverbatim %}
     </div>
@@ -87,7 +88,7 @@
 		{% include 'widget.comments.html.twig' with { comments : comments, model : 'product' , model_id : product.getId() } %}
 	</div>
 </div>
-{% include 'vue.component.modal.html.twig' with { width: '1000px' } %}
+{% include 'vue.component.modal.html.twig' with { width: '1004px' } %}
 
 <script>
 

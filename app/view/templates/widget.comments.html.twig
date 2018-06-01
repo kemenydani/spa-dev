@@ -3,7 +3,7 @@
 <div id="comments">
     {% if AuthUser %}
 	<div class="comment-field input-field">
-		<input type="text" v-on:keyup.enter="postComment" class="input" rows="1" ref="input">
+		<input placeholder="Type your comment here" type="text" v-on:keyup.enter="postComment" class="input" rows="1" ref="input">
 		<button class="button button-primary" v-on:click="postComment">post</button>
 	</div>
     {% else %}
