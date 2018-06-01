@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+use models\ProductCollection;
 use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
@@ -72,18 +73,35 @@ class HomeController extends ViewController
 
         $partnersTop = PartnerCollection::queryToCollection($q7, true);
         $partnersBot = PartnerCollection::queryToCollection($q8, true);
-        
+
+        $q9 = " SELECT * FROM _xyz_product pr " .
+              " WHERE featured = ? "            .
+              " ORDER BY pr.id DESC "           .
+              " LIMIT 10 "
+        ;
+
+        $featuredItems = ProductCollection::queryToCollection($q9, true);
+        $randomFeaturedItem = null;
+        if(is_array($featuredItems->getModels()))
+        {
+            $fiModels = $featuredItems->getModels();
+
+            $randKey = array_rand($fiModels, 1);
+            $randomFeaturedItem = $fiModels[$randKey];
+        }
+
         $this->view->render($response, 'route.view.home.html.twig', [
             'articles' => [
                 'hl' => $hlArticles,
                 'lt' => $ltArticles,
             ],
+            'featuredItem' => $randomFeaturedItem,
             'ltEvents' => $ltEvents,
             'topMatches' => $topMatches,
             'matches' => $ltMatches,
 	        'squads' => $squadCollection,
             'partnersTop' => $partnersTop,
-            'partnersBot' => $partnersBot
+            'partnersBot' => $partnersBot,
         ]);
     }
 }

@@ -874,6 +874,10 @@ footer#main-footer {
           height: 30px;
           line-height: 30px;
           text-align: center; }
+          .container.squad-container .squad .players .player .nameplate a {
+            color: white; }
+            .container.squad-container .squad .players .player .nameplate a:hover {
+              color: white; }
 
 @media only screen and (max-width: 1247px) {
   .container-full.squad-container-full {

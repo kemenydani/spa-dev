@@ -33,7 +33,15 @@
                     </div>
                 </div>
                 {% endfor %}
-                <div class="fbi fbi-tall featured-content"></div>
+                <div class="fbi fbi-tall featured-content">
+                    <div class="body">
+                        <h2 class="title">{{ featuredItem.title }}</h2>
+                        <p class="teaser">tsr</p>
+                        <div class="footer">
+                            <a class="more" href="/article/read/{{ lastArticle.title }}">Read More</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
