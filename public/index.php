@@ -9,6 +9,7 @@ define('__DEBUG__', true );
 
 define('__ROOT__', realpath(dirname(__FILE__) . '/..'));
 define('__PUBDIR__',  __ROOT__    . '/public' );
+define('__STATIC__',  __PUBDIR__  . '/static' );
 define('__APPDIR__',  __ROOT__    . '/app' );
 define('__STORAGE__', __ROOT__    . '/storage' );
 define('__UPLOADS__', __STORAGE__ . '/uploads');

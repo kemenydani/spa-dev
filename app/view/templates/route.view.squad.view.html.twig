@@ -13,7 +13,7 @@
         {% for mk, member in squad.getMembers() %}
             <article class="member">
                 <div class="avatar" style="background-image: url({{ member.requestHomeAvatar() }})">
-                    <div class="nameplate">{{ member.formatName() }}</div>
+                    <div class="nameplate"><img src="{{ member.getUser().getCountry().smallFlag() }}"> {{ member.formatName() }}</div>
                 </div>
                 <div class="details">
                     <p class="position">{{ member.getPosition() }}</p>

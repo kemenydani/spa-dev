@@ -2,6 +2,8 @@
 
 namespace controllers;
 
+use core\Auth;
+use models\Comment;
 use models\ProductImage;
 use \Slim\Http\Request as Request;
 use \Slim\Http\Response as Response;
@@ -91,7 +93,31 @@ class ProductController extends ViewController
 		
 		return ['models' => $data , 'total' => $total];
 	}
-    
+
+    public function postComment( Request $request, Response $response )
+    {
+        $formData = $request->getParsedBody();
+
+        $Product = Product::find($formData['model_id']);
+
+        if(!$Product) return $response->withStatus(404, 'Product not found');
+
+        $User = Auth::user();
+
+        $formData['user_id'] = $User->getProperty('id');
+
+        /* @var Comment $Comment */
+        $Comment = $Product->addComment( Comment::create( $formData ) );
+
+        $result = [];
+
+        $data = $Comment->getProperties();
+        $data['username'] = $User->getUsername();
+        $data['profile_picture'] = $User->requestProfilePicture();
+
+        return $response->withJson( $data );
+    }
+
     public function getViewProduct( Request $request, Response $response, $args )
     {
         //var_dump($request->getQueryParams());
@@ -112,6 +138,13 @@ class ProductController extends ViewController
             $imageUrls[] = $image->requestImageUrl();
         }
 
-	    $this->view->render($response, 'route.view.product.view.html.twig', ['token' => $token, 'product' => $product, 'images' => $images ]);
+        $comments = $product->getComments();
+
+	    $this->view->render($response, 'route.view.product.view.html.twig', [
+	        'token' => $token,
+            'product' => $product,
+            'images' => $images,
+            'comments' => json_encode($comments, true)
+        ]);
     }
 }

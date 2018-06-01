@@ -6,5 +6,6 @@ $app->group('/product', function ()
 {
 	$this->get('/{id}[/{foo}]', 'controllers\ProductController:getViewProduct');
     $this->get('/loadInfinity/', 'controllers\ProductController:getLoadInfinite');
+    $this->post('/postComment', 'controllers\ProductController:postComment');
 });
 

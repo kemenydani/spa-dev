@@ -161,6 +161,12 @@
 .container.article-container {
   .featured-content {
     background: white;
+    padding: 15px;
+    position: relative;
+    .body {
+      border: 1px solid red;
+      min-height: 100%;
+    }
   }
 }
 .container.headline-container {  background: black; }

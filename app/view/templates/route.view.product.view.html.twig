@@ -50,6 +50,7 @@
                         <input type="hidden" name="token" value="{{ token }}">
                     </form>
                 </div>
+	
             </div>
         </div>
         {% verbatim %}
@@ -58,7 +59,6 @@
                 <h2>{{ product.name }}</h2>
             </div>
             <div slot="body">
-
               <div class="gallery-holder">
                   <div class="currentImageHolder">
                     <div class="currentImage"
@@ -82,6 +82,10 @@
         </modal>
         {% endverbatim %}
     </div>
+	
+	<div class="container product-comments-container" id="product-comments">
+		{% include 'widget.comments.html.twig' with { comments : comments, model : 'product' , model_id : product.getId() } %}
+	</div>
 </div>
 {% include 'vue.component.modal.html.twig' with { width: '1000px' } %}
 
@@ -96,6 +100,7 @@
 
         	new Vue({
               el: "#product-view",
+			  components: ['comments'],
               data: function(){
               	return {
                     product: __PRODUCT__,

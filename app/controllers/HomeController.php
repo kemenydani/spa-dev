@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+use models\Product;
 use models\ProductCollection;
 use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
@@ -22,14 +23,7 @@ class HomeController extends ViewController
               " LIMIT 2 "
         ;
 
-        $q2 = " SELECT * FROM _xyz_article art " .
-              " WHERE art.highlighted = ? "      .
-              " ORDER BY art.date_created DESC " .
-              " LIMIT 4 "
-        ;
-
         $hlArticles  = (ArticleCollection::queryToCollection($q1, 1))->getFormatted();
-        $ltArticles  = (ArticleCollection::queryToCollection($q2, 0))->getFormatted();
 
         $q3 = " SELECT * FROM _xyz_squad sq " .
 	          " WHERE sq.featured = ? "       .
@@ -74,21 +68,45 @@ class HomeController extends ViewController
         $partnersTop = PartnerCollection::queryToCollection($q7, true);
         $partnersBot = PartnerCollection::queryToCollection($q8, true);
 
+        $featuredItems = [];
+
         $q9 = " SELECT * FROM _xyz_product pr " .
               " WHERE featured = ? "            .
               " ORDER BY pr.id DESC "           .
               " LIMIT 10 "
         ;
+        $featuredProducts = ProductCollection::queryToCollection($q9, true);
 
-        $featuredItems = ProductCollection::queryToCollection($q9, true);
+        foreach($featuredProducts->getModels() as $Product) $featuredItems[] = $Product;
+
         $randomFeaturedItem = null;
-        if(is_array($featuredItems->getModels()))
-        {
-            $fiModels = $featuredItems->getModels();
 
-            $randKey = array_rand($fiModels, 1);
-            $randomFeaturedItem = $fiModels[$randKey];
+        if(count($featuredItems))
+        {
+            $randKey = array_rand($featuredItems, 1);
+            $randomModel = $featuredItems[$randKey];
+
+            if(is_a($randomModel, Product::class))
+            {
+                /* @var \models\Product $Product */
+                $Product = $randomModel;
+                $randomFeaturedItem['type']   = 'product';
+                $randomFeaturedItem['name']   = $Product->getName();
+                $randomFeaturedItem['image']  = $Product->getPreviewImage();
+                $randomFeaturedItem['teaser'] = $Product->getPrice() . ' ' . $Product->getCurrency();
+                $href = '/product/' . $Product->getId();
+                $randomFeaturedItem['button_next'] = "<a class='more-button' href='".$href."'>Buy Now</a>";
+            }
         }
+
+        $ltLimit = $randomFeaturedItem ? 4 : 6;
+
+        $q2 = " SELECT * FROM _xyz_article art " .
+              " WHERE art.highlighted = ? "      .
+              " ORDER BY art.date_created DESC " .
+              " LIMIT $ltLimit "
+        ;
+        $ltArticles  = (ArticleCollection::queryToCollection($q2, 0))->getFormatted();
 
         $this->view->render($response, 'route.view.home.html.twig', [
             'articles' => [

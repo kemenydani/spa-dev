@@ -690,7 +690,12 @@ footer#main-footer {
     color: #f6a00c; }
 
 .container.article-container .featured-content {
-  background: white; }
+  background: white;
+  padding: 15px;
+  position: relative; }
+  .container.article-container .featured-content .body {
+    border: 1px solid red;
+    min-height: 100%; }
 
 .container.headline-container {
   background: black; }
@@ -1754,17 +1759,23 @@ footer#main-footer {
           height: 30px;
           line-height: 30px;
           text-align: center; }
-  @media only screen and (max-width: 767px) {
-    #route-view-squad-view #member-list .member {
+
+@media only screen and (max-width: 1247px) {
+  #route-view-squad-view .squad-view-route-header {
+    margin-left: -15px;
+    min-width: calc(100% + 30px); } }
+@media only screen and (max-width: 767px) {
+  #member-list {
+    display: none; }
+    #member-list .member {
       padding-right: 15px;
       justify-content: center; }
-      #route-view-squad-view #member-list .member .details {
+      #member-list .member .details {
         display: none; } }
-  @media only screen and (max-width: 399px) {
-    #route-view-squad-view #member-list .member {
-      max-width: 100% !important;
-      min-width: 100% !important; } }
-
+@media only screen and (max-width: 399px) {
+  #member-list .member {
+    max-width: 100% !important;
+    min-width: 100% !important; } }
 #route-view-product-list .container.product-list-container {
   min-height: 100%;
   padding-top: 15px; }
@@ -2863,6 +2874,11 @@ div#wrapper {
     background-color: #66c89c; }
   .msg.error {
     background-color: #f5aeae; }
+
+a.more-button {
+  background: #f6a00c;
+  padding: 3px 10px 3px 10px;
+  color: white; }
 
 .photos {
   width: 100%;

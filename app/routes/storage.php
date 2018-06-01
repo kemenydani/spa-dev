@@ -1,5 +1,6 @@
 <?php
 
+use models\Country;
 use Slim\Http\Response;
 use models\User as User;
 use models\Article as Article;
@@ -48,6 +49,8 @@ $app->get('/userProfilePicture/[{filename}]', function( $request, $response, $ar
 
     return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . User::NO_USER_IMAGE);
 });
+
+
 
 $app->get('/article_headline/[{filename}]', function( $request, $response, $args )
 {
@@ -134,3 +137,39 @@ $app->get('/requestProductImage/[{filename}]', function( $request, $response, $a
 	}
 	return modelImageResponse($response, __NOIMAGE__ . DIRECTORY_SEPARATOR . 'no-image-grey-cross.jpg' );
 });
+
+// FLAGS
+
+// S
+$app->get('/requestSmallFlag/[{filename}]', function( $request, $response, $args )
+{
+    if(!empty($args['filename']))
+    {
+        $path = Country::getFlagPath($args['filename'], 'small');
+        if(file_exists($path)) return modelImageResponse($response, $path);
+    }
+    return modelImageResponse($response, Country::NO_SMALL );
+});
+
+// M
+$app->get('/requestMediumFlag/[{filename}]', function( $request, $response, $args )
+{
+    if(!empty($args['filename']))
+    {
+        $path = Country::getFlagPath($args['filename'], 'medium');
+        if(file_exists($path)) return modelImageResponse($response, $path);
+    }
+    return modelImageResponse($response, Country::NO_MEDIUM );
+});
+
+// B
+$app->get('/requestBigFlag/[{filename}]', function( $request, $response, $args )
+{
+    if(!empty($args['filename']))
+    {
+        $path = Country::getFlagPath($args['filename'], 'big');
+        if(file_exists($path)) return modelImageResponse($response, $path);
+    }
+    return modelImageResponse($response, Country::NO_BIG );
+});
+

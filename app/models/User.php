@@ -81,6 +81,11 @@ class User extends Model {
         return $this->getProperty('profile_picture');
     }
 
+    public function getCountry()
+    {
+        return new Country($this->getCountryCode());
+    }
+
     public function formatProfilePicture()
     {
         return '/userProfilePicture/' . $this->getProfilePicture();

@@ -33,15 +33,17 @@
                     </div>
                 </div>
                 {% endfor %}
+                {% if featuredItem %}
                 <div class="fbi fbi-tall featured-content">
                     <div class="body">
-                        <h2 class="title">{{ featuredItem.title }}</h2>
-                        <p class="teaser">tsr</p>
+                        <h2 class="title">{{ featuredItem.name }}</h2>
+                        <p class="teaser">{{ featuredItem.teaser }}</p>
                         <div class="footer">
-                            <a class="more" href="/article/read/{{ lastArticle.title }}">Read More</a>
+							{{ featuredItem.button_next|raw }}
                         </div>
                     </div>
                 </div>
+                {% endif %}
             </div>
         </section>
     </div>

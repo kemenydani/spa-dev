@@ -82,6 +82,7 @@ class Article extends Model
 		return $this->getProperty('comments_enabled');
 	}
 
+    //TODO:: create commentable trait
 	public function getComments()
     {
         $id = $this->getId();
@@ -101,6 +102,7 @@ class Article extends Model
         return $result;
     }
 
+    //TODO:: create commentable trait
     public function addComment( Comment $Comment )
     {
         DB::instance()->beginTransaction();
