@@ -22,6 +22,46 @@
 
 <script>
 
+var _IMAGES_JSON_ = {% autoescape false %}{{ gallery.getImageCollection().getUrlArray()|json_encode }}{% endautoescape %};
+var _IMAGES_ = $.map(_IMAGES_JSON_, function(value, index) { return value; });
+
+$(document).ready(function(){
+
+	new Vue({
+        data : function () {
+            return {
+            	images : {
+            		loaded : [],
+                    source : [],
+                }
+            }
+        },
+        methods :
+        {
+        	processImages : function( images )
+            {
+
+            }
+        },
+        mounted: function(){
+
+        },
+        created : function(){
+	        _IMAGES_.forEach(function( image, index )
+            {
+	        	console.log(image)
+            });
+        }
+    })
+
+});
+
+
+</script>
+
+<!--
+<script>
+
 	var __IMAGES__ = {% autoescape false %}{{ gallery.getImageCollection().getUrlArray()|json_encode }}{% endautoescape %};
 
 	$(document).ready(function(){
@@ -134,5 +174,5 @@
 
 
 </script>
-
+-->
 {% endblock %}

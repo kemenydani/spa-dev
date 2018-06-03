@@ -2973,7 +2973,23 @@ a.more-button {
 .photos {
   width: 100%;
   position: relative;
-  padding-bottom: 15px; }
+  display: flex;
+  flex-wrap: wrap; }
+  .photos .photo {
+    min-width: calc(33.3334%);
+    max-width: calc(33.3334%);
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; }
+    .photos .photo img {
+      object-fit: cover;
+      flex-shrink: 0;
+      min-width: 100%;
+      min-height: 100%; }
   .photos i[data-src] {
     display: none;
     visibility: hidden;

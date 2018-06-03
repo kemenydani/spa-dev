@@ -505,8 +505,31 @@ a.more-button {
 {
   width: 100%;
   position: relative;
-  padding-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
 
+  .photo {
+    min-width: calc(33.3334%);
+    max-width: calc(33.3334%);
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    img {
+      object-fit: cover;
+      flex-shrink: 0;
+      min-width: 100%;
+      min-height: 100%
+    }
+  }
+  
+  
+  
+  
+  
   i[data-src] { display: none; visibility: hidden; opacity: 0; max-width: 0; min-width: 0; }
 
   .temp

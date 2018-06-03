@@ -13,7 +13,7 @@ use core\DB;
 
 class GalleryController extends ViewController
 {
-    const INFINITE_LIMIT = 6;
+    const INFINITE_LIMIT = 20;
 
     public function index ( Request $request, Response $response )
     {
