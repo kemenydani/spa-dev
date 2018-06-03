@@ -8,9 +8,7 @@
         <div class="product">
             <div class="product-gallery">
                 <div class="photos" id="product-image-mosaic" v-on:click="gallery.show = true">
-                    {% for image in product.getImages() %}
-                        <i data-src="{{ image.requestImageUrl() }}"></i>
-                    {% endfor %}
+
                 </div>
             </div>
 			{%  verbatim %}
@@ -61,26 +59,21 @@
                 <h2>{{ product.name }}</h2>
             </div>
             <div slot="body">
-              <div class="gallery-holder">
-                  <div class="currentImageHolder">
-                    <div class="currentImage"
-                      v-show="gallery.currentImage == key"
-                      v-for="(image, key) in gallery.images"
-                      v-bind:style="{ 'background-image': 'url(' + image + ')' }"></div>
-                  </div>
-              </div>
+                <div class="gallery-holder">
+                    <div class="prev" v-on:click="prev()">
+                        <i class="fa fa-4x fa-angle-left"></i>
+                    </div>
+                    <div class="currentImageHolder">
+                        <div class="currentImage"
+                          v-show="gallery.currentImage == key"
+                          v-for="(image, key) in gallery.images"
+                          v-bind:style="{ 'background-image': 'url(' + image + ')' }"></div>
+                    </div>
+                    <div class="next" v-on:click="next()">
+                        <i class="fa fa-4x fa-angle-right"></i>
+                    </div>
+                </div>
             </div>
-            <div slot="footer" class="thumb-slide">
-			  <div class="thumbs" id="thumbs">
-			    <div id="thumbsheader">THHHH</div>
-				  <div
-					class="thumb"
-					v-for="(image, key) in gallery.images"
-					v-on:click="gallery.currentImage = key"
-					v-bind:class="[gallery.currentImage == key ? 'active' : '']"
-					v-bind:style="{ 'background-image': 'url(' + image + ')' }">foo</div>
-			  </div>
-			</div>
         </modal>
         {% endverbatim %}
     </div>
@@ -130,6 +123,28 @@
                 	if(this.form.lock) return e.preventDefault();
 	                $('#paypal_form').submit();
                 },
+                next : function()
+                {
+	            	if(this.gallery.currentImage + 1 < this.gallery.images.length)
+	            	{
+			            this.gallery.currentImage++;
+                    }
+                    else
+                    {
+			            this.gallery.currentImage = 0;
+                    }
+                },
+	            prev : function()
+                {
+	                if(this.gallery.currentImage === 0)
+	                {
+		                this.gallery.currentImage = this.gallery.images.length - 1;
+	                }
+	                else
+	                {
+		                this.gallery.currentImage--;
+	                }
+	            }
               },
               watch: {
               	'form.quantity': function(val)

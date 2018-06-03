@@ -137,35 +137,44 @@
 //
 
 .gallery-modal {
+  
+  .thumb-slide-wrapper {
+    position: relative;
+    //min-width: 100%;
+    //width: 100%;
+    min-height: 100px;
+    height: 100px;
+    flex: 1 !important;
+    overflow: hidden;
+    display: none;
+  }
   .thumb-slide
   {
-    position: relative;
+    position: absolute;
     min-width: 100%;
     min-height: 100px;
+    
+    top: 0px; left: 0; right: 0;
+    
     flex: 1;
+    //overflow-x: scroll;
     overflow-y: hidden;
     //display: flex;
-    border: 1px solid green;
-
+    overflow: hidden;
     .thumbs
     {
       overflow-y: hidden;
-      //display: flex;
+      display: flex;
       justify-content: center;
       align-items: center;
       align-content: center;
       flex-wrap: nowrap;
-      //flex: 1;
-      display: block;
+      flex: 1;
       position: absolute;
-      background: red;
-      width: 200px;
       height: 100px;
-      z-index: 2000;
       .thumb
       {
         width: 145px;
-        display: none;
         min-width: 154px;
         height: 100px;
         margin: 0 5px 0 5px;

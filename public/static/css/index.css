@@ -691,11 +691,35 @@ footer#main-footer {
 
 .container.article-container .featured-content {
   background: white;
-  padding: 15px;
+  padding: 10px;
   position: relative; }
   .container.article-container .featured-content .body {
-    border: 1px solid red;
-    min-height: 100%; }
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; }
+    .container.article-container .featured-content .body .image {
+      background-size: contain;
+      background-position: center center;
+      background-repeat: no-repeat;
+      min-width: 100%;
+      min-height: 230px; }
+    .container.article-container .featured-content .body .content {
+      overflow: hidden;
+      position: relative; }
+      .container.article-container .featured-content .body .content .title {
+        padding-top: 0;
+        margin-top: 0;
+        margin-bottom: 15px; }
+      .container.article-container .featured-content .body .content .info {
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+        align-items: center; }
+        .container.article-container .featured-content .body .content .info .teaser {
+          font-weight: bold;
+          font-size: 16px;
+          color: #f6a00c; }
 
 .container.headline-container {
   background: black; }
@@ -1981,10 +2005,35 @@ footer#main-footer {
           #route-view-product-view #product-view .product .product-desc .buy .buy-button {
             width: 100%;
             font-weight: bold; }
+    #route-view-product-view #product-view #modal-product-gallery .modal-footer {
+      display: none; }
     #route-view-product-view #product-view #modal-product-gallery .gallery-holder {
       position: relative !important;
       overflow: hidden;
-      width: 100%; }
+      width: 100%;
+      display: flex; }
+      #route-view-product-view #product-view #modal-product-gallery .gallery-holder .next, #route-view-product-view #product-view #modal-product-gallery .gallery-holder .prev {
+        width: 35px;
+        min-height: 100%;
+        position: absolute;
+        color: white;
+        cursor: pointer;
+        line-height: 100%;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        z-index: 20; }
+        #route-view-product-view #product-view #modal-product-gallery .gallery-holder .next i:hover, #route-view-product-view #product-view #modal-product-gallery .gallery-holder .prev i:hover {
+          color: #f6a00c; }
+        #route-view-product-view #product-view #modal-product-gallery .gallery-holder .next i:active, #route-view-product-view #product-view #modal-product-gallery .gallery-holder .prev i:active {
+          transform: scale(1.1);
+          color: #f6a00c; }
+      #route-view-product-view #product-view #modal-product-gallery .gallery-holder .next {
+        right: 0; }
+      #route-view-product-view #product-view #modal-product-gallery .gallery-holder .prev {
+        left: 0; }
       #route-view-product-view #product-view #modal-product-gallery .gallery-holder .currentImageHolder {
         width: 100%;
         min-height: 430px;
@@ -2383,28 +2432,35 @@ background: $lightgrey;
   -webkit-transform: scale(1.1);
   transform: scale(1.1); }
 
-.gallery-modal .thumb-slide {
+.gallery-modal .thumb-slide-wrapper {
   position: relative;
+  min-height: 100px;
+  height: 100px;
+  flex: 1 !important;
+  overflow: hidden;
+  display: none; }
+.gallery-modal .thumb-slide {
+  position: absolute;
   min-width: 100%;
   min-height: 100px;
+  top: 0px;
+  left: 0;
+  right: 0;
   flex: 1;
   overflow-y: hidden;
-  border: 1px solid green; }
+  overflow: hidden; }
   .gallery-modal .thumb-slide .thumbs {
     overflow-y: hidden;
+    display: flex;
     justify-content: center;
     align-items: center;
     align-content: center;
     flex-wrap: nowrap;
-    display: block;
+    flex: 1;
     position: absolute;
-    background: red;
-    width: 200px;
-    height: 100px;
-    z-index: 2000; }
+    height: 100px; }
     .gallery-modal .thumb-slide .thumbs .thumb {
       width: 145px;
-      display: none;
       min-width: 154px;
       height: 100px;
       margin: 0 5px 0 5px;
@@ -2910,6 +2966,7 @@ div#wrapper {
 
 a.more-button {
   background: #f6a00c;
+  display: inline-block;
   padding: 3px 10px 3px 10px;
   color: white; }
 

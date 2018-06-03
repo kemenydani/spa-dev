@@ -36,10 +36,12 @@
                 {% if featuredItem %}
                 <div class="fbi fbi-tall featured-content">
                     <div class="body">
-                        <h2 class="title">{{ featuredItem.name }}</h2>
-                        <p class="teaser">{{ featuredItem.teaser }}</p>
-                        <div class="footer">
-							{{ featuredItem.button_next|raw }}
+                        <div class="image" style="background-image: url({{ featuredItem.image }})"></div>
+                        <div class="content">
+                            <h2 class="title">{{ featuredItem.name }}</h2>
+                            <div class="info">
+                                <span class="teaser">{{ featuredItem.teaser }}</span> {{ featuredItem.button_next|raw }}
+                            </div>
                         </div>
                     </div>
                 </div>

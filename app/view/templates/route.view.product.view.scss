@@ -99,23 +99,42 @@
     #modal-product-gallery {
 
       .modal-footer {
-       // display: none;
+       display: none;
       }
 
       .gallery-holder {
         position: relative !important;
         overflow: hidden;
         width: 100%;
-        //background: $lightgrey;
-
+		display: flex;
+		.next, .prev {
+			width: 35px;
+		  	min-height: 100%;
+		  	position: absolute;
+		  	color: white;
+		  	cursor: pointer;
+		  	line-height: 100%;
+		  	text-align: center;
+		 	display: flex;
+		  	align-items: center;
+		  	justify-content:center;
+		  	align-content: center;
+		  	z-index: 20;
+		  	i {
+			  &:hover { color: $primary }
+			  &:active {
+				transform: scale(1.1);
+				color: $primary;
+			  }
+			}
+		}
+		.next { right: 0; }
+		.prev { left: 0; }
         .currentImageHolder {
           width: 100%;
           min-height: 430px;
           position: relative;
-
-          //background-color: $lightgrey;
         }
-
         .currentImage {
           background-position: center center;
           background-size: contain;
