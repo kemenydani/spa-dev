@@ -5,7 +5,7 @@ namespace models;
 class PaypalPayment extends \core\Model
 {
 	public static $PKEY = 'id';
-	public static $TABLE = 'payment';
+	public static $TABLE = 'paypal';
 	
 	public static $COLUMNS = [
 		'id',

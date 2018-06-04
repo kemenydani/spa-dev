@@ -58,6 +58,9 @@ class PayPalController extends ViewController
 
 		if(!$Payment->getId()) return $response->withStatus(404, 'Unable to handle your payment request. Please contact the administrator.');
 
+        $parsedUrl = parse_url($_SERVER['HTTP_REFERER']);
+        $pp = __HOST__  . $parsedUrl['path'];
+
 		PayPal::$successRoute = $_SERVER['HTTP_REFERER'] . '?s=' . $Payment->getSessionId() . '&pid=' . $Payment->getId();
 
 		return $response->withRedirect(PayPal::generateUrl($formData, $Payment->getId()));
@@ -117,13 +120,27 @@ class PayPalController extends ViewController
 
         if($payment_status === 'completed')
         {
-        	$mail = new Mail();
-        	$mail->setFrom('admin@webdevplace.com', 'Avenue Espots Shop');
-	        $mail->Subject = 'Payment completed';
-	        $mail->addAddress('kemenydani93@gmail.com', 'Daniel Kemeny');
-	        $mail->Body = '<b>Foo!</b>';
-	        $mail->AltBody = 'Foo!';
-	        $mail->send();
+            $productName = $Product->getName();
+
+            $body = "
+			<b>Dear Customer!</b>
+			<br>
+		    Thank you for buying the following product: " .$productName . ".<br>
+			You will be notified when your order is ready. <br>
+			Thank you for your patience! <br><br>
+		    Best Regards,<br>
+			".getConfig('organisation.name').";";
+
+            try {
+                $mail = new Mail();
+                $mail->setFrom('admin@webdevplace.com', 'Avenue Esports Shop');
+                $mail->Subject = 'Payment completed';
+                $mail->addAddress('kemenydani93@gmail.com', 'Customer');
+                $mail->Body = $body;
+                $mail->send();
+            } catch( \Exception $e ){
+
+            }
         }
         
         // Handshake sign for PayPal

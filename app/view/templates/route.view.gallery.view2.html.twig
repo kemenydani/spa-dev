@@ -3,88 +3,165 @@
 {% block content %}
 
 <div class="container-full " id="route-view-gallery-view">
-    <div class="container-full route-header gallery-view-route-header" style="display: none">
-        <div class="body">
-            <div class="container gallery-header-container"><h2 class="title">{{ gallery.getName() }}</h2></div>
-        </div>
-       <div class="bg-image" style="background-image: url({{ gallery.requestHeaderImage() }})"></div>
-    </div>
+	<div class="container-full route-header gallery-view-route-header">
+		<div class="body">
+			<div class="container gallery-header-container"><h2 class="title">{{ gallery.getName() }}</h2></div>
+		</div>
+		<div class="bg-image" style="background-image: url({{ headImageUrl }})"></div>
+	</div>
     {% verbatim %}
     <div class="container image-list-container" id="image-list">
         <div id="gallery-mosaic" class="photos" ref="photoContainer">
-
+			<div class="photo" v-on:click="openAsCurrent" v-bind:data-id="key" v-for="(url, key) in urls" v-bind:style="{ backgroundImage: 'url('+url+')' }"></div>
         </div>
+        <div v-if="loading" class="loading-gallery-images">
+		  <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
+		</div>
+		<div v-if="totalItems > urls.length" class="infinite-more">
+		  There are {{ totalItems - urls.length }} more photos...
+		</div>
     </div>
     {% endverbatim %}
+	
+	{% verbatim %}
+	<modal v-if="gallery.show" class="gallery-modal" v-on:close="gallery.show = false" v-bind:loading="null" v-bind:loading-message="null" id="modal-image-gallery">
+		
+		<div slot="header">
+			<h2>{{ gallery.name }}</h2>
+		</div>
+		<div slot="body" class="gallery-holder">
+			<div class="prev" v-on:click="prev()">
+				<i class="fa fa-4x fa-angle-left"></i>
+			</div>
+			<div class="currentImageHolder">
+				<div class="currentImage"
+				  v-show="gallery.currentImage == key"
+				  v-for="(url, key) in urls"
+				  v-bind:style="{ 'background-image': 'url(' + url + ')' }"></div>
+			</div>
+			<div class="next" v-on:click="next()">
+				<i class="fa fa-4x fa-angle-right"></i>
+			</div>
+		</div>
+	</modal>
+	{% endverbatim %}
+	
 </div>
+	
+{% include 'vue.component.modal.html.twig' with { width: '1000px' } %}
 
 <script>
 
 (function(Vue){
 
     new Vue({
-        el: "#image-list",
+        el: "#route-view-gallery-view",
         data: {
+        	gallery : {
+        		show : false,
+			    currentImage : 0,
+			  	name : "{{ gallery.getName() }}",
+			},
+        	limit : parseInt({{ limit }}),
+        	loading: false,
 	        galleryId : 1,
-            total: 0,
-        	queryParams : { startAt : 0, },
-            images : {
-	        	urls   : [],
-	        	loaded : [],
-            },
-        },
-        watch : {
-        	'images.loaded' : {
-        		handler: function( cv, ov )
-                {
-                	var photoDIV = document.createElement('div');
-                	photoDIV.appendChild(cv[cv.length-1]);
-                	photoDIV.className = 'photo';
-                	this.$refs['photoContainer'].appendChild(photoDIV);
-                }
-            }
+            totalItems: 0,
+		  	startAt : 0,
+        	urls : [],
         },
         methods: {
-            getData : function()
+            fetchData : function()
             {
+	            this.loading = true;
+	            
                 return new Promise(function(resolve, reject)
                 {
-                    fetch('/gallery/loadInfinityImages/?galleryId=' + this.galleryId + '&startAt=' + this.queryParams.startAt)
+                    fetch('/gallery/loadInfinityImages/?galleryId=' + this.galleryId + '&startAt=' + this.startAt)
                         .then(function(response)
                         {
                         	if(!response.ok) throw new Error('Bad request: Unable to load images.');
                         	resolve(response.json());
                         })
-                        .catch(function(error) { reject(error) });
+                        .catch(function(error)
+						{
+                        	reject(error)
+						})
+					  	.finally(function()
+						{
+					  		this.loading = false;
+					  	}
+					  	.bind(this));
                 }
                 .bind(this));
             },
-	        loadImages : function()
-            {
-	            this.images.urls.forEach(function( url, index )
-                {
-                	var image = new Image();
-	                image.onload = function() { this.images.loaded.push(image); }.bind(this);
-	                image.src = url;
-                }
-                .bind(this));
-            },
-
+		  	fetchMore : function()
+			{
+			  	return this.fetchData()
+				  	.then(function( response )
+					{
+					  	this.totalItems = response.totalItems ? response.totalItems : 0;
+					  
+					  	this.pushUrls( response.urls || [] );
+					  
+					  	this.startAt += this.limit;
+					}
+				    .bind(this));
+			},
+		  	pushUrls : function( urls )
+			{
+				urls.forEach(function( url )
+				{
+					this.urls.push( url )
+				}
+				.bind(this));
+			},
+		  	bottomVisible : function()
+			{
+				var wh = window.innerHeight;
+				var b =  this.$el.getBoundingClientRect().bottom;
+				var spaceBelow = wh - b;
+				return spaceBelow > -100;
+			},
+	        next : function()
+	        {
+		        if(this.gallery.currentImage + 1 < this.urls.length)
+		        {
+			        this.gallery.currentImage++;
+		        }
+		        else
+		        {
+			        this.gallery.currentImage = 0;
+		        }
+	        },
+	        prev : function()
+	        {
+		        if(this.gallery.currentImage === 0)
+		        {
+			        this.gallery.currentImage = this.urls.length - 1;
+		        }
+		        else
+		        {
+			        this.gallery.currentImage--;
+		        }
+	        },
+		  	openAsCurrent : function(event)
+			{
+			  	this.gallery.currentImage = event.target.getAttribute('data-id') ? event.target.getAttribute('data-id') : 0;
+				this.gallery.show = true
+			}
         },
         created : function()
         {
-	        this.getData()
-                .then(function( data )
-                {
-                    this.total  = data.total;
-                    data.models.forEach(function(url) { this.images.urls.push(url) }.bind(this));
-	                this.loadImages();
-                }
-                .bind(this))
-        },
-        mounted: function ()
-        {
-        
+	        this.fetchMore();
+		  
+	        window.addEventListener('scroll', function()
+	        {
+		        if(this.bottomVisible() === true && this.loading === false)
+		        {
+			        if(this.totalItems > this.urls.length) { this.fetchMore(); }
+		        }
+	        }
+		    .bind(this));
         }
     });
 

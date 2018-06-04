@@ -6,11 +6,11 @@
 <div class="container-full" id="route-view-product-view">
     <div class="container product-view-container" id="product-view">
         <div class="product">
+			{% verbatim %}
             <div class="product-gallery">
-                <div class="photos" id="product-image-mosaic" v-on:click="gallery.show = true">
-
-                </div>
+				<div class="product-photo" v-on:click="openAsCurrent" v-bind:data-id="key" v-for="(url, key) in gallery.images" v-bind:style="{ backgroundImage: 'url('+url+')' }"></div>
             </div>
+            {% endverbatim %}
 			{%  verbatim %}
             <div class="product-desc">
                 <div class="name">{{ product.name }}</div>
@@ -46,7 +46,7 @@
                                 <i class="fab fa-paypal" style="font-weight: normal !important;"></i> PAYPAL CHECKOUT
                             </button>
                         </div>
-                        <input type="hidden" name="token" value="{{ token }}">
+                        <input type="hidden" name="token" v-bind:value="token">
                     </form>
                 </div>
             </div>
@@ -58,21 +58,19 @@
             <div slot="header">
                 <h2>{{ product.name }}</h2>
             </div>
-            <div slot="body">
-                <div class="gallery-holder">
-                    <div class="prev" v-on:click="prev()">
-                        <i class="fa fa-4x fa-angle-left"></i>
-                    </div>
-                    <div class="currentImageHolder">
-                        <div class="currentImage"
-                          v-show="gallery.currentImage == key"
-                          v-for="(image, key) in gallery.images"
-                          v-bind:style="{ 'background-image': 'url(' + image + ')' }"></div>
-                    </div>
-                    <div class="next" v-on:click="next()">
-                        <i class="fa fa-4x fa-angle-right"></i>
-                    </div>
-                </div>
+            <div slot="body" class="gallery-holder">
+				<div class="prev" v-on:click="prev()">
+					<i class="fa fa-4x fa-angle-left"></i>
+				</div>
+				<div class="currentImageHolder">
+					<div class="currentImage"
+					  v-show="gallery.currentImage == key"
+					  v-for="(image, key) in gallery.images"
+					  v-bind:style="{ 'background-image': 'url(' + image + ')' }"></div>
+				</div>
+				<div class="next" v-on:click="next()">
+					<i class="fa fa-4x fa-angle-right"></i>
+				</div>
             </div>
         </modal>
         {% endverbatim %}
@@ -104,6 +102,7 @@
 			  components: ['comments'],
               data: function(){
               	return {
+              		token : "{{ token }}",
                     product: __PRODUCT__,
                     gallery: {
                     	currentImage : 0,
@@ -144,7 +143,12 @@
 	                {
 		                this.gallery.currentImage--;
 	                }
-	            }
+	            },
+	              openAsCurrent : function(event)
+	              {
+		              this.gallery.currentImage = event.target.getAttribute('data-id') ? event.target.getAttribute('data-id') : 0;
+		              this.gallery.show = true
+	              }
               },
               watch: {
               	'form.quantity': function(val)
@@ -166,6 +170,7 @@
               },
               mounted: function()
               {
+              	/*
               	var $container = $(this.$el).find('#product-image-mosaic');
 
               	var images = $.map(__IMAGES__, function(value, index) {
@@ -173,6 +178,7 @@
 	            });
 
 	            initPhotos($container , images);
+	            */
               }
             });
 

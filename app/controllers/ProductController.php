@@ -120,7 +120,7 @@ class ProductController extends ViewController
 
     public function getViewProduct( Request $request, Response $response, $args )
     {
-        //var_dump($request->getQueryParams());
+        $request->getQueryParams();
         //TODO: manage return params to display success / whatever message on the product page
 
         $product = Product::find($args['id'], 'id');
@@ -141,6 +141,7 @@ class ProductController extends ViewController
         $comments = $product->getComments();
 
 	    $this->view->render($response, 'route.view.product.view.html.twig', [
+	        'params' => $request->getQueryParams(),
 	        'token' => $token,
             'product' => $product,
             'images' => $images,
