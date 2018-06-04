@@ -47,18 +47,16 @@ class ArticleController extends ViewController
 
     }
 
-    protected function getMore($search = [], $startAt = 0)
+    protected function getMore($search = null, $startAt = 0)
     {
         $params = [];
         $where = "";
-        $i = 0;
-        foreach($search as $key => $value)
-        {
-            if(empty($value)) continue;
-            $params[] = $value;
-            $where .= $i === 0 ? ' WHERE ' . $key . ' = ? ' : ' AND ' . $key . ' = ? ';
-            $i++;
-        }
+       
+	    if($search)
+	    {
+		    $params['name'] = '%'. $search .'%';
+		    $where = ' WHERE title LIKE :name OR teaser LIKE :name ';
+	    }
 
         $q1 = " SELECT SQL_CALC_FOUND_ROWS * FROM _xyz_article " .
             " {$where} " .
@@ -70,7 +68,7 @@ class ArticleController extends ViewController
 
         $total = DB::instance()->totalRowCount();
 
-        return ['models' => $articles, 'total' => $total];
+        return ['articles' => $articles, 'totalItems' => $total];
     }
     
     public function postComment( Request $request, Response $response )

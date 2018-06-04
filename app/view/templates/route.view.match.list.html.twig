@@ -4,15 +4,15 @@
     <div class="container-full" id="route-view-match-list">
         {% verbatim %}
 
-        <div class="container match-list-container" id="match-list">
-            <div class="search-match">
-                <div class="info">Loaded {{ models.length }} from total {{ total }} matches</div>
+        <div class="container match-list-container infinite-list-container" id="match-list">
+            <div class="infinite-search">
+                <div class="info">Loaded {{ matches.length }} from totalItems {{ totalItems }} matches</div>
                 <div class="form">
-					<input v-on:keyup.enter="search()" v-model="searchParams.name" placeholder="Search for squad, game, or enemy team" type="text">
+					<input v-on:keyup.enter="search()" v-model="searchParam" placeholder="Search for squad, game, or enemy team" type="text">
 					<button v-on:click="search()">SEARCH</button>
                 </div>
             </div>
-            <article v-for="(match, key) in models" v-bind:key="key" class="match">
+            <article v-for="(match, key) in matches" v-bind:key="key" class="match">
                   <section v-on:click="toggleMatchInfo" class="inline-info">
                       <div class="left">
                           <span class="game">{{ match.game_name_short }}</span>
@@ -42,11 +42,11 @@
                     </span>
                   </section>
             </article>
-            <div v-if="loading" class="loading-matches">
+            <div v-if="loading" class="infinite-loading">
               <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
 			</div>
-			<div v-if="total > models.length" class="infinite-more">
-			  There are {{ total - models.length }} more matches...
+			<div v-if="totalItems > matches.length" class="infinite-more">
+			  There are {{ totalItems - matches.length }} more matches...
 			</div>
         </div>
         {% endverbatim %}
@@ -57,21 +57,16 @@
 
     (function($, Vue){
 
-         var DATA = {% autoescape false %}{{ matches }}{% endautoescape %};
-         var LIMIT = {% autoescape false %}{{ limit }}{% endautoescape %};
-
          new Vue({
             el: '#match-list',
             data: function () {
                 return {
-                    models: DATA.matches,
-                    total: parseInt(DATA.total),
-                    limit: parseInt(LIMIT),
-                    startAt: parseInt(LIMIT),
+                    matches: [],
+                    totalItems: 0,
+                    limit: parseInt({{ limit }}),
+                    startAt: 0,
                     loading: false,
-                    searchParams : {
-                        name: null
-                    }
+                    searchParam : ''
                 }
             },
             methods: {
@@ -81,57 +76,89 @@
                 },
                 bottomVisible : function()
                 {
-                    var spaceBelow = $(window).height() - $('#match-list')[0].getBoundingClientRect().bottom;
-                    return spaceBelow > -100;
+	                var wh = window.innerHeight;
+	                var b =  this.$el.getBoundingClientRect().bottom;
+	                var spaceBelow = wh - b;
+	                return spaceBelow > -100;
                 },
-                loadArticles: function()
-                {
-                    return $.getJSON("/match/loadInfinity/", { search: this.searchParams, startAt: this.startAt })
-                        .then(function(response){
-                            this.total = parseInt(response.total);
-                            return response.matches;
-                        }
-                        .bind(this));
-                },
-                loadMore : function()
-                {
-                    return this.loadArticles().then(function(matches)
-                    {
-                        $.each(matches, function(i,match){ this.models.push(match); }.bind(this));
-                        this.startAt += this.limit;
-                    }
-                    .bind(this))
-                },
-                search : function()
-                {
-                    this.startAt = 0;
-                    this.total = 0;
-                    this.loadArticles().then(function(matches)
-                    {
-                        this.models = matches;
-                    }
-                    .bind(this))
-                }
+	            fetchData : function()
+	            {
+		            this.loading = true;
+
+		            return new Promise(function(resolve, reject)
+		            {
+			            fetch('/match/loadInfinity/?startAt=' + this.startAt + '&search=' + this.searchParam)
+				            .then(function(response)
+				            {
+					            if(!response.ok) throw new Error('Bad request: Unable to load matches.');
+					            resolve(response.json());
+				            })
+				            .catch(function(error)
+				            {
+					            reject(error)
+				            })
+				            .finally(function()
+				            {
+					            this.loading = false;
+				            }
+					        .bind(this));
+		            }
+			        .bind(this));
+	            },
+	            fetchMore : function()
+	            {
+		            return this.fetchData()
+			            .then(function( response )
+			            {
+				            this.totalItems = response.totalItems ? response.totalItems : 0;
+				            this.pushMatches( response.matches || [] );
+				            this.startAt += this.limit;
+			            }
+				        .bind(this));
+	            },
+	            pushMatches : function( matches )
+	            {
+		            matches.forEach(function( url )
+		            {
+			            this.matches.push( url )
+		            }
+			            .bind(this));
+	            },
+	            search : function()
+	            {
+		            this.startAt = 0;
+		            this.totalItems = 0;
+		            this.fetchData()
+			            .then(function( response )
+			            {
+				            this.totalItems = response.totalItems ? response.totalItems : 0;
+				            this.matches = response.matches || [];
+				            this.startAt += response.matches.length
+			            }
+				        .bind(this));
+	            }
             },
-            created: function()
-            {
-                window.addEventListener('scroll', function()
-                {
-                    if(this.bottomVisible() === true && this.loading === false)
-                    {
-                        if(this.total > this.models.length)
-                        {
-                            this.loading = true;
-                            this.loadMore().then(function()
-                            {
-                                this.loading = false;
-                            }
-                            .bind(this));
-                        }
-                    }
-                }
-                .bind(this));
-            },
+	         created: function()
+	         {
+		         this.fetchMore();
+
+		         window.addEventListener('scroll', function()
+		         {
+			         if(this.bottomVisible() === true && this.loading === false)
+			         {
+				         if(this.totalItems > this.matches.length)
+				         {
+					         this.loading = true;
+					         this.fetchMore().then(function()
+					         {
+						         this.loading = false;
+					         }
+						     .bind(this));
+				         }
+			         }
+		         }
+			     .bind(this));
+	         }
          });
 
     }(jQuery, Vue));

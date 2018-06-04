@@ -23,48 +23,7 @@
 	{
 	  min-height: 100%;
 	  padding-top: 15px;
-
-	  .search-article, .search-match {
-		margin-bottom: 15px;
-		min-width: 100%;
-		display: flex;
-		justify-content: space-between;
-	    position: relative;
-		height: 40px;
-		  line-height: 40px;
-		.info {
-		  text-align: left;
-			background: $primary;
-			color: $light;
-			padding-left: 15px;
-			padding-right: 15px;
-			font-family: 'Noto Sans', sans-serif;
-		}
-		.form {
-			height: 100%;
-			position: relative;
-			width: calc(50%);
-			display: flex;
-			justify-content: flex-end;
-			> * { height: 100%; }
-			input {
-				background: $light;
-				margin-right: 15px;
-				font-size: 16px;
-				padding-left: 10px;
-				flex: 1;
-			}
-			button {
-				border: none;
-				background: $primary;
-				color: $light;
-				font-weight: bold;
-				padding-left: 15px;
-				padding-right: 15px;
-				width: 100px;
-			}
-		}
-	  }
+	  
 	  article.match   { min-height: 50px;}
 	  article.article { min-height: 100px;}
 	  article.article, article.match
@@ -87,25 +46,6 @@
 		  	margin: 0;
 		}
 	  }
-
-	  .loading-articles, .loading-matches
-	  {
-		  text-align: center;
-		  padding-bottom: 40px;
-		  padding-top: 20px;
-		  overflow: hidden;
-	  }
-	}
-}
-
-@include mq('tablet', 'max') {
-	#route-view-article-list .container.article-list-container {
-		.info {
-			display: none;
-		}
-		.form {
-			min-width: 100%;
-		}
 	}
 }
 

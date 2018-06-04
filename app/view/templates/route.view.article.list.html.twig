@@ -8,25 +8,25 @@
             </div>
         </div>
         {% verbatim %}
-        <div class="container article-list-container" id="article-list">
-            <div class="search-article">
-                <div class="info">Loaded {{ models.length }} from total {{ total }} articles</div>
+        <div class="container article-list-container infinite-list-container" id="article-list">
+            <div class="infinite-search">
+                <div class="info">Loaded {{ articles.length }} from total {{ totalItems }} articles</div>
                 <div class="form">
-					<input v-on:keyup.enter="search()" v-model="searchParams.title" placeholder="Search" type="text">
+					<input v-on:keyup.enter="search()" v-model="searchParam" placeholder="Search" type="text">
 					<button v-on:click="search()">SEARCH</button>
                 </div>
             </div>
-            <article v-for="(article, key) in models" v-bind:key="key" class="article">
+            <article v-for="(article, key) in articles" v-bind:key="key" class="article">
                 <a v-bind:href="'/article/read/' + article.title_seo">
                   <h2 class="title">{{ article.title }}</h2>
                 </a>
                 <p class="text">{{ article.teaser }}</p>
             </article>
-            <div v-if="loading" class="loading-articles">
+            <div v-if="loading" class="infinite-loading">
               <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
 			</div>
-			<div v-if="total > models.length" class="infinite-more">
-			  There are {{ total - models.length }} more articles...
+			<div v-if="totalItems > articles.length" class="infinite-more">
+			  There are {{ totalItems - articles.length }} more articles...
 			</div>
         </div>
         {% endverbatim %}
@@ -34,72 +34,98 @@
 
     <script type="text/javascript">
 
-		(function($, Vue){
-
-			var ARTICLES = {% autoescape false %}{{ articles }}{% endautoescape %};
-			var LIMIT = {% autoescape false %}{{ limit }}{% endautoescape %};
-
-			var EventBus = new Vue();
-
-			var app = new Vue({
+		(function(Vue){
+			new Vue({
 				el: '#article-list',
 				data: function () {
 					return {
-						models: ARTICLES.models,
-						total: parseInt(ARTICLES.total),
-						limit: parseInt(LIMIT),
-						startAt: parseInt(LIMIT),
+						articles: [],
+						totalItems: 0,
+						limit: parseInt({{ limit }}),
+						startAt: 0,
 					  	loading: false,
-                        searchParams : {
-							title: null
-                        }
+                        searchParam : ''
 					}
 				},
 				methods: {
 					bottomVisible : function()
                     {
-	                    var spaceBelow = $(window).height() - $('#article-list')[0].getBoundingClientRect().bottom;
+	                    var wh = window.innerHeight;
+	                    var b =  this.$el.getBoundingClientRect().bottom;
+	                    var spaceBelow = wh - b;
 	                    return spaceBelow > -100;
 					},
-                    loadArticles: function()
-                    {
-	                    return $.getJSON("/article/loadInfinity/", { search: this.searchParams, startAt: this.startAt })
-							.then(function(response){
-								this.total = parseInt(response.total);
-								return response.models;
+					fetchData : function()
+					{
+						this.loading = true;
+
+						return new Promise(function(resolve, reject)
+						{
+							fetch('/article/loadInfinity/?startAt=' + this.startAt + '&search=' + this.searchParam )
+								.then(function(response)
+								{
+									if(!response.ok) throw new Error('Bad request: Unable to load articles.');
+									resolve(response.json());
+								})
+								.catch(function(error)
+								{
+									reject(error)
+								})
+								.finally(function()
+								{
+									this.loading = false;
+								}
+								.bind(this));
+						}
+						.bind(this));
+					},
+					fetchMore : function()
+					{
+						return this.fetchData()
+							.then(function( response )
+							{
+								this.totalItems = response.totalItems ? response.totalItems : 0;
+
+								this.pushArticles( response.articles || [] );
+
+								this.startAt += this.limit;
 							}
 							.bind(this));
-                    },
-					loadMore : function()
+					},
+					pushArticles : function( articles )
 					{
-						return this.loadArticles().then(function(articles)
+						articles.forEach(function( article )
 						{
-							$.each(articles, function(i,article){ this.models.push(article); }.bind(this));
-							this.startAt += this.limit;
+							this.articles.push( article )
 						}
-						.bind(this))
+						.bind(this));
 					},
 					search : function()
 					{
 						this.startAt = 0;
-						this.total = 0;
-						this.loadArticles().then(function(articles)
-						{
-							this.models = articles;
-						}
-						.bind(this))
+						this.totalItems = 0;
+						this.fetchData()
+							.then(function( response )
+							{
+								this.totalItems = response.totalItems ? response.totalItems : 0;
+								this.articles = response.articles || [];
+								this.startAt += response.articles.length
+							}
+							.bind(this));
 					}
 				},
 				created: function()
                 {
+	                this.fetchMore();
+
 					window.addEventListener('scroll', function()
 					{
 						if(this.bottomVisible() === true && this.loading === false)
 						{
-							if(this.total > this.models.length)
+							if(this.totalItems > this.articles.length)
 							{
 								this.loading = true;
-								this.loadMore().then(function()
+								this.fetchMore().then(function()
 								{
 									this.loading = false;
 								}
@@ -109,8 +135,7 @@
 					}.bind(this));
 				}
 			});
-
-		}(jQuery, Vue));
+		}(Vue));
     </script>
 
 {% endblock %}

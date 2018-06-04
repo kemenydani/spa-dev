@@ -18,9 +18,14 @@ class GalleryController extends ViewController
 
     public function index ( Request $request, Response $response )
     {
-        $galleries = new GalleryCollection(Gallery::getAll());
-
-        $this->view->render($response, 'route.view.gallery.list.html.twig', ['galleries' => $galleries]);
+	    $data  = $this->getMoreGalleries();
+	
+	    $this->view->render($response, 'route.view.gallery.list.html.twig',
+		    [
+			    'galleries' => json_encode($data),
+			    'limit' => static::INFINITE_LIMIT_GALLERIES
+		    ]
+	    );
     }
 
     public function getLoadInfiniteImages( Request $request, Response $response )
@@ -32,6 +37,16 @@ class GalleryController extends ViewController
 
         return $response->withStatus(200)->withJson($result);
     }
+	
+	public function getLoadInfiniteGalleries( Request $request, Response $response )
+	{
+		$search = $request->getQueryParam('search');
+		$startAt = $request->getQueryParam('startAt') ? $request->getQueryParam('startAt') : 0;
+		
+		$result = $this->getMoreGalleries($search, $startAt);
+		
+		return $response->withStatus(200)->withJson($result);
+	}
 
     // Gallery view image-infinite-scroll
     protected function getMoreImages($gallery_id, $startAt = 0)
@@ -76,11 +91,30 @@ class GalleryController extends ViewController
     }
 
     // Gallery list gallery-infinite-scroll
-    protected function getMoreGalleries($startAt = 0)
+    protected function getMoreGalleries($search = null, $startAt = 0)
     {
-        $params = [];
-
+	    $params = [];
+	    $where = "";
+	    
+	    if($search)
+	    {
+		    $name = $search;
+		    $where = ' WHERE name LIKE :name ';
+		    $params['name'] = '%' . $name . '%';
+	    }
+	    
+		/*
+	    $i = 0;
+	    foreach($search as $key => $value)
+	    {
+		    if(!$value) continue;
+		    $params[] = $value;
+		    $where .= $i === 0 ? ' WHERE name = ? ' : ' AND id = ? ';
+		    $i++;
+	    }
+        */
         $q1 = " SELECT SQL_CALC_FOUND_ROWS * FROM _xyz_gallery " .
+	          " {$where} " .
               " ORDER BY id ASC " .
               " LIMIT ".static::INFINITE_LIMIT_GALLERIES." OFFSET " . (int)$startAt;
 

@@ -11,7 +11,7 @@ use core\DB;
 
 class MatchController extends ViewController
 {
-    const INFINITE_LIMIT = 6;
+    const INFINITE_LIMIT = 20;
 
     public function index ( Request $request, Response $response )
     {
@@ -40,11 +40,10 @@ class MatchController extends ViewController
     {
         $params = [];
         $where = "";
-        $i = 0;
-
-        if(array_key_exists('name', $search))
+        
+        if($search)
         {
-            $name = $search['name'];
+            $name = $search;
             $where = ' WHERE sq.name LIKE :name OR et.name LIKE :name OR cat.name LIKE :name OR cat.name_short LIKE :name';
             $params['name'] = '%' . $name . '%';
         }
@@ -87,7 +86,7 @@ class MatchController extends ViewController
         }
 
 
-        return ['matches' => $res, 'total' => $total];
+        return ['matches' => $res, 'totalItems' => $total];
     }
 
 }

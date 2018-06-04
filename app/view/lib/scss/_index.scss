@@ -39,6 +39,7 @@ $error: lighten(lightcoral, 10%);
 @import '../../templates/route.view.media.overview.scss';
 
 @import '../../templates/route.view.gallery.view.scss';
+@import '../../templates/route.view.gallery.list.scss';
 
 @import '../../templates/route.view.partner.list.scss';
 
@@ -501,81 +502,71 @@ a.more-button {
   color: $light;
 }
 
-/*
-.photos
-{
-  width: 100%;
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-
-  .photo {
-    min-width: calc(33.3334%);
-    max-width: calc(33.3334%);
-    height: 250px;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    img {
-      object-fit: cover;
-      flex-shrink: 0;
-      min-width: 100%;
-      min-height: 100%
-    }
-  }
-  
-  
-  
-  
-  
-  i[data-src] { display: none; visibility: hidden; opacity: 0; max-width: 0; min-width: 0; }
-
-  .temp
-  {
-    width: calc(100% + 30px);
-    min-width: 100%;
-    position: relative;
-    margin-bottom: -15px;
-    border-spacing: 15px;
-    border-collapse: separate;
-    margin-left: -15px;
-
-    td
-    {
-      cursor: pointer !important;
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center center;
-    }
-
-    &.temp-rtl { direction: rtl; }
-
-    &.temp-lll .l { padding-bottom: 22.2223%; }
-    &.temp-ppp .p { padding-bottom: 45%; }
-    &.temp-lll2 tr:nth-child(1) .l:nth-child(1) { width: 50%; padding-bottom: 45%; }
-    &.temp-ll  .l { padding-bottom: 33.3334%; }
-    &.temp-pp  .p { padding-bottom: 75%;      }
-    &.temp-l   .l { padding-bottom: 66.6667%; }
-    &.temp-p   .p { padding-bottom: 100%;      }
-    &.temp-pll .p { padding-bottom: 75%;      }
-    &.temp-pll .l { padding-bottom: 37.5%;    }
-    &.temp-lpp .l { width: 45%;               }
-    &.temp-lpp .p { padding-bottom: 37.5%;    }
-  }
-}
-*/
 // infinite loader common
 
-.infinite-more {
-  text-align: center;
-  margin-bottom: 40px;
-  margin-top: 10px;
-  font-size: 20px;
-  color: lighten($darkgrey, 40%);
-  font-weight: bold;
-
-  text-transform: uppercase;
+.container.infinite-list-container
+{
+  min-height: 100%;
+  padding-top: 15px;
+  .infinite-search {
+    margin-bottom: 15px;
+    min-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    height: 40px;
+    line-height: 40px;
+    .info {
+      text-align: left;
+      background: $primary;
+      color: $light;
+      padding-left: 15px;
+      padding-right: 15px;
+      font-family: 'Noto Sans', sans-serif;
+    }
+    .form {
+      height: 100%;
+      position: relative;
+      width: calc(50%);
+      display: flex;
+      justify-content: flex-end;
+      > * { height: 100%; }
+      input {
+        background: $light;
+        margin-right: 15px;
+        font-size: 16px;
+        padding-left: 10px;
+        flex: 1;
+      }
+      button {
+        border: none;
+        background: $primary;
+        color: $light;
+        font-weight: bold;
+        padding-left: 15px;
+        padding-right: 15px;
+        width: 100px;
+      }
+    }
+  }
+  .infinite-loading
+  {
+    text-align: center;
+    padding-bottom: 40px;
+    padding-top: 20px;
+    overflow: hidden;
+  }
+  .infinite-more {
+    text-align: center;
+    margin-bottom: 40px;
+    margin-top: 10px;
+    font-size: 20px;
+    color: lighten($darkgrey, 40%);
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  @include mq('tablet', 'max') {
+    .info { display: none; }
+    .form { min-width: 100%;}
+  }
 }

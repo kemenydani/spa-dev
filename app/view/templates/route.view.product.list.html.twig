@@ -4,9 +4,9 @@
     <div class="container-full" id="route-view-product-list">
         {% verbatim %}
 
-        <div class="container product-list-container" id="product-list">
-            <div class="search-product">
-                <div class="info">Loaded {{ models.length }} from total {{ total }} products</div>
+        <div class="container product-list-container infinite-list-container" id="product-list">
+            <div class="infinite-search">
+                <div class="info">Loaded {{ products.length }} from totalItems {{ totalItems }} products</div>
                 <div class="form">
                     <div class="input-field">
                         <select v-model="searchParams.orderBy" v-on:change="search">
@@ -32,7 +32,7 @@
             </div>
             <br>
             <div class="product-flex">
-                <article v-for="(product, key) in models" v-bind:key="key" class="product">
+                <article v-for="(product, key) in products" v-bind:key="key" class="product">
                     <a class="image" style="display: block" v-bind:href="'product/' + product.id "
                        v-bind:style="{ 'background-image': 'url(' + product.image + ')' }">
                     </a>
@@ -42,11 +42,11 @@
                       </div>
                 </article>
             </div>
-            <div v-if="loading" class="loading-products">
+            <div v-if="loading" class="infinite-loading">
               <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
 			</div>
-			<div v-if="total > models.length" class="infinite-more">
-			  There are {{ total - models.length }} more products...
+			<div v-if="totalItems > products.length" class="infinite-more">
+			  There are {{ totalItems - products.length }} more products...
 			</div>
         </div>
         {% endverbatim %}
@@ -55,21 +55,18 @@
     <script type="text/javascript">
 
         (function($, Vue){
-
-            var DATA = {% autoescape false %}{{ products }}{% endautoescape %};
-            var LIMIT = {% autoescape false %}{{ limit }}{% endautoescape %};
-
+            
             new Vue({
                 el: '#product-list',
                 data: function () {
                     return {
-                        models: DATA.models,
-                        total: parseInt(DATA.total),
-                        limit: parseInt(LIMIT),
-                        startAt: parseInt(LIMIT),
+                        products: [],
+                        totalItems: 0,
+                        limit: parseInt({{ limit }}),
+                        startAt: 0,
                         loading: false,
                         searchParams : {
-                            name: null,
+                            name: '',
                             orderBy : 'name|asc'
                         }
                     }
@@ -81,52 +78,86 @@
                     },
                     bottomVisible : function()
                     {
-                        var spaceBelow = $(window).height() - $('#product-list')[0].getBoundingClientRect().bottom;
-                        return spaceBelow > -100;
+	                    var wh = window.innerHeight;
+	                    var b =  this.$el.getBoundingClientRect().bottom;
+	                    var spaceBelow = wh - b;
+	                    return spaceBelow > -100;
                     },
-                    loadArticles: function()
-                    {
-                        return $.getJSON("/product/loadInfinity/", {
-                        	search: this.searchParams.name,
-                            order: this.searchParams.orderBy,
-                            startAt: this.startAt
-                        }).then(function(response){
-                                this.total = parseInt(response.total);
-                                return response.models;
-                        }.bind(this));
-                    },
-                    loadMore : function()
-                    {
-                        return this.loadArticles().then(function(products)
-                        {
-	                        this.startAt += this.limit;
-                            $.each(products, function(i,product){ this.models.push(product); }.bind(this));
-                        }
-                        .bind(this))
-                    },
-                    search : function()
-                    {
+	                fetchData : function()
+	                {
+		                this.loading = true;
+		
+		                return new Promise(function(resolve, reject)
+		                {
+		                	var queryString = '?startAt=' + this.startAt + '&search=' + this.searchParams.name + '&order=' + this.searchParams.orderBy;
 
-                        this.startAt = 0;
-                        //this.total = 0;
-                        this.loadArticles().then(function(products)
-                        {
-                            this.models = products;
-                            this.startAt = this.limit;
-                        }
-                        .bind(this))
-                    }
+			                fetch('/product/loadInfinity/'+ queryString )
+				                .then(function(response)
+				                {
+					                if(!response.ok) throw new Error('Bad request: Unable to load products.');
+					                resolve(response.json());
+				                })
+				                .catch(function(error)
+				                {
+					                reject(error)
+				                })
+				                .finally(function()
+				                {
+					                this.loading = false;
+				                }
+					                .bind(this));
+		                }
+			            .bind(this));
+	                },
+	                fetchMore : function()
+	                {
+		                return this.fetchData()
+			                .then(function( response )
+			                {
+				
+				                this.totalItems = response.totalItems ? response.totalItems : 0;
+				
+				                this.pushGalleries( response.products || [] );
+				
+				                this.startAt += this.limit;
+			                }
+				                .bind(this));
+	                },
+	                pushGalleries : function( products )
+	                {
+		                products.forEach(function( url )
+		                {
+			                this.products.push( url )
+		                }
+			                .bind(this));
+	                },
+	                search : function()
+	                {
+		                this.startAt = 0;
+		                this.totalItems = 0;
+		                this.fetchData()
+			                .then(function( response )
+			                {
+				                this.totalItems = response.totalItems ? response.totalItems : 0;
+				                this.products = response.products || [];
+				                this.startAt += response.products.length
+			                }
+				            .bind(this));
+	                }
+                    
                 },
                 created: function()
                 {
+                	this.fetchMore();
+
                     window.addEventListener('scroll', function()
                     {
                         if(this.bottomVisible() === true && this.loading === false)
                         {
-                            if(this.total > this.models.length)
+                            if(this.totalItems > this.products.length)
                             {
                                 this.loading = true;
-                                this.loadMore().then(function()
+                                this.fetchMore().then(function()
                                 {
                                     this.loading = false;
                                 }

@@ -2,14 +2,141 @@
 
 {% block content %}
     <div class="container-full" id="route-view-gallery-list">
-        <div class="container gallery-list-container">
-            <div class="gallery-list">
-            {% for gk, gallery in galleries.getModels() %}
-                <div class="gallery">
-                     <h1><a style="color: red" href="/gallery/{{ gallery.getName() }}">{{ gallery.getName() }}</a></h1>
+        {% verbatim %}
+        <div class="container gallery-list-container infinite-list-container" id="gallery-list">
+            <div class="infinite-search">
+                <div class="info">Loaded {{ galleries.length }} from totalItems {{ totalItems }} galleries</div>
+                <div class="form">
+					<input v-on:keyup.enter="search()" v-model="searchParam" placeholder="Search" type="text">
+					<button v-on:click="search()">SEARCH</button>
                 </div>
-            {% endfor %}
             </div>
+            <article v-for="(gallery, key) in galleries" v-bind:key="key" class="gallery">
+                <a v-bind:href="'/gallery/' + gallery.name">
+                  <h2 class="title">{{ gallery.name }}</h2>
+                </a>
+                <p class="text">{{ gallery.teaser }}</p>
+            </article>
+			<div v-if="loading" class="infinite-loading">
+              <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
+			</div>
+			<div v-if="totalItems >galleries.length" class="infinite-more">
+			  There are {{ totalItems - galleries.length }} more galleries...
+			</div>
         </div>
+        {% endverbatim %}
     </div>
+
+    <script type="text/javascript">
+		
+		(function(Vue){
+
+			var EventBus = new Vue();
+
+			new Vue({
+				el: '#gallery-list',
+				data: function () {
+					return {
+						galleries: [],
+						totalItems: 0,
+						limit : parseInt({{ limit }}),
+						startAt: 0,
+						loading: false,
+						searchParam : '',
+					}
+				},
+				methods: {
+					bottomVisible : function()
+					{
+						var wh = window.innerHeight;
+						var b =  this.$el.getBoundingClientRect().bottom;
+						var spaceBelow = wh - b;
+						return spaceBelow > -100;
+					},
+					fetchData : function()
+					{
+						this.loading = true;
+						
+						return new Promise(function(resolve, reject)
+						{
+							fetch('/gallery/loadInfinityGalleries/?startAt=' + this.startAt + '&search=' + this.searchParam)
+								.then(function(response)
+								{
+									if(!response.ok) throw new Error('Bad request: Unable to load images.');
+									resolve(response.json());
+								})
+								.catch(function(error)
+								{
+									reject(error)
+								})
+								.finally(function()
+								{
+									this.loading = false;
+								}
+								.bind(this));
+						}
+						.bind(this));
+					},
+					fetchMore : function()
+					{
+						return this.fetchData()
+							.then(function( response )
+							{
+
+								this.totalItems = response.totalItems ? response.totalItems : 0;
+								
+								this.pushGalleries( response.galleries || [] );
+								
+								this.startAt += this.limit;
+							}
+							.bind(this));
+					},
+					pushGalleries : function( galleries )
+					{
+						galleries.forEach(function( url )
+						{
+							this.galleries.push( url )
+						}
+						.bind(this));
+					},
+					search : function()
+					{
+						this.startAt = 0;
+						this.totalItems = 0;
+						this.fetchData()
+							.then(function( response )
+							{
+								this.totalItems = response.totalItems ? response.totalItems : 0;
+								this.galleries = response.galleries || [];
+								this.startAt += response.galleries.length
+							}
+							.bind(this));
+					}
+				},
+				created: function()
+				{
+					this.fetchMore();
+					
+					window.addEventListener('scroll', function()
+					{
+						if(this.bottomVisible() === true && this.loading === false)
+						{
+							if(this.totalItems > this.galleries.length)
+							{
+								this.loading = true;
+								this.fetchMore().then(function()
+								{
+									this.loading = false;
+								}
+								.bind(this));
+							}
+						}
+					}
+					.bind(this));
+				}
+			});
+
+		}(Vue));
+    </script>
+
 {% endblock %}

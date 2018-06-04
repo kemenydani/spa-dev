@@ -91,7 +91,7 @@ class ProductController extends ViewController
             }
         }
 		
-		return ['models' => $data , 'total' => $total];
+		return ['products' => $data , 'totalItems' => $total];
 	}
 
     public function postComment( Request $request, Response $response )
