@@ -19,13 +19,14 @@ class User extends Model {
         'email',
         'profile_picture',
         'country_code',
+        'country_name',
         'date_created',
         'date_updated',
 	    'password_change_secret',
 	    'password_temporary'
     ];
 
-    const PUBLIC_DATASET = [ 'id', 'username', 'profile_picture', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated' ];
+    const PUBLIC_DATASET = [ 'id', 'username', 'country_name', 'profile_picture', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated' ];
     const SMALL_DATASET = [ 'id', 'username', 'profile_picture', 'email'];
     const IMAGE_PATH = __UPLOADS__ . '/images/user';
     const NO_USER_IMAGE = 'no-user-image.png';
@@ -95,6 +96,20 @@ class User extends Model {
 	{
 		return '/userProfilePicture/' . $this->getProfilePicture();
 	}
+
+	public function getUserProfile()
+    {
+        return UserProfile::find($this->getId(), 'user_id');
+    }
+
+	public function getLastComments( $limit = 3 )
+    {
+        $q = "SELECT * FROM _xyz_comment WHERE user_id = ? ORDER BY id DESC LIMIT {$limit} ";
+        $c = CommentCollection::queryToCollection($q, $this->getId());
+        $r = [];
+        if($c) $r = $c->getProperties();
+        return $r;
+    }
 
 	public static function getProfilePictureUrl($id)
     {

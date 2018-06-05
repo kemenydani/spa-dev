@@ -5,8 +5,9 @@
     <transition name="modal">
         <div class="modal-mask">
             <div class="modal-wrapper">
-                <div class="modal-container" style="{% if width %} width: {{ width }}; {% endif %} {% if height %} height: {{ height }}; {% endif %}">
-                    {% verbatim %}
+                {% verbatim %}
+                <div class="modal-container" v-bind:style="{ maxWidth: width, width: width, height: height,  maxHeight: height }">
+                    
                     <div v-show="loading" class="modal-loading">
                         <i class="fas fa-circle-notch fa-spin"></i>
                         <span ref="modalMessage">{{ loadingMessage }}</span>
@@ -31,8 +32,8 @@
                             </button>
                         </slot>
                     </div>
-                    {% endverbatim %}
                 </div>
+                {% endverbatim %}
             </div>
         </div>
     </transition>
@@ -48,6 +49,8 @@
 	    	props: {
 	    		loadingMessage: '',
                 loading: false,
+                width : '600px',
+                height : '450px',
 	    	},
 	    	watch: {
 

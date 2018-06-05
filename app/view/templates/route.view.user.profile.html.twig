@@ -2,79 +2,409 @@
 
 {% block content %}
 
-<div class="container-full" id="user-profile">
+<div class="container-full" id="route-view-user-profile-view">
+	
 	<div class="container-full route-header profile-route-header">
 		<div class="container profile-header-container">
-			<div class="username">
-				<h1></h1>
-				<h3>DANIEL KEMENY</h3>
-
+			<div class="user-brand">
+				<div
+					class="profile-picture circle bordered my-user-picture"
+					v-bind:style="{ backgroundImage : 'url('+model.user.profile_picture+')'}"
+					style="background-image: url({{ model.user.profile_picture }})"
+					v-on:click="show = true">
+				</div>
+				<h1 class="username" v-text="model.user.username">
+					{{ model.user.username }}
+				</h1>
+				<button v-on:click="modals.profileEditor.show = true" class="button button-primary">Edit Profile</button>
 			</div>
-			<div
-				class="user-image my-user-picture"
-				{% verbatim %}
-				v-on:click="show = true"
-				{% endverbatim %}
-				style="background-image: url({{ user.requestProfilePicture() }})">
+		</div>
+	</div>
+	<!-- bio -->
+	<div class="container-full container-full-user-bio" v-show="model.profile.bio && model.profile.show_bio">
+		<h2 class="section-header" v-text="model.user.username">{{ model.user.username }}'s STORY</h2>
+		<div class="container light-bg shadow pad-15 container-user-bio">
+			<p class="paragraph para-big" v-text="model.profile.bio">{{ model.profile.bio }}</p>
+		</div>
+	</div>
+	<!--gear -->
+	<div class="container-full container-full-user-gear" v-show="model.profile.gear && model.profile.show_gear">
+		<h2 class="section-header">GEAR</h2>
+		<div class="container container-user-gear">
+			<div class="container light-bg shadow pad-15" v-for="(gear, key) in model.profile.gear">
+				<span class="type">{{ key }}</span>
+				<span class="name">{{ gear }}</span>
+			</div>
+		</div>
+	</div>
+	<!-- comments -->
+	<div class="container-full container-full-user-comments" v-show="model.comments && model.profile.show_comments" >
+		<h2 class="section-header">LAST COMMENTS</h2>
+		<div class="container container-user-comments">
+			<div class="container light-bg shadow pad-15" v-for="(comment, key) in model.comments">
+				<div class="left">
+					<span
+					  	class="profile-picture circle bordered"
+					  	v-bind:style="{ backgroundImage : 'url('+model.user.profile_picture+')'}"
+					  	style="background-image: url({{ model.user.profile_picture }})"></span>
+					<span class="comment" v-text="comment.text"></span>
+				</div>
+				<div class="date" v-text="comment.date"></div>
 			</div>
 		</div>
 	</div>
 
-	<div class="container-full">
-		<div class="container container-user-details" style="height: 800px;">
-			{{ profile.bio }}
-		</div>
-	</div>
-
-    {% verbatim %}
-	<modal v-if="show" v-on:close="show = false" v-bind:loading="loading" v-bind:loading-message="message" id="modal-upload-user-picture">
-		<div slot="header">
-			<h2>Edit Picture</h2>
-		</div>
+	<!-- modal profile pic -->
+	{% verbatim %}
+	<modal
+		v-if="modals.pictureEditor.show"
+		v-on:close="modals.pictureEditor.show = false"
+		v-bind:loading="modals.pictureEditor.loading"
+		v-bind:loading-message="modals.pictureEditor.message"
+		id="modal-upload-user-picture" xmlns="http://www.w3.org/1999/html">
+		<div slot="header"><h2>Edit Picture</h2></div>
 		<div slot="body">
 			<div id="picture-area" ref="pictureArea" @dragover.prevent="" @drop.stop.prevent="onDrop">
-				<div ref="viewport" id="viewport" @click="viewPortBrowse()" class="img-container">
-
-                </div>
-                <div class="hint">
-                  CLICK OR DROP
-                </div>
+				<div ref="viewport" id="viewport" @click="viewPortBrowse()" class="img-container"></div>
+                <div class="hint">CLICK OR DROP</div>
 				<input ref="input" v-on:input="profileImageInput()" type="file" class="vanish" id="profile-picture-input">
 			</div>
 		</div>
 		<div slot="footer" style="min-width: 100% !important; display: flex;">
-			<button  v-on:click="browse()" style="width: 50%" class="button button-medium button-primary">
-				<b>Browse</b>
-			</button>
-			<button v-on:click="cropUpload()" style="width: 50%" class="button button-medium button-primary">
-				<b>Save</b>
-			</button>
+			<button v-on:click="browse()" style="width: 50%" class="button button-medium button-primary"><b>Browse</b></button>
+			<button v-on:click="cropUpload()" style="width: 50%" class="button button-medium button-primary"><b>Save</b></button>
+		</div>
+	</modal>
+	
+	<modal
+		v-if="modals.profileEditor.show"
+		v-on:close="modals.profileEditor.show = false"
+		v-bind:loading="modals.profileEditor.loading"
+		v-bind:loading-message="modals.profileEditor.message" id="modal-edit-profile"
+		v-bind:width="'1000px'"
+		v-bind:height="'700px'"
+		>
+		<div slot="header"><h2>Edit Profile</h2></div>
+		<div slot="body">
+			<app-profile-editor v-bind:model="model"></app-profile-editor>
+		</div>
+		<div slot="footer" style="min-width: 100% !important; display: flex;">
+			<button v-on:click="cropUpload()" style="width: 50%" class="button button-medium button-primary"><b>Save</b></button>
 		</div>
 	</modal>
 	{% endverbatim %}
 
 </div>
 
-{% include 'vue.component.modal.html.twig' with { width: '330px' } %}
+{% include 'vue.component.modal.html.twig' with { width: '600px' } %}
+
+<script type="text/x-template" id="template-app-profile-editor">
+	<form id="app-profile-editor">
+		<div class="input-field">
+			<input
+				placeholder="Email"
+				type="email"
+				name="email"
+				autocomplete="on"
+				v-model="model.user.email"
+				required
+			/>
+			<span class="field-info">error / info</span>
+		</div>
+		
+		<div class="input-field">
+			<input
+				placeholder="Type your country name"
+				type="text"
+				name="country_code"
+				autocomplete="off"
+				v-model="model.user.country_name"
+				v-on:input="searchCountry"
+				required
+			/>
+			
+			<div class="country-predictions" v-if="form.countryPredictions.length">
+				<div class="country-prediction" v-bind:text="" v-for="(key, pred) in form.countryPredictions">
+				
+				</div>
+			</div>
+			<span class="field-info">error / info</span>
+		</div>
+		
+		<div class="input-field">
+			<textarea
+				placeholder="Bio"
+				type="text"
+				name="bio"
+				autocomplete="on"
+				v-model="model.profile.bio"
+				rows="6"
+			>
+			</textarea>
+			<span class="field-info">error / info</span>
+		</div>
+		
+		<!-- social -->
+		
+		<div class="input-field">
+			<input
+				placeholder="Facebook Link (https://...)"
+				type="text"
+				name="social_facebook"
+				autocomplete="on"
+				v-model="model.profile.social_facebook"
+			/>
+			<span class="field-info">error / info</span>
+		</div>
+		
+		<div class="input-field">
+			<input
+				placeholder="Twitch Link (https://...)"
+				type="text"
+				name="social_twitch"
+				autocomplete="on"
+				v-model="model.profile.social_twitch"
+			/>
+			<span class="field-info">error / info</span>
+		</div>
+		
+		<div class="input-field">
+			<input
+				placeholder="Youtube Link (https://...)"
+				type="text"
+				name="social_youtube"
+				autocomplete="on"
+				v-model="model.profile.social_youtube"
+			/>
+			<span class="field-info">error / info</span>
+		</div>
+		
+		<div class="input-field">
+			<input
+				placeholder="Twitter Link (https://...)"
+				type="text"
+				name="social_twitter"
+				autocomplete="on"
+				v-model="model.profile.social_twitter"
+			/>
+			<span class="field-info">error / info</span>
+		</div>
+		
+		<!-- gear -->
+		
+		<div class="input-field">
+			<input
+				placeholder="Mouse"
+				type="text"
+				name="social_facebook"
+				autocomplete="on"
+				v-model="model.profile.gear_mouse"
+			/>
+			<span class="field-info">error / info</span>
+		</div>
+		
+		<div class="input-field">
+			<input
+				placeholder="Keyboard"
+				type="text"
+				name="social_twitch"
+				autocomplete="on"
+				v-model="model.profile.gear_keyboard"
+			/>
+			<span class="field-info">error / info</span>
+		</div>
+		
+		<div class="input-field">
+			<input
+				placeholder="Headset"
+				type="text"
+				name="social_youtube"
+				autocomplete="on"
+				v-model="model.profile.gear_headset"
+			/>
+			<span class="field-info">error / info</span>
+		</div>
+		
+		<div class="input-field">
+			<input
+				placeholder="VGA"
+				type="text"
+				name="social_twitter"
+				autocomplete="on"
+				v-model="model.profile.gear_vga"
+			/>
+			<span class="field-info">error / info</span>
+		</div>
+		
+		<div class="input-field">
+			<input
+				placeholder="Processor"
+				type="text"
+				name="social_twitter"
+				autocomplete="on"
+				v-model="model.profile.gear_processor"
+			/>
+			<span class="field-info">error / info</span>
+		</div>
+		
+		<div class="input-field">
+			<input
+				placeholder="Chair"
+				type="text"
+				name="social_twitter"
+				autocomplete="on"
+				v-model="model.profile.gear_chair"
+			/>
+			<span class="field-info">error / info</span>
+		</div>
+		
+	</form>
+</script>
 
 <script>
 
 (function($, Vue){
+	
+	Vue.component('app-profile-editor', {
+		template: '#template-app-profile-editor',
+		props: {
+			model : {
+				user    : {},
+				profile : {
+					'id' : null,
+					'user_id' : null,
+					'show_bio' : null,
+					'bio' : null,
+					'show_gear' : null,
+					'show_social' : null,
+					'show_comments' : null,
+					'social_facebook' : null,
+					'social_twitter' : null,
+					'social_twitch' : null,
+					'social_youtube' : null,
+					'gear_mouse' : null,
+					'gear_keyboard' : null,
+					'gear_headset' : null,
+					'gear_vga' : null,
+					'gear_processor' : null,
+					'gear_chair': null,
+				},
+				comments: []
+			},
+		},
+		data: function () {
+			return {
+				form : {
+					countryPredictions : []
+				}
+			}
+		},
+		computed :
+		{
+			social : function()
+			{
+				return Object.keys(this.model.profile).filter(function( v ){
+					return v.indexOf('social_') !== -1;
+				})
+			},
+			gear : function()
+			{
+				return Object.keys(this.model.profile).filter(function( v ){
+					return v.indexOf('gear_') !== -1;
+				})
+			},
+		},
+	  	methods: {
+			searchCountry : function(event)
+			{
+				fetch('/country/find/?string=' + event.target.value)
+				  	.then(function(response){
+				  		return response.json();
+					})
+					.then(function(json)
+					{
+						
+						this.form.countryPredictions = [];
+						
+						Object.keys(json).forEach(function( key, index ){
+							this.form.countryPredictions.push({ c: key, v : json[key]})
+						}
+						.bind(this))
+					  
+					  console.log(this.form.countryPredictions)
+						
+					}.bind(this))
+			}
+		},
+	  	watch : {
+			model : {
+				handler : function( v )
+				{
+				
+				},
+			  	deep: true
+			}
+		},
+	  	mounted: function(){
+			console.log(this.gear)
+			console.log(this.social)
+		}
+	});
+
 
 	new Vue({
-		el: '#user-profile',
+		el: '#route-view-user-profile-view',
+	  	components : ['app-profile-editor'],
 		data: function ()
         {
 			return {
-				show: false,
-                loading: false,
-                message: '',
-                cropResultConfig : { type: 'blob', size:'viewport', format: 'jpg', quality: 1, circle: false },
-                cropViewPortConfig : {
-	                viewport: { width: 200, height: 200, type: 'circle' },
-	                boundary: { width: 300, height: 300 }
-                },
-                api: 'uploadUserPicture',
+				socialSelection : '',
+				socialPresets : {
+					facebook: 'Facebook',
+					twitch : 'Twitch',
+					youtube: 'Youtube',
+				},
+				gearPresets : {
+					mouse: 'Facebook',
+					keyboard : 'Twitch',
+					processor: 'Youtube',
+				},
+				model : {{ model|json_encode|raw }},
+			  	api : {
+					pictureUpdate : 'uploadUserPicture',
+				  	profileUpdate : '/user/updateUserProfile',
+					profileFetch  : '/user/getUserProfile',
+				},
+			  	modals : {
+					pictureEditor : {
+						show : false,
+					  	loading: false,
+					  	message: ''
+					},
+				  	profileEditor : {
+					  	show : true,
+					  	loading: false,
+					  	message: ''
+					}
+				},
+				cropConfig : {
+					resultConfig : { type: 'blob', size:'viewport', format: 'jpg', quality: 1, circle: false },
+				  	viewportConfig : {
+					  	viewport: { width: 200, height: 200, type: 'circle' },
+					  	boundary: { width: 300, height: 300 }
+					}
+				},
+			}
+		},
+	  	created : function(){
+			console.log(this.model);
+		},
+	  	watch : {
+			model : {
+				handler : function(v){
+					console.log('foo')
+				},
+			  	deep : true
 			}
 		},
 		methods:
@@ -106,7 +436,7 @@
 				this.setLoading();
 				this.printMessage('Cutting Image');
 
-				this.getViewPort().croppie( 'result', this.cropResultConfig )
+				this.getViewPort().croppie( 'result', this.cropConfig.resultConfig )
 				  .then(function( blob )
                   {
                     this.uploadFile( blob, 'file' )
@@ -139,7 +469,6 @@
 			},
             ajaxUpload( formData )
             {
-            	console.log(formData)
 	            return $.ajax(
                 {
 		            url: '/' + this.api,
@@ -172,8 +501,8 @@
                 return xhr;
             },
             onDrop : function( fileDropEvent )
-            {
-                this.profileImageInput( fileDropEvent.dataTransfer );
+			{
+				this.profileImageInput( fileDropEvent.dataTransfer );
             },
             viewPortBrowse : function()
             {

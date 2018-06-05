@@ -8,8 +8,9 @@
 
 #route-view-gallery-view
 {
-  overflow: visible;
 
+  overflow: visible;
+  position: relative;
   .gallery-view-route-header {
     background-color: $dark;
     position: relative;

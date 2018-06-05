@@ -10,22 +10,21 @@
 		<div class="bg-image" style="background-image: url({{ headImageUrl }})"></div>
 	</div>
     {% verbatim %}
-    <div class="container image-list-container" id="image-list">
+    <div class="container image-list-container infinite-list-container" id="image-list">
         <div id="gallery-mosaic" class="photos" ref="photoContainer">
-			<div class="photo" v-on:click="openAsCurrent" v-bind:data-id="key" v-for="(url, key) in urls" v-bind:style="{ backgroundImage: 'url('+url+')' }"></div>
+			<div class="photo" v-on:click="openAsCurrent" v-bind:data-id="key" v-for="(image, key) in images" v-bind:style="{ backgroundImage: 'url('+image+')' }"></div>
         </div>
-        <div v-if="loading" class="loading-gallery-images">
+        <div v-if="loading" class="infinite-loading">
 		  <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
 		</div>
-		<div v-if="totalItems > urls.length" class="infinite-more">
-		  There are {{ totalItems - urls.length }} more photos...
+		<div v-if="totalItems > images.length" class="infinite-more">
+		  There are {{ totalItems - images.length }} more photos...
 		</div>
     </div>
     {% endverbatim %}
 	
 	{% verbatim %}
 	<modal v-if="gallery.show" class="gallery-modal" v-on:close="gallery.show = false" v-bind:loading="null" v-bind:loading-message="null" id="modal-image-gallery">
-		
 		<div slot="header">
 			<h2>{{ gallery.name }}</h2>
 		</div>
@@ -36,8 +35,8 @@
 			<div class="currentImageHolder">
 				<div class="currentImage"
 				  v-show="gallery.currentImage == key"
-				  v-for="(url, key) in urls"
-				  v-bind:style="{ 'background-image': 'url(' + url + ')' }"></div>
+				  v-for="(image, key) in images"
+				  v-bind:style="{ 'background-image': 'url(' + image + ')' }"></div>
 			</div>
 			<div class="next" v-on:click="next()">
 				<i class="fa fa-4x fa-angle-right"></i>
@@ -67,7 +66,7 @@
 	        galleryId : 1,
             totalItems: 0,
 		  	startAt : 0,
-        	urls : [],
+        	images : [],
         },
         methods: {
             fetchData : function()
@@ -94,24 +93,21 @@
                 }
                 .bind(this));
             },
-		  	fetchMore : function()
+	        fetchMore : function( )
+	        {
+		        return this.fetchData().then(this.handleResponse);
+	        },
+	        handleResponse : function( response )
+	        {
+		        this.totalItems = response.totalItems ? response.totalItems : 0;
+		        this.pushUrls( response.images || [] );
+		        this.startAt += this.limit;
+	        },
+		  	pushUrls : function( images )
 			{
-			  	return this.fetchData()
-				  	.then(function( response )
-					{
-					  	this.totalItems = response.totalItems ? response.totalItems : 0;
-					  
-					  	this.pushUrls( response.urls || [] );
-					  
-					  	this.startAt += this.limit;
-					}
-				    .bind(this));
-			},
-		  	pushUrls : function( urls )
-			{
-				urls.forEach(function( url )
+				images.forEach(function( image )
 				{
-					this.urls.push( url )
+					this.images.push( image )
 				}
 				.bind(this));
 			},
@@ -124,7 +120,7 @@
 			},
 	        next : function()
 	        {
-		        if(this.gallery.currentImage + 1 < this.urls.length)
+		        if(this.gallery.currentImage + 1 < this.images.length)
 		        {
 			        this.gallery.currentImage++;
 		        }
@@ -137,7 +133,7 @@
 	        {
 		        if(this.gallery.currentImage === 0)
 		        {
-			        this.gallery.currentImage = this.urls.length - 1;
+			        this.gallery.currentImage = this.images.length - 1;
 		        }
 		        else
 		        {
@@ -152,13 +148,16 @@
         },
         created : function()
         {
-	        this.fetchMore();
+	        this.handleResponse({{ images|raw }});
 		  
 	        window.addEventListener('scroll', function()
 	        {
 		        if(this.bottomVisible() === true && this.loading === false)
 		        {
-			        if(this.totalItems > this.urls.length) { this.fetchMore(); }
+			        if(this.totalItems > this.images.length)
+			        {
+			        	this.fetchMore();
+			        }
 		        }
 	        }
 		    .bind(this));

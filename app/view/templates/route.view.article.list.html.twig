@@ -79,18 +79,15 @@
 						}
 						.bind(this));
 					},
-					fetchMore : function()
+					fetchMore : function( )
 					{
-						return this.fetchData()
-							.then(function( response )
-							{
-								this.totalItems = response.totalItems ? response.totalItems : 0;
-
-								this.pushArticles( response.articles || [] );
-
-								this.startAt += this.limit;
-							}
-							.bind(this));
+						return this.fetchData().then(this.handleResponse);
+					},
+					handleResponse : function( response )
+					{
+						this.totalItems = response.totalItems ? response.totalItems : 0;
+						this.pushArticles( response.articles || [] );
+						this.startAt += this.limit;
 					},
 					pushArticles : function( articles )
 					{
@@ -116,7 +113,7 @@
 				},
 				created: function()
                 {
-	                this.fetchMore();
+	                this.handleResponse({{ articles|raw }});
 
 					window.addEventListener('scroll', function()
 					{
@@ -124,12 +121,7 @@
 						{
 							if(this.totalItems > this.articles.length)
 							{
-								this.loading = true;
-								this.fetchMore().then(function()
-								{
-									this.loading = false;
-								}
-								.bind(this));
+								this.fetchMore();
 							}
                         }
 					}.bind(this));

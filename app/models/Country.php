@@ -283,6 +283,21 @@ class Country
         return array_key_exists($code, self::$db) ? self::$db[$code] : null;
     }
 
+    public static function getCountryByName($name)
+    {
+        $name = strtoupper($name);
+        $flip = self::$db;
+
+        $res = [];
+
+        foreach($flip as $key => $v) {
+
+            if(strpos(strtoupper($v), $name) !== false ) $res[$key] = $v;
+        }
+
+        return $res;
+    }
+
     public static function getFlagPath($code, $ff = 'small')
     {
         $code = strtolower($code);

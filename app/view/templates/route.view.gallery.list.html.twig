@@ -28,113 +28,101 @@
     </div>
 
     <script type="text/javascript">
-		
-		(function(Vue){
+	(function(Vue){
 
-			var EventBus = new Vue();
-
-			new Vue({
-				el: '#gallery-list',
-				data: function () {
-					return {
-						galleries: [],
-						totalItems: 0,
-						limit : parseInt({{ limit }}),
-						startAt: 0,
-						loading: false,
-						searchParam : '',
-					}
-				},
-				methods: {
-					bottomVisible : function()
-					{
-						var wh = window.innerHeight;
-						var b =  this.$el.getBoundingClientRect().bottom;
-						var spaceBelow = wh - b;
-						return spaceBelow > -100;
-					},
-					fetchData : function()
-					{
-						this.loading = true;
-						
-						return new Promise(function(resolve, reject)
-						{
-							fetch('/gallery/loadInfinityGalleries/?startAt=' + this.startAt + '&search=' + this.searchParam)
-								.then(function(response)
-								{
-									if(!response.ok) throw new Error('Bad request: Unable to load images.');
-									resolve(response.json());
-								})
-								.catch(function(error)
-								{
-									reject(error)
-								})
-								.finally(function()
-								{
-									this.loading = false;
-								}
-								.bind(this));
-						}
-						.bind(this));
-					},
-					fetchMore : function()
-					{
-						return this.fetchData()
-							.then(function( response )
-							{
-
-								this.totalItems = response.totalItems ? response.totalItems : 0;
-								
-								this.pushGalleries( response.galleries || [] );
-								
-								this.startAt += this.limit;
-							}
-							.bind(this));
-					},
-					pushGalleries : function( galleries )
-					{
-						galleries.forEach(function( url )
-						{
-							this.galleries.push( url )
-						}
-						.bind(this));
-					},
-					search : function()
-					{
-						this.startAt = 0;
-						this.totalItems = 0;
-						this.fetchData()
-							.then(function( response )
-							{
-								this.totalItems = response.totalItems ? response.totalItems : 0;
-								this.galleries = response.galleries || [];
-								this.startAt += response.galleries.length
-							}
-							.bind(this));
-					}
-				},
-				created: function()
+		new Vue({
+			el: '#gallery-list',
+			data: function () {
+				return {
+					galleries: [],
+					totalItems: 0,
+					limit : parseInt({{ limit }}),
+					startAt: 0,
+					loading: false,
+					searchParam : '',
+				}
+			},
+			methods: {
+				bottomVisible : function()
 				{
-					this.fetchMore();
+					var wh = window.innerHeight;
+					var b =  this.$el.getBoundingClientRect().bottom;
+					var spaceBelow = wh - b;
+					return spaceBelow > -100;
+				},
+				fetchData : function()
+				{
+					this.loading = true;
 					
-					window.addEventListener('scroll', function()
+					return new Promise(function(resolve, reject)
 					{
-						if(this.bottomVisible() === true && this.loading === false)
-						{
-							if(this.totalItems > this.galleries.length)
+						fetch('/gallery/loadInfinityGalleries/?startAt=' + this.startAt + '&search=' + this.searchParam)
+							.then(function(response)
 							{
-								this.loading = true;
-								this.fetchMore().then(function()
-								{
-									this.loading = false;
-								}
-								.bind(this));
+								if(!response.ok) throw new Error('Bad request: Unable to load images.');
+								resolve(response.json());
+							})
+							.catch(function(error)
+							{
+								reject(error)
+							})
+							.finally(function()
+							{
+								this.loading = false;
 							}
-						}
+							.bind(this));
 					}
 					.bind(this));
+				},
+				fetchMore : function( )
+				{
+					return this.fetchData().then(this.handleResponse);
+				},
+			  	handleResponse : function( response )
+				{
+				  	this.totalItems = response.totalItems ? response.totalItems : 0;
+				  	this.pushGalleries( response.galleries || [] );
+				  	this.startAt += this.limit;
+				},
+				pushGalleries : function( galleries )
+				{
+					galleries.forEach(function( url )
+					{
+						this.galleries.push( url )
+					}
+					.bind(this));
+				},
+				search : function()
+				{
+					this.startAt = 0;
+					this.totalItems = 0;
+					this.fetchData()
+						.then(function( response )
+						{
+							this.totalItems = response.totalItems ? response.totalItems : 0;
+							this.galleries = response.galleries || [];
+							this.startAt += response.galleries.length
+						}
+						.bind(this));
 				}
-			});
+			},
+			created: function()
+			{
+				this.handleResponse({{ galleries|raw }});
+				
+				window.addEventListener('scroll', function()
+				{
+					if(this.bottomVisible() === true && this.loading === false)
+					{
+						if(this.totalItems > this.galleries.length)
+						{
+							this.fetchMore();
+						}
+					}
+				}
+				.bind(this));
+			}
+		});
 
 		}(Vue));
     </script>

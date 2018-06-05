@@ -12,11 +12,21 @@ class UserProfile extends Model
     public static $COLUMNS = [
         'id',
         'user_id',
+        'show_bio',
 		'bio',
-        'facebook_url',
-        'youtube_url',
-        'twitch_url',
-        'instagram_url',
+        'show_gear',
+        'show_social',
+        'show_comments',
+        'social_facebook',
+        'social_twitter',
+        'social_twitch',
+        'social_youtube',
+        'gear_mouse',
+        'gear_keyboard',
+        'gear_headset',
+        'gear_vga',
+        'gear_processor',
+        'gear_chair',
     ];
 
     public function getId()
@@ -27,6 +37,11 @@ class UserProfile extends Model
     public function getUserId()
     {
         return $this->getProperty('user_id');
+    }
+
+    public function formatSocialJson()
+    {
+
     }
 
     public function getBio()

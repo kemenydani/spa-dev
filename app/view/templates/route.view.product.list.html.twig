@@ -105,31 +105,27 @@
 				                {
 					                this.loading = false;
 				                }
-					                .bind(this));
+					            .bind(this));
 		                }
 			            .bind(this));
 	                },
-	                fetchMore : function()
+	                fetchMore : function( )
 	                {
-		                return this.fetchData()
-			                .then(function( response )
-			                {
-				
-				                this.totalItems = response.totalItems ? response.totalItems : 0;
-				
-				                this.pushGalleries( response.products || [] );
-				
-				                this.startAt += this.limit;
-			                }
-				                .bind(this));
+		                return this.fetchData().then(this.handleResponse);
 	                },
-	                pushGalleries : function( products )
+	                handleResponse : function( response )
+	                {
+		                this.totalItems = response.totalItems ? response.totalItems : 0;
+		                this.pushProducts( response.products || [] );
+		                this.startAt += this.limit;
+	                },
+	                pushProducts : function( products )
 	                {
 		                products.forEach(function( url )
 		                {
 			                this.products.push( url )
 		                }
-			                .bind(this));
+			            .bind(this));
 	                },
 	                search : function()
 	                {
@@ -148,7 +144,7 @@
                 },
                 created: function()
                 {
-                	this.fetchMore();
+                	this.handleResponse({{ products|raw }});
 
                     window.addEventListener('scroll', function()
                     {
@@ -156,12 +152,7 @@
                         {
                             if(this.totalItems > this.products.length)
                             {
-                                this.loading = true;
-                                this.fetchMore().then(function()
-                                {
-                                    this.loading = false;
-                                }
-                                .bind(this));
+                                this.fetchMore();
                             }
                         }
                     }.bind(this));

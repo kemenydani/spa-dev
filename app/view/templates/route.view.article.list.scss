@@ -1,9 +1,8 @@
 #route-view-article-list
 {
-	min-height: 100%;
-  	position: relative;
 	overflow: visible;
 
+  	position: relative;
   	.container-full.article-route-header
 	{
 	  	background: darken($darkgrey, 35%);
@@ -46,6 +45,13 @@
 		  	margin: 0;
 		}
 	  }
+	}
+}
+
+@include mq('desktop', 'max') {
+	.container-full.article-route-header {
+		margin-left: -15px !important;
+		min-width: calc(100% + 30px) !important;
 	}
 }
 

@@ -105,24 +105,23 @@
 		            }
 			        .bind(this));
 	            },
-	            fetchMore : function()
+	            fetchMore : function( )
 	            {
-		            return this.fetchData()
-			            .then(function( response )
-			            {
-				            this.totalItems = response.totalItems ? response.totalItems : 0;
-				            this.pushMatches( response.matches || [] );
-				            this.startAt += this.limit;
-			            }
-				        .bind(this));
+		            return this.fetchData().then(this.handleResponse);
 	            },
-	            pushMatches : function( matches )
+	            handleResponse : function( response )
 	            {
-		            matches.forEach(function( url )
+		            this.totalItems = response.totalItems ? response.totalItems : 0;
+		            this.pushMatches( response.matches || [] );
+		            this.startAt += this.limit;
+	            },
+	            pushMatches : function( items )
+	            {
+		            items.forEach(function( item )
 		            {
-			            this.matches.push( url )
+			            this.matches.push( item )
 		            }
-			            .bind(this));
+			        .bind(this));
 	            },
 	            search : function()
 	            {
@@ -140,7 +139,7 @@
             },
 	         created: function()
 	         {
-		         this.fetchMore();
+		         this.handleResponse({{ matches|raw }});
 
 		         window.addEventListener('scroll', function()
 		         {
@@ -148,12 +147,7 @@
 			         {
 				         if(this.totalItems > this.matches.length)
 				         {
-					         this.loading = true;
-					         this.fetchMore().then(function()
-					         {
-						         this.loading = false;
-					         }
-						     .bind(this));
+					         this.fetchMore();
 				         }
 			         }
 		         }

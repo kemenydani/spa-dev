@@ -23,7 +23,20 @@ class UserController extends ViewController
 
         $profile = UserProfile::find($user->getId(), 'user_id');
 
-        $this->view->render($response, 'route.view.user.profile.html.twig', ['user' => $user, 'profile' => $profile]);
+        $profileFormatted = $user->getUserProfile()->getFormatted();
+
+        $model =
+            [
+                'user' => $user->getFormatted( User::PUBLIC_DATASET ),
+                'profile' => $user->getUserProfile()->getFormatted(),
+                'comments' => $user->getLastComments(),
+            ]
+        ;
+
+        $this->view->render($response, 'route.view.user.profile.html.twig', [
+                'model' => $model,
+            ]
+        );
     }
 
     public function uploadPicture ( Request $request, Response $response, $args )

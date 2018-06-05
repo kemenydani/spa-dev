@@ -63,7 +63,7 @@ class GalleryController extends ViewController
         $total = DB::instance()->totalRowCount();
 
         return [
-            'urls' => $collection->getUrlArray() ,
+            'images' => $collection->getUrlArray() ,
             'totalItems' => $total
         ];
     }
@@ -76,16 +76,16 @@ class GalleryController extends ViewController
 
         $randomImageUrl = null;
 
-        if(is_array($data['urls']))
+        if(is_array($data['images']))
         {
-            $randId = array_rand($data['urls'], 1);
-            $randomImageUrl = $data['urls'][$randId];
+            $randId = array_rand($data['images'], 1);
+            $randomImageUrl = $data['images'][$randId];
         }
 
 	    $this->view->render($response, 'route.view.gallery.view2.html.twig', [
 	        'headImageUrl' => $randomImageUrl,
 	        'gallery' => $gallery,
-            'data' => $data,
+            'images' => json_encode($data),
             'limit' => self::INFINITE_LIMIT_IMAGES,
         ]);
     }
