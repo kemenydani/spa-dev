@@ -119,14 +119,14 @@
 				name="country_code"
 				autocomplete="off"
 				v-model="model.user.country_name"
+				v-on:blur="form.countryPredictions = []"
+				v-on:keyup.enter="chooseFirstPrediction"
 				v-on:input="searchCountry"
 				required
 			/>
 			
 			<div class="country-predictions" v-if="form.countryPredictions.length">
-				<div class="country-prediction" v-bind:text="" v-for="(key, pred) in form.countryPredictions">
-				
-				</div>
+				<div v-on:click="choosePrediction(country)" class="country-prediction" v-text="country.name" v-for="(country, key) in form.countryPredictions"></div>
 			</div>
 			<span class="field-info">error / info</span>
 		</div>
@@ -303,13 +303,15 @@
 		{
 			social : function()
 			{
-				return Object.keys(this.model.profile).filter(function( v ){
+				return Object.keys(this.model.profile).filter(function( v )
+				{
 					return v.indexOf('social_') !== -1;
 				})
 			},
 			gear : function()
 			{
-				return Object.keys(this.model.profile).filter(function( v ){
+				return Object.keys(this.model.profile).filter(function( v )
+				{
 					return v.indexOf('gear_') !== -1;
 				})
 			},
@@ -318,22 +320,33 @@
 			searchCountry : function(event)
 			{
 				fetch('/country/find/?string=' + event.target.value)
-				  	.then(function(response){
-				  		return response.json();
-					})
+				  	.then(function(response){ return response.json(); })
 					.then(function(json)
 					{
-						
 						this.form.countryPredictions = [];
-						
-						Object.keys(json).forEach(function( key, index ){
-							this.form.countryPredictions.push({ c: key, v : json[key]})
+						Object.keys(json).forEach(function( key, index )
+						{
+							if(index > 5) return false;
+							this.form.countryPredictions.push({ 'code': key, 'name' : json[key]})
 						}
 						.bind(this))
-					  
-					  console.log(this.form.countryPredictions)
-						
-					}.bind(this))
+					}
+					.bind(this))
+			},
+			choosePrediction : function(country)
+			{
+				this.model.user.country_code = country.code;
+				this.model.user.country_name = country.name;
+				this.form.countryPredictions = [];
+			},
+			chooseFirstPrediction : function()
+			{
+				if(this.form.countryPredictions.length)
+				{
+					this.model.user.country_code = this.form.countryPredictions[0].code;
+					this.model.user.country_name = this.form.countryPredictions[0].name;
+					this.form.countryPredictions = [];
+				}
 			}
 		},
 	  	watch : {
@@ -350,7 +363,6 @@
 			console.log(this.social)
 		}
 	});
-
 
 	new Vue({
 		el: '#route-view-user-profile-view',
