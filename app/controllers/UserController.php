@@ -73,6 +73,8 @@ class UserController extends ViewController
             {
                 $userSet['country_name'] = $formUserData['country_name'];
                 $userSet['country_code'] = $formUserData['country_code'];
+            } else {
+            	$errors['country_name'] = 'Unable to find country';
             }
         }
 
@@ -90,11 +92,11 @@ class UserController extends ViewController
 
             $model = $this->generateProfileModelForUser($AuthUser);
 
-            return $response->withStatus(200)->withJson(['error' => $errors, 'model' => $model]);
+            return $response->withStatus(200)->withJson(['errors' => $errors, 'model' => $model]);
         }
         else
         {
-            return $response->withStatus(200)->withJson(['error' => $errors]);
+            return $response->withStatus(401)->withJson(['errors' => $errors]);
         }
     }
 

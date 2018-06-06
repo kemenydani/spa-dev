@@ -88,7 +88,7 @@
 			<h1>Edit Profile</h1>
 		</div>
 		<div slot="body" class="body">
-			<form id="app-profile-editor">
+			<form id="app-profile-editor" ref="form">
 				<section class="field-section general-fields">
 					<h2>General Information</h2>
 					<div class="input-field">
@@ -100,7 +100,7 @@
 							v-model="data.user.email"
 							required
 						/>
-						<span class="field-info"></span>
+						<span class="field-info">{{ errors.email }}</span>
 					</div>
 					<div class="input-field">
 						<input
@@ -117,7 +117,7 @@
 						<div class="country-predictions" v-if="form.countryPredictions.length">
 							<div v-on:click="choosePrediction(country)" class="country-prediction" v-text="country.name" v-for="(country, key) in form.countryPredictions"></div>
 						</div>
-						<span class="field-info"></span>
+						<span class="field-info">{{ errors.country_name }}</span>
 					</div>
 					<div class="input-field">
 						<textarea
@@ -133,7 +133,7 @@
 					</div>
 					<div class="input-field">
 						<label class="checkbox-wrap"> <b>Show Bio</b>
-							<input type="checkbox" v-model="data.profile.show_bio">
+							<input type="checkbox" true-value="1" false-value="0" v-model="data.profile.show_bio">
 							<span class="checkmark"></span>
 						</label>
 					</div>
@@ -183,7 +183,7 @@
 					</div>
 					<div class="input-field">
 						<label class="checkbox-wrap"> <b>Show Social Links</b>
-							<input type="checkbox" v-model="data.profile.show_social">
+							<input type="checkbox" true-value="1" false-value="0"   v-model="data.profile.show_social">
 							<span class="checkmark"></span>
 						</label>
 					</div>
@@ -344,6 +344,7 @@
 		},
 		data: function () {
 			return {
+				errors : {},
 				form : {
 					countryPredictions : []
 				}
@@ -400,6 +401,13 @@
 			},
 		    onSubmitProfileEdit : function()
 			{
+				if(typeof this.$refs['form'].checkValidity === 'function'){
+					if(!this.$refs['form'].checkValidity()) {
+						this.$refs['form'].reportValidity();
+						return false;
+					}
+				}
+
 				this.loading = true;
 				this.message = 'Saving';
 				
@@ -414,32 +422,34 @@
 			  	})
 				.then(function(response)
 				{
-					if(response.ok)
+					return response.json();
+				}
+				.bind(this))
+				.then(function(json, )
+				{
+					if(json.errors.length === 0)
 					{
 						this.message = 'Profile Saved!';
-						
+
+						this.data = json.model;
+
 						setTimeout(function()
 						{
 							this.$emit('close');
 							this.loading = false;
 						}
-						.bind(this), 3000);
-					  
-					  	return response.json();
+							.bind(this), 3000);
+
 					} else {
-					
+						this.errors = json.errors;
+						setTimeout(function() { this.loading = false; }.bind(this), 3000);
 					}
 				}
 				.bind(this))
-			  	.then(function(json)
+			  	.catch(function(json)
 				{
-					 this.data = json.model;
-				}
-				.bind(this))
-			  	.catch(function(error)
-				{
-				
-				});
+					console.log(json)
+				})
 			},
 		}
 	});
