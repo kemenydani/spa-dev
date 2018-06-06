@@ -1,9 +1,7 @@
 <?php
 
 error_reporting(0);
-session_start([
-   // 'read_and_close' => true,
-]);
+session_start();
 
 define('__DEBUG__', true );
 

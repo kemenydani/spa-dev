@@ -1,10 +1,7 @@
 <?php
 
-
-
 namespace controllers;
 
-use core\Auth;
 use Intervention\Image\ImageManager as ImageManager;
 
 use models\UserProfile;
@@ -14,24 +11,100 @@ use \Slim\Http\Response as Response;
 use models\User as User;
 use Slim\Http\UploadedFile;
 
+use models\Country;
+
+use core\Auth;
+
 class UserController extends ViewController
 {
-
-    public function index ( Request $request, Response $response, $args)
+    public function postUpdateProfile(Request $request, Response $response)
     {
-        $user = User::find($args['username'], 'username');
+        $id = $request->getQueryParam('userId');
 
-        $profile = UserProfile::find($user->getId(), 'user_id');
+        $AuthUser = Auth::user();
 
-        $profileFormatted = $user->getUserProfile()->getFormatted();
+        if(!$AuthUser || (int)$AuthUser->getId() !== (int)$id) return $response->withStatus(401, 'Unauthorized');
 
-        $model =
+        $body = $request->getParsedBody();
+        $errors = [];
+
+        $formUserData = $body['user'];
+        $formProfileData = $body['profile'];
+
+        if(filter_var($formUserData['email'], FILTER_VALIDATE_EMAIL))
+        {
+            $emailFree = true;
+            // TODO:: find the bug here
+            if(!strcmp($formUserData['email'], $AuthUser->getProperty('email')))
+            {
+                $EmailUser = User::find($formUserData['email'], 'email');
+                if($EmailUser && $EmailUser->getId() !== $AuthUser->getId()) $emailFree = false;
+            }
+
+            if($emailFree)
+            {
+                $AuthUser->setProperty('email', $formUserData['email']);
+                $AuthUser->save();
+            }
+            else
+            {
+                $errors['email'] ='Email is already in use';
+            }
+        }
+        else
+        {
+            $errors['email'] ='Invalid email format';
+        }
+
+        if($formUserData['country_name'] && $formUserData['country_code'])
+        {
+            $country = Country::find($formUserData['country_code']);
+            if($country)
+            {
+                $AuthUser->setProperty('country_name', $formUserData['country_name']);
+                $AuthUser->setProperty('country_code', $formUserData['country_code']);
+                $AuthUser->save();
+            }
+        }
+
+        unset($formProfileData['user_id']);
+        unset($formProfileData['id']);
+
+        $UserProfile = $AuthUser->getUserProfile();
+
+        /* @var UserProfile $UserProfile */
+        if($UserProfile)
+        {
+            foreach($formProfileData as $column => $value)
+            {
+                $UserProfile->setProperty($column, $value);
+            }
+            $UserProfile->save();
+        }
+
+        $model = $this->generateProfileModelForUser($AuthUser);
+
+        return $response->withStatus(200)->withJson(['error' => $errors, 'model' => $model]);
+    }
+
+    public function generateProfileModelForUser(User $user = null)
+    {
+        if(!$user) return false;
+
+        return $model =
             [
                 'user' => $user->getFormatted( User::PUBLIC_DATASET ),
                 'profile' => $user->getUserProfile()->getFormatted(),
                 'comments' => $user->getLastComments(),
             ]
         ;
+    }
+
+    public function index ( Request $request, Response $response, $args)
+    {
+        $user = User::find($args['username'], 'username');
+
+        $model = $this->generateProfileModelForUser($user);
 
         $this->view->render($response, 'route.view.user.profile.html.twig', [
                 'model' => $model,
