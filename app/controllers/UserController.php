@@ -28,27 +28,36 @@ class UserController extends ViewController
         $body = $request->getParsedBody();
         $errors = [];
 
+        $userSet = [];
+        $profileSet = [];
+
         $formUserData = $body['user'];
         $formProfileData = $body['profile'];
+
+        unset($formProfileData['user_id']);
+        unset($formProfileData['id']);
 
         if(filter_var($formUserData['email'], FILTER_VALIDATE_EMAIL))
         {
             $emailFree = true;
-            // TODO:: find the bug here
-            if(!strcmp($formUserData['email'], $AuthUser->getProperty('email')))
+
+            if(strcmp($formUserData['email'], $AuthUser->getProperty('email')) !== 0)
             {
                 $EmailUser = User::find($formUserData['email'], 'email');
-                if($EmailUser && $EmailUser->getId() !== $AuthUser->getId()) $emailFree = false;
+
+                if($EmailUser && $EmailUser->getId() !== $AuthUser->getId())
+                {
+                    $emailFree = false;
+                }
             }
 
             if($emailFree)
             {
-                $AuthUser->setProperty('email', $formUserData['email']);
-                $AuthUser->save();
+                $userSet['email'] = $formUserData['email'];
             }
             else
             {
-                $errors['email'] ='Email is already in use';
+                $errors['email'] = 'Email is already in use';
             }
         }
         else
@@ -59,32 +68,34 @@ class UserController extends ViewController
         if($formUserData['country_name'] && $formUserData['country_code'])
         {
             $country = Country::find($formUserData['country_code']);
+
             if($country)
             {
-                $AuthUser->setProperty('country_name', $formUserData['country_name']);
-                $AuthUser->setProperty('country_code', $formUserData['country_code']);
-                $AuthUser->save();
+                $userSet['country_name'] = $formUserData['country_name'];
+                $userSet['country_code'] = $formUserData['country_code'];
             }
         }
-
-        unset($formProfileData['user_id']);
-        unset($formProfileData['id']);
-
-        $UserProfile = $AuthUser->getUserProfile();
 
         /* @var UserProfile $UserProfile */
-        if($UserProfile)
+        $UserProfile = $AuthUser->getUserProfile();
+
+        foreach($formProfileData as $column => $value) $profileSet[$column] = $value;
+
+        if(!count($errors))
         {
-            foreach($formProfileData as $column => $value)
-            {
-                $UserProfile->setProperty($column, $value);
-            }
+            $AuthUser->setProperties($userSet);
+            $UserProfile->setProperties($profileSet);
+            $AuthUser->save();
             $UserProfile->save();
+
+            $model = $this->generateProfileModelForUser($AuthUser);
+
+            return $response->withStatus(200)->withJson(['error' => $errors, 'model' => $model]);
         }
-
-        $model = $this->generateProfileModelForUser($AuthUser);
-
-        return $response->withStatus(200)->withJson(['error' => $errors, 'model' => $model]);
+        else
+        {
+            return $response->withStatus(200)->withJson(['error' => $errors]);
+        }
     }
 
     public function generateProfileModelForUser(User $user = null)
