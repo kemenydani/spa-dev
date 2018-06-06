@@ -4,55 +4,35 @@
 	<base href="{{ app.request.getBaseURL() }}/public/">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="UTF-8">
-	<title>Title</title>
-	<link rel="stylesheet" href="static/css/index.css">
-	<link rel="stylesheet" href="static/css/croppie.css">
-	<link rel="stylesheet" async="true" href="static/lib/font-awesome/5.0.8/css/fontawesome-all.min.css">
-	<script src="static/dist/polyfill.js"></script>
-	<script src="static/lib/jquery/3.3.1/jquery.min.js"></script>
-	<script src="static/lib/vue/2.5.16/vue.min.js"></script>
-	<script src="static/lib/croppie.min.js"></script>
-	<script src="static/lib/phototiles.min.js"></script>
-	<script>
-
-	  window.executeAsync = function(cb){
-		document.addEventListener("DOMContentLoaded", function(){
-			cb();
+	<title>Avenue Esports</title>
+	<link rel="stylesheet" type="text/css" href="static/css/index.css">
+	<link rel="stylesheet" type="text/css" href="static/css/croppie.css">
+	<link rel="stylesheet" type="text/css" href="static/lib/font-awesome/5.0.8/css/fontawesome-all.min.css">
+	<script type="text/javascript" src="static/dist/polyfill.js"></script>
+	<script type="text/javascript" src="static/lib/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="static/lib/vue/2.5.16/vue.min.js"></script>
+	<script type="text/javascript" src="static/lib/croppie.min.js"></script>
+	<script type="text/javascript">
+		window.appEventBus = new window.Vue({
+			created : function(){
+				this.$on('userPictureChanged', function(image = null) {
+					var elements = document.querySelectorAll('.my-user-picture'), i;
+					for (i = 0; i < elements.length; i++) elements.style.backgroundImage = 'url(' + image + ')';
+				});
+			}
 		});
-	  };
-
-	  executeAsync(function()
-	  {
-		  window.appEventBus = new Vue({
-			  data : function(){
-				  return { }
-			  },
-			  created : function(){
-				  this.$on('userPictureChanged', function( image = null ){
-					  $(document).find('.my-user-picture').each(function(i, el){
-						  $(el).css('background-image', 'url(' + image + ')')
-					  });
-				  });
-			  }
-		  });
-	  });
-
 	</script>
 </head>
 <body>
 
 <div id="wrapper">
-
 	{% include 'index.header.html.twig' %}
-
 	<section id="main-content">
 	{% block body %}
 		{% block layout %}{% endblock %}
 	{% endblock %}
 	</section>
-
     {% include 'index.footer.html.twig' %}
-
 </div>
 </body>
 </html>

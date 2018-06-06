@@ -4,7 +4,7 @@
             <a href="/profile/{{ AuthUser.getUsername() }}" class="username">{{ AuthUser.getUsername() }}</a>
             <div class="logout"><a href="/logout">logout</a></div>
         </div>
-        <div class="user-picture my-user-picture" style="background-image: url({{ AuthUser.requestProfilePicture() }})"></div>
+        <div class="profile-picture picture-md circle bordered my-user-picture" style="background-image: url({{ AuthUser.requestProfilePicture() }})"></div>
     {% else %}
         <a class="signin" href="/auth">Sign In</a>
     {% endif %}

@@ -206,9 +206,8 @@
       */
     }
     .currentImage {
-      background-position: center center;
       background-size: contain;
-      background-repeat: no-repeat;
+      background: no-repeat center center;
       position: absolute;
       min-height: calc(100% - 30px);
       top:15px; left: 15px; bottom: 15px; right: 15px;

@@ -17,8 +17,7 @@
         .product-photo {
           border: 1px solid lightgrey;
           background-size: contain;
-          background-repeat: no-repeat;
-          background-position: center;
+          background: no-repeat center;
           max-width: calc(50% - 15px / 2);
           min-width: calc(50% - 15px / 2);
           min-height: 140px;

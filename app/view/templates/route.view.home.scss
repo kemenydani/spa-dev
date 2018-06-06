@@ -171,8 +171,7 @@
       justify-content: space-between;
       .image {
         background-size: contain;
-        background-position: center center;
-        background-repeat: no-repeat;
+        background: no-repeat center center;
         min-width: 100%;
         min-height: 230px;
       }
@@ -416,15 +415,14 @@
         display: flex;
         align-content: flex-end;
         align-items: flex-end;
-        padding: 0px 10px 10px 10px;
+        padding: 0 10px 10px 10px;
         color: $light;
         text-transform: uppercase;
         font-family: 'Montserrat', sans-serif;
         font-size: 16px;
         font-weight: bold;
         background-size: contain;
-        background-position: center bottom;
-        background-repeat: no-repeat;
+        background: no-repeat center bottom;
         .nameplate {
           background: $primary;
           width: 100%;

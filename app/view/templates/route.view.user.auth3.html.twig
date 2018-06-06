@@ -286,8 +286,8 @@
                                     {
                                         if(!response || !response.hasOwnProperty('success')) throw new Error('Internal Server Error');
 
-                                        if(response.success == true) return this.onSuccess( name, response );
-                                        if(response.success == false) return this.onError( name, response );
+                                        if(response.success === true) return this.onSuccess( name, response );
+                                        if(response.success === false) return this.onError( name, response );
                                     }
                                     .bind(this)
                                 )

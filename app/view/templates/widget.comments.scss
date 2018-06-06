@@ -62,7 +62,6 @@
     .content {
       display: flex;
       .user-picture {
-        background: #666;
         width: 50px;
         min-width: 50px;
         min-height: 50px;
@@ -73,7 +72,7 @@
         margin-right: 10px;
         text-align: center;
         background-size: cover;
-        background-position: center center;
+        background: #666 center center;
       }
       .body {
         flex: 1;

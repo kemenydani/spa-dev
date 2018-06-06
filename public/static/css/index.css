@@ -117,8 +117,7 @@ menu, ol, ul {
   padding: 0 0 0 40px; }
 
 nav ul, nav ol {
-  list-style: none;
-  list-style-image: none; }
+  list-style: none none; }
 
 img {
   border: 0;
@@ -339,9 +338,6 @@ header#main-header {
         font-weight: bold; }
       header#main-header .header-aside .user-area .logout > a {
         color: #626262; }
-      header#main-header .header-aside .user-area .user-picture {
-        border: 2px solid #f6a00c;
-        margin: 10px; }
       header#main-header .header-aside .user-area a.signin {
         background: #f6a00c;
         border-radius: 2px;
@@ -407,9 +403,9 @@ nav#side-nav {
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
-  -webkit-box-shadow: 10px 0px 200px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 10px 0px 200px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 10px 0px 200px 0px rgba(0, 0, 0, 0.75); }
+  -webkit-box-shadow: 10px 0 200px 0 rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 0 200px 0 rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 0 200px 0 rgba(0, 0, 0, 0.75); }
   nav#side-nav a.signin {
     text-decoration: none;
     font-size: 25px;
@@ -436,8 +432,6 @@ nav#side-nav {
       align-content: center; }
       nav#side-nav .user-block .user-area .username {
         color: #f6a00c; }
-      nav#side-nav .user-block .user-area .user-picture {
-        border: 2px solid #f6a00c; }
   nav#side-nav .closebtn {
     position: absolute;
     top: 0;
@@ -708,8 +702,7 @@ footer#main-footer {
     justify-content: space-between; }
     .container.article-container .featured-content .body .image {
       background-size: contain;
-      background-position: center center;
-      background-repeat: no-repeat;
+      background: no-repeat center center;
       min-width: 100%;
       min-height: 230px; }
     .container.article-container .featured-content .body .content {
@@ -896,15 +889,14 @@ footer#main-footer {
         display: flex;
         align-content: flex-end;
         align-items: flex-end;
-        padding: 0px 10px 10px 10px;
+        padding: 0 10px 10px 10px;
         color: white;
         text-transform: uppercase;
         font-family: 'Montserrat', sans-serif;
         font-size: 16px;
         font-weight: bold;
         background-size: contain;
-        background-position: center bottom;
-        background-repeat: no-repeat; }
+        background: no-repeat center bottom; }
         .container.squad-container .squad .players .player .nameplate {
           background: #f6a00c;
           width: 100%;
@@ -1408,7 +1400,9 @@ footer#main-footer {
       text-align: center; }
       #route-view-user-profile-view .container-full.route-header.profile-route-header .user-brand .profile-picture {
         width: 240px;
-        height: 240px; }
+        height: 240px;
+        min-width: 240px;
+        min-height: 240px; }
       #route-view-user-profile-view .container-full.route-header.profile-route-header .user-brand .username {
         color: #f6a00c;
         text-transform: uppercase; }
@@ -1504,9 +1498,9 @@ footer#main-footer {
   width: 100%;
   z-index: 10;
   color: #dbdbdb;
-  -webkit-box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.3); }
+  -webkit-box-shadow: 0 10px 20px 2px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 10px 20px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 20px 2px rgba(0, 0, 0, 0.3); }
   #modal-edit-profile .country-predictions > div {
     padding: 15px 7.5px 15px 7.5px;
     border-bottom: 1px solid #626262;
@@ -1712,12 +1706,11 @@ footer#main-footer {
     min-height: 220px;
     height: 220px;
     position: relative;
-    -webkit-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2);
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2); }
+    -webkit-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2); }
     #route-view-squad-list .squad-list-container .squad-list .squad .bg-image {
-      background-position: center center;
-      background-repeat: no-repeat;
+      background: no-repeat center center;
       background-size: cover;
       -webkit-filter: grayscale(100%);
       /* Safari 6.0 - 9.0 */
@@ -1798,8 +1791,7 @@ footer#main-footer {
       bottom: 0;
       left: 0;
       z-index: 0;
-      background-position: center center;
-      background-repeat: no-repeat;
+      background: no-repeat center center;
       background-size: cover;
       -webkit-filter: grayscale(100%);
       /* Safari 6.0 - 9.0 */
@@ -1833,13 +1825,12 @@ footer#main-footer {
         width: 140px;
         height: 220px;
         background-size: contain;
-        background-position: bottom center;
-        background-repeat: no-repeat;
+        background: no-repeat bottom center;
         position: relative;
         display: flex;
         align-content: flex-end;
         align-items: flex-end;
-        padding: 0px 10px 10px 10px;
+        padding: 0 10px 10px 10px;
         color: white;
         text-transform: uppercase;
         font-family: 'Montserrat', sans-serif;
@@ -1882,13 +1873,12 @@ footer#main-footer {
     padding: 15px;
     position: relative;
     overflow: hidden;
-    -webkit-box-shadow: 0px 0px 10px -4px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0px 0px 10px -4px rgba(0, 0, 0, 0.2);
-    box-shadow: 0px 0px 10px -4px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 0 10px -4px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 0 10px -4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px -4px rgba(0, 0, 0, 0.2);
     border-radius: 2px; }
     #route-view-product-list .container.product-list-container article.product .image {
-      background-repeat: no-repeat;
-      background-position: center center;
+      background: no-repeat center center;
       background-size: contain;
       width: 100%;
       height: 150px;
@@ -1961,8 +1951,7 @@ footer#main-footer {
         #route-view-product-view #product-view .product .product-gallery .product-photo {
           border: 1px solid lightgrey;
           background-size: contain;
-          background-repeat: no-repeat;
-          background-position: center;
+          background: no-repeat center;
           max-width: calc(50% - 15px / 2);
           min-width: calc(50% - 15px / 2);
           min-height: 140px;
@@ -2107,8 +2096,7 @@ footer#main-footer {
       bottom: 0;
       left: 0;
       z-index: 0;
-      background-position: center center;
-      background-repeat: no-repeat;
+      background: no-repeat center center;
       background-size: cover;
       -webkit-filter: grayscale(100%);
       /* Safari 6.0 - 9.0 */
@@ -2124,8 +2112,6 @@ footer#main-footer {
       justify-content: space-between; }
       #route-view-gallery-view #image-list #gallery-mosaic .photo {
         background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
         min-width: calc(33.3334% - (15px * 2) / 3);
         max-width: calc(33.3334% - (15px * 2) / 3);
         margin-bottom: 15px;
@@ -2141,10 +2127,10 @@ footer#main-footer {
         -o-transition: all .4s ease-in-out;
         transition: all .4s ease-in-out;
         border: 5px solid white;
-        -webkit-box-shadow: 0px 0px 62px -4px rgba(0, 0, 0, 0.2);
-        -moz-box-shadow: 0px 0px 62px -4px rgba(0, 0, 0, 0.2);
-        box-shadow: 0px 0px 62px -4px rgba(0, 0, 0, 0.2);
-        background-color: white;
+        -webkit-box-shadow: 0 0 62px -4px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 0 62px -4px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 62px -4px rgba(0, 0, 0, 0.2);
+        background: white no-repeat center;
         -webkit-filter: grayscale(50%);
         /* Safari 6.0 - 9.0 */
         filter: grayscale(50%); }
@@ -2221,9 +2207,8 @@ footer#main-footer {
         flex: 1;
         padding: 15px; }
         #route-view-partner-list #partner-list .partner .logo-holder .logo {
-          background-position: center center;
           background-size: contain;
-          background-repeat: no-repeat;
+          background: no-repeat center center;
           width: 170px;
           min-width: 170px;
           height: 200px;
@@ -2351,7 +2336,7 @@ footer#main-footer {
       display: none;
       overflow: hidden;
       background: #626262;
-      padding: 0px 15px 0 15px; }
+      padding: 0 15px 0 15px; }
       #route-view-match-list .container.match-list-container article.match .block-info .map {
         height: 40px;
         line-height: 40px;
@@ -2416,9 +2401,9 @@ background: $lightgrey;
   margin: 0 auto;
   background: white;
   position: relative;
-  -webkit-box-shadow: 0px 0px 62px -4px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0px 0px 62px -4px rgba(0, 0, 0, 0.2);
-  box-shadow: 0px 0px 62px -4px rgba(0, 0, 0, 0.2); }
+  -webkit-box-shadow: 0 0 62px -4px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 0 62px -4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 62px -4px rgba(0, 0, 0, 0.2); }
   .form-area .wrap .form-status-overlay {
     position: absolute;
     z-index: 3;
@@ -2632,9 +2617,8 @@ background: $lightgrey;
     position: relative;
     */ }
   .modal-container .gallery-holder .currentImage {
-    background-position: center center;
     background-size: contain;
-    background-repeat: no-repeat;
+    background: no-repeat center center;
     position: absolute;
     min-height: calc(100% - 30px);
     top: 15px;
@@ -2697,7 +2681,6 @@ background: $lightgrey;
     .comment-tree .comment .content {
       display: flex; }
       .comment-tree .comment .content .user-picture {
-        background: #666;
         width: 50px;
         min-width: 50px;
         min-height: 50px;
@@ -2708,7 +2691,7 @@ background: $lightgrey;
         margin-right: 10px;
         text-align: center;
         background-size: cover;
-        background-position: center center; }
+        background: #666 center center; }
       .comment-tree .comment .content .body {
         flex: 1; }
         .comment-tree .comment .content .body p {
@@ -2840,8 +2823,7 @@ html {
     max-width: 220px;
     min-height: 100px;
     max-height: 100px;
-    background-repeat: no-repeat;
-    background-position: center center;
+    background: no-repeat center center;
     background-size: contain; }
   @media only screen and (max-width: 767px) {
     .sponsor-inline-container {
@@ -2930,9 +2912,9 @@ div#wrapper {
     .container.dark-bg a {
       color: #f6a00c; }
   .container.shadow {
-    -webkit-box-shadow: 0px 0px 7px -4px rgba(0, 0, 0, 0.4);
-    -moz-box-shadow: 0px 0px 7px -4px rgba(0, 0, 0, 0.4);
-    box-shadow: 0px 0px 7px -4px rgba(0, 0, 0, 0.4); }
+    -webkit-box-shadow: 0 0 7px -4px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0 0 7px -4px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 7px -4px rgba(0, 0, 0, 0.4); }
   .container.pad-15 {
     padding: 15px; }
   .container.full-height {
@@ -2955,7 +2937,6 @@ div#wrapper {
   margin: 0 auto; }
 
 .user-picture {
-  background: #454545;
   width: 50px;
   min-width: 50px;
   min-height: 50px;
@@ -2965,7 +2946,7 @@ div#wrapper {
   margin-right: 10px;
   text-align: center;
   background-size: cover;
-  background-position: center center; }
+  background: center center; }
 
 /* The checkbox-wrap */
 .checkbox-wrap {
@@ -3077,9 +3058,9 @@ div#wrapper {
   .box.box-background {
     background: white; }
   .box.box-shadow {
-    -webkit-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1); }
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1); }
   .box .box-title {
     margin: 0;
     font-weight: bold;
@@ -3156,12 +3137,19 @@ a.more-button {
   height: 0; }
 
 .profile-picture {
-  background-position: center center;
-  background-repeat: no-repeat;
+  background: no-repeat center center;
   background-size: cover;
   position: relative;
-  border: 2px solid #f6a00c;
-  display: block; }
+  display: block;
+  min-width: 30px;
+  min-height: 30px;
+  max-width: 30px;
+  max-height: 30px; }
+  .profile-picture.picture-md {
+    min-width: 50px;
+    max-width: 50px;
+    min-height: 50px;
+    max-height: 50px; }
   .profile-picture.circle {
     border-radius: 50%; }
   .profile-picture.bordered {

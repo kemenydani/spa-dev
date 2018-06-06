@@ -42,36 +42,28 @@
 
 <script>
 
-    (function($, Vue)
+    (function(Vue)
     {
 	    Vue.component('modal',
 	    {
+	    	template: '#modal-template',
 	    	props: {
 	    		loadingMessage: '',
                 loading: false,
                 width : '600px',
                 height : '450px',
 	    	},
-	    	watch: {
-
-	    	},
-		    template: '#modal-template',
 		    beforeCreate : function()
 		    {
-		    	$('body').addClass('modal-open');
+		    	document.getElementsByTagName('body')[0].classList.add('modal-open');
 		    },
 		    beforeDestroy : function()
 		    {
-                $('body').removeClass('modal-open');
+                document.getElementsByTagName('body')[0].classList.remove('modal-open');
 		    },
-
-		    mounted : function(){
-
-            }
-
 	    });
 
-    }(jQuery, Vue));
+    }(Vue));
 
 </script>
 

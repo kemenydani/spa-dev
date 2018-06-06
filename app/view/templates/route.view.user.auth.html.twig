@@ -256,7 +256,7 @@
 
                         EventBus.$emit('postRegister', function( response )
                         {
-                            EventBus.$emit('setMessage', 'Filling Your login informations.')
+                            EventBus.$emit('setMessage', 'Filling Your login informations.');
                             setTimeout(function()
                             {
                                 EventBus.$emit('setLoading', false);

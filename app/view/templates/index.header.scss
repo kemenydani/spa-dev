@@ -7,6 +7,8 @@ header#main-header {
   flex-wrap: nowrap;
   justify-content: center;
   //border: 1px solid deeppink;
+
+
   .header-aside {
 	flex: 1;
 	display: flex;
@@ -22,27 +24,24 @@ header#main-header {
 	&.header-right { justify-content: flex-end; }
 	.user-area
 	{
-      > div {
+        > div {
         text-align: center;
       }
-		  overflow: visible;
-		  height: 100%;
-		  display: flex;
+		overflow: visible;
+        height: 100%;
+        display: flex;
         flex-direction: column-reverse;
-		  flex-wrap: wrap;
-		  align-items: center;
-      justify-content: center;
-      align-content: center;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
 		  .username {
 			  color: $primary;
 			  text-transform: uppercase;
 			  font-weight: bold;
 		  }
 		  .logout > a { color: $darkgrey; }
-		  .user-picture {
-			  border: 2px solid $primary;
-			  margin: 10px;
-		  }
+
           a.signin {
             background: $primary;
             border-radius: 2px;
@@ -57,7 +56,6 @@ header#main-header {
   .header-center-container {
 	display: flex;
 	justify-content: center;
-	//border: 1px solid dodgerblue;
 	.navigation {
 	  display: flex;
 	  align-items: center;
@@ -74,7 +72,6 @@ header#main-header {
 		display: flex;
 		justify-content: space-between;
 	    align-items: center;
-	    //border: 1px solid lightsalmon;
 	  }
 	  &.nav-left  { justify-content: flex-start; }
 	  &.nav-right { justify-content: flex-end;   }
@@ -105,6 +102,7 @@ header#main-header {
 
 }
 
+// TODO:: move
 nav#side-nav {
   height: 100%;
   width: 400px;
@@ -117,11 +115,9 @@ nav#side-nav {
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
-
-  -webkit-box-shadow: 10px 0px 200px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 10px 0px 200px 0px rgba(0,0,0,0.75);
-  box-shadow: 10px 0px 200px 0px rgba(0,0,0,0.75);
-
+  -webkit-box-shadow: 10px 0 200px 0 rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 0 200px 0 rgba(0,0,0,0.75);
+  box-shadow: 10px 0 200px 0 rgba(0,0,0,0.75);
   a.signin {
     text-decoration: none;
     font-size: 25px;
@@ -129,7 +125,6 @@ nav#side-nav {
     display: block;
     transition: 0.3s;
   }
-
   > a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
@@ -137,31 +132,22 @@ nav#side-nav {
     color: #818181;
     display: block;
     transition: 0.3s;
-
     &:hover {
       color: #f1f1f1;
     }
   }
-
   .user-block {
     background: $darkergrey;
     padding: 8px 8px 8px 32px;
-
     .user-area {
       display: flex;
       flex-direction: row-reverse;
       align-items: center;
       justify-content: flex-end;
       align-content: center;
-      .username {
-        color: $primary;
-      }
-      .user-picture {
-        border: 2px solid $primary;
-      }
+      .username { color: $primary; }
     }
   }
-
   .closebtn {
     position: absolute;
     top: 0;
@@ -170,10 +156,7 @@ nav#side-nav {
     margin-left: 50px;
   }
 }
-
-#side-nav-trigger {
-  display: none;
-}
+#side-nav-trigger { display: none; }
 
 @include mq('desktop-wide', 'max') {
   header#main-header .header-aside.header-right .user-area {
