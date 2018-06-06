@@ -109,15 +109,6 @@
 	}
 }
 
-@include mq('desktop', 'max'){
-	#route-view-squad-view {
-		.squad-view-route-header {
-			margin-left: -15px;
-			min-width: calc(100% + 30px);
-		}
-	}
-}
-
 @include mq('tablet', 'max')
 {
 	#member-list {

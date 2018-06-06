@@ -8,10 +8,13 @@
   border-top: 1px solid $darkergrey;
 }
 
+.route-container {
+  overflow: visible !important;
+}
+
 @include mq('desktop', 'max') {
   .route-header {
-    //min-width: calc( 100% + 15px );
-    //margin-left: -15px !important;
-    //margin-right: -15px  !important;
+    min-width: calc( 100% + 30px );
+    margin-left: -15px !important;
   }
 }

@@ -118,14 +118,6 @@
     }
   }
 
-
-  @include mq('desktop', 'max'){
-    .gallery-view-route-header {
-        margin-left: -15px !important;
-        min-width: calc(100% + 30px) !important;
-    }
-  }
-
   @include mq('tablet-wide', 'max') {
     #image-list {
       #gallery-mosaic {

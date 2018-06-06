@@ -1,9 +1,8 @@
 {% extends 'block.full.html.twig' %}
 
 {% block content %}
-    <div class="container-full" id="route-view-match-list">
+    <div class="container-full route-container" id="route-view-match-list">
         {% verbatim %}
-
         <div class="container match-list-container infinite-list-container" id="match-list">
             <div class="infinite-search">
                 <div class="info">Loaded {{ matches.length }} from totalItems {{ totalItems }} matches</div>

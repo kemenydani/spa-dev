@@ -225,8 +225,8 @@ table {
   color: red;
   width: 100%;
   display: block;
-  line-height: 25px;
-  min-height: 25px;
+  line-height: 20px;
+  min-height: 20px;
   text-align: left; }
 
 .button {
@@ -555,6 +555,13 @@ footer#main-footer {
   background-position: center center;
   border-top: 1px solid #454545; }
 
+.route-container {
+  overflow: visible !important; }
+
+@media only screen and (max-width: 1247px) {
+  .route-header {
+    min-width: calc( 100% + 30px );
+    margin-left: -15px !important; } }
 .flex-box {
   width: 100%;
   max-width: 100%;
@@ -1416,22 +1423,6 @@ footer#main-footer {
     padding: 15px 0 15px 0;
     text-align: center;
     text-transform: uppercase; }
-  #route-view-user-profile-view .country-predictions {
-    position: absolute;
-    background: #454545;
-    width: 100%;
-    z-index: 10;
-    color: #dbdbdb;
-    -webkit-box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.3); }
-    #route-view-user-profile-view .country-predictions > div {
-      padding: 15px 7.5px 15px 7.5px;
-      border-bottom: 1px solid #626262;
-      border-left: 1px solid #626262;
-      border-right: 1px solid #626262; }
-  #route-view-user-profile-view .select-wrapper {
-    display: flex; }
   #route-view-user-profile-view .container.container-user-bio {
     text-align: justify; }
   #route-view-user-profile-view .container.container-user-gear .container,
@@ -1463,6 +1454,11 @@ footer#main-footer {
   padding-bottom: 0; }
 #modal-upload-user-picture .modal-footer {
   padding: 15px 0 0 0; }
+  #modal-upload-user-picture .modal-footer > div {
+    min-width: 100% !important;
+    display: flex; }
+    #modal-upload-user-picture .modal-footer > div button {
+      min-width: 50%; }
 #modal-upload-user-picture #picture-area {
   position: relative;
   height: 300px;
@@ -1495,6 +1491,27 @@ footer#main-footer {
   bottom: 0;
   background: #dbdbdb;
   cursor: pointer; }
+
+#modal-edit-profile .field-section {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #dbdbdb; }
+  #modal-edit-profile .field-section:last-child {
+    margin: 0;
+    border: none; }
+#modal-edit-profile .country-predictions {
+  position: absolute;
+  background: #454545;
+  width: 100%;
+  z-index: 10;
+  color: #dbdbdb;
+  -webkit-box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.3); }
+  #modal-edit-profile .country-predictions > div {
+    padding: 15px 7.5px 15px 7.5px;
+    border-bottom: 1px solid #626262;
+    border-left: 1px solid #626262;
+    border-right: 1px solid #626262; }
 
 /*
 .container-full.route-header {
@@ -1834,10 +1851,6 @@ footer#main-footer {
           line-height: 30px;
           text-align: center; }
 
-@media only screen and (max-width: 1247px) {
-  #route-view-squad-view .squad-view-route-header {
-    margin-left: -15px;
-    min-width: calc(100% + 30px); } }
 @media only screen and (max-width: 767px) {
   #member-list {
     display: none; }
@@ -2148,10 +2161,6 @@ footer#main-footer {
       padding-bottom: 40px;
       padding-top: 20px;
       overflow: hidden; }
-  @media only screen and (max-width: 1247px) {
-    #route-view-gallery-view .gallery-view-route-header {
-      margin-left: -15px !important;
-      min-width: calc(100% + 30px) !important; } }
   @media only screen and (max-width: 1023px) {
     #route-view-gallery-view #image-list #gallery-mosaic .photo {
       min-width: calc( 50% - 15px / 2 );

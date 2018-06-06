@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<div class="container-full" id="route-view-user-profile-view">
-	
+<div class="container-full route-container" id="route-view-user-profile-view">
+	<!-- route header -->
 	<div class="container-full route-header profile-route-header">
 		<div class="container profile-header-container">
 			<div class="user-brand">
@@ -11,12 +11,12 @@
 					class="profile-picture circle bordered my-user-picture"
 					v-bind:style="{ backgroundImage : 'url('+model.user.profile_picture+')'}"
 					style="background-image: url({{ model.user.profile_picture }})"
-					v-on:click="show = true">
+					v-on:click="editors.picture.show = true">
 				</div>
 				<h1 class="username" v-text="model.user.username">
 					{{ model.user.username }}
 				</h1>
-				<button v-on:click="modals.profileEditor.show = true" class="button button-primary">Edit Profile</button>
+				<button v-on:click="editors.profile.show = true" class="button button-primary">Edit Profile</button>
 			</div>
 		</div>
 	</div>
@@ -54,221 +54,271 @@
 		</div>
 	</div>
 
-	<!-- modal profile pic -->
 	{% verbatim %}
-	<modal
-		v-if="modals.pictureEditor.show"
-		v-on:close="modals.pictureEditor.show = false"
-		v-bind:loading="modals.pictureEditor.loading"
-		v-bind:loading-message="modals.pictureEditor.message"
-		id="modal-upload-user-picture" xmlns="http://www.w3.org/1999/html">
-		<div slot="header"><h2>Edit Picture</h2></div>
-		<div slot="body">
-			<div id="picture-area" ref="pictureArea" @dragover.prevent="" @drop.stop.prevent="onDrop">
-				<div ref="viewport" id="viewport" @click="viewPortBrowse()" class="img-container"></div>
-                <div class="hint">CLICK OR DROP</div>
-				<input ref="input" v-on:input="profileImageInput()" type="file" class="vanish" id="profile-picture-input">
-			</div>
-		</div>
-		<div slot="footer" style="min-width: 100% !important; display: flex;">
-			<button v-on:click="browse()" style="width: 50%" class="button button-medium button-primary"><b>Browse</b></button>
-			<button v-on:click="cropUpload()" style="width: 50%" class="button button-medium button-primary"><b>Save</b></button>
-		</div>
-	</modal>
-	
-	<modal
-		v-if="modals.profileEditor.show"
-		v-on:close="modals.profileEditor.show = false"
-		v-bind:loading="modals.profileEditor.loading"
-		v-bind:loading-message="modals.profileEditor.message" id="modal-edit-profile"
+	<!-- modal profile data -->
+	<modal-profile-editor
+		v-bind:data="model"
+		v-bind:show="editors.profile.show"
 		v-bind:width="'1000px'"
 		v-bind:height="'700px'"
-		>
-		<div slot="header"><h2>Edit Profile</h2></div>
-		<div slot="body">
-			<app-profile-editor v-bind:model="model"></app-profile-editor>
-		</div>
-		<div slot="footer" style="min-width: 100% !important; display: flex;">
-			<button v-on:click="cropUpload()" style="width: 50%" class="button button-medium button-primary"><b>Save</b></button>
-		</div>
-	</modal>
+		v-on:close="editors.profile.show = false">
+	</modal-profile-editor>
+	<!-- modal profile pic -->
+	<modal-profile-picture-editor
+		v-bind:show="editors.picture.show"
+		v-bind:width="'400px'"
+		v-bind:height="'500px'"
+		v-on:close="editors.picture.show = false">
+	</modal-profile-picture-editor>
 	{% endverbatim %}
-
+	
 </div>
 
-{% include 'vue.component.modal.html.twig' with { width: '600px' } %}
-
-<script type="text/x-template" id="template-app-profile-editor">
-	<form id="app-profile-editor">
-		<div class="input-field">
-			<input
-				placeholder="Email"
-				type="email"
-				name="email"
-				autocomplete="on"
-				v-model="model.user.email"
-				required
-			/>
-			<span class="field-info">error / info</span>
+{% verbatim %}
+<script type="text/x-template" id="template-modal-profile-editor">
+	<modal
+		id="modal-edit-profile"
+		v-if="show"
+		v-on:close="$emit('close')"
+		v-bind:width="width"
+		v-bind:height="height"
+		v-bind:loading="loading"
+		v-bind:loading-message="message">
+		<div slot="header">
+			<h1>Edit Profile</h1>
 		</div>
-		
-		<div class="input-field">
-			<input
-				placeholder="Type your country name"
-				type="text"
-				name="country_code"
-				autocomplete="off"
-				v-model="model.user.country_name"
-				v-on:blur="form.countryPredictions = []"
-				v-on:keyup.enter="chooseFirstPrediction"
-				v-on:input="searchCountry"
-				required
-			/>
-			
-			<div class="country-predictions" v-if="form.countryPredictions.length">
-				<div v-on:click="choosePrediction(country)" class="country-prediction" v-text="country.name" v-for="(country, key) in form.countryPredictions"></div>
-			</div>
-			<span class="field-info">error / info</span>
+		<div slot="body" class="body">
+			<form id="app-profile-editor">
+				<section class="field-section general-fields">
+					<h2>General Information</h2>
+					<div class="input-field">
+						<input
+							placeholder="Email"
+							type="email"
+							name="email"
+							autocomplete="on"
+							v-model="data.user.email"
+							required
+						/>
+						<span class="field-info"></span>
+					</div>
+					<div class="input-field">
+						<input
+							placeholder="Type your country name"
+							type="text"
+							name="country_code"
+							autocomplete="off"
+							v-model="data.user.country_name"
+							v-on:blur="chooseFirstPrediction"
+							v-on:keyup.enter="chooseFirstPrediction"
+							v-on:input="searchCountry"
+							required
+						/>
+						<div class="country-predictions" v-if="form.countryPredictions.length">
+							<div v-on:click="choosePrediction(country)" class="country-prediction" v-text="country.name" v-for="(country, key) in form.countryPredictions"></div>
+						</div>
+						<span class="field-info"></span>
+					</div>
+					<div class="input-field">
+						<textarea
+							placeholder="Bio"
+							type="text"
+							name="bio"
+							autocomplete="on"
+							v-model="data.profile.bio"
+							rows="6"
+						>
+						</textarea>
+						<span class="field-info"></span>
+					</div>
+					<div class="input-field">
+						<label class="checkbox-wrap"> <b>Show Bio</b>
+							<input type="checkbox" v-model="data.profile.show_bio">
+							<span class="checkmark"></span>
+						</label>
+					</div>
+				</section>
+				<!-- social -->
+				<section class="field-section social-section">
+					<h2>Social Networks</h2>
+					<div class="input-field">
+						<input
+							placeholder="Facebook Link"
+							type="text"
+							name="social_facebook"
+							autocomplete="on"
+							v-model="data.profile.social_facebook"
+						/>
+						<span class="field-info"></span>
+					</div>
+					<div class="input-field">
+						<input
+							placeholder="Twitch Link"
+							type="text"
+							name="social_twitch"
+							autocomplete="on"
+							v-model="data.profile.social_twitch"
+						/>
+						<span class="field-info"></span>
+					</div>
+					<div class="input-field">
+						<input
+							placeholder="Youtube Link"
+							type="text"
+							name="social_youtube"
+							autocomplete="on"
+							v-model="data.profile.social_youtube"
+						/>
+						<span class="field-info"></span>
+					</div>
+					<div class="input-field">
+						<input
+							placeholder="Twitter Link"
+							type="text"
+							name="social_twitter"
+							autocomplete="on"
+							v-model="data.profile.social_twitter"
+						/>
+						<span class="field-info"></span>
+					</div>
+					<div class="input-field">
+						<label class="checkbox-wrap"> <b>Show Social Links</b>
+							<input type="checkbox" v-model="data.profile.show_social">
+							<span class="checkmark"></span>
+						</label>
+					</div>
+				</section>
+				<!-- gear -->
+				<section class="field-section gear-section">
+					<h2>Gear</h2>
+					<div class="input-field">
+						<input
+							placeholder="Mouse"
+							type="text"
+							name="social_facebook"
+							autocomplete="on"
+							v-model="data.profile.gear_mouse"
+						/>
+						<span class="field-info"></span>
+					</div>
+					<div class="input-field">
+						<input
+							placeholder="Keyboard"
+							type="text"
+							name="social_twitch"
+							autocomplete="on"
+							v-model="data.profile.gear_keyboard"
+						/>
+						<span class="field-info"></span>
+					</div>
+					<div class="input-field">
+						<input
+							placeholder="Headset"
+							type="text"
+							name="social_youtube"
+							autocomplete="on"
+							v-model="data.profile.gear_headset"
+						/>
+						<span class="field-info"></span>
+					</div>
+					<div class="input-field">
+						<input
+							placeholder="VGA"
+							type="text"
+							name="social_twitter"
+							autocomplete="on"
+							v-model="data.profile.gear_vga"
+						/>
+						<span class="field-info"></span>
+					</div>
+					<div class="input-field">
+						<input
+							placeholder="Processor"
+							type="text"
+							name="social_twitter"
+							autocomplete="on"
+							v-model="data.profile.gear_processor"
+						/>
+						<span class="field-info"></span>
+					</div>
+					<div class="input-field">
+						<input
+							placeholder="Chair"
+							type="text"
+							name="social_twitter"
+							autocomplete="on"
+							v-model="data.profile.gear_chair"
+						/>
+						<span class="field-info"></span>
+					</div>
+					<div class="input-field">
+						<label class="checkbox-wrap"> <b>Show Gear</b>
+							<input type="checkbox" v-model="data.profile.show_gear">
+							<span class="checkmark"></span>
+						</label>
+					</div>
+				</section>
+			</form>
 		</div>
-		
-		<div class="input-field">
-			<textarea
-				placeholder="Bio"
-				type="text"
-				name="bio"
-				autocomplete="on"
-				v-model="model.profile.bio"
-				rows="6"
-			>
-			</textarea>
-			<span class="field-info">error / info</span>
+		<div slot="footer" style="min-width: 100%">
+			<button v-on:click="onSubmitProfileEdit" style="width: 100%" class="button button-medium button-primary">
+				<b>Save</b>
+			</button>
 		</div>
-		
-		<!-- social -->
-		
-		<div class="input-field">
-			<input
-				placeholder="Facebook Link (https://...)"
-				type="text"
-				name="social_facebook"
-				autocomplete="on"
-				v-model="model.profile.social_facebook"
-			/>
-			<span class="field-info">error / info</span>
-		</div>
-		
-		<div class="input-field">
-			<input
-				placeholder="Twitch Link (https://...)"
-				type="text"
-				name="social_twitch"
-				autocomplete="on"
-				v-model="model.profile.social_twitch"
-			/>
-			<span class="field-info">error / info</span>
-		</div>
-		
-		<div class="input-field">
-			<input
-				placeholder="Youtube Link (https://...)"
-				type="text"
-				name="social_youtube"
-				autocomplete="on"
-				v-model="model.profile.social_youtube"
-			/>
-			<span class="field-info">error / info</span>
-		</div>
-		
-		<div class="input-field">
-			<input
-				placeholder="Twitter Link (https://...)"
-				type="text"
-				name="social_twitter"
-				autocomplete="on"
-				v-model="model.profile.social_twitter"
-			/>
-			<span class="field-info">error / info</span>
-		</div>
-		
-		<!-- gear -->
-		
-		<div class="input-field">
-			<input
-				placeholder="Mouse"
-				type="text"
-				name="social_facebook"
-				autocomplete="on"
-				v-model="model.profile.gear_mouse"
-			/>
-			<span class="field-info">error / info</span>
-		</div>
-		
-		<div class="input-field">
-			<input
-				placeholder="Keyboard"
-				type="text"
-				name="social_twitch"
-				autocomplete="on"
-				v-model="model.profile.gear_keyboard"
-			/>
-			<span class="field-info">error / info</span>
-		</div>
-		
-		<div class="input-field">
-			<input
-				placeholder="Headset"
-				type="text"
-				name="social_youtube"
-				autocomplete="on"
-				v-model="model.profile.gear_headset"
-			/>
-			<span class="field-info">error / info</span>
-		</div>
-		
-		<div class="input-field">
-			<input
-				placeholder="VGA"
-				type="text"
-				name="social_twitter"
-				autocomplete="on"
-				v-model="model.profile.gear_vga"
-			/>
-			<span class="field-info">error / info</span>
-		</div>
-		
-		<div class="input-field">
-			<input
-				placeholder="Processor"
-				type="text"
-				name="social_twitter"
-				autocomplete="on"
-				v-model="model.profile.gear_processor"
-			/>
-			<span class="field-info">error / info</span>
-		</div>
-		
-		<div class="input-field">
-			<input
-				placeholder="Chair"
-				type="text"
-				name="social_twitter"
-				autocomplete="on"
-				v-model="model.profile.gear_chair"
-			/>
-			<span class="field-info">error / info</span>
-		</div>
-		
-	</form>
+	</modal>
 </script>
+<script type="text/x-template" id="template-modal-profile-picture-editor">
+	<modal
+		id="modal-upload-user-picture"
+		v-if="show"
+		v-on:close="$emit('close')"
+		v-bind:width="width"
+		v-bind:height="height"
+		v-bind:loading="loading"
+		v-bind:loading-message="message">
+		<div slot="header">
+			<h1>Edit Picture</h1>
+		</div>
+		<div slot="body">
+			<div id="picture-area" ref="pictureArea" @dragover.prevent="" @drop.stop.prevent="onFileInput">
+				<div ref="viewport" id="viewport" @click="browseFileSystem" class="img-container"></div>
+                <div class="hint">CLICK OR DROP</div>
+				<input ref="input" v-on:input="onFileInput" type="file" class="vanish" id="profile-picture-input"/>
+			</div>
+		</div>
+		<div slot="footer">
+			<button
+				class="button button-medium button-primary"
+				type="button"
+				v-on:click="browseFileSystem">
+				Browse
+			</button>
+			<button
+				class="button button-medium button-primary"
+				type="button"
+				v-on:click="uploadCroppedResult()">
+				Save
+			</button>
+		</div>
+	</modal>
+</script>
+{% endverbatim %}
+
+{% include 'vue.component.modal.html.twig' %}
 
 <script>
 
-(function($, Vue){
+(function(Vue){
 	
-	Vue.component('app-profile-editor', {
-		template: '#template-app-profile-editor',
+	Vue.component('modal-profile-editor', {
+		template: '#template-modal-profile-editor',
 		props: {
-			model : {
+			show : false,
+		  	width : null,
+		  	height: null,
+		  	loading: false,
+		  	message : '',
+			data : {
 				user    : {},
 				profile : {
 					'id' : null,
@@ -303,14 +353,14 @@
 		{
 			social : function()
 			{
-				return Object.keys(this.model.profile).filter(function( v )
+				return Object.keys(this.data.profile).filter(function( v )
 				{
 					return v.indexOf('social_') !== -1;
 				})
 			},
 			gear : function()
 			{
-				return Object.keys(this.model.profile).filter(function( v )
+				return Object.keys(this.data.profile).filter(function( v )
 				{
 					return v.indexOf('gear_') !== -1;
 				})
@@ -335,77 +385,170 @@
 			},
 			choosePrediction : function(country)
 			{
-				this.model.user.country_code = country.code;
-				this.model.user.country_name = country.name;
+				this.data.user.country_code = country.code;
+				this.data.user.country_name = country.name;
 				this.form.countryPredictions = [];
 			},
 			chooseFirstPrediction : function()
 			{
 				if(this.form.countryPredictions.length)
 				{
-					this.model.user.country_code = this.form.countryPredictions[0].code;
-					this.model.user.country_name = this.form.countryPredictions[0].name;
+					this.data.user.country_code = this.form.countryPredictions[0].code;
+					this.data.user.country_name = this.form.countryPredictions[0].name;
 					this.form.countryPredictions = [];
+				}
+			},
+		    onSubmitProfileEdit : function()
+			{
+				  console.log(this.data)
+			},
+		}
+	});
+	
+	Vue.component('modal-profile-picture-editor', {
+		template : '#template-modal-profile-picture-editor',
+	  	props : {
+		  	show : false,
+			width : null,
+			height: null,
+			loading: false,
+			message : '',
+		},
+	  	data : function(){
+			return {
+				cropper : {
+					instance : null,
+				  	config : {
+					  	result : { type: 'blob', size:'viewport', format: 'jpg', quality: 1, circle: false },
+					  	viewport : {
+						  	viewport: { width: 200, height: 200, type: 'circle' },
+						  	boundary: { width: 300, height: 300 }
+					  	}
+					}
 				}
 			}
 		},
-	  	watch : {
-			model : {
-				handler : function( v )
-				{
+	  	methods :
+		{
+			onFileInput : function(event)
+			{
+				var fileList = [];
 				
-				},
-			  	deep: true
+				if(event.type === 'input') fileList = event.target.files;
+				if(event.type === 'drop')  fileList = event.dataTransfer.files;
+
+				if(fileList.length)
+				{
+					if(this.cropper.instance !== null) this.cropper.instance.destroy();
+					this.cropper.instance = new Croppie(this.$refs['viewport'], this.cropper.config.viewport);
+	
+					if(!this.cropper.instance) return false;
+					
+					var reader = new FileReader();
+					
+					reader.onload = function(event)
+					{
+						this.cropper.instance.bind({ url: event.target.result });
+					}
+					.bind(this);
+					
+					reader.readAsDataURL(fileList[0]);
+				}
+			},
+			uploadCroppedResult : function()
+			{
+				this.loading = true;
+				this.message = 'Cutting Image';
+				
+				this.cropper.instance.result(this.cropper.config.result)
+					.then(function(blob)
+					{
+						this.uploadFile(blob, 'file')
+							.then(function(croppedImage)
+							{
+								window.appEventBus.$emit('userPictureChanged', croppedImage);
+								this.message = 'Profile Updated!';
+								
+								setTimeout(function()
+								{
+									this.show = false;
+									this.loading = false
+								}
+								.bind(this), 3000);
+							}
+							.bind(this));
+					}
+					.bind(this));
+			},
+			uploadFile : function(file, name)
+			{
+				return new Promise
+				(
+					function(resolve, reject)
+					{
+						var formData = new FormData();
+						
+						formData.append('user_picture', file, name);
+						
+						this.postUploadFormData(formData)
+							.then(function(response) { resolve(response); })
+							.catch(function(error) { reject(error); });
+					}
+					.bind(this)
+				);
+			},
+			postUploadFormData(formData)
+			{
+			  	return new Promise(function(resolve, reject)
+				{
+					var xhr = new XMLHttpRequest();
+			
+					xhr.onload = function()
+					{
+						if (xhr.status === 200) { resolve(xhr.response); }
+						else { reject(Error(xhr.statusText)); }
+					};
+					
+					xhr.upload.addEventListener('progress', function (uploadEvent)
+					{
+						if (uploadEvent.lengthComputable)
+						{
+							this.message = 'Uploading ' + ((uploadEvent.loaded / uploadEvent.total) * 100) + '%';
+						}
+					}
+					.bind(this), false);
+				 
+					xhr.onerror = function() { reject(Error("Network Error")); };
+					
+					xhr.open('POST', '/uploadUserPicture');
+					xhr.send(formData);
+				}
+				.bind(this));
+
+			},
+			browseFileSystem : function(event)
+			{
+				if(event.target === this.$refs['viewport'] && this.cropper.instance !== null) return false;
+				this.$refs['input'].click();
 			}
-		},
-	  	mounted: function(){
-			console.log(this.gear)
-			console.log(this.social)
 		}
 	});
 
 	new Vue({
 		el: '#route-view-user-profile-view',
-	  	components : ['app-profile-editor'],
+	  	components : ['modal-profile-editor', 'modal-profile-picture-editor'],
 		data: function ()
         {
 			return {
-				socialSelection : '',
-				socialPresets : {
-					facebook: 'Facebook',
-					twitch : 'Twitch',
-					youtube: 'Youtube',
-				},
-				gearPresets : {
-					mouse: 'Facebook',
-					keyboard : 'Twitch',
-					processor: 'Youtube',
+				editors : {
+					profile : {
+						show : false
+					},
+				  	picture : {
+						show : false
+					}
 				},
 				model : {{ model|json_encode|raw }},
-			  	api : {
-					pictureUpdate : 'uploadUserPicture',
-				  	profileUpdate : '/user/updateUserProfile',
-					profileFetch  : '/user/getUserProfile',
-				},
-			  	modals : {
-					pictureEditor : {
-						show : false,
-					  	loading: false,
-					  	message: ''
-					},
-				  	profileEditor : {
-					  	show : true,
-					  	loading: false,
-					  	message: ''
-					}
-				},
-				cropConfig : {
-					resultConfig : { type: 'blob', size:'viewport', format: 'jpg', quality: 1, circle: false },
-				  	viewportConfig : {
-					  	viewport: { width: 200, height: 200, type: 'circle' },
-					  	boundary: { width: 300, height: 300 }
-					}
-				},
 			}
 		},
 	  	created : function(){
@@ -413,150 +556,15 @@
 		},
 	  	watch : {
 			model : {
-				handler : function(v){
-					console.log('foo')
+				handler : function( v ){
+					console.log(v)
 				},
 			  	deep : true
 			}
 		},
-		methods:
-		{
-			profileImageInput : function( inputEl )
-			{
-				var input = inputEl || this.getInput().get(0);
-                var firstFile = input.files[0];
-
-				if ( firstFile )
-				{
-					this.getViewPort()
-                      .croppie('destroy')
-                      .croppie(this.cropViewPortConfig);
-
-					var fileReader = new FileReader();
-
-					fileReader.onload = function( imageLoadedEvent )
-					{
-						this.getViewPort().croppie('bind', { url: imageLoadedEvent.target.result });
-					}
-					.bind(this);
-
-					fileReader.readAsDataURL( firstFile );
-				}
-			},
-			cropUpload : function()
-			{
-				this.setLoading();
-				this.printMessage('Cutting Image');
-
-				this.getViewPort().croppie( 'result', this.cropConfig.resultConfig )
-				  .then(function( blob )
-                  {
-                    this.uploadFile( blob, 'file' )
-                        .then(function( croppedImage )
-                        {
-                            this.notifyApp( 'userPictureChanged', croppedImage );
-                            this.printMessage( 'Profile Updated!' );
-                            this.hideUnloadModal( 2000 );
-                        }
-                        .bind(this));
-                  }
-                  .bind(this)
-                );
-			},
-			uploadFile : function( file, name )
-			{
-				return new Promise
-                (
-					function ( resolve, reject )
-				    {
-				    	var formData = new FormData;
-                        formData.append( 'user_picture', file, name );
-
-                        this.ajaxUpload( formData )
-                            .then(function( response ) { resolve( response ); })
-                            .catch( function( error ) { reject( error ); });
-                    }
-                    .bind(this)
-                );
-			},
-            ajaxUpload( formData )
-            {
-	            return $.ajax(
-                {
-		            url: '/' + this.api,
-                    method: 'POST',
-		            data: formData,
-		            contentType: false,
-		            processData: false,
-		            xhr: function () { return this.printUploadProgress(); }.bind(this)
-	            });
-            },
-            printUploadProgress : function()
-            {
-                var xhr = new window.XMLHttpRequest();
-
-                xhr.upload.addEventListener( "progress", function ( uploadEvent )
-                {
-                    if ( uploadEvent.lengthComputable )
-                    {
-                        this.printMessage(
-                        	function( loaded, total )
-                            {
-                                return 'Uploading ' + this.printProgress( loaded, total );
-                            }
-                            .call(this, uploadEvent.loaded, uploadEvent.total)
-                        );
-                    }
-                }
-                .bind(this), false);
-
-                return xhr;
-            },
-            onDrop : function( fileDropEvent )
-			{
-				this.profileImageInput( fileDropEvent.dataTransfer );
-            },
-            viewPortBrowse : function()
-            {
-                if(this.getViewPort().hasOwnProperty('croppie')) return false;
-                this.browse();
-            },
-            browse : function()
-            {
-                this.getInput().trigger('click');
-            },
-            getViewPort : function()
-            {
-            	return $(this.$refs['viewport']);
-            },
-            getInput : function()
-            {
-                return $(this.$refs['input']);
-            },
-            printMessage : function( message )
-            {
-				this.message = message;
-            },
-            setLoading : function()
-            {
-	            this.loading = true;
-            },
-            printProgress : function( loaded, total )
-            {
-				return Math.round( ( loaded / total ) * 100 )  + '%'
-            },
-            hideUnloadModal : function( timeout )
-            {
-	            setTimeout(function(){ this.show = false; this.loading = false }.bind(this), timeout || 0);
-            },
-            notifyApp : function ( event, image )
-            {
-	            window.appEventBus.$emit( event, image );
-            }
-		}
 	});
 
-}( jQuery, Vue ));
+}( Vue ));
 
 </script>
 
