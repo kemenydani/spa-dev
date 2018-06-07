@@ -2,13 +2,18 @@
 
 namespace controllers;
 
-use \Psr\Http\Message\RequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+use Slim\Http\Response;
+use Slim\Http\Request;
+use core\DB as DB;
 
 class AboutController extends ViewController
 {
     public function index ( Request $request, Response $response )
     {
-        $this->view->render($response, 'route.view.about.html.twig');
+        // TODO:: db query page settings and get about
+
+        $text = [];
+
+        $this->view->render($response, 'route.view.about.html.twig', ['text' => $text]);
     }
 }
