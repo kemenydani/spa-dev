@@ -16,8 +16,9 @@
         justify-content: space-between;
         .product-photo {
           border: 1px solid lightgrey;
+          background-position: center center;
           background-size: contain;
-          background: no-repeat center;
+          background-repeat: no-repeat;
           max-width: calc(50% - 15px / 2);
           min-width: calc(50% - 15px / 2);
           min-height: 140px;

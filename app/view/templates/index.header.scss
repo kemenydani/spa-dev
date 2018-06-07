@@ -154,9 +154,10 @@ nav#side-nav {
     right: 25px;
     font-size: 36px;
     margin-left: 50px;
+    cursor: pointer;
   }
 }
-#side-nav-trigger { display: none; }
+#side-nav-trigger { display: none; cursor: pointer; }
 
 @include mq('desktop-wide', 'max') {
   header#main-header .header-aside.header-right .user-area {

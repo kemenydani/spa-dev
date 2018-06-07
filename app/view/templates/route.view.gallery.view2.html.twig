@@ -24,7 +24,7 @@
     {% endverbatim %}
 	
 	{% verbatim %}
-	<modal v-if="gallery.show" class="gallery-modal" v-on:close="gallery.show = false" v-bind:loading="null" v-bind:loading-message="null" id="modal-image-gallery">
+	<modal v-if="gallery.show" v-bind:width="'1000px'" v-bind:height="'600px'" class="gallery-modal" v-on:close="gallery.show = false" v-bind:loading="null" v-bind:loading-message="null" id="modal-image-gallery">
 		<div slot="header">
 			<h2>{{ gallery.name }}</h2>
 		</div>

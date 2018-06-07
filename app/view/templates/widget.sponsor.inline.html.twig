@@ -5,10 +5,10 @@
 
     {% for key,partner in collection.getModels() if limit > 0 %}
 
-        <figure class="sponsor sponsor-{{ key }}"
-                title="{{ key }}"
+        <a href="{{ partner.getWebsiteUrl() }}" target="_blank" class="sponsor sponsor-{{ key }}"
+                title="{{ partner.getName() }}"
                 style="background-image: url('{{ partner.requestLogo() }}')">
-        </figure>
+        </a>
 
         {% set limit = limit - 1 %}
 

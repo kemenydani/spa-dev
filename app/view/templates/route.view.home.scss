@@ -170,8 +170,9 @@
       flex-direction: column;
       justify-content: space-between;
       .image {
+        background-position: center center;
         background-size: contain;
-        background: no-repeat center center;
+        background-repeat: no-repeat;
         min-width: 100%;
         min-height: 230px;
       }
@@ -422,7 +423,9 @@
         font-size: 16px;
         font-weight: bold;
         background-size: contain;
-        background: no-repeat center bottom;
+        background-position: bottom center;
+        background-repeat: no-repeat;
+        a:hover { color: $light !important; }
         .nameplate {
           background: $primary;
           width: 100%;
@@ -431,8 +434,9 @@
           text-align: center;
           a {
             color: $light;
-            &:hover { color: $light; }
+
           }
+
         }
       }
     }

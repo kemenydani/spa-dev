@@ -47,9 +47,15 @@ $spaceDefault: 15px;
 
 @import '../../templates/route.view.match.list.scss';
 
+@import '../../templates/route.view.event.list.scss';
+@import '../../templates/route.view.event.view.scss';
+
+@import '../../templates/route.view.award.list.scss';
+
 @import '../../templates/route.view.contact.scss';
 
 @import '../../templates/route.view.user.forgot.scss';
+
 
 @import '../../templates/route.view.user.activatepwreset.scss';
 
@@ -134,7 +140,7 @@ html
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  figure.sponsor
+  a.sponsor
   {
     margin: 20px 0 20px 0;
     display: block;

@@ -450,10 +450,12 @@ nav#side-nav {
     top: 0;
     right: 25px;
     font-size: 36px;
-    margin-left: 50px; }
+    margin-left: 50px;
+    cursor: pointer; }
 
 #side-nav-trigger {
-  display: none; }
+  display: none;
+  cursor: pointer; }
 
 @media only screen and (max-width: 1439px) {
   header#main-header .header-aside.header-right .user-area {
@@ -714,8 +716,9 @@ footer#main-footer {
     flex-direction: column;
     justify-content: space-between; }
     .container.article-container .featured-content .body .image {
+      background-position: center center;
       background-size: contain;
-      background: no-repeat center center;
+      background-repeat: no-repeat;
       min-width: 100%;
       min-height: 230px; }
     .container.article-container .featured-content .body .content {
@@ -909,7 +912,10 @@ footer#main-footer {
         font-size: 16px;
         font-weight: bold;
         background-size: contain;
-        background: no-repeat center bottom; }
+        background-position: bottom center;
+        background-repeat: no-repeat; }
+        .container.squad-container .squad .players .player a:hover {
+          color: white !important; }
         .container.squad-container .squad .players .player .nameplate {
           background: #f6a00c;
           width: 100%;
@@ -918,8 +924,6 @@ footer#main-footer {
           text-align: center; }
           .container.squad-container .squad .players .player .nameplate a {
             color: white; }
-            .container.squad-container .squad .players .player .nameplate a:hover {
-              color: white; }
 
 @media only screen and (max-width: 1247px) {
   .container-full.squad-container-full {
@@ -1766,7 +1770,8 @@ footer#main-footer {
         width: 140px;
         height: 220px;
         background-size: contain;
-        background: no-repeat bottom center;
+        background-position: bottom center;
+        background-repeat: no-repeat;
         position: relative;
         display: flex;
         align-content: flex-end;
@@ -1891,8 +1896,9 @@ footer#main-footer {
         justify-content: space-between; }
         #route-view-product-view #product-view .product .product-gallery .product-photo {
           border: 1px solid lightgrey;
+          background-position: center center;
           background-size: contain;
-          background: no-repeat center;
+          background-repeat: no-repeat;
           max-width: calc(50% - 15px / 2);
           min-width: calc(50% - 15px / 2);
           min-height: 140px;
@@ -2756,7 +2762,7 @@ html {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap; }
-  .sponsor-inline-container figure.sponsor {
+  .sponsor-inline-container a.sponsor {
     margin: 20px 0 20px 0;
     display: block;
     padding: 0;
