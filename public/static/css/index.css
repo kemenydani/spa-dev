@@ -234,19 +234,32 @@ table {
   height: 45px;
   line-height: 45px;
   min-height: 45px;
+  font-weight: bold;
   color: white;
   text-transform: uppercase;
   padding: 0 20px 0 20px;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
   cursor: pointer;
-  text-align: center; }
-  .button:disabled {
-    opacity: 0.5; }
+  text-align: center;
+  outline: 0; }
+  .button:active {
+    outline: 0; }
+  .button:focus {
+    outline: 0; }
+  .button.disabled {
+    opacity: 0.7 !important; }
   .button.button-medium {
     padding: 0 10px 0 10px;
     height: 35px;
     line-height: 35px; }
   .button.button-primary {
     background: #f6a00c; }
+    .button.button-primary:active {
+      background-color: #626262; }
   .button.button-light {
     background: white;
     color: black; }
@@ -1399,17 +1412,26 @@ footer#main-footer {
       align-content: center;
       text-align: center; }
       #route-view-user-profile-view .container-full.route-header.profile-route-header .user-brand .profile-picture {
-        width: 240px;
-        height: 240px;
-        min-width: 240px;
-        min-height: 240px; }
+        width: 150px;
+        height: 150px;
+        min-width: 150px;
+        min-height: 150px; }
+        #route-view-user-profile-view .container-full.route-header.profile-route-header .user-brand .profile-picture.my-profile-picture {
+          cursor: pointer; }
       #route-view-user-profile-view .container-full.route-header.profile-route-header .user-brand .username {
         color: #f6a00c;
         text-transform: uppercase; }
+    #route-view-user-profile-view .container-full.route-header.profile-route-header .icons {
+      justify-content: center;
+      margin-top: 15px; }
+      #route-view-user-profile-view .container-full.route-header.profile-route-header .icons .icon {
+        margin: 7.5px; }
   #route-view-user-profile-view > .container-full {
     margin-bottom: 15px; }
   #route-view-user-profile-view .container {
     max-width: 900px; }
+  #route-view-user-profile-view .user-intro {
+    max-width: 85%; }
   #route-view-user-profile-view .section-header {
     color: #f6a00c;
     margin: 0;
@@ -1417,6 +1439,11 @@ footer#main-footer {
     padding: 15px 0 15px 0;
     text-align: center;
     text-transform: uppercase; }
+  #route-view-user-profile-view .container-user-gear .type {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #626262;
+    font-size: 12px; }
   #route-view-user-profile-view .container.container-user-bio {
     text-align: justify; }
   #route-view-user-profile-view .container.container-user-gear .container,
@@ -1441,23 +1468,49 @@ footer#main-footer {
     max-height: 30px;
     margin-right: 7.5px; }
 
-#modal-upload-user-picture #picture-area {
+@media only screen and (max-width: 767px) {
+  #route-view-user-profile-view .container-full.route-header.profile-route-header .user-intro {
+    max-width: calc(100% - 30px); } }
+@media only screen and (max-width: 559px) {
+  #route-view-user-profile-view .container-full.route-header.profile-route-header {
+    max-height: 300px !important;
+    min-height: 300px;
+    height: 300px;
+    overflow: hidden; }
+    #route-view-user-profile-view .container-full.route-header.profile-route-header .user-intro {
+      display: none; }
+    #route-view-user-profile-view .container-full.route-header.profile-route-header .profile-picture {
+      max-height: 140px !important;
+      min-height: 140px !important;
+      height: 140px !important;
+      max-width: 140px !important;
+      min-width: 140px !important;
+      width: 140px !important; }
+  #route-view-user-profile-view .container.container-user-gear .container {
+    flex-direction: column; }
+    #route-view-user-profile-view .container.container-user-gear .container > * {
+      min-width: 100%;
+      text-align: center;
+      line-height: 25px; }
+  #route-view-user-profile-view .container.container-user-comments .datePosted {
+    display: none; } }
+#modal-upload-profile-picture #picture-area {
   width: 100%;
   margin: 0 auto; }
-#modal-upload-user-picture .modal-body {
+#modal-upload-profile-picture .modal-body {
   padding-bottom: 0; }
-#modal-upload-user-picture .modal-footer {
+#modal-upload-profile-picture .modal-footer {
   padding: 15px 0 0 0; }
-  #modal-upload-user-picture .modal-footer > div {
+  #modal-upload-profile-picture .modal-footer > div {
     min-width: 100% !important;
     display: flex; }
-    #modal-upload-user-picture .modal-footer > div button {
+    #modal-upload-profile-picture .modal-footer > div button {
       min-width: 50%; }
-#modal-upload-user-picture #picture-area {
+#modal-upload-profile-picture #picture-area {
   position: relative;
   height: 300px;
   width: 100%; }
-#modal-upload-user-picture #viewport {
+#modal-upload-profile-picture #viewport {
   border: 3px dashed #ababab;
   width: 100%;
   height: 300px;
@@ -1468,8 +1521,9 @@ footer#main-footer {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 2; }
-#modal-upload-user-picture .hint {
+  z-index: 2;
+  cursor: pointer; }
+#modal-upload-profile-picture .hint {
   z-index: 1;
   margin: 3px;
   position: absolute;
@@ -1507,119 +1561,6 @@ footer#main-footer {
     border-left: 1px solid #626262;
     border-right: 1px solid #626262; }
 
-/*
-.container-full.route-header {
-  overflow: visible;
-  &.profile-route-header {
-    height: 300px;
-    background: darken($darkgrey, 35%);
-    display: flex;
-    overflow: visible !important;
-  }
-  
-}
-
-.container.profile-header-container {
-  position: relative;
-  display: flex;
-  flex: 1;
-  justify-content: flex-end;
-  flex-direction: column;
-  align-items: center;
-  overflow: visible !important;
-  .username { text-align: center; }
-  .username h1 {
-    text-transform: uppercase;
-    color: $primary;
-    font-size: 35px;
-  }
-  .user-image {
-    width: 200px;
-    height: 200px;
-    border-radius:100px;
-    border: 2px solid orange;
-    background-size: cover !important;
-    background-position: center center;
-    background-repeat: no-repeat;
-  }
-
-}
-
-.container.container-user-details {
-  background: white;
-  margin-top: 100px;
-}
-
-#profile-area {
-
-    .profile-cover {
-      min-height: 300px;
-      position: relative;
-      margin-bottom: 20px;
-      background: black;
-    }
-
-    .profile-image {
-      border: 1px solid black;
-      width: 200px;
-      min-width: 100px;
-      position: relative;
-      &:before {
-        display: block;
-        content: "";
-        width: 200px;
-        min-width: 100px;
-        padding-top: 100%;
-      }
-    }
-
-    .profile-details {
-      margin-top: 20px;
-      background: white;
-      border-top: 1px solid $lightgrey;
-      padding: 20px;
-      margin-bottom: 20px;
-
-      .title {
-        margin-top: 0;
-        padding-bottom: 5px;
-        border-bottom: 5px solid $primary;
-        display: inline-block;
-        font-weight: bold;
-        font-family: 'Montserrat', sans-serif;
-        color: black;
-      }
-
-      .detail-list {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        > li {
-          line-height: 40px;
-          border-bottom: 1px solid $lightgrey;
-          &:last-child {
-            border-bottom: none;
-          }
-
-          > span.label {
-            color: black;
-            font-weight: bold;
-            font-family: 'Montserrat', sans-serif;
-            min-width: 200px;
-            width: 200px;
-            display: inline-block;
-            font-size: 0.9em;
-          }
-          > span.value {
-            display: inline-block;
-          }
-        }
-      }
-
-    }
-
-}
-*/
 #route-view-article-read {
   padding-top: 15px;
   padding-bottom: 15px;
@@ -2680,7 +2621,7 @@ background: $lightgrey;
       padding-left: 10px !important; }
     .comment-tree .comment .content {
       display: flex; }
-      .comment-tree .comment .content .user-picture {
+      .comment-tree .comment .content .profile-picture {
         width: 50px;
         min-width: 50px;
         min-height: 50px;
@@ -2936,7 +2877,7 @@ div#wrapper {
   position: relative;
   margin: 0 auto; }
 
-.user-picture {
+.profile-picture {
   width: 50px;
   min-width: 50px;
   min-height: 50px;

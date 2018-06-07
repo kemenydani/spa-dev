@@ -55,12 +55,13 @@
 	    	},
 		    beforeCreate : function()
 		    {
+	    		this.$emit('open');
 		    	document.getElementsByTagName('body')[0].classList.add('modal-open');
 		    },
 		    beforeDestroy : function()
 		    {
                 document.getElementsByTagName('body')[0].classList.remove('modal-open');
-		    },
+		    }
 	    });
 
     }(Vue));

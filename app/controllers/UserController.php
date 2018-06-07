@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+use core\Session;
 use Intervention\Image\ImageManager as ImageManager;
 
 use models\UserProfile;
@@ -19,13 +20,17 @@ class UserController extends ViewController
 {
     public function postUpdateProfile(Request $request, Response $response)
     {
-        $id = $request->getQueryParam('userId');
+        $body = $request->getParsedBody();
+
+        $token  = $body['token'];
+        if(!hash_equals(Session::get('token'), $token)) die();
 
         $AuthUser = Auth::user();
 
+        $id = $request->getQueryParam('userId');
+
         if(!$AuthUser || (int)$AuthUser->getId() !== (int)$id) return $response->withStatus(401, 'Unauthorized');
 
-        $body = $request->getParsedBody();
         $errors = [];
 
         $userSet = [];
@@ -36,6 +41,8 @@ class UserController extends ViewController
 
         unset($formProfileData['user_id']);
         unset($formProfileData['id']);
+
+        if(strlen($formProfileData['bio']) > 200) $errors['bio'] = 'Maximum 200 characters allowed!';
 
         if(filter_var($formUserData['email'], FILTER_VALIDATE_EMAIL))
         {
@@ -65,17 +72,21 @@ class UserController extends ViewController
             $errors['email'] ='Invalid email format';
         }
 
-        if($formUserData['country_name'] && $formUserData['country_code'])
+        if($formUserData['country_name'] !== null && $formUserData['country_code'] !== null)
         {
-            $country = Country::find($formUserData['country_code']);
-
-            if($country)
+            $countryCodeFound = Country::find($formUserData['country_code']);
+            $countryNameFound = Country::getCountryByName($formUserData['country_name']);
+            if($countryCodeFound !== null && count($countryNameFound))
             {
-                $userSet['country_name'] = $formUserData['country_name'];
                 $userSet['country_code'] = $formUserData['country_code'];
-            } else {
+                $userSet['country_name'] = $countryCodeFound;
+            }
+            else
+            {
             	$errors['country_name'] = 'Unable to find country';
             }
+        } else {
+            $errors['country_name'] = 'No country provided';
         }
 
         /* @var UserProfile $UserProfile */
@@ -92,12 +103,10 @@ class UserController extends ViewController
 
             $model = $this->generateProfileModelForUser($AuthUser);
 
-            return $response->withStatus(200)->withJson(['errors' => $errors, 'model' => $model]);
+            return $response->withStatus(200)->withJson(['model' => $model]);
         }
-        else
-        {
-            return $response->withStatus(401)->withJson(['errors' => $errors]);
-        }
+
+        return $response->withStatus(200)->withJson(['errors' => $errors]);
     }
 
     public function generateProfileModelForUser(User $user = null)
@@ -119,8 +128,16 @@ class UserController extends ViewController
 
         $model = $this->generateProfileModelForUser($user);
 
+        $self = Auth::user()->getId() === $user->getId();
+
+        if(!Session::exists('token')) Session::put('token', bin2hex(random_bytes(32)));
+
+        $token = Session::get('token');
+
         $this->view->render($response, 'route.view.user.profile.html.twig', [
                 'model' => $model,
+                'self' => $self,
+                'token' => $token
             ]
         );
     }

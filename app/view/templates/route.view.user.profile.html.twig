@@ -8,59 +8,80 @@
 		<div class="container profile-header-container">
 			<div class="user-brand">
 				<div
-					class="profile-picture circle bordered my-user-picture"
+					class="profile-picture circle bordered {% if self %}my-profile-picture{% endif %}"
 					v-bind:style="{ backgroundImage : 'url('+model.user.profile_picture+')'}"
 					style="background-image: url({{ model.user.profile_picture }})"
-					v-on:click="editors.picture.show = true">
+					{% if self %}v-on:click="editors.picture.show = true"{% endif %}>
 				</div>
 				<h1 class="username" v-text="model.user.username">
 					{{ model.user.username }}
 				</h1>
-				<button v-on:click="editors.profile.show = true" class="button button-primary">Edit Profile</button>
+				<p class="paragraph para-big user-intro" v-if="model.profile.show_bio == 1" v-text="model.profile.bio">{{ model.profile.bio }}</p>
+			</div>
+			<div class="icons" v-if="model.profile.show_social == 1">
+				<a class="icon round" v-bind:href="model.profile[key]" target="_blank" v-if="isSocialItem(key) && model.profile[key].length" v-for="(item, key) in model.profile">
+					<i v-bind:class="getSocialIconClass(key)"></i>
+				</a>
 			</div>
 		</div>
 	</div>
+	
+	{% if self %}
+		<div class="container-full">
+			<div class="container">
+				<center><button v-on:click="editors.profile.show = true" class="button button-primary">Edit Profile</button></center>
+			</div>
+		</div>
+	{% endif %}
+	
 	<!-- bio -->
-	<div class="container-full container-full-user-bio" v-show="model.profile.bio && model.profile.show_bio">
+	<div style="display: none;" class="container-full container-full-user-bio" v-if="model.profile.show_bio == 1">
 		<h2 class="section-header" v-text="model.user.username">{{ model.user.username }}'s STORY</h2>
 		<div class="container light-bg shadow pad-15 container-user-bio">
 			<p class="paragraph para-big" v-text="model.profile.bio">{{ model.profile.bio }}</p>
 		</div>
 	</div>
 	<!--gear -->
-	<div class="container-full container-full-user-gear" v-show="model.profile.gear && model.profile.show_gear">
+	<div class="container-full container-full-user-gear" v-show="model.profile.show_gear == 1">
 		<h2 class="section-header">GEAR</h2>
-		<div class="container container-user-gear">
-			<div class="container light-bg shadow pad-15" v-for="(gear, key) in model.profile.gear">
-				<span class="type">{{ key }}</span>
-				<span class="name">{{ gear }}</span>
+		<div v-if="hasGearItems" class="container container-user-gear">
+			<div class="container light-bg shadow pad-15" v-if="isGearItem(key) && model.profile[key].length" v-for="(item, key) in model.profile">
+				<span class="type" v-text="formatGearName(key)"></span>
+				<span class="name" v-text="model.profile[key]"></span>
 			</div>
+		</div>
+		<div v-else class="container container-user-gear">
+			<div class="msg">No items to show.</div>
 		</div>
 	</div>
 	<!-- comments -->
-	<div class="container-full container-full-user-comments" v-show="model.comments && model.profile.show_comments" >
+	<div class="container-full container-full-user-comments" v-show="model.profile.show_comments == 1" >
 		<h2 class="section-header">LAST COMMENTS</h2>
-		<div class="container container-user-comments">
+		<div v-if="model.comments.length > 0" class="container container-user-comments">
 			<div class="container light-bg shadow pad-15" v-for="(comment, key) in model.comments">
 				<div class="left">
 					<span
-					  	class="profile-picture circle bordered"
+					  	class="profile-picture circle bordered {% if self %}my-profile-picture{% endif %}"
 					  	v-bind:style="{ backgroundImage : 'url('+model.user.profile_picture+')'}"
 					  	style="background-image: url({{ model.user.profile_picture }})"></span>
-					<span class="comment" v-text="comment.text"></span>
+					<span class="comment" v-text="truncateComment(comment.text)"></span>
 				</div>
-				<div class="date" v-text="comment.date"></div>
+				<div class="datePosted" v-text="formatCommentDate(comment.date_posted)"></div>
 			</div>
 		</div>
+		<div v-else class="container container-user-comments">
+			<div class="msg">There are no comments to show.</div>
+		</div>
 	</div>
-
+	{% if self %}
 	{% verbatim %}
 	<!-- modal profile data -->
 	<modal-profile-editor
-		v-bind:data="model"
+		v-bind:model="model"
 		v-bind:show="editors.profile.show"
 		v-bind:width="'1000px'"
 		v-bind:height="'700px'"
+		v-on:success="setModel"
 		v-on:close="editors.profile.show = false">
 	</modal-profile-editor>
 	<!-- modal profile pic -->
@@ -71,15 +92,16 @@
 		v-on:close="editors.picture.show = false">
 	</modal-profile-picture-editor>
 	{% endverbatim %}
-	
+	{% endif %}
 </div>
-
+{% if self %}
 {% verbatim %}
 <script type="text/x-template" id="template-modal-profile-editor">
 	<modal
 		id="modal-edit-profile"
 		v-if="show"
-		v-on:close="$emit('close')"
+		v-on:close="$emit('close', show = !show)"
+		v-on:open="opened"
 		v-bind:width="width"
 		v-bind:height="height"
 		v-bind:loading="loading"
@@ -91,7 +113,7 @@
 			<form id="app-profile-editor" ref="form">
 				<section class="field-section general-fields">
 					<h2>General Information</h2>
-					<div class="input-field">
+					<div class="input-field" v-bind:class="{ invalid : errors.email }">
 						<input
 							placeholder="Email"
 							type="email"
@@ -102,7 +124,7 @@
 						/>
 						<span class="field-info">{{ errors.email }}</span>
 					</div>
-					<div class="input-field">
+					<div class="input-field" v-bind:class="{ invalid : errors.country_name }">
 						<input
 							placeholder="Type your country name"
 							type="text"
@@ -119,20 +141,24 @@
 						</div>
 						<span class="field-info">{{ errors.country_name }}</span>
 					</div>
-					<div class="input-field">
+					<div class="input-field" v-bind:class="{ invalid : errors.bio }" >
 						<textarea
-							placeholder="Bio"
+							placeholder="Short Introduction / Motto"
 							type="text"
 							name="bio"
 							autocomplete="on"
 							v-model="data.profile.bio"
-							rows="6"
+							rows="2"
+							maxlength="200"
 						>
 						</textarea>
-						<span class="field-info"></span>
+						<span class="field-info">
+							<span style="color: #666">{{ 200 - data.profile.bio.length }} / 200 </span>
+							{{ errors.bio }}
+						</span>
 					</div>
 					<div class="input-field">
-						<label class="checkbox-wrap"> <b>Show Bio</b>
+						<label class="checkbox-wrap"> <b>Show Introduction</b>
 							<input type="checkbox" true-value="1" false-value="0" v-model="data.profile.show_bio">
 							<span class="checkmark"></span>
 						</label>
@@ -183,7 +209,7 @@
 					</div>
 					<div class="input-field">
 						<label class="checkbox-wrap"> <b>Show Social Links</b>
-							<input type="checkbox" true-value="1" false-value="0"   v-model="data.profile.show_social">
+							<input type="checkbox" true-value="1" false-value="0" v-model="data.profile.show_social">
 							<span class="checkmark"></span>
 						</label>
 					</div>
@@ -253,7 +279,13 @@
 					</div>
 					<div class="input-field">
 						<label class="checkbox-wrap"> <b>Show Gear</b>
-							<input type="checkbox" v-model="data.profile.show_gear">
+							<input type="checkbox" true-value="1" false-value="0" v-model="data.profile.show_gear">
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					<div class="input-field">
+						<label class="checkbox-wrap"> <b>Show Comments</b>
+							<input type="checkbox" true-value="1" false-value="0" v-model="data.profile.show_comments">
 							<span class="checkmark"></span>
 						</label>
 					</div>
@@ -267,11 +299,15 @@
 		</div>
 	</modal>
 </script>
+{% endverbatim %}
+
+{% verbatim %}
 <script type="text/x-template" id="template-modal-profile-picture-editor">
 	<modal
-		id="modal-upload-user-picture"
+		id="modal-upload-profile-picture"
 		v-if="show"
-		v-on:close="$emit('close')"
+		ref="modal"
+		v-on:close="$emit('close', show = !show)"
 		v-bind:width="width"
 		v-bind:height="height"
 		v-bind:loading="loading"
@@ -281,7 +317,7 @@
 		</div>
 		<div slot="body">
 			<div id="picture-area" ref="pictureArea" @dragover.prevent="" @drop.stop.prevent="onFileInput">
-				<div ref="viewport" id="viewport" @click="browseFileSystem" class="img-container"></div>
+				<div ref="viewport" id="viewport" @click="browseFileSystem('viewport')" class="img-container"></div>
                 <div class="hint">CLICK OR DROP</div>
 				<input ref="input" v-on:input="onFileInput" type="file" class="vanish" id="profile-picture-input"/>
 			</div>
@@ -296,6 +332,7 @@
 			<button
 				class="button button-medium button-primary"
 				type="button"
+				v-bind:class="{ disabled : cropper.instance === null }"
 				v-on:click="uploadCroppedResult()">
 				Save
 			</button>
@@ -305,11 +342,12 @@
 {% endverbatim %}
 
 {% include 'vue.component.modal.html.twig' %}
-
+{% endif %}
 <script>
 
 (function(Vue){
 	
+	{% if self %}
 	Vue.component('modal-profile-editor', {
 		template: '#template-modal-profile-editor',
 		props: {
@@ -318,7 +356,7 @@
 		  	height: null,
 		  	loading: false,
 		  	message : '',
-			data : {
+			model : {
 				user    : {},
 				profile : {
 					'id' : null,
@@ -344,6 +382,7 @@
 		},
 		data: function () {
 			return {
+				data : JSON.parse(JSON.stringify(this.model)),
 				errors : {},
 				form : {
 					countryPredictions : []
@@ -368,6 +407,12 @@
 			},
 		},
 	  	methods: {
+		  	opened : function()
+		  	{
+		  		this.form.countryPredictions = [];
+		  		this.errors = {};
+			  	this.data = JSON.parse(JSON.stringify(this.model))
+		  	},
 			searchCountry : function(event)
 			{
 				fetch('/country/find/?string=' + event.target.value)
@@ -399,6 +444,14 @@
 					this.form.countryPredictions = [];
 				}
 			},
+		  	closeEditor : function()
+			{
+				this.show = false;
+				this.errors = {};
+			  	this.$emit('close', this.show);
+			  	this.message = null;
+			  	this.loading = false;
+			},
 		    onSubmitProfileEdit : function()
 			{
 				if(typeof this.$refs['form'].checkValidity === 'function'){
@@ -407,48 +460,52 @@
 						return false;
 					}
 				}
-
+				this.errors = {};
 				this.loading = true;
 				this.message = 'Saving';
+				
+				this.data.token = "{{ token }}";
 				
 			  	fetch('/user/updateProfile?userId=' + this.data.user.id,
 				{
 			  		method : 'POST',
 				  	body : JSON.stringify(this.data),
 					credentials: 'same-origin',
-					headers: {
-						'content-type': 'application/json'
-					},
+					headers: { 'content-type': 'application/json' },
 			  	})
 				.then(function(response)
 				{
 					return response.json();
 				}
 				.bind(this))
-				.then(function(json, )
+				.then(function(json)
 				{
-					if(json.errors.length === 0)
+					if(json.hasOwnProperty('errors')) return { success : false, 'json' : json.errors };
+					if(json.hasOwnProperty('model'))  return { success : true,  'json' : json.model };
+					return new Error('Server Error');
+				}
+				.bind(this))
+			  	.then(function(state)
+				{
+					if(state.success)
 					{
 						this.message = 'Profile Saved!';
-
-						this.data = json.model;
-
-						setTimeout(function()
-						{
-							this.$emit('close');
-							this.loading = false;
-						}
-							.bind(this), 3000);
-
-					} else {
-						this.errors = json.errors;
+						setTimeout(function(){
+							this.$emit('success', this.data = state.json);
+							this.closeEditor();
+						}.bind(this), 3000);
+					}
+					else
+					{
+						this.errors = state.json;
+						this.message = 'Failed to save!';
 						setTimeout(function() { this.loading = false; }.bind(this), 3000);
 					}
 				}
 				.bind(this))
 			  	.catch(function(json)
 				{
-					console.log(json)
+				
 				})
 			},
 		}
@@ -456,8 +513,9 @@
 	
 	Vue.component('modal-profile-picture-editor', {
 		template : '#template-modal-profile-picture-editor',
-	  	props : {
-		  	show : false,
+	  	components : ['modal'],
+		props : {
+			show : false,
 			width : null,
 			height: null,
 			loading: false,
@@ -479,6 +537,13 @@
 		},
 	  	methods :
 		{
+			closeEditor : function()
+			{
+				this.cropper.instance = null;
+				this.$emit('close', this.show = !this.show);
+				this.message = null;
+				this.loading = false;
+			},
 			onFileInput : function(event)
 			{
 				var fileList = [];
@@ -506,6 +571,8 @@
 			},
 			uploadCroppedResult : function()
 			{
+				if(this.cropper.instance === null) return false;
+				
 				this.loading = true;
 				this.message = 'Cutting Image';
 				
@@ -517,13 +584,7 @@
 							{
 								window.appEventBus.$emit('userPictureChanged', croppedImage);
 								this.message = 'Profile Updated!';
-								
-								setTimeout(function()
-								{
-									this.show = false;
-									this.loading = false
-								}
-								.bind(this), 3000);
+								setTimeout(this.closeEditor.call(this), 3000);
 							}
 							.bind(this));
 					}
@@ -575,17 +636,16 @@
 				.bind(this));
 
 			},
-			browseFileSystem : function(event)
+			browseFileSystem : function( loc )
 			{
-				if(event.target === this.$refs['viewport'] && this.cropper.instance !== null) return false;
+				if(loc === 'viewport' && this.cropper.instance !== null) return false;
 				this.$refs['input'].click();
 			}
 		}
 	});
-
+	{% endif %}
 	new Vue({
 		el: '#route-view-user-profile-view',
-	  	components : ['modal-profile-editor', 'modal-profile-picture-editor'],
 		data: function ()
         {
 			return {
@@ -600,15 +660,52 @@
 				model : {{ model|json_encode|raw }},
 			}
 		},
-	  	created : function(){
-			console.log(this.model);
+	  	computed : {
+			 hasGearItems : function ()
+			 {
+			 	var has = false;
+			 	
+			   	Object.keys(this.model.profile).forEach(function(k){
+			   		if(k.indexOf('gear_') !== -1 ) {
+						if(this.model.profile[k].length) has = true;
+					}
+				}
+				.bind(this));
+
+			   	return has;
+			 }
 		},
-	  	watch : {
-			model : {
-				handler : function( v ){
-					console.log(v)
-				},
-			  	deep : true
+	  	methods : {
+			setModel : function( model )
+			{
+				this.model = model;
+			},
+		  	formatCommentDate(string)
+			{
+				if(!window.Date) return string;
+				var date = new Date(string);
+				var months = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sep..", "Oct.", "Nov.", "Dec."];
+				return date.getDay() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
+			},
+			truncateComment : function(text)
+			{
+				if(text.length > 40) return text.substring(0, 40) + '...';
+				return text;
+			},
+			formatGearName : function(name){
+				return name.replace('gear_', '');
+			},
+		  	isGearItem : function(key)
+			{
+				return key.indexOf('gear_') !== -1;
+			},
+		  	isSocialItem : function(key)
+			{
+			  	return key.indexOf('social_') !== -1;
+		  	},
+		  	getSocialIconClass : function(key)
+			{
+				return 'fab fa-lg fa-' + key.split("social_").pop();
 			}
 		},
 	});

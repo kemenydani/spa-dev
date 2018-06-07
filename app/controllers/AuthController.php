@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+use models\UserProfile;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use models\User as User;
@@ -247,7 +248,13 @@ class AuthController extends ViewController
         $User->save();
 
         if( !$User->getProperty('id') ) return $response->withStatus(500, 'Failed to insert user to database.');
-	
+
+        $UserProfile = UserProfile::create([
+            'user_id' => $User->getProperty('id')
+        ]);
+
+        $UserProfile->save();
+
 		$body = "
 		<b>Dear ".$username."!</b>
 		<br>

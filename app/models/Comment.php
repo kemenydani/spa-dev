@@ -9,7 +9,7 @@ class Comment extends Model
 {
     public static $PKEY = 'id';
     public static $TABLE = 'comment';
-    public static $COLUMNS = ['id', 'pid', 'text', 'user_id'];
+    public static $COLUMNS = ['id', 'pid', 'text', 'user_id', 'date_posted'];
 
     protected $user = null;
     
@@ -21,6 +21,11 @@ class Comment extends Model
     public function getUser() : Model
     {
     	return User::find($this->getProperty('user_id'));
+    }
+
+    public function getDatePosted()
+    {
+        return $this->getProperty('date_posted');
     }
 
     public static function formatCommentTree( array $comments )

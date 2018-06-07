@@ -234,7 +234,7 @@ abstract class Model {
      * @param array $props
      * @return static
      */
-    public static function create( array $props )
+    public static function create( array $props = [] )
     {
         $Model = new static();
         foreach($props as $name => $value) $Model->setProperty($name, $value);

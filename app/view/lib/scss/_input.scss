@@ -32,17 +32,29 @@
   height: 45px;
   line-height: 45px;
   min-height: 45px;
-
+  font-weight: bold;
   color: $light;
   text-transform: uppercase;
   padding: 0 20px 0 20px;
-  
+
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+
   cursor: pointer;
   
   text-align: center;
-
-  &:disabled {
-    opacity: 0.5;
+  outline: 0;
+  &:active {
+    outline: 0;
+  }
+  &:focus {
+    outline: 0;
+  }
+  &.disabled {
+    opacity: 0.7 !important;
   }
 
   &.button-medium {
@@ -51,7 +63,12 @@
     line-height: 35px;
   }
 
-  &.button-primary { background: $primary; }
+  &.button-primary {
+    background: $primary;
+    &:active {
+      background-color: $darkgrey;
+    }
+  }
   &.button-light { background: $light; color: $dark; }
   &.button-dark { background: $dark; }
 }
