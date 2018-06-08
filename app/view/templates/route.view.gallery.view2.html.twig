@@ -5,9 +5,11 @@
 <div class="container-full route-container" id="route-view-gallery-view">
 	<div class="container-full route-header gallery-view-route-header">
 		<div class="body">
-			<div class="container gallery-header-container"><h2 class="title">{{ gallery.getName() }}</h2></div>
+			<div class="container gallery-view-header-container">
+				<h2 class="title">{{ gallery.name }}</h2>
+			</div>
 		</div>
-		<div class="bg-image" style="background-image: url({{ headImageUrl }})"></div>
+		<div class="bg-image" style="background-image: url(static/images/route_header.jpg)"></div>
 	</div>
     {% verbatim %}
     <div class="container image-list-container infinite-list-container" id="image-list">

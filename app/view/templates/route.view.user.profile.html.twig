@@ -3,27 +3,29 @@
 {% block content %}
 
 <div class="container-full route-container" id="route-view-user-profile-view">
-	<!-- route header -->
 	<div class="container-full route-header profile-route-header">
-		<div class="container profile-header-container">
-			<div class="user-brand">
-				<div
-					class="profile-picture circle bordered {% if self %}my-profile-picture{% endif %}"
-					v-bind:style="{ backgroundImage : 'url('+model.user.profile_picture+')'}"
-					style="background-image: url({{ model.user.profile_picture }})"
-					{% if self %}v-on:click="editors.picture.show = true"{% endif %}>
+		<div class="body">
+			<div class="container profile-header-container">
+				<div class="user-brand">
+					<div
+							class="profile-picture circle bordered {% if self %}my-profile-picture{% endif %}"
+							v-bind:style="{ backgroundImage : 'url('+model.user.profile_picture+')'}"
+							style="background-image: url({{ model.user.profile_picture }})"
+                            {% if self %}v-on:click="editors.picture.show = true"{% endif %}>
+					</div>
+					<h1 class="username" v-text="model.user.username">
+                        {{ model.user.username }}
+					</h1>
+					<p class="paragraph para-big user-intro" v-if="model.profile.show_bio == 1" v-text="model.profile.bio">{{ model.profile.bio }}</p>
 				</div>
-				<h1 class="username" v-text="model.user.username">
-					{{ model.user.username }}
-				</h1>
-				<p class="paragraph para-big user-intro" v-if="model.profile.show_bio == 1" v-text="model.profile.bio">{{ model.profile.bio }}</p>
-			</div>
-			<div class="icons" v-if="model.profile.show_social == 1">
-				<a class="icon round" v-bind:href="model.profile[key]" target="_blank" v-if="isSocialItem(key) && model.profile[key].length" v-for="(item, key) in model.profile">
-					<i v-bind:class="getSocialIconClass(key)"></i>
-				</a>
+				<div class="icons" v-if="model.profile.show_social == 1">
+					<a class="icon round" v-bind:href="model.profile[key]" target="_blank" v-if="isSocialItem(key) && model.profile[key].length" v-for="(item, key) in model.profile">
+						<i v-bind:class="getSocialIconClass(key)"></i>
+					</a>
+				</div>
 			</div>
 		</div>
+		<div class="bg-image" style="background-image: url(static/images/route_header.jpg)"></div>
 	</div>
 	
 	{% if self %}
@@ -36,14 +38,14 @@
 	
 	<!-- bio -->
 	<div style="display: none;" class="container-full container-full-user-bio" v-if="model.profile.show_bio == 1">
-		<h2 class="section-header" v-text="model.user.username">{{ model.user.username }}'s STORY</h2>
+		<h2 class="route-section-header" v-text="model.user.username">{{ model.user.username }}'s STORY</h2>
 		<div class="container light-bg shadow pad-15 container-user-bio">
 			<p class="paragraph para-big" v-text="model.profile.bio">{{ model.profile.bio }}</p>
 		</div>
 	</div>
 	<!--gear -->
 	<div class="container-full container-full-user-gear" v-show="model.profile.show_gear == 1">
-		<h2 class="section-header">GEAR</h2>
+		<h2 class="route-section-header">GEAR</h2>
 		<div v-if="hasGearItems" class="container container-user-gear">
 			<div class="container light-bg shadow pad-15" v-if="isGearItem(key) && model.profile[key].length" v-for="(item, key) in model.profile">
 				<span class="type" v-text="formatGearName(key)"></span>
@@ -56,7 +58,7 @@
 	</div>
 	<!-- comments -->
 	<div class="container-full container-full-user-comments" v-show="model.profile.show_comments == 1" >
-		<h2 class="section-header">LAST COMMENTS</h2>
+		<h2 class="route-section-header">LAST COMMENTS</h2>
 		<div v-if="model.comments.length > 0" class="container container-user-comments">
 			<div class="container light-bg shadow pad-15" v-for="(comment, key) in model.comments">
 				<div class="left">

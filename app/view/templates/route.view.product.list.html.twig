@@ -2,8 +2,15 @@
 
 {% block content %}
     <div class="container-full route-container" id="route-view-product-list">
+		<div class="container-full route-header product-list-route-header">
+			<div class="body">
+				<div class="container squad-header-container">
+					<h2 class="title">AVENUE SHOP</h2>
+				</div>
+			</div>
+			<div class="bg-image" style="background-image: url(static/images/route_header.jpg)"></div>
+		</div>
         {% verbatim %}
-
         <div class="container product-list-container infinite-list-container" id="product-list">
             <div class="infinite-search">
                 <div class="info">Loaded {{ products.length }} from totalItems {{ totalItems }} products</div>

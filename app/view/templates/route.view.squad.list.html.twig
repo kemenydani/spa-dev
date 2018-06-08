@@ -2,6 +2,14 @@
 
 {% block content %}
     <div class="container-full route-container" id="route-view-squad-list">
+        <div class="container-full route-header squad-list-route-header">
+            <div class="body">
+                <div class="container squad-header-container">
+                    <h2 class="title">AVENUE SQUADS</h2>
+                </div>
+            </div>
+            <div class="bg-image" style="background-image: url(static/images/route_header.jpg)"></div>
+        </div>
         <div class="container squad-list-container">
             <div class="squad-list">
             {% for sk, squad in squads.getModels() %}

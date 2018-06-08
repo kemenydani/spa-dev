@@ -9,18 +9,29 @@
         </div>
        <div class="bg-image" style="background-image: url({{ squad.requestHeaderImage() }})"></div>
     </div>
-    <div class="container member-list-container" id="member-list">
-        {% for mk, member in squad.getMembers() %}
-            <article class="member">
-                <div class="avatar" style="background-image: url({{ member.requestHomeAvatar() }})">
-                    <div class="nameplate"><img src="{{ member.getUser().getCountry().smallFlag() }}"> {{ member.formatName() }}</div>
-                </div>
-                <div class="details">
-                    <p class="position">{{ member.getPosition() }}</p>
-                    <p class="desc">{{ member.getDesc() }}</p>
-                </div>
-            </article>
-        {% endfor %}
+
+    <div class="container-full squad-players-container-full">
+        <h2 class="route-section-header">PLAYERS</h2>
+        <div class="container member-list-container" id="member-list">
+
+            {% for mk, member in squad.getMembers() %}
+                <article class="member">
+                    <div class="avatar" style="background-image: url({{ member.requestHomeAvatar() }})">
+                        <div class="nameplate"><img src="{{ member.getUser().getCountry().smallFlag() }}"> {{ member.formatName() }}</div>
+                    </div>
+                    <div class="details">
+                        <p class="position">{{ member.getPosition() }}</p>
+                        <p class="desc">{{ member.getDesc() }}</p>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container-full squad-players-container-full">
+        <h2 class="route-section-header">LAST MATCHES</h2>
+        <div class="container member-list-container" id="member-list">
+            LM
+        </div>
     </div>
 </div>
 

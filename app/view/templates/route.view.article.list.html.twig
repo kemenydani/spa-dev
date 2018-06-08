@@ -2,11 +2,21 @@
 
 {% block content %}
     <div class="container-full route-container" id="route-view-article-list">
+		{#
         <div class="container-full route-header article-route-header">
             <div class="container article-header-container headline-container">
                 {% include 'widget.top.articles.html.twig' with { articles : headlines } %}
             </div>
         </div>
+        #}
+		<div class="container-full route-header article-list-route-header">
+			<div class="body">
+				<div class="container article-header-container">
+					<h2 class="title">ARTICLES</h2>
+				</div>
+			</div>
+			<div class="bg-image" style="background-image: url(static/images/route_header.jpg)"></div>
+		</div>
         {% verbatim %}
         <div class="container article-list-container infinite-list-container" id="article-list">
             <div class="infinite-search">

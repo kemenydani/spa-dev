@@ -559,13 +559,63 @@ footer#main-footer {
   footer#main-footer .footer-bottom-row .info-container {
     flex-direction: column; } }
 .route-header {
-  min-height: 400px;
+  min-height: 300px;
   background-size: cover;
   background-position: center center;
-  border-top: 1px solid #454545; }
+  border-top: 1px solid #454545;
+  background-color: black;
+  position: relative;
+  -webkit-box-shadow: 0 0 47px 0 rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0 0 47px 0 rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 47px 0 rgba(0, 0, 0, 0.4);
+  margin-bottom: 30px !important;
+  display: flex; }
+  .route-header .body {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    min-height: 100%;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center; }
+    .route-header .body .title {
+      color: white;
+      padding: 5px 10px 5px 10px;
+      margin: 0;
+      text-transform: uppercase;
+      font-size: 40px;
+      display: inline-block;
+      background: #f6a00c;
+      line-height: 100%; }
+      .route-header .body .title > a, .route-header .body .title a:hover {
+        color: white; }
+  .route-header .bg-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    background: no-repeat center center;
+    background-size: cover;
+    -webkit-filter: grayscale(100%);
+    /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%); }
 
 .route-container {
   overflow: visible !important; }
+  .route-container .route-section-header {
+    color: #626262;
+    margin: 0;
+    font-size: 35px;
+    padding: 30px 0 30px 0;
+    text-align: center;
+    text-transform: uppercase; }
 
 @media only screen and (max-width: 1247px) {
   .route-header {
@@ -654,7 +704,7 @@ footer#main-footer {
       width: 100%;
       height: 100%; }
 
-.home-section-header {
+.home-route-section-header {
   min-width: 200px;
   max-width: 300px;
   margin: 0 auto;
@@ -685,7 +735,7 @@ footer#main-footer {
 .container-full.article-container-full {
   background: black;
   padding-bottom: 50px; }
-  .container-full.article-container-full .home-section-header {
+  .container-full.article-container-full .home-route-section-header {
     background-color: #e8e8e8;
     margin-bottom: 50px;
     color: #f6a00c; }
@@ -693,7 +743,7 @@ footer#main-footer {
 .container-full.match-container-full {
   padding-top: 0;
   padding-bottom: 50px; }
-  .container-full.match-container-full .home-section-header {
+  .container-full.match-container-full .home-route-section-header {
     background-color: black;
     margin-bottom: 50px;
     color: #f6a00c; }
@@ -701,7 +751,7 @@ footer#main-footer {
 .container-full.squad-container-full {
   background: black;
   border-bottom: 10px solid #f6a00c; }
-  .container-full.squad-container-full .home-section-header {
+  .container-full.squad-container-full .home-route-section-header {
     background-color: #e8e8e8;
     margin-bottom: 50px;
     color: #f6a00c; }
@@ -942,7 +992,7 @@ footer#main-footer {
     padding-bottom: 0;
     border-bottom: 10px solid #f6a00c; } }
 @media only screen and (max-width: 1023px) {
-  .home-section-header {
+  .home-route-section-header {
     display: none; }
 
   .container-full.top-sponsors-container-full, .container-full.footer-sponsors-container-full {
@@ -1436,13 +1486,6 @@ footer#main-footer {
     max-width: 900px; }
   #route-view-user-profile-view .user-intro {
     max-width: 85%; }
-  #route-view-user-profile-view .section-header {
-    color: #f6a00c;
-    margin: 0;
-    font-size: 35px;
-    padding: 15px 0 15px 0;
-    text-align: center;
-    text-transform: uppercase; }
   #route-view-user-profile-view .container-user-gear .type {
     text-transform: uppercase;
     font-weight: bold;
@@ -1566,7 +1609,6 @@ footer#main-footer {
     border-right: 1px solid #626262; }
 
 #route-view-article-read {
-  padding-top: 15px;
   padding-bottom: 15px;
   overflow: visible; }
   #route-view-article-read #article-read {
@@ -2565,7 +2607,7 @@ background: $lightgrey;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
   transition: opacity .3s ease;
   overflow: hidden;
   display: flex;

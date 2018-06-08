@@ -3,6 +3,14 @@
 {% block content %}
 
 <div class="container-full route-container" id="route-view-partner-list">
+    <div class="container-full route-header partner-list-route-header">
+        <div class="body">
+            <div class="container partner-list-header-container">
+                <h2 class="title">OUR PARTNERS</h2>
+            </div>
+        </div>
+        <div class="bg-image" style="background-image: url(static/images/route_header.jpg)"></div>
+    </div>
     <div class="container partner-list-container" id="partner-list">
         {% for pk, partner in partners %}
             <article class="partner">
