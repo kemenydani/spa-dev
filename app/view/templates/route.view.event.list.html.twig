@@ -1,32 +1,27 @@
 {% extends 'block.full.html.twig' %}
 
 {% block content %}
-    <div class="container-full route-container" id="route-view-article-list">
-        <div class="container-full route-header article-route-header">
-            <div class="container article-header-container headline-container">
-                {% include 'widget.top.articles.html.twig' with { articles : headlines } %}
-            </div>
-        </div>
+    <div class="container-full route-container" id="route-view-event-list">
         {% verbatim %}
-        <div class="container article-list-container infinite-list-container" id="article-list">
+        <div class="container event-list-container infinite-list-container" id="event-list">
             <div class="infinite-search">
-                <div class="info">Loaded {{ articles.length }} from total {{ totalItems }} articles</div>
+                <div class="info">Loaded {{ events.length }} from total {{ totalItems }} events</div>
                 <div class="form">
 					<input v-on:keyup.enter="search()" v-model="searchParam" placeholder="Search" type="text">
 					<button v-on:click="search()">SEARCH</button>
                 </div>
             </div>
-            <article v-for="(article, key) in articles" v-bind:key="key" class="article">
-                <a v-bind:href="'/article/read/' + article.title_seo">
-                  <h2 class="title">{{ article.title }}</h2>
+            <article v-for="(event, key) in events" v-bind:key="key" class="event">
+                <a v-bind:href="'/event/read/' + event.name_seo">
+                  <h2 class="name">{{ event.name }}</h2>
                 </a>
-                <p class="text">{{ article.teaser }}</p>
+                <p class="text">{{ event.description }}</p>
             </article>
             <div v-if="loading" class="infinite-loading">
               <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
 			</div>
-			<div v-if="totalItems > articles.length" class="infinite-more">
-			  There are {{ totalItems - articles.length }} more articles...
+			<div v-if="totalItems > events.length" class="infinite-more">
+			  There are {{ totalItems - events.length }} more events...
 			</div>
         </div>
         {% endverbatim %}
@@ -36,10 +31,10 @@
 
 		(function(Vue){
 			new Vue({
-				el: '#article-list',
+				el: '#event-list',
 				data: function () {
 					return {
-						articles: [],
+						events: [],
 						totalItems: 0,
 						limit: parseInt({{ limit }}),
 						startAt: 0,
@@ -61,10 +56,10 @@
 
 						return new Promise(function(resolve, reject)
 						{
-							fetch('/article/loadInfinity/?startAt=' + this.startAt + '&search=' + this.searchParam )
+							fetch('/event/loadInfinity/?startAt=' + this.startAt + '&search=' + this.searchParam )
 								.then(function(response)
 								{
-									if(!response.ok) throw new Error('Bad request: Unable to load articles.');
+									if(!response.ok) throw new Error('Bad request: Unable to load events.');
 									resolve(response.json());
 								})
 								.catch(function(error)
@@ -86,14 +81,14 @@
 					handleResponse : function( response )
 					{
 						this.totalItems = response.totalItems ? response.totalItems : 0;
-						this.pushArticles( response.articles || [] );
+						this.pushArticles( response.events || [] );
 						this.startAt += this.limit;
 					},
-					pushArticles : function( articles )
+					pushArticles : function( events )
 					{
-						articles.forEach(function( article )
+						events.forEach(function( event )
 						{
-							this.articles.push( article )
+							this.events.push( event )
 						}
 						.bind(this));
 					},
@@ -105,21 +100,21 @@
 							.then(function( response )
 							{
 								this.totalItems = response.totalItems ? response.totalItems : 0;
-								this.articles = response.articles || [];
-								this.startAt += response.articles.length
+								this.events = response.events || [];
+								this.startAt += response.events.length
 							}
 							.bind(this));
 					}
 				},
 				created: function()
                 {
-	                this.handleResponse({{ articles|raw }});
+	                this.handleResponse({{ events|raw }});
 
 					window.addEventListener('scroll', function()
 					{
 						if(this.bottomVisible() === true && this.loading === false)
 						{
-							if(this.totalItems > this.articles.length)
+							if(this.totalItems > this.events.length)
 							{
 								this.fetchMore();
 							}

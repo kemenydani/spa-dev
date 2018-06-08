@@ -1,32 +1,54 @@
 {% extends 'block.full.html.twig' %}
 
 {% block content %}
-    <div class="container-full route-container" id="route-view-article-list">
-        <div class="container-full route-header article-route-header">
-            <div class="container article-header-container headline-container">
-                {% include 'widget.top.articles.html.twig' with { articles : headlines } %}
-            </div>
-        </div>
+    <div class="container-full route-container" id="route-view-award-list">
         {% verbatim %}
-        <div class="container article-list-container infinite-list-container" id="article-list">
+        <div class="container award-list-container infinite-list-container" id="award-list">
             <div class="infinite-search">
-                <div class="info">Loaded {{ articles.length }} from total {{ totalItems }} articles</div>
+                <div class="info">Loaded {{ awards.length }} from total {{ totalItems }} awards</div>
                 <div class="form">
 					<input v-on:keyup.enter="search()" v-model="searchParam" placeholder="Search" type="text">
 					<button v-on:click="search()">SEARCH</button>
                 </div>
             </div>
-            <article v-for="(article, key) in articles" v-bind:key="key" class="article">
-                <a v-bind:href="'/article/read/' + article.title_seo">
-                  <h2 class="title">{{ article.title }}</h2>
-                </a>
-                <p class="text">{{ article.teaser }}</p>
+            <article v-for="(award, key) in awards" v-bind:key="key" class="award">
+                <section v-on:click="toggleAwardInfo" class="top-info">
+					<div class="left">
+					  <div class="place" v-bind:class="{ prominent : (award.place == 1 || award.place == 2 || award.place == 3) }">
+						  <span class="num">{{ award.place }}</span>
+						  <i v-if="(award.place == 1 || award.place == 2 || award.place == 3)" class="fas fa-trophy"></i>
+					  </div>
+					  <h2 class="event_name">{{ award.event_name }}</h2>
+					</div>
+					<div class="right">
+					  {{ award.award_date }}
+					</div>
+				</section>
+				<section class="block-info">
+					<a v-bind:href="'/squad/' + award.squad_name" v-if="award.squad_header" class="award-squad">
+						<h2 class="title">{{ award.squad_name }}</h2>
+						<div class="bg-image" v-bind:style="{ backgroundImage : 'url('+award.squad_header+')' }"></div>
+					</a>
+                    <div v-if="award.matches.length" class="match" v-for="(match, key) in award.matches" v-bind:key="key">
+                      <div class="left">
+                          <div class="date">{{ match.date_played }}</div>
+                          <div class="name">{{ match.enemy_team_name }}</div>
+                      </div>
+                      <div class="right">
+                          <div class="score">
+                              <span class="score_home">{{ match.home_score }}</span>
+                               :
+                              <span class="score_enemy">{{ match.enemy_score }}</span>
+                          </div>
+                      </div>
+                    </span>
+                  </section>
             </article>
             <div v-if="loading" class="infinite-loading">
               <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
 			</div>
-			<div v-if="totalItems > articles.length" class="infinite-more">
-			  There are {{ totalItems - articles.length }} more articles...
+			<div v-if="totalItems > awards.length" class="infinite-more">
+			  There are {{ totalItems - awards.length }} more awards...
 			</div>
         </div>
         {% endverbatim %}
@@ -36,10 +58,10 @@
 
 		(function(Vue){
 			new Vue({
-				el: '#article-list',
+				el: '#award-list',
 				data: function () {
 					return {
-						articles: [],
+						awards: [],
 						totalItems: 0,
 						limit: parseInt({{ limit }}),
 						startAt: 0,
@@ -48,6 +70,10 @@
 					}
 				},
 				methods: {
+					toggleAwardInfo : function( event )
+					{
+						$(event.currentTarget).parent().find('.block-info').slideToggle("fast");
+					},
 					bottomVisible : function()
                     {
 	                    var wh = window.innerHeight;
@@ -61,10 +87,10 @@
 
 						return new Promise(function(resolve, reject)
 						{
-							fetch('/article/loadInfinity/?startAt=' + this.startAt + '&search=' + this.searchParam )
+							fetch('/award/loadInfinity/?startAt=' + this.startAt + '&search=' + this.searchParam )
 								.then(function(response)
 								{
-									if(!response.ok) throw new Error('Bad request: Unable to load articles.');
+									if(!response.ok) throw new Error('Bad request: Unable to load awards.');
 									resolve(response.json());
 								})
 								.catch(function(error)
@@ -86,14 +112,14 @@
 					handleResponse : function( response )
 					{
 						this.totalItems = response.totalItems ? response.totalItems : 0;
-						this.pushArticles( response.articles || [] );
+						this.pushArticles( response.awards || [] );
 						this.startAt += this.limit;
 					},
-					pushArticles : function( articles )
+					pushArticles : function( awards )
 					{
-						articles.forEach(function( article )
+						awards.forEach(function( award )
 						{
-							this.articles.push( article )
+							this.awards.push( award )
 						}
 						.bind(this));
 					},
@@ -105,21 +131,21 @@
 							.then(function( response )
 							{
 								this.totalItems = response.totalItems ? response.totalItems : 0;
-								this.articles = response.articles || [];
-								this.startAt += response.articles.length
+								this.awards = response.awards || [];
+								this.startAt += response.awards.length
 							}
 							.bind(this));
 					}
 				},
 				created: function()
                 {
-	                this.handleResponse({{ articles|raw }});
+	                this.handleResponse({{ awards|raw }});
 
 					window.addEventListener('scroll', function()
 					{
 						if(this.bottomVisible() === true && this.loading === false)
 						{
-							if(this.totalItems > this.articles.length)
+							if(this.totalItems > this.awards.length)
 							{
 								this.fetchMore();
 							}

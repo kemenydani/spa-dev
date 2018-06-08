@@ -3,6 +3,8 @@
 namespace controllers;
 
 use models\AwardCollection;
+use models\Match;
+use models\Squad;
 use Slim\Http\Response;
 use Slim\Http\Request;
 use core\DB as DB;
@@ -43,18 +45,66 @@ class AwardController extends ViewController
 	    if($search)
 	    {
 		    $params['name'] = '%'. $search .'%';
-		    $where = ' WHERE event_name LIKE :name OR description LIKE :name ';
+		    $where = ' WHERE a.event_name LIKE :name OR a.description LIKE :name OR e.name LIKE :name';
 	    }
 
-        $q1 = " SELECT SQL_CALC_FOUND_ROWS * FROM _xyz_award " .
+        $q1 = " SELECT SQL_CALC_FOUND_ROWS a.*, c.name AS game_name, c.name_short AS game_name_short, s.id AS squad_id, s.name AS squad_name, e.name AS event_title, e.start_date AS event_start, e.end_date AS event_end FROM _xyz_award a " .
+            " LEFT JOIN _xyz_squad s ON s.id = a.squad_id " .
+            " LEFT JOIN _xyz_category c ON c.id = s.game_id " .
+            " LEFT JOIN _xyz_event e ON e.id = a.event_id " .
             " {$where} " .
-            " ORDER BY id DESC " .
+            " ORDER BY a.id DESC " .
             " LIMIT ".static::INFINITE_LIMIT." OFFSET " . (int)$startAt
         ;
 
-        $awards = (AwardCollection::queryToCollection($q1, $params))->getFormatted();
+        $awards = DB::instance()->getAll($q1, $params);
 
         $total = DB::instance()->totalRowCount();
+
+        foreach($awards as &$award)
+        {
+            $award['award_date'] = date("j F Y",  strtotime($award['award_date']));
+            $award['event_start'] = date("j F Y", strtotime($award['event_start']));
+            $award['event_end'] = date("j F Y",   strtotime($award['event_end']));
+
+            /* @var \models\Squad $Squad */
+
+            $Squad = Squad::find($award['squad_id']);
+
+            $award['squad_header'] = "";
+            if($Squad) $award['squad_header'] = $Squad->requestHeaderImage();
+
+            $award['matches'] = [];
+
+            if(!$award['event_id']) continue;
+
+            $matches = Match::findAll($award['event_id'], 'event_id');
+
+            if(!$matches) continue;
+
+            foreach($matches as $Match)
+            {
+                /* @var \models\Match $Match */
+                /* @var \models\EnemyTeam $EnemyTeam */
+
+                $EnemyTeam = $Match->getEnemyTeam();
+
+                $data = $Match->getProperties();
+                $data['enemy_team_name'] = $EnemyTeam->getName();
+                $data['squad_name'] = $award['squad_name'];
+
+                $data['home_score'] = $Match->formatTotalHomeScore();
+                $data['enemy_score'] = $Match->formatTotalEnemyScore();
+
+                $datePlayed = $Match->getDatePlayed();
+
+                $data['date_played'] = $datePlayed ? date("j F Y",   strtotime($datePlayed)) : "";
+
+                $award['matches'][] = $data;
+            }
+        }
+
+        //$awards = (AwardCollection::queryToCollection($q1, $params))->getFormatted();
 
         return ['awards' => $awards, 'totalItems' => $total];
     }

@@ -128,8 +128,14 @@ class UserController extends ViewController
 
         $model = $this->generateProfileModelForUser($user);
 
-        $self = Auth::user()->getId() === $user->getId();
-
+        $au = Auth::user();
+        
+        $self = false;
+        
+        if($au) {
+        	$self = $au->getId() === $user->getId();
+        }
+        
         if(!Session::exists('token')) Session::put('token', bin2hex(random_bytes(32)));
 
         $token = Session::get('token');
