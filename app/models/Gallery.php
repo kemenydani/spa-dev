@@ -40,5 +40,29 @@ class Gallery extends Model
     {
         return new GalleryImageCollection($this->getImages());
     }
+    
+    public function getFeaturedImage()
+    {
+    	/* @var GalleryImageCollection $ic */
+    	$ic = $this->getImages();
+    	
+    	if(!$ic) return null;
+    	
+    	/* @var \models\GalleryImage $GalleryImage; */
+	
+	    $FeaturedGalleryImage = null;
+    	
+    	foreach($ic as $key => $GalleryImage)
+    	{
+    		if(!$GalleryImage->getProperty('featured')) continue;
+		    $FeaturedGalleryImage = $GalleryImage;
+	    }
+	    
+	    if($FeaturedGalleryImage) return $FeaturedGalleryImage;
+	    
+    	$randKey = array_rand($ic, 1);
+    	
+    	return $ic[$randKey];
+    }
 
 }

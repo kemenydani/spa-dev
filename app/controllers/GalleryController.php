@@ -117,15 +117,29 @@ class GalleryController extends ViewController
 	          " {$where} " .
               " ORDER BY id ASC " .
               " LIMIT ".static::INFINITE_LIMIT_GALLERIES." OFFSET " . (int)$startAt;
-
-
+        
         /* @var \models\GalleryCollection $collection */
         $collection = (GalleryCollection::queryToCollection($q1, $params));
-
-        $totalItems = DB::instance()->totalRowCount();
+	
+	    $totalItems = DB::instance()->totalRowCount();
+	    
+	    $galleries = [];
+	    
+	    /* @var \models\Gallery $Gallery */
+        foreach($collection->getModels() as &$Gallery)
+        {
+        	$fi = $Gallery->getFeaturedImage();
+        	if(!$fi) unset($Gallery);
+        	
+        	$g = $Gallery->getProperties();
+        	$g['featured_image'] = $fi->requestImageUrl();
+        	
+        	$galleries[] = $g;
+        }
+       
 
         return [
-            'galleries' => $collection->getProperties() ,
+            'galleries' => $galleries ,
             'totalItems' => $totalItems
         ];
     }
