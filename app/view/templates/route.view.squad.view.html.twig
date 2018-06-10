@@ -4,35 +4,37 @@
 
 <div class="container-full route-container" id="route-view-squad-view">
     <div class="container-full route-header squad-view-route-header">
-        <div class="body">
-            <div class="container squad-header-container"><h2 class="title">{{ squad.getName() }}</h2></div>
-        </div>
-       <div class="bg-image" style="background-image: url({{ squad.requestHeaderImage() }})"></div>
+        <span>
+           <h1 class="title bg-text uc-text">{{ squad.getName() }}</h1>
+        </span>
+       <div class="bg-image bg bg-centered bg-cover bg-grayed" style="background-image: url({{ squad.requestHeaderImage() }})"></div>
     </div>
-
     <div class="container-full squad-players-container-full">
         <h2 class="route-section-header">PLAYERS</h2>
         <div class="container member-list-container" id="member-list">
 
             {% for mk, member in squad.getMembers() %}
-                <article class="member">
+                <article class="member bg-dark round-2 box-shadow-1">
                     <div class="avatar" style="background-image: url({{ member.requestHomeAvatar() }})">
-                        <div class="nameplate"><img src="{{ member.getUser().getCountry().smallFlag() }}"> {{ member.formatName() }}</div>
+                        <div class="nameplate box-shadow-1">{{ member.formatName() }}</div>
                     </div>
                     <div class="details">
-                        <p class="position">{{ member.getPosition() }}</p>
-                        <p class="desc">{{ member.getDesc() }}</p>
+                        <h3 class="position">{{ member.getPosition() }}</h3>
+                        <div class="country"><img src="{{ member.getUser().getCountry().smallFlag() }}"> {{ member.getUser().getCountry().getName() }}</div>
+                        <p class="paragraph low-p">{{ member.getDesc() }}</p>
                     </div>
                 </article>
             {% endfor %}
         </div>
     </div>
+    {#
     <div class="container-full squad-players-container-full">
         <h2 class="route-section-header">LAST MATCHES</h2>
         <div class="container member-list-container" id="member-list">
             LM
         </div>
     </div>
+    #}
 </div>
 
 {% endblock %}

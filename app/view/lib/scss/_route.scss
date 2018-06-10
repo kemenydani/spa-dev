@@ -1,0 +1,68 @@
+.route-container, .route {
+  overflow: visible !important;
+  padding-bottom: $spaceDefault * 2;
+  .route-header {
+	min-height: 300px;
+	padding-top: $spaceDefault;
+	padding-bottom: $spaceDefault;
+	margin-bottom: $spaceDefault * 2;
+	border-top: 1px solid $darkerGrey;
+	background-color: $dark;
+	-webkit-box-shadow: 0 0 47px 0 rgba(0,0,0,0.4);
+	-moz-box-shadow: 0 0 47px 0 rgba(0,0,0,0.4);
+	box-shadow: 0 0 47px 0 rgba(0,0,0,0.4);
+	text-align: center;
+	
+	position: relative;
+	
+	.title {
+	  font-family: $font2;
+	  font-size: 40px;
+	}
+	
+	display: flex;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+	
+	@extend .bg-centered;
+	@extend .bg-cover;
+	
+	@include mq('desktop', 'max') { margin-left: -15px; min-width: calc( 100% + (15px * 2) ); }
+	
+	// devices ...
+  }
+  
+  .route-section-header {
+	color: $darkGrey;
+	margin: 0;
+	font-size: 35px;
+	padding: ($spaceDefault * 2) 0 ($spaceDefault * 2) 0;
+	text-align: center;
+	text-transform: uppercase;
+  }
+  
+  @include mq('desktop', 'max') {
+	.route-header {
+	  min-width: calc( 100% + 30px );
+	  margin-left: -15px !important;
+	}
+  }
+  
+  @include mq('tablet-wide', 'max') {
+	.route-header {
+	  min-height: 240px;
+	}
+  }
+  
+  @include mq('phablet', 'max') {
+	.route-header {
+	  min-height: 180px;
+	  .body {
+		.title {
+		  font-size: 30px;
+		}
+	  }
+	}
+  }
+}

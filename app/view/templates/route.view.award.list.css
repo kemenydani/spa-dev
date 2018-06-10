@@ -1,24 +1,46 @@
 /*
 Error: Undefined variable: "$light".
-        on line 7 of route.view.article.read.scss
+        on line 16 of route.view.award.list.scss
 
-2: 
-3:   flex: 1;
-4:   height: 100%;
-5:   min-height: 100%;
-6: 
-7:   background: $light;
-8: 
-9:   article.article-content {
-10:     font-family: 'Montserrat', sans-serif;
-11:     background: $light;
-12:     padding-left: 40px;
+11:     article.award
+12:     {
+13:       -webkit-box-shadow: 0 0 10px -4px rgba(0,0,0,0.8);
+14:       -moz-box-shadow: 0 0 10px -4px rgba(0,0,0,0.8);
+15:       box-shadow: 0 0 10px -4px rgba(0,0,0,0.8);
+16:       background: $light;
+17:       margin-bottom: 15px;
+18:       .top-info {
+19:         padding: 15px;
+20:         border-bottom: 5px solid $primary;
+21:         display: flex;
 
 Backtrace:
-route.view.article.read.scss:7
+route.view.award.list.scss:16
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/variable.rb:49:in `_perform'
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `with_base'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `visit'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block (2 levels) in visit_rule'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `map'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block in visit_rule'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:431:in `visit_rule'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `with_base'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `visit'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block (2 levels) in visit_rule'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `map'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block in visit_rule'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
+C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:431:in `visit_rule'
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
@@ -67,4 +89,4 @@ C:/Ruby23-x64/bin/scss:23:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$light\".\A         on line 7 of route.view.article.read.scss\A \A 2: \A 3:   flex: 1;\A 4:   height: 100%;\A 5:   min-height: 100%;\A 6: \A 7:   background: $light;\A 8: \A 9:   article.article-content {\A 10:     font-family: 'Montserrat', sans-serif;\A 11:     background: $light;\A 12:     padding-left: 40px;"; }
+  content: "Error: Undefined variable: \"$light\".\A         on line 16 of route.view.award.list.scss\A \A 11:     article.award\A 12:     {\A 13:       -webkit-box-shadow: 0 0 10px -4px rgba(0,0,0,0.8);\A 14:       -moz-box-shadow: 0 0 10px -4px rgba(0,0,0,0.8);\A 15:       box-shadow: 0 0 10px -4px rgba(0,0,0,0.8);\A 16:       background: $light;\A 17:       margin-bottom: 15px;\A 18:       .top-info {\A 19:         padding: 15px;\A 20:         border-bottom: 5px solid $primary;\A 21:         display: flex;"; }

@@ -4,16 +4,11 @@
 
 
 <div class="container-full route-container" id="route-view-product-view">
-	<div class="container-full route-header product-view-route-header">
-		<div class="body">
-			<div class="container product-view-header-container">
-				<h2 class="title">{{ product.name }}</h2>
-			</div>
-		</div>
-		<div class="bg-image" style="background-image: url(static/images/route_header.jpg)"></div>
+	<div class="container-full route-header" style="background-image: url(static/images/route_header.jpg)">
+		<span><h1 class="title bg-text uc-text">{{ product.name }}</h1></span>
 	</div>
     <div class="container product-view-container" id="product-view">
-        <div class="product">
+        <div class="product box-shadow-1 round-2 bg-light mar-btm-default">
 			{% verbatim %}
             <div class="product-gallery">
 				<div class="product-photo" v-on:click="openAsCurrent" v-bind:data-id="key" v-for="(url, key) in gallery.images" v-bind:style="{ backgroundImage: 'url('+url+')' }"></div>
@@ -84,7 +79,7 @@
         {% endverbatim %}
     </div>
 	
-	<div class="container product-comments-container" id="product-comments">
+	<div class="container box-shadow-1 round-2 bg-light pad-default" id="product-comments">
 		{% include 'widget.comments.html.twig' with { comments : comments, model : 'product' , model_id : product.getId() } %}
 	</div>
 </div>

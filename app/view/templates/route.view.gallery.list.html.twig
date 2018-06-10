@@ -2,29 +2,31 @@
 
 {% block content %}
     <div class="container-full route-container" id="route-view-gallery-list">
-		<div class="container-full route-header gallery-list-route-header">
-			<div class="body">
-				<div class="container gallery-list-header-container">
-						<h2 class="title">ALBUMS</h2>
-				</div>
-			</div>
-			<div class="bg-image" style="background-image: url(static/images/route_header.jpg)"></div>
+		<div class="container-full route-header" style="background-image: url(static/images/route_header.jpg)">
+			<span><h1 class="title bg-text uc-text">ALBUMS</h1></span>
 		</div>
         {% verbatim %}
         <div class="container gallery-list-container infinite-list-container" id="gallery-list">
-            <div class="infinite-search">
+
+            <div class="infinite-search box-shadow-2">
                 <div class="info">Loaded {{ galleries.length }} from totalItems {{ totalItems }} galleries</div>
-                <div class="form">
+                <div class="form input-field">
 					<input v-on:keyup.enter="search()" v-model="searchParam" placeholder="Search" type="text">
-					<button v-on:click="search()">SEARCH</button>
+					<button class="button button-primary" v-on:click="search()">SEARCH</button>
                 </div>
             </div>
-            <article v-for="(gallery, key) in galleries" v-bind:key="key" class="gallery">
-                <a v-bind:href="'/gallery/' + gallery.name">
-                  <h2 class="title">{{ gallery.name }}</h2>
-                </a>
-                <p class="text">{{ gallery.teaser }}</p>
-            </article>
+
+			<div class="infinite-grid">
+				<article v-for="(gallery, key) in galleries" v-bind:key="key" class="gallery-item grid-item bg-light box-shadow-1 shadow-hover round-2">
+					<div class="wrapper">
+						<a v-bind:href="'/gallery/' + gallery.name">
+							<h3 class="title bg-text uc-text">{{ gallery.name }}</h3>
+						</a>
+						<a class="image bg bg-cover bg-grayed bg-centered bg-toggle-hover" v-bind:style="{ backgroundImage: 'url('+ gallery.featured_image +')' }" v-bind:href="'/gallery/' + gallery.name"></a>
+					</div>
+				</article>
+			</div>
+
 			<div v-if="loading" class="infinite-loading">
               <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
 			</div>

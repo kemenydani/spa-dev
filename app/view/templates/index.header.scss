@@ -1,4 +1,3 @@
-
 header#main-header {
   height: 150px;
   border-top: 10px solid $primary;
@@ -7,51 +6,51 @@ header#main-header {
   flex-wrap: nowrap;
   justify-content: center;
   //border: 1px solid deeppink;
-
-
+  
+  
   .header-aside {
 	flex: 1;
 	display: flex;
 	align-items: center;
 	overflow: visible;
-    padding: 0 15px 0 15px;
-    min-width:80px;
-    max-width: 300px;
-    //border: 1px solid lightgreen;
-    .icon { margin: 2px; }
-    .icons { }
+	padding: 0 15px 0 15px;
+	min-width:80px;
+	max-width: 300px;
+	//border: 1px solid lightgreen;
+	.icon { margin: 2px; }
+	.icons { }
 	&.header-left { justify-content: flex-start;}
 	&.header-right { justify-content: flex-end; }
 	.user-area
 	{
-        > div {
-        text-align: center;
-      }
-		overflow: visible;
-        height: 100%;
-        display: flex;
-        flex-direction: column-reverse;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center;
-        align-content: center;
-		  .username {
-			  color: $primary;
-			  text-transform: uppercase;
-			  font-weight: bold;
-		  }
-		  .logout > a { color: $darkgrey; }
-
-          a.signin {
-            background: $primary;
-            border-radius: 2px;
-            color: $lightgrey;
-            border: none;
-            padding: 5px 10px 5px 10px;
-            white-space:nowrap;
-            word-wrap: unset;
-          }
+	  > div {
+		text-align: center;
 	  }
+	  overflow: visible;
+	  height: 100%;
+	  display: flex;
+	  flex-direction: column-reverse;
+	  flex-wrap: wrap;
+	  align-items: center;
+	  justify-content: center;
+	  align-content: center;
+	  .username {
+		color: $primary;
+		text-transform: uppercase;
+		font-weight: bold;
+	  }
+	  .logout > a { color: $darkGrey; }
+	  
+	  a.signin {
+		background: $primary;
+		border-radius: 2px;
+		color: $lightGrey;
+		border: none;
+		padding: 5px 10px 5px 10px;
+		white-space:nowrap;
+		word-wrap: unset;
+	  }
+	}
   }
   .header-center-container {
 	display: flex;
@@ -61,30 +60,31 @@ header#main-header {
 	  align-items: center;
 	  flex: 1;
 	  font-family: 'Montserrat', sans-serif;
-      font-weight: bold;
-      text-transform: uppercase;
-      font-size: 22px;
+	  font-weight: bold;
+	  text-transform: uppercase;
+	  font-size: 22px;
 	  ul {
-        list-style-type: none;
+		list-style-type: none;
 		width: 100%;
-	    height: 100%;
+		height: 100%;
 		padding: 0;
 		display: flex;
 		justify-content: space-between;
-	    align-items: center;
+		align-items: center;
 	  }
 	  &.nav-left  { justify-content: flex-start; }
 	  &.nav-right { justify-content: flex-end;   }
 	}
 	.brand-holder {
 	  width: 260px;
-	  padding: 10px 0 10px 0;
-      position: relative;
+	  padding: 15px 0 15px 0;
+	  
+	  position: relative;
 	  .brand {
-        width: 100%;
+		width: 100%;
 		position: relative;
 		height: 100%;
-        text-align: center;
+		text-align: center;
 		img { width: auto; height: 100%; }
 	  }
 	}
@@ -99,7 +99,7 @@ header#main-header {
 	top: 140px;
 	z-index: 5;
   }
-
+  
 }
 
 // TODO:: move
@@ -119,78 +119,78 @@ nav#side-nav {
   -moz-box-shadow: 10px 0 200px 0 rgba(0,0,0,0.75);
   box-shadow: 10px 0 200px 0 rgba(0,0,0,0.75);
   a.signin {
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
+	text-decoration: none;
+	font-size: 25px;
+	color: #818181;
+	display: block;
+	transition: 0.3s;
   }
   > a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-    &:hover {
-      color: #f1f1f1;
-    }
+	padding: 8px 8px 8px 32px;
+	text-decoration: none;
+	font-size: 25px;
+	color: #818181;
+	display: block;
+	transition: 0.3s;
+	&:hover {
+	  color: #f1f1f1;
+	}
   }
   .user-block {
-    background: $darkergrey;
-    padding: 8px 8px 8px 32px;
-    .user-area {
-      display: flex;
-      flex-direction: row-reverse;
-      align-items: center;
-      justify-content: flex-end;
-      align-content: center;
-      .username { color: $primary; }
-    }
+	background: $darkerGrey;
+	padding: 8px 8px 8px 32px;
+	.user-area {
+	  display: flex;
+	  flex-direction: row-reverse;
+	  align-items: center;
+	  justify-content: flex-end;
+	  align-content: center;
+	  .username { color: $primary; }
+	}
   }
   .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-    cursor: pointer;
+	position: absolute;
+	top: 0;
+	right: 25px;
+	font-size: 36px;
+	margin-left: 50px;
+	cursor: pointer;
   }
 }
 #side-nav-trigger { display: none; cursor: pointer; }
 
 @include mq('desktop-wide', 'max') {
   header#main-header .header-aside.header-right .user-area {
-    display: none !important;
+	display: none !important;
   }
   header#main-header .header-aside {
-    &.header-left .icons { display: none; }
+	&.header-left .icons { display: none; }
   }
   header#main-header {
-    flex-direction: row-reverse;
-    .user-area {
-      a.signin {
-        display: none;
-      }
-    }
+	flex-direction: row-reverse;
+	.user-area {
+	  a.signin {
+		display: none;
+	  }
+	}
   }
   header#main-header .header-center-container .navigation {
-     display: none;
+	display: none;
   }
   #side-nav-trigger {
-    display: inline-block;
+	display: inline-block;
   }
 }
 
 @include mq('desktop-wide', 'max') {
   header#main-header {
-      max-height: 100px;
-    height: 100px;
+	max-height: 100px;
+	height: 100px;
   }
 }
 
 @include mq('phone', 'max') {
   header#main-header .header-center-container .brand-holder {
-    width: 120px;
+	width: 120px;
   }
 }

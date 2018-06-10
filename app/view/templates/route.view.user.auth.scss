@@ -24,7 +24,7 @@
           outline: 0;
           border: none;
           text-transform: uppercase;
-          font-family: 'Montserrat', sans-serif;
+          //font-family: 'Montserrat', sans-serif;
           width:100%;
           display:inline;
           height: 50px;
@@ -33,7 +33,7 @@
           font-weight: 700;
           cursor: pointer;
           &.inactive {
-            background: $darkergrey;
+            background: $darkerGrey;
             opacity: 0.8;
           }
         }

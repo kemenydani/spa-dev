@@ -1,14 +1,13 @@
-@import '../lib/scss/mixins';
 
 .modal-mask {
   position: fixed;
-
+  
   //border: 4px solid red;
   z-index: 9998;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, .7);
+  background-color: rgba(0, 0, 0, .75);
   transition: opacity .3s ease;
   overflow: hidden;
   display: flex;
@@ -36,7 +35,7 @@
 
 .modal-loading {
   z-index: 20;
-  background: rgba($lightgrey, .9);
+  background: rgba($lightGrey, .9);
   position: absolute;
   width: 100%;
   height: 100%;
@@ -47,16 +46,15 @@
   align-content: center;
   flex-direction: column;
   flex-wrap: nowrap;
-
   > i {
-    font-size: 50px;
-    margin-bottom: 15px;
+	font-size: 50px;
+	margin-bottom: 15px;
   }
-
+  
   > span {
-    font-size: 30px;
+	font-size: 30px;
   }
-
+  
 }
 
 .modal-container {
@@ -66,52 +64,48 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
   transition: all .3s ease;
   font-family: Helvetica, Arial, sans-serif;
-
+  
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   position: relative;
   overflow: hidden;
   > * {
-    min-width: 100%;
+	min-width: 100%;
   }
   max-width: 100%;
   height: 100%;
-
-  //border: 4px solid white;
-
   > * { width: 100%; }
 }
 
 .gallery-modal {
   .modal-container {
-    background: $dark;
+	background: $dark;
   }
 }
 
 .modal-header {
   padding: 20px 15px 20px 15px;
   max-height: 80px;
-  background: $lightgrey;
+  background: $lightGrey;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   .modal-cancel {
-    cursor: pointer;
+	cursor: pointer;
   }
 }
 
 .gallery-modal {
   .modal-header {
-    background: $dark;
+	background: $dark;
   }
 }
 
 .modal-header h2 {
   margin: 0 !important;
   padding: 0 !important;
-  color: $darkgrey;
+  color: $darkGrey;
 }
 
 .modal-body {
@@ -129,8 +123,8 @@
   position: relative;
   padding: 15px;
   justify-content: flex-end;
-
-  border-top: 1px solid $lightgrey;
+  
+  border-top: 1px solid $lightGrey;
 }
 
 .modal-default-button {
@@ -161,88 +155,82 @@
 }
 
 .modal-container {
-
   .gallery-holder {
-    position: relative !important;
-    overflow: hidden;
-    width: 100%;
-    display: flex;
-    min-height: 100%;
-
-    flex: 1;
-
-    //border: 2px solid blue;
-
-    .next, .prev {
-      background-color: rgba($dark, 0.7);
-      width: 45px;
-      min-height: 100%;
-      position: absolute;
-      color: white;
-      cursor: pointer;
-      line-height: 100%;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content:center;
-      align-content: center;
-      z-index: 20;
-      i {
-        &:hover { color: $primary }
-        &:active {
-          transform: scale(1.1);
-          color: $primary;
-        }
-      }
-    }
-    .next { right: 0; }
-    .prev { left: 0; }
-    .currentImageHolder {
-      /*
-      flex: 1;
-      width: 100%;
-      min-height: 430px;
-      position: relative;
-      */
-    }
-    .currentImage {
-      background-size: contain;
-      background: no-repeat center center;
-      position: absolute;
-      min-height: calc(100% - 30px);
-      top:15px; left: 15px; bottom: 15px; right: 15px;
-    }
+	position: relative !important;
+	overflow: hidden;
+	width: 100%;
+	display: flex;
+	min-height: 100%;
+	flex: 1;
+	.next, .prev {
+	  background-color: rgba($dark, 0.7);
+	  width: 45px;
+	  min-height: 100%;
+	  position: absolute;
+	  color: white;
+	  cursor: pointer;
+	  line-height: 100%;
+	  text-align: center;
+	  display: flex;
+	  align-items: center;
+	  justify-content:center;
+	  align-content: center;
+	  z-index: 20;
+	  i {
+		&:hover { color: $primary }
+		&:active {
+		  transform: scale(1.1);
+		  color: $primary;
+		}
+	  }
+	}
+	.next { right: 0; }
+	.prev { left: 0; }
+	.currentImageHolder {
+	  
+	  flex: 1;
+	  width: 100%;
+	  min-height: 430px;
+	  position: relative;
+	  
+	}
+	.currentImage {
+	  background-size: contain;
+	  background-position: center center;
+	  background-repeat: no-repeat;
+	  position: absolute;
+	  min-height: calc(100% - 30px);
+	  top:15px; left: 15px; bottom: 15px; right: 15px;
+	}
   }
-
+  
 }
 
 @include mq('tablet-wide', 'max') {
   .modal-container {
-    width: 100% !important;
-    height: 100% !important;
-    max-width: 100% !important;
-    //height: 100% !important;
-    overflow: hidden;
-    margin: 0;
-    border-radius: 0;
-    //border: none;
-    .gallery-holder {
-      .currentImageHolder {
-       max-height: 100px;
-        overflow: hidden;
-
-      }
-    }
+	width: 100% !important;
+	height: 100% !important;
+	max-width: 100% !important;
+	//height: 100% !important;
+	overflow: hidden;
+	margin: 0;
+	border-radius: 0;
+	.gallery-holder {
+	  .currentImageHolder {
+		max-height: 100px;
+		overflow: hidden;
+		
+	  }
+	}
   }
 }
 
 @include mq('tablet', 'max') {
   .modal-mask {
-
-    .modal-container {
-      max-height: 100% !important;
-      height: 100% !important;
-      min-height: 100% !important;
-    }
+	.modal-container {
+	  max-height: 100% !important;
+	  height: 100% !important;
+	  min-height: 100% !important;
+	}
   }
 }

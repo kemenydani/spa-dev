@@ -2,17 +2,12 @@
 
 {% block content %}
     <div class="container-full route-container" id="route-view-product-list">
-		<div class="container-full route-header product-list-route-header">
-			<div class="body">
-				<div class="container squad-header-container">
-					<h2 class="title">AVENUE SHOP</h2>
-				</div>
-			</div>
-			<div class="bg-image" style="background-image: url(static/images/route_header.jpg)"></div>
+		<div class="container-full route-header" style="background-image: url(static/images/route_header.jpg)">
+			<span><h1 class="title bg-text uc-text">SHOP</h1></span>
 		</div>
         {% verbatim %}
         <div class="container product-list-container infinite-list-container" id="product-list">
-            <div class="infinite-search">
+            <div class="infinite-search box-shadow-2">
                 <div class="info">Loaded {{ products.length }} from totalItems {{ totalItems }} products</div>
                 <div class="form">
                     <div class="input-field">
@@ -39,12 +34,12 @@
             </div>
             <br>
             <div class="product-flex">
-                <article v-for="(product, key) in products" v-bind:key="key" class="product">
+                <article v-for="(product, key) in products" v-bind:key="key" class="bg-light pad-default product box-shadow-1 shadow-hover round-2">
                     <a class="image" style="display: block" v-bind:href="'product/' + product.id "
                        v-bind:style="{ 'background-image': 'url(' + product.image + ')' }">
                     </a>
                     <div class="foot">
-                          <div class="name"><h2><a v-bind:href="'product/' + product.id ">{{ product.name }}</a></h2></div>
+                          <div class="name"><h3 class="uc-text"><a class="a-primary" v-bind:href="'product/' + product.id ">{{ product.name }}</a></h3></div>
                           <div class="price">{{ product.price }} {{ product.currency }}</div>
                       </div>
                 </article>

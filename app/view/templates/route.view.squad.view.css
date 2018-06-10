@@ -1,19 +1,21 @@
 /*
-Error: Undefined variable: "$light".
-        on line 4 of route.view.squad.view.scss
+Error: Undefined variable: "$dark".
+        on line 6 of route.view.squad.view.scss
 
 1: #route-view-squad-view {
-2: 
-3: 	#member-list {
-4: 	  background: $light;
-5: 	  padding: 15px;
-6: 	}
-7:  
-8:   
-9: }
+2: 	overflow: visible;
+3:   	position: relative;
+4:   
+5:   	.squad-view-route-header {
+6: 	  background-color: $dark;
+7: 	  position: relative;
+8: 	  -webkit-box-shadow: 0 0 47px 0 rgba(0,0,0,0.4);
+9: 	  -moz-box-shadow: 0 0 47px 0 rgba(0,0,0,0.4);
+10: 	  box-shadow: 0 0 47px 0 rgba(0,0,0,0.4);
+11: 	  margin-bottom: 15px;
 
 Backtrace:
-route.view.squad.view.scss:4
+route.view.squad.view.scss:6
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/variable.rb:49:in `_perform'
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
@@ -76,4 +78,4 @@ C:/Ruby23-x64/bin/scss:23:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$light\".\A         on line 4 of route.view.squad.view.scss\A \A 1: #route-view-squad-view {\A 2: \A 3: 	#member-list {\A 4: 	  background: $light;\A 5: 	  padding: 15px;\A 6: 	}\A 7:  \A 8:   \A 9: }"; }
+  content: "Error: Undefined variable: \"$dark\".\A         on line 6 of route.view.squad.view.scss\A \A 1: #route-view-squad-view {\A 2: 	overflow: visible;\A 3:   	position: relative;\A 4:   \A 5:   	.squad-view-route-header {\A 6: 	  background-color: $dark;\A 7: 	  position: relative;\A 8: 	  -webkit-box-shadow: 0 0 47px 0 rgba(0,0,0,0.4);\A 9: 	  -moz-box-shadow: 0 0 47px 0 rgba(0,0,0,0.4);\A 10: 	  box-shadow: 0 0 47px 0 rgba(0,0,0,0.4);\A 11: 	  margin-bottom: 15px;"; }

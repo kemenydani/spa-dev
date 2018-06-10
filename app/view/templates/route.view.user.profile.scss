@@ -48,7 +48,7 @@
     .type {
       text-transform: uppercase;
       font-weight: bold;
-      color: $darkgrey;
+      color: $darkGrey;
       font-size: 12px;
     }
   }
@@ -176,7 +176,7 @@
     width: 100%;
   }
   #viewport {
-    border: 3px dashed lighten($darkergrey, 40%);
+    border: 3px dashed lighten($darkerGrey, 40%);
     width: 100%;
     height: 300px;
 	margin: 0 auto;
@@ -198,7 +198,7 @@
     align-content: center;
     justify-content: center;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: $lightgrey;
+    background: $lightGrey;
     cursor: pointer;
   }
 }
@@ -207,7 +207,7 @@
 {
   .field-section {
     margin-bottom: $spaceDefault;
-    border-bottom: 1px solid $lightgrey;
+    border-bottom: 1px solid $lightGrey;
     &:last-child {
       margin: 0;
       border: none;
@@ -218,18 +218,18 @@
   }
   .country-predictions {
     position: absolute;
-    background: $darkergrey;
+    background: $darkerGrey;
     width: 100%;
     z-index: 10;
-    color: $lightgrey;
+    color: $lightGrey;
     -webkit-box-shadow: 0 10px 20px 2px rgba(0,0,0,0.3);
     -moz-box-shadow: 0 10px 20px 2px rgba(0,0,0,0.3);
     box-shadow: 0 10px 20px 2px rgba(0,0,0,0.3);
     > div {
       padding: $spaceDefault $spaceDefault/2 $spaceDefault $spaceDefault / 2;
-      border-bottom: 1px solid $darkgrey;
-      border-left:  1px solid $darkgrey;
-      border-right:  1px solid $darkgrey;
+      border-bottom: 1px solid $darkGrey;
+      border-left:  1px solid $darkGrey;
+      border-right:  1px solid $darkGrey;
     }
   }
 }

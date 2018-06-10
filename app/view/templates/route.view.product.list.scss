@@ -11,7 +11,7 @@
     article.product {
       background: $light;
       margin-bottom: 15px;
-      color: $darkergrey;
+      color: $darkerGrey;
       width: calc(25% - (3*15px/4));
       max-width: calc(25% - (3*15px/4));
       min-height: 260px;
@@ -20,10 +20,9 @@
       padding: 15px;
       position: relative;
       overflow: hidden;
-      -webkit-box-shadow: 0 0 10px -4px rgba(0,0,0,0.2);
-      -moz-box-shadow: 0 0 10px -4px rgba(0,0,0,0.2);
-      box-shadow: 0 0 10px -4px rgba(0,0,0,0.2);
+   
       border-radius: 2px;
+      
       .image {
         background: no-repeat center center;
         background-size: contain;
@@ -40,11 +39,7 @@
         align-items: center;
         justify-content: center;
         a { color: $primary; }
-        .price {
-          font-size: 16px;
-          font-weight: bold;
-          color: $darkergrey;
-        }
+
       }
     }
   }

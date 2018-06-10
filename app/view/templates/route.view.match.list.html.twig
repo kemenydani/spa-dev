@@ -2,21 +2,16 @@
 
 {% block content %}
     <div class="container-full route-container" id="route-view-match-list">
-		<div class="container-full route-header match-list-route-header">
-			<div class="body">
-				<div class="container match-list-header-container">
-						<h2 class="title">MATCHES</h2>
-				</div>
-			</div>
-			<div class="bg-image" style="background-image: url(static/images/route_header.jpg)"></div>
+		<div class="container-full route-header" style="background-image: url(static/images/route_header.jpg)">
+			<div><h1 class="title bg-text uc-text">MATCHES</h1></div>
 		</div>
         {% verbatim %}
         <div class="container match-list-container infinite-list-container" id="match-list">
             <div class="infinite-search">
-                <div class="info">Loaded {{ matches.length }} from totalItems {{ totalItems }} matches</div>
-                <div class="form">
+                <div class="info">Loaded {{ matches.length }} from total {{ totalItems }} matches</div>
+                <div class="form input-field">
 					<input v-on:keyup.enter="search()" v-model="searchParam" placeholder="Search for squad, game, or enemy team" type="text">
-					<button v-on:click="search()">SEARCH</button>
+					<button class="button button-primary" v-on:click="search()">SEARCH</button>
                 </div>
             </div>
             <article v-for="(match, key) in matches" v-bind:key="key" class="match">

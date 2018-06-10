@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,wBAAyB;AAavB;;;;;;;;;;;;;;;;;;;;;;;;;IAyBE;EAlCH,qDAAc;IACZ,UAAU,EAAE,KAAK;IACjB,MAAM,EAAE,KAAK",
+"sources": ["route.view.gallery.list.scss"],
+"names": [],
+"file": "route.view.gallery.list.css"
+}

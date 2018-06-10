@@ -16,7 +16,7 @@
 					<h1 class="username" v-text="model.user.username">
                         {{ model.user.username }}
 					</h1>
-					<p class="paragraph para-big user-intro" v-if="model.profile.show_bio == 1" v-text="model.profile.bio">{{ model.profile.bio }}</p>
+					<p class="paragraph big-p user-intro" v-if="model.profile.show_bio == 1" v-text="model.profile.bio">{{ model.profile.bio }}</p>
 				</div>
 				<div class="icons" v-if="model.profile.show_social == 1">
 					<a class="icon round" v-bind:href="model.profile[key]" target="_blank" v-if="isSocialItem(key) && model.profile[key].length" v-for="(item, key) in model.profile">
@@ -39,7 +39,7 @@
 	<!-- bio -->
 	<div style="display: none;" class="container-full container-full-user-bio" v-if="model.profile.show_bio == 1">
 		<h2 class="route-section-header" v-text="model.user.username">{{ model.user.username }}'s STORY</h2>
-		<div class="container light-bg shadow pad-15 container-user-bio">
+		<div class="container bg-light shadow pad-default container-user-bio">
 			<p class="paragraph para-big" v-text="model.profile.bio">{{ model.profile.bio }}</p>
 		</div>
 	</div>
@@ -47,7 +47,7 @@
 	<div class="container-full container-full-user-gear" v-show="model.profile.show_gear == 1">
 		<h2 class="route-section-header">GEAR</h2>
 		<div v-if="hasGearItems" class="container container-user-gear">
-			<div class="container light-bg shadow pad-15" v-if="isGearItem(key) && model.profile[key].length" v-for="(item, key) in model.profile">
+			<div class="container bg-light shadow pad-default" v-if="isGearItem(key) && model.profile[key].length" v-for="(item, key) in model.profile">
 				<span class="type" v-text="formatGearName(key)"></span>
 				<span class="name" v-text="model.profile[key]"></span>
 			</div>
@@ -60,7 +60,7 @@
 	<div class="container-full container-full-user-comments" v-show="model.profile.show_comments == 1" >
 		<h2 class="route-section-header">LAST COMMENTS</h2>
 		<div v-if="model.comments.length > 0" class="container container-user-comments">
-			<div class="container light-bg shadow pad-15" v-for="(comment, key) in model.comments">
+			<div class="container bg-light shadow pad-default" v-for="(comment, key) in model.comments">
 				<div class="left">
 					<span
 					  	class="profile-picture circle bordered {% if self %}my-profile-picture{% endif %}"

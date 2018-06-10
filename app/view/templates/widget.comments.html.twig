@@ -11,7 +11,8 @@
             Please <a href="/auth">Sign in</a> to write comments.
         </div>
     {% endif %}
-    <comment-tree v-bind:level="0" v-bind:comments="comments"></comment-tree>
+    <comment-tree v-bind:level="0" v-if="comments.length" v-bind:comments="comments"></comment-tree>
+	<div v-else class="msg">Be the first who leaves a comment!</div>
 </div>
 
 {% verbatim %}
@@ -38,7 +39,7 @@
 <script type='x-template' id='template-comment-tree-item'>
     <div class="comment">
         <div class="content">
-            <div class="profile-picture" v-bind:style="{ backgroundImage: 'url(' + data.profile_picture + ')' }"></div>
+            <div class="profile-picture bordered" v-bind:style="{ backgroundImage: 'url(' + data.profile_picture + ')' }"></div>
             <div class="body">
                 <p><a v-bind:href="'/profile/' + data.username" class="username">{{ data.username }}&nbsp;</a>{{ data.text }}</p>
                 <div class="controls">

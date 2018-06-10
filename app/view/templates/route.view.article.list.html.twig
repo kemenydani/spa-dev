@@ -2,35 +2,24 @@
 
 {% block content %}
     <div class="container-full route-container" id="route-view-article-list">
-		{#
-        <div class="container-full route-header article-route-header">
-            <div class="container article-header-container headline-container">
-                {% include 'widget.top.articles.html.twig' with { articles : headlines } %}
-            </div>
-        </div>
-        #}
-		<div class="container-full route-header article-list-route-header">
-			<div class="body">
-				<div class="container article-header-container">
-					<h2 class="title">ARTICLES</h2>
-				</div>
-			</div>
-			<div class="bg-image" style="background-image: url(static/images/route_header.jpg)"></div>
+		<div class="container-full route-header" style="background-image: url(static/images/route_header.jpg)">
+			<span><h1 class="title bg-text uc-text">ARTICLES</h1></span>
 		</div>
         {% verbatim %}
         <div class="container article-list-container infinite-list-container" id="article-list">
-            <div class="infinite-search">
+            <div class="infinite-search box-shadow-2">
                 <div class="info">Loaded {{ articles.length }} from total {{ totalItems }} articles</div>
-                <div class="form">
+                <div class="form input-field">
 					<input v-on:keyup.enter="search()" v-model="searchParam" placeholder="Search" type="text">
-					<button v-on:click="search()">SEARCH</button>
+					<button class="button button-primary" v-on:click="search()">SEARCH</button>
                 </div>
             </div>
-            <article v-for="(article, key) in articles" v-bind:key="key" class="article">
-                <a v-bind:href="'/article/read/' + article.title_seo">
-                  <h2 class="title">{{ article.title }}</h2>
+            <article v-for="(article, key) in articles" v-bind:key="key" class="article-list-item bg-light round-2 box-shadow-1 shadow-hover pad-default mar-btm-default">
+                <a class="a-primary" v-bind:href="'/article/read/' + article.title_seo">
+                  <h1 class="title uc-text">{{ article.title }}</h1>
                 </a>
-                <p class="text">{{ article.teaser }}</p>
+                <p class="paragraph low-p">{{ article.teaser }}</p>
+                <a v-bind:href="'/article/read/' + article.title_seo" class="more-button">Read More</a>
             </article>
             <div v-if="loading" class="infinite-loading">
               <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
@@ -38,6 +27,7 @@
 			<div v-if="totalItems > articles.length" class="infinite-more">
 			  There are {{ totalItems - articles.length }} more articles...
 			</div>
+
         </div>
         {% endverbatim %}
     </div>

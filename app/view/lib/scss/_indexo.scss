@@ -1,0 +1,641 @@
+
+$light: rgb( 255, 255, 255 );
+$lightGrey: rgb( 219, 219, 219 );
+$dark : rgb( 0, 0, 0 );
+$dark2 : rgb( 17, 17, 17 );
+$dark3 : rgb( 23, 23, 23 );
+$darkGrey: rgb( 98, 98, 98 );
+$darkerGrey: rgb( 69, 69, 69 );
+$primary: rgb( 246, 160, 12 );
+
+$success: lighten(#42b983, 10%);
+$error: lighten(lightcoral, 10%);
+
+$spaceDefault: 15px;
+
+$font2 = 'Roboto', sans-serif;
+
+@import './_normalize';
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese');
+@import url('https://fonts.googleapis.com/css?family=Anton|Roboto|Roboto:300|Roboto:400|Roboto:500|Montserrat|Montserrat:500|Montserrat:700|Lato|Open+Sans|Noto+Sans|PT+Sans|Ubuntu');
+@import './mixins';
+@import './common';
+@import './input';
+
+@import '../../templates/index.header.scss';
+@import '../../templates/index.footer.scss';
+/*
+@import '../../templates/route.scss';
+
+@import '../../templates/route.view.home.scss';
+
+@import '../../templates/route.view.user.auth.scss';
+@import '../../templates/route.view.user.profile.scss';
+
+@import '../../templates/route.view.article.read.scss';
+@import '../../templates/route.view.article.list.scss';
+
+@import '../../templates/route.view.squad.list.scss';
+@import '../../templates/route.view.squad.view.scss';
+
+@import '../../templates/route.view.product.list.scss';
+@import '../../templates/route.view.product.view.scss';
+
+@import '../../templates/route.view.media.overview.scss';
+
+@import '../../templates/route.view.gallery.view.scss';
+@import '../../templates/route.view.gallery.list.scss';
+
+@import '../../templates/route.view.partner.list.scss';
+
+@import '../../templates/route.view.match.list.scss';
+
+@import '../../templates/route.view.event.list.scss';
+@import '../../templates/route.view.event.view.scss';
+
+@import '../../templates/route.view.award.list.scss';
+
+@import '../../templates/route.view.contact.scss';
+
+@import '../../templates/route.view.user.forgot.scss';
+
+
+@import '../../templates/route.view.user.activatepwreset.scss';
+*/
+/* vue */
+@import '../../templates/vue.component.modal.scss';
+
+@import '../../templates/widget.comments.scss';
+
+*   {
+  box-sizing: border-box;
+  /*
+  -webkit-font-smoothing: antialiased !important;
+  -webkit-filter: blur(0.000001px) !important;
+  -moz-osx-font-smoothing: grayscale !important;
+
+  */
+}
+img { -ms-interpolation-mode: bicubic; }
+
+a {
+  text-decoration: none;
+  color: $light;
+  &:hover {
+    color: $primary;
+  }
+}
+
+html, body
+{
+  position: relative;
+
+  padding: 0; /* reset */
+  margin: 0; /* reset */
+  border: none; /* reset */
+
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  min-width: 100%;
+}
+
+body {
+  &.modal-open {
+    overflow: hidden;
+    position: fixed;
+  }
+}
+
+html
+{
+  background: lighten($lightGrey, 5%);
+  //font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: #666;
+}
+
+.icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.icon {
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  min-height: 40px;
+  line-height: 40px;
+  border-radius: 40px;
+  text-align: center;
+  background-color: $darkerGrey;
+  color: $lightGrey;
+  i {
+    margin: 0; padding: 0;
+  }
+}
+
+
+.sponsor-inline-container
+{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  a.sponsor
+  {
+    margin: 20px 0 20px 0;
+    display: block;
+    padding: 0;
+    min-width: 220px;
+    max-width: 220px;
+    min-height: 100px;
+    max-height: 100px;
+    background: no-repeat center center;
+    background-size: contain;
+  }
+  @include mq('tablet', 'max') {
+      display: none;
+  }
+}
+
+div#wrapper
+{
+  position: relative;
+
+  min-width: 100%;
+  min-height: 100%;
+
+  font-size: 1em;
+
+  display: table; /* helps to stock the footer to the bottom in older browsers */
+
+  @supports ( display: flex )
+  {
+    height: auto;  /* override */
+    display: flex; /* override */
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  header#main-header
+  {
+    //background: $dark;
+    position: relative;
+  }
+
+  /* full-width section for the actual view's content */
+  section#main-content
+  {
+    position: relative;
+    overflow: hidden;
+    min-width: 100%;
+    min-height: 100%;
+    //border: 1px solid red;
+    display: table-row; /* full-height within table el. */
+
+    @supports ( display: flex )
+    {
+      height: auto; /* reset */
+      min-height: auto; /* reset */
+
+      flex: 1; /* uses this setting instead of height / min-height */
+
+      display: flex; /* override */
+      flex-direction: column;
+    }
+
+    .layout-full {
+      height: 100%; flex: 1; position: relative; display: flex; flex-wrap: wrap; min-height: 100%;
+    }
+
+    /* additional wrapper of the view's content, to achieve full height when the view-page is empty */
+    .page-view
+    {
+      position: relative;
+
+      width: 100%;
+      min-width: 100%;
+      height: 100%;
+      min-height: 100%;
+
+      display: table-cell; /* full-height within table-row el. */
+
+      @supports ( display: flex )
+      {
+        display: flex; /* override */
+        flex-direction: column;
+        flex: 1;
+      }
+    }
+  }
+
+  footer#main-footer
+  {
+    width: 100%;
+    display: table-footer-group; /* sticks the footer to the bottom */
+
+    @supports ( display: flex ) { display: block; /* override */ }
+  }
+
+  #main-content, #main-footer /*  #main-header */
+  {
+    @include mq('desktop', 'max') { padding-left: 15px; padding-right: 15px; }
+  }
+}
+
+.container
+{
+  position: relative;
+
+  width: 1140px;
+  max-width: 1140px;
+
+  margin: 0 auto;
+
+  &.light-bg { background-color: $light; }
+  &.dark-bg {
+    background-color: $dark; color: $lightGrey;
+    a {
+      color: $primary;
+    }
+  }
+  &.shadow
+  {
+    -webkit-box-shadow: 0 0 7px -4px rgba(0,0,0,0.4);
+    -moz-box-shadow: 0 0 7px -4px rgba(0,0,0,0.4);
+    box-shadow: 0 0 7px -4px rgba(0,0,0,0.4);
+  }
+  &.pad-15 {
+    padding: 15px;
+  }
+
+  &.full-height
+  {
+    position: relative;
+    height: 100%;
+    min-height: 100%;
+    @supports ( display: flex ) { flex: 1; /* flex-item full height */ }
+  }
+
+  @include mq('desktop', 'max') { width: 100%;   max-width: 100%; }
+}
+
+.container-full
+{
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+
+  margin: 0 auto;
+}
+
+.profile-picture {
+  width: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  line-height: 50px;
+  border-radius: 90px;
+  height: 50px;
+  margin-right: 10px;
+  text-align: center;
+  background-size: cover;
+  background: center center;
+}
+
+
+
+/* The checkbox-wrap */
+.checkbox-wrap {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 25px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-wrap input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox-wrap:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox-wrap input:checked ~ .checkmark {
+  background-color: $primary;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox-wrap input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox-wrap .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.widget-featured-news
+{
+  padding-bottom: 15px;
+  display: flex;
+  position: relative;
+  > .box {
+    &:first-child { flex: 1; margin-right: 15px; }
+    &:last-child {
+      min-width: 365px;  max-width: 365px;
+      @include mq('tablet-wide', 'max') {
+        display: none;
+      }
+    }
+  }
+}
+
+.hp-second-row
+{
+  display: flex;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  max-height: 400px;
+  @include mq('desktop', 'max') { padding-left: 15px; padding-right: 15px;  }
+  @include mq('tablet', 'max') {
+    flex-direction: column; max-height: 800px;
+  }
+}
+
+.widget-last-news {
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  flex: 1;
+
+  .box {
+    overflow: hidden;
+    max-width: calc(50% - 7.5px);
+    min-width: calc(50% - 7.5px);
+    min-height: calc(200px - 15px);
+    max-height: calc(200px - 15px);
+    margin-bottom: 15px;
+    @include mq('tablet-wide', 'max') { min-width: 100%; max-width: 100%;  }
+  }
+
+}
+
+.box
+{
+  overflow: hidden;
+  &.box-background {
+    background: white;
+  }
+  &.box-shadow
+  {
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.1);
+    -moz-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.1);
+  }
+  .box-title {
+    margin: 0;
+    font-weight: bold;
+    color: $dark;
+    text-transform: uppercase;
+    //font-family: 'Montserrat', sans-serif;
+  }
+  &.box-rect
+  {
+    display: flex;
+
+    .box-head-image
+    {
+      background-position: center center;
+      background-size: cover;
+      width: calc(50% + 10px);
+      max-width: calc(50% + 10px);
+      height: 100%;
+      border-right: 10px solid $primary;
+    }
+
+  }
+
+  &.box-square
+  {
+    display: flex;
+    flex-direction: column;
+
+    .box-head-image
+    {
+      background-position: center center;
+      background-size: cover;
+      width: 100%;
+      max-width: 100%;
+      height: calc(50% + 10px);
+      max-height: calc(50% + 10px);
+      border-bottom: 10px solid $primary;
+    }
+  }
+
+  &.featured-content-box {
+    margin-left: 15px;
+    min-height: 370px;
+    min-width: 365px;
+    max-width: 365px;
+    @include mq('desktop', 'max') { max-width: 350px; min-width: 350px;  }
+    @include mq('tablet', 'max') {
+      min-width: 100%;
+      margin-left: 0;
+    }
+  }
+
+  &.article-hl-box
+  {
+    height: 365px;
+    min-height: 365px;
+    min-width: 365px;
+    &:last-child {
+      max-width: 365px;
+    }
+  }
+  .box-body {
+    padding: 15px;
+    flex: 1;
+  }
+}
+
+.msg {
+  padding: 15px;
+  text-align: center;
+  background: $lightGrey;
+  line-height: 25px;
+
+  &.lightgrey a {
+    color: $primary;
+  }
+
+  &.success {
+    background-color: $success;
+  }
+
+  &.error {
+    background-color: $error;
+  }
+
+}
+
+a.more-button {
+  background: $primary;
+  display: inline-block;
+  padding: 3px 10px 3px 10px;
+  color: $light;
+}
+
+.vanish { display: none; opacity: 0; visibility: hidden; position: absolute; width: 0; height: 0; }
+
+.profile-picture
+{
+  background: no-repeat center center;
+  background-size: cover;
+  position: relative;
+  display: block;
+
+  min-width: 30px;
+  min-height: 30px;
+  max-width: 30px;
+  max-height: 30px;
+
+  &.picture-md {
+    min-width: 50px;
+    max-width: 50px;
+    min-height: 50px;
+    max-height: 50px;
+  }
+
+  &.circle {
+    border-radius: 50%;
+  }
+
+  &.bordered {
+    border: 2px solid $primary;
+  }
+
+  &.my-profile-picture {
+
+  }
+}
+
+.paragraph
+{
+  padding: 0;
+  margin: 0;
+  &.para-big {
+    font-size: 18px;
+    line-height: 30px;
+  }
+}
+
+// infinite loader common
+
+.container.infinite-list-container
+{
+  //min-height: 100%;
+  padding-top: 15px;
+  .infinite-search {
+    margin-bottom: 15px;
+    min-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    height: 40px;
+    line-height: 40px;
+    .info {
+      text-align: left;
+      background: $primary;
+      color: $light;
+      padding-left: 15px;
+      padding-right: 15px;
+      //font-family: 'Noto Sans', sans-serif;
+    }
+    .form {
+      height: 100%;
+      position: relative;
+      width: calc(50%);
+      display: flex;
+      justify-content: flex-end;
+      > * { height: 100%; }
+      input {
+        background: $light;
+        margin-right: 15px;
+        font-size: 16px;
+        padding-left: 10px;
+        flex: 1;
+      }
+      button {
+        border: none;
+        background: $primary;
+        color: $light;
+        font-weight: bold;
+        padding-left: 15px;
+        padding-right: 15px;
+        width: 100px;
+      }
+    }
+  }
+  .infinite-loading
+  {
+    text-align: center;
+    padding-bottom: 40px;
+    padding-top: 20px;
+    overflow: hidden;
+  }
+  .infinite-more {
+    text-align: center;
+    margin-bottom: 40px;
+    margin-top: 10px;
+    font-size: 20px;
+    color: lighten($darkGrey, 40%);
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  @include mq('tablet', 'max') {
+    .info { display: none; }
+    .form { min-width: 100%;}
+  }
+}

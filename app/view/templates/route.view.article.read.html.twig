@@ -2,32 +2,23 @@
 
 {% block content %}
 <div class="container-full route-container" id="route-view-article-read">
-    <div class="container-full route-header article-read-route-header">
-        <div class="body">
-            <div class="container article-read-header-container">
-                <h2 class="title">{{ article.title }}</h2>
-            </div>
-        </div>
-        <div class="bg-image" style="background-image: url(static/images/route_header.jpg)"></div>
+    <div class="container-full route-header article-read-route-header" style="background-image: url(static/images/route_header.jpg)">
+        <span><h1 class="title uc-text bg-text">{{ article.title }}</h1></span>
     </div>
     <div class="container">
-        <div class="container article-read-container" id="article-read">
-            <article class="article-content">
-                {#
-                <h2 class="title">
-                    {{ article.title }}
-                </h2>
-                #}
-                <p class="teaser">
+        <div class="container bg-light round-2 box-shadow-1 mar-btm-default article-read-container" id="article-read">
+            <article class="article-content bg-light pad-2x">
+                <h3 class="teaser">
                     {{ article.teaser }}
-                </p>
-                <p class="article">
+                </h3>
+                <br>
+                <p class="big-p">
                     {{ article.content }}
                 </p>
             </article>
         </div>
         {% if (article.comments_enabled == true ) %}
-        <div class="container article-comments-container" id="article-comments">
+        <div class="container bg-light pad-default round-2 box-shadow-1 article-comments-container" id="article-comments">
             {% include 'widget.comments.html.twig' with { comments : comments, model : 'article' , model_id : article.id } %}
         </div>
         {% endif %}

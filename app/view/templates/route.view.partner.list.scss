@@ -1,51 +1,54 @@
 
 #route-view-partner-list {
   overflow: visible;
+
   #partner-list {
-	padding-top: 15px;
+	
+	display: flex;
+	flex-wrap: wrap;
+ 
+	justify-content: space-between;
 	.partner {
 		background: $light;
 		margin-bottom: 15px;
 		display: flex;
 		position: relative;
 		overflow: visible;
-
+	 	 flex-direction: column;
+	  
+	  	max-width: calc(50% - 15px / 2);
+	  	min-width: calc(50% - 15px / 2);
+	  	.title {
+		  margin-top: 0;
+		}
+	 
 		.logo-holder {
-			width: 200px;
-			min-width: 200px;
-			height: auto;
+			width: 100%;
+		  	min-width: 100%;
 			bottom: 0;
 			position: relative;
-			background-color: $lightgrey;
+			background-color: $lightGrey;
+		  background-position: center center;
+		  
+		  min-height: 230px;
+		  max-height: 230px;
 			flex: 1;
-			padding: 15px;
+			
 			.logo {
-              background-size: contain;
-              background: no-repeat center center;
-              width: 170px;
-				min-width: 170px;
+			  margin: 15px;
+			  width: 100%;
+			  	min-width: 100%;
 				height: 200px;
 				min-height: 200px;
+			 	 max-height: 200px;
 			}
 		}
 		.body {
 			width: 100%;
 			padding: 15px;
 			overflow: visible;
-			.name {
-				margin-top: 0;
-				font-size: 40px;
-				margin-bottom: 0;
-				color: $primary;
-			}
 			.desc {
-				font-size: 16px;
-				line-height: 25px;
-				padding: 0;
-				&.ellipsis {
-					max-height: 75px;
-					overflow: hidden;
-				}
+			  padding-bottom: 15px;
 			}
 			button.read-more {
 				cursor: pointer;
@@ -53,46 +56,16 @@
 		}
 	}
   }
+  
 
-	@include mq('tablet', 'max') {
-		#partner-list {
-			.partner {
-				.body {
-					.name {
-						font-size: 30px;
-					}
+}
 
-					p.desc.ellipsis {
-						max-height: 50px;
-					}
-				}
-				.logo-holder {
-					min-width: 150px;
-					width: 150px;
-					.logo {
-						min-width: 130px;
-						min-height: 130px;
-						width: 130px;
-						height: 130px;
-					}
-				}
-			}
-		}
+@include mq('desktop', 'max') {
+  #partner-list {
+	.partner {
+	  
+	  max-width: 100% !important;
+	  min-width: 100% !important;
 	}
-
-	@include mq('tablet', 'max') {
-		#partner-list {
-			.partner {
-				flex-direction: column;
-				.logo-holder {
-					width: 100%;
-					min-width: 100%;
-					.logo {
-						margin: 0 auto;
-					}
-				}
-			}
-		}
-	}
-
+  }
 }

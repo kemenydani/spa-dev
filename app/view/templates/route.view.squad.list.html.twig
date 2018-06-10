@@ -2,22 +2,19 @@
 
 {% block content %}
     <div class="container-full route-container" id="route-view-squad-list">
-        <div class="container-full route-header squad-list-route-header">
-            <div class="body">
-                <div class="container squad-header-container">
-                    <h2 class="title">AVENUE SQUADS</h2>
-                </div>
-            </div>
-            <div class="bg-image" style="background-image: url(static/images/route_header.jpg)"></div>
+        <div class="container-full route-header" style="background-image: url(static/images/route_header.jpg)">
+            <span><h1 class="title bg-text uc-text">SQUADS</h1></span>
         </div>
         <div class="container squad-list-container">
             <div class="squad-list">
             {% for sk, squad in squads.getModels() %}
-                <div class="squad">
-                    <div class="body">
-                        <h2 class="title"><a href="/squad/{{ squad.getName() }}">{{ squad.getName() }}</a></h2>
-                    </div>
-                    <div class="bg-image" style="background-image: url({{ squad.requestHeaderImage() }})"></div>
+                <div class="squad mar-btm-default pad-default box-shadow-1 round-2">
+                    <span class="title">
+                    <h2 class="uc-text bg-text">
+                        <a href="/squad/{{ squad.getName() }}">{{ squad.getName() }}</a>
+                    </h2>
+                    </span>
+                    <div class="bg bg-image bg-grayed bg-cover bg-toggle-hover bg-centered" style="background-image: url({{ squad.requestHeaderImage() }})"></div>
                 </div>
             {% endfor %}
             </div>

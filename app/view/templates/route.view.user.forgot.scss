@@ -52,11 +52,11 @@
     {
       display: inline-block;
       margin: 0 auto 30px auto;
-      color: $darkergrey;
+      color: $darkerGrey;
       padding: 0;
       font-size: 60px;
       text-transform: uppercase;
-      font-family: 'Montserrat', sans-serif;
+      //font-family: 'Montserrat', sans-serif;
       border-bottom: 10px solid $primary;
     }
     .fields { flex: 1; }

@@ -28,7 +28,7 @@
                         <h2 class="title">{{ lastArticle.title }}</h2>
                         <p class="teaser">{{ lastArticle.teaser }}</p>
                         <div class="footer">
-                            <a class="more" href="/article/read/{{ lastArticle.title }}">Read More</a>
+                            <a class="more-button uc-text" href="/article/read/{{ lastArticle.title }}">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -38,9 +38,9 @@
                     <div class="body">
                         <div class="image" style="background-image: url({{ featuredItem.image }})"></div>
                         <div class="content">
-                            <h2 class="title">{{ featuredItem.name }}</h2>
+                            <h2 class="title uc-text" style="color: black">{{ featuredItem.name }}</h2>
                             <div class="info">
-                                <span class="teaser">{{ featuredItem.teaser }}</span> {{ featuredItem.button_next|raw }}
+                                <span class="price">{{ featuredItem.teaser }}</span> {{ featuredItem.button_next|raw }}
                             </div>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                             <span class="game">{{ tm.getGame().getName() }}</span>
                         </div>
                         <div class="footer">
-                            <a class="more" href="/matches">Show More</a>
+                            <a class="more-button uc-text" href="/matches">Show More</a>
                         </div>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
                             {% endfor %}
                         </ul>
                         <div class="footer">
-                            <a class="more" href="/matches">Show More</a>
+                            <a class="more-button uc-text" href="/matches">Show More</a>
                         </div>
                     </div>
                 </div>
@@ -140,7 +140,7 @@
                             {% endfor %}
                         </ul>
                         <div class="footer">
-                            <a class="more" href="/events">Show More</a>
+                            <a class="more-button uc-text" href="/events">Show More</a>
                         </div>
                     </div>
                 </div>
@@ -154,7 +154,7 @@
         <section class="container squad-container">
             {% set squad = squads.first() %}
             <div class="squad" style="background-image: url({{ squad.requestHomeWallpaper() }})">
-                <div class="squad-game">
+                <div class="squad-game" >
                     <a href="/squad/{{ squad.getName() }}"><h1>{{ squad.getName() }}</h1></a>
                 </div>
                 <div class="players">

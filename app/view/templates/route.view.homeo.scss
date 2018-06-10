@@ -1,24 +1,24 @@
+@import '../lib/scss/mixins';
 
 .flex-box {
   width: 100%;
   max-width: 100%;
   display: flex;
-  padding: 7.5px;
+  padding: 5px;
   flex-wrap: wrap;
   flex-direction: column;
-  max-height: 500px;
+  max-height: 400px;
   position: relative;
   .fbi {
-    margin: 7.5px;
+    margin: 5px;
     position: relative;
-    max-width: calc(33.3334% - 15px);
-    width: calc(33.3334% - 15px);
+    max-width: calc(33.3334% - 10px);
+    width: calc(33.3334% - 10px);
     height: 180px;
     &.fbi-tall { min-height: 370px; }
-    &.fbi-wide { min-height: 370px; width: calc(66.6667% - 15px); max-width: calc(66.6667% - 15px); }
+    &.fbi-wide { min-height: 370px; width: calc(66.6667% - 10px); max-width: calc(66.6667% - 10px); }
   }
 }
-
 
 /* article items */
 .article-item {
@@ -26,7 +26,7 @@
   display: flex;
   position: relative;
   flex-direction: column;
-  
+
   &.fbi-wide {
     .image {
       max-width: 50%;
@@ -34,7 +34,7 @@
   }
 
   .body {
-    margin: 15px;
+    margin: 10px;
     overflow: hidden;
     position: relative;
     display: flex;
@@ -44,27 +44,28 @@
     flex: 1;
     .title, .title a {
       color: $dark;
+      //font-family: 'Montserrat', sans-serif;
       text-transform: uppercase;
       padding: 0;
-      margin: 0 0 15px 0;
+      margin: 0 0 10px 0;
       &.title-large {
         font-size: 30px;
       }
     }
     .info {
-      margin-bottom: 15px;
+      margin-bottom: 10px;
     }
     p.teaser {
-      min-height: 50px;
-      max-height: 50px;
-      
+      min-height: 75px;
+      max-height: 100px;
       line-height: 25px;
       margin: 0;
       text-overflow: ellipsis;
       overflow: hidden;
       display: -webkit-box;
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
+      font-size: 14px;
     }
     .footer {
       margin-top: auto;
@@ -72,6 +73,11 @@
       flex-direction: row-reverse;
       justify-content: space-between;
       width: 100%;
+      .more {
+        background: $primary;
+        padding: 3px 10px 3px 10px;
+        color: $light;
+      }
     }
   }
   .image {
@@ -79,7 +85,7 @@
     height: 50%;
     background-size: cover;
     background-positon: center center;
-    border-bottom: 15px solid orange;
+    border-bottom: 10px solid orange;
     background-color: $dark;
     position: relative;
     .mask {
@@ -117,7 +123,7 @@
       min-width: calc( 50% + 5px);
       min-height: 100%;
       border-bottom: 0;
-      border-right: 15px solid orange;
+      border-right: 10px solid orange;
     }
   }
 }
@@ -143,7 +149,7 @@
 }
 .container-full.squad-container-full {
   background: black;
-  border-bottom: 15px solid $primary;
+  border-bottom: 10px solid $primary;
 
   .home-route-section-header {
     background-color: #e8e8e8;
@@ -155,9 +161,9 @@
 .container.article-container {
   .featured-content {
     background: white;
-    padding: 15px;
+    padding: 10px;
     position: relative;
-    height: 375px;
+    
     .body {
       min-height: 100%;
       display: flex;
@@ -184,6 +190,11 @@
           justify-content: space-between;
           align-content: center;
           align-items: center;
+          .teaser {
+            font-weight: bold;
+            font-size: 16px;
+            color: $primary;
+          }
         }
       }
     }
@@ -208,7 +219,7 @@
 
           > * {
             font-size: 26px;
-            padding-bottom: 15px;
+            padding-bottom: 10px;
             margin: 0;
             //display: inline-block;
             //border-bottom: 5px solid $primary;
@@ -232,6 +243,11 @@
             flex-direction: row-reverse;
             justify-content: space-between;
             width: 100%;
+            .more {
+              background: $primary;
+              padding: 3px 10px 3px 10px;
+              color: $light;
+            }
           }
         }
         ul {
@@ -250,9 +266,15 @@
 
             height: 50px;
             color: lighten($darkerGrey, 20);
+  
+            //font-family: 'Noto Sans', sans-serif;
+
           }
         }
       }
+    .widget.widget-last-matches {
+      //background: darken($darkerGrey, 20);
+    }
     .widget.widget-top-match {
       .widget-body {
         display: flex;
@@ -336,7 +358,7 @@
       .game {
         background: $darkerGrey;
         color: $light;
-        margin-right: 7.5px;
+        margin-right: 7px;
         text-align: center;
         min-width: 50px;
         max-width: 50px;
@@ -394,7 +416,7 @@
         display: flex;
         align-content: flex-end;
         align-items: flex-end;
-        padding: 0 15px 15px 15px;
+        padding: 0 10px 10px 10px;
         color: $light;
         text-transform: uppercase;
         //font-family: 'Montserrat', sans-serif;
@@ -463,7 +485,7 @@
             max-width: calc( 50% + 5px);
             min-height: 100%;
             border-bottom: 0;
-            border-left: 15px solid orange;
+            border-left: 10px solid orange;
           }
         }
       }
@@ -504,14 +526,15 @@
     margin-top: -10px;
     .container.article-container {
       background: $dark;
-      .flex-box .fbi.article-item {
-        min-height: 180px;
-        max-height: 180px;
-      }
-      .featured-content {
-        display: none;
-      }
+
+    .flex-box .fbi.article-item {
+      min-height: 180px;
+      max-height: 180px;
     }
+    .featured-content {
+      display: none;
+    }
+  }
   }
 
   .container-full.headline-container-full > .container.headline-container {
@@ -544,3 +567,362 @@
     }
   }
 }
+
+
+/*
+.home-grid
+{
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  @supports ( display: flex )
+  {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  @supports ( display: grid )
+  {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-rows: auto;
+    grid-auto-flow: dense;
+
+    grid-gap: 20px;
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    :nth-child(1) { grid-column: span 2; }
+    :nth-child(7) { grid-column: span 2; }
+
+    @include mq('tablet', 'max')
+    {
+      grid-template-columns: 1fr;
+
+      .grid-item { grid-column: span 1; }
+    }
+  }
+
+}
+.grid-item
+{
+  position: relative;
+  overflow: hidden;
+
+  margin: 10px;
+
+  float: left;
+
+  width: calc(33.3333% - 20px);
+  max-width: calc(33.3333% - 20px);
+
+  background: white;
+
+  &:nth-child(1) { width: calc(66.6666% - 20px); max-width: calc(66.6666% - 20px) }
+  &:nth-child(2) { width: calc(33.3333% - 20px); max-width: calc(33.3333% - 20px) }
+
+  &:nth-child(6) { width: calc(33.3333% - 20px); max-width: calc(33.3333% - 20px) }
+  &:nth-child(7) { width: calc(66.6666% - 20px); max-width: calc(66.6666% - 20px) }
+
+  @supports ( display: flex ) { float: none; }
+
+  @supports ( display: grid )
+  {
+    float: none;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+
+}
+
+.match-event-container
+{
+  padding-top: 40px;
+  padding-bottom: 40px;
+  div.widget-group
+  {
+    background: black;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    align-content: stretch;
+    position: relative;
+
+    > div.widget {
+      padding-bottom: 30px;
+      padding-top: 20px;
+      max-width: calc(33.3334% - 10px);
+      min-width: calc(33.3334% - 10px);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      > div.widget-title {
+        overflow: hidden;
+        margin-bottom: 10px;
+        > * {
+          font-size: 26px;
+          padding-bottom: 10px;
+          margin: 0;
+          //display: inline-block;
+          border-bottom: 5px solid $primary;
+          font-weight: bold;
+          font-family: 'Montserrat', sans-serif;
+          letter-spacing: 2px;
+          color: white;
+        }
+      }
+      > div.widget-body {
+        flex: 1;
+        position: relative;
+        height: 100%;
+        overflow: hidden;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        li {
+          margin-top: 15px;
+
+          display: flex;
+          align-content: center;
+          align-items: center;
+          line-height: 24px;
+
+          height: 24px;
+          color: lighten($darkerGrey, 20);
+
+          font-family: 'Noto Sans', sans-serif;
+
+        }
+      }
+    }
+  }
+  .widget.last-matches {
+    padding-left: 15px;
+    padding-right: 15px;
+    background: darken($darkerGrey, 20);
+  }
+  .widget.event-list {
+    padding-right: 15px;
+  }
+  .widget.top-match {
+    padding-left: 15px;
+    .widget-body {
+      display: flex;
+      flex-direction: column;
+      .match-info {
+        flex: 1;
+        text-align: center;
+        > .event-name {
+          color: $primary;
+          font-weight: bold;
+        }
+        > .game {
+          font-weight: 400;
+          text-transform: uppercase;
+          color: $lightGrey;
+        }
+      }
+      .result-holder {
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+        align-items: center;
+        height: 101px;
+        max-height: 101px;
+        background: darken($darkerGrey, 20);
+        .result {
+          color: $primary;
+          font-size: 40px;
+          font-weight: bold;
+        }
+        .team-logo-holder {
+          width: 101px;
+          height: 101px;
+          min-width: 101px;
+          min-height: 101px;
+          border-radius: 1px;
+          max-width: 101px;
+          max-height: 101px;
+          padding: 5px;
+          position: relative;
+          .team-logo {
+            background-size: contain;
+            background-position: center center;
+            width: 100%;
+            height: 100%;
+            border: 1px solid $darkerGrey;
+          }
+        }
+      }
+    }
+  }
+  .last-matches, .event-list
+  {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    .team, .name {
+      flex: 1;
+    }
+    .score {
+      align-self: flex-end;
+      //font-size: 16px;
+      font-weight: bold;
+      color: $primary;
+    }
+    .enemy-name {
+      //font-weight: 700;
+      color: $lightGrey;
+      font-size: 13px;
+    }
+    .event-name {
+      // font-weight: 700;
+      color: $lightGrey;
+      flex: 1;
+      font-size: 13px;
+    }
+    .event-date {
+      color: $primary;
+      //font-size: 16px;
+      font-weight: bold;
+    }
+    .game {
+      background: $darkerGrey;
+      color: $light;
+      margin-right: 7px;
+      text-align: center;
+      min-width: 50px;
+      max-width: 50px;
+      min-height: 20px;
+      max-height: 20px;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
+      width: 50px;
+      overflow: hidden;
+      text-transform: uppercase;
+      border-radius: 1px;
+      font-size: 10px;
+      font-weight: 400;
+    }
+
+  }
+  .event-list {
+
+  }
+}
+
+#featured-squad-full-container
+{
+  background: $dark;
+  border-bottom: 5px solid $primary;
+  min-height: 450px;
+  height: 450px;
+  position: relative;
+
+  > .container {
+    min-height: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .squad
+  {
+
+    height: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-position: bottom center;
+    .squad-game
+    {
+
+      height: 120px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+      color: $light;
+      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 2px;
+    }
+    .players
+    {
+      width: 100%;
+
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      align-content: flex-end;
+      .player
+      {
+        width: 200px;
+        height: 260px;
+        position: relative;
+        display: flex;
+        align-content: flex-end;
+        align-items: flex-end;
+        padding: 0px 10px 10px 10px;
+        color: $light;
+        text-transform: uppercase;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        background-size: contain;
+        background-position: center bottom;
+        background-repeat: no-repeat;
+        .nameplate
+        {
+            background: $primary;
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+        }
+      }
+    }
+  }
+}
+
+@include mq('tablet-wide', 'max') {
+  #featured-squad-full-container, #home-match-container-full {
+    margin-left: -15px !important;
+    margin-right: -15px !important;
+  }
+  #home-match-container-full {
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+  .match-event-container {
+    .widget-group .widget {
+      min-width: 50% !important;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+    .widget-group .widget.event-list {
+      display: none !important;
+    }
+  }
+}
+@include mq('tablet-small', 'max') {
+  .match-event-container {
+    .widget-group {
+      flex-direction: column !important;;
+    }
+    .widget-group .widget {
+      min-width: 100% !important;;
+    }
+  }
+}
+
+*/

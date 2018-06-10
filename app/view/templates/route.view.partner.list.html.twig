@@ -3,34 +3,32 @@
 {% block content %}
 
 <div class="container-full route-container" id="route-view-partner-list">
-    <div class="container-full route-header partner-list-route-header">
-        <div class="body">
-            <div class="container partner-list-header-container">
-                <h2 class="title">OUR PARTNERS</h2>
-            </div>
-        </div>
-        <div class="bg-image" style="background-image: url(static/images/route_header.jpg)"></div>
+    <div class="container-full route-header" style="background-image: url(static/images/route_header.jpg)">
+        <span><h1 class="title bg-text uc-text">PARTNERS</h1></span>
     </div>
     <div class="container partner-list-container" id="partner-list">
         {% for pk, partner in partners %}
-            <article class="partner">
+            <article class="partner bg-light box-shadow-1 round-2 mar-btm-default">
+
                 <div class="logo-holder">
-                    <a href="{{ partner.getWebsiteUrl() }}" class="logo" style="display: block; background-image: url({{ partner.requestLogo() }})"></a>
+                    <a target="_blank" href="{{ partner.getWebsiteUrl() }}" class="logo bg-centered bg-contain" style="display: block; background-image: url({{ partner.requestLogo() }})"></a>
                 </div>
+
                 <div class="body">
-                    <a href="{{ partner.getWebsiteUrl() }}" class="name">{{ partner.getName() }}</a>
-                    <p data-desc-length="{{  partner.getDescription()|length }}" class="desc ellipsis">
+                    <h1 class="title"><a href="{{ partner.getWebsiteUrl() }}" class="name uc-text a-primary">{{ partner.getName() }}</a></h1>
+                    <p data-desc-length="{{  partner.getDescription()|length }}" class="desc paragraph para-big">
                         {{ partner.getDescription() }}
                     </p>
-                    <button style="display: none;" class="button button-primary button-medium read-more">More</button>
+                    <a target="_blank" href="{{ partner.getWebsiteUrl() }}" class="more-button">WEBSITE</a>
                 </div>
+
             </article>
         {% endfor %}
     </div>
 </div>
 
 <script>
-
+/*
     $(document).ready(function(){
 
         (function($){
@@ -71,7 +69,7 @@
         }(jQuery));
 
     })
-
+*/
 </script>
 
 {% endblock %}

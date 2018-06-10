@@ -2,21 +2,16 @@
 
 {% block content %}
     <div class="container-full route-container" id="route-view-award-list">
-		<div class="container-full route-header award-list-route-header">
-			<div class="body">
-				<div class="container award-list-header-container">
-					<h2 class="title">AWARDS</h2>
-				</div>
-			</div>
-			<div class="bg-image" style="background-image: url(static/images/route_header.jpg)"></div>
+		<div class="container-full route-header" style="background-image: url(static/images/route_header.jpg)">
+			<span><h1 class="title bg-text uc-text">AWARDS</h1></span>
 		</div>
         {% verbatim %}
         <div class="container award-list-container infinite-list-container" id="award-list">
             <div class="infinite-search">
                 <div class="info">Loaded {{ awards.length }} from total {{ totalItems }} awards</div>
-                <div class="form">
+                <div class="form input-field">
 					<input v-on:keyup.enter="search()" v-model="searchParam" placeholder="Search" type="text">
-					<button v-on:click="search()">SEARCH</button>
+					<button class="button button-primary" v-on:click="search()">SEARCH</button>
                 </div>
             </div>
             <article v-for="(award, key) in awards" v-bind:key="key" class="award">

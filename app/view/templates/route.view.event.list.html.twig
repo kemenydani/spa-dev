@@ -2,29 +2,25 @@
 
 {% block content %}
     <div class="container-full route-container" id="route-view-event-list">
-		<div class="container-full route-header event-list-route-header">
-			<div class="body">
-				<div class="container event-list-header-container">
-					<h2 class="title">EVENTS</h2>
-				</div>
-			</div>
-			<div class="bg-image" style="background-image: url(static/images/route_header.jpg)"></div>
+		<div class="container-full route-header" style="background-image: url(static/images/route_header.jpg)">
+			<span><h1 class="title bg-text uc-text">EVENTS</h1></span>
 		</div>
         {% verbatim %}
         <div class="container event-list-container infinite-list-container" id="event-list">
             <div class="infinite-search">
                 <div class="info">Loaded {{ events.length }} from total {{ totalItems }} events</div>
-                <div class="form">
+                <div class="form input-field">
 					<input v-on:keyup.enter="search()" v-model="searchParam" placeholder="Search" type="text">
-					<button v-on:click="search()">SEARCH</button>
+					<button class="button button-primary" v-on:click="search()">SEARCH</button>
                 </div>
             </div>
-            <article v-for="(event, key) in events" v-bind:key="key" class="event">
-                <a v-bind:href="'/event/read/' + event.name_seo">
+            <article v-for="(event, key) in events" v-bind:key="key" class="event bg-light pad-default mar-btm-default">
+                <a class="a-primary" v-bind:href="'/event/read/' + event.name">
                   <h2 class="name">{{ event.name }}</h2>
                 </a>
                 <p class="text">{{ event.description }}</p>
             </article>
+
             <div v-if="loading" class="infinite-loading">
               <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
 			</div>

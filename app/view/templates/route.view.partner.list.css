@@ -1,21 +1,21 @@
 /*
 Error: Undefined variable: "$light".
-        on line 6 of route.view.partner.list.scss
+        on line 7 of route.view.partner.list.scss
 
-1: #route-view-partner-list {
-2:   overflow: visible;
-3:   #partner-list {
-4: 	padding-top: 15px;
-5: 	.partner {
-6: 	  background: $light;
-7: 	  padding: 15px;
-8: 	  margin-bottom: 15px;
-9: 	}
-10:   }
-11:   
+2: #route-view-partner-list {
+3:   overflow: visible;
+4:   #partner-list {
+5: 	padding-top: 15px;
+6: 	.partner {
+7: 		background: $light;
+8: 		margin-bottom: 15px;
+9: 		display: flex;
+10: 		position: relative;
+11: 		overflow: visible;
+12: 
 
 Backtrace:
-route.view.partner.list.scss:6
+route.view.partner.list.scss:7
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/variable.rb:49:in `_perform'
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/script/tree/node.rb:58:in `perform'
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
@@ -89,4 +89,4 @@ C:/Ruby23-x64/bin/scss:23:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$light\".\A         on line 6 of route.view.partner.list.scss\A \A 1: #route-view-partner-list {\A 2:   overflow: visible;\A 3:   #partner-list {\A 4: 	padding-top: 15px;\A 5: 	.partner {\A 6: 	  background: $light;\A 7: 	  padding: 15px;\A 8: 	  margin-bottom: 15px;\A 9: 	}\A 10:   }\A 11:   "; }
+  content: "Error: Undefined variable: \"$light\".\A         on line 7 of route.view.partner.list.scss\A \A 2: #route-view-partner-list {\A 3:   overflow: visible;\A 4:   #partner-list {\A 5: 	padding-top: 15px;\A 6: 	.partner {\A 7: 		background: $light;\A 8: 		margin-bottom: 15px;\A 9: 		display: flex;\A 10: 		position: relative;\A 11: 		overflow: visible;\A 12: "; }

@@ -1,134 +1,95 @@
 #route-view-squad-view {
-	overflow: visible;
-  	position: relative;
-  
   	.squad-view-route-header {
-	  background-color: $dark;
-	  position: relative;
-	  -webkit-box-shadow: 0 0 47px 0 rgba(0,0,0,0.4);
-	  -moz-box-shadow: 0 0 47px 0 rgba(0,0,0,0.4);
-	  box-shadow: 0 0 47px 0 rgba(0,0,0,0.4);
-	  margin-bottom: 15px;
-		display: flex;
-		.body {
+		> span {
 			position: relative;
-			z-index: 2;
-			width: 100%;
-			min-height: 100%;
-			padding: 15px;
-			background: rgba($dark, 0.3);
-			display: flex;
-			height: auto;
-			justify-content: center;
-			align-items: center;
-			align-content: center;
-			text-align: center;
-			.title {
-				color: $light;
-				padding: 5px 10px 5px 10px;
-				margin: 0;
-				text-transform: uppercase;
-				font-size: 40px;
-				display: inline-block;
-				background: $primary;
-				line-height: 100%;
-				> a, a:hover {
-					color: $light;
-				}
-			}
+			z-index: 1;
 		}
-	  .bg-image {
-		position: absolute;
-		top: 0;right: 0;bottom: 0;left: 0;
-		z-index: 0;
-		  background: no-repeat center center;
-		  background-size: cover;
-		  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
-		  filter: grayscale(100%);
-	  }
+	  	.bg-image {
+		  	position: absolute;
+		  	top: 0;right: 0;bottom: 0;left: 0;
+		  	z-index: 0;
+	  	}
 	}
+ 
 	#member-list {
-	  padding-top: 15px;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
-
-	  .member {
-		 max-width: calc(50% - 8px);
-		 min-width: calc(50% - 8px);
-		 background: $light;
-		 margin-bottom: 15px;
-		  padding-left: 20px;
-		  padding-top: 20px;
-		 background: black;
+	  	.member {
+		 	max-width: calc(50% - (15px / 2));
+		 	min-width: calc(50% - (15px / 2));
+		 	margin-bottom:  $spaceDefault;
+		  	padding-left: 20px;
+		  	padding-top: 20px;
 			display: flex;
-		  .details {
-			  padding-left: 40px;
-			  flex: 1;
-			  font-size: 16px;
-			  line-height: 25px;
-			  padding-right: 15px;
-			  .name {
-				  color: $primary;
-			  }
+		  	border-bottom: $spaceDefault solid $primary;
+		  	.details {
+				padding-left: 40px;
+				flex: 1;
+				padding-right: 15px;
+				.name {
+					color: $primary;
+				}
+			  	.country {
+				  margin-bottom:  $spaceDefault / 2;
+				  color: $light;
+				  font-weight: bold;
+				}
+				.position {
+					color: $primary;
+				  	text-transform: uppercase;
+				  	margin-bottom:  $spaceDefault;
+				}
 			  .desc {
-
+				padding-bottom: $spaceDefault;
 			  }
-			  .position {
-				  color: $lightgrey;
-			  }
-		  }
-	  	.avatar {
-			align-self: flex-end;
-			width: 140px;
-			height: 220px;
-			background-size: contain;
-			background-position: bottom center;
-			background-repeat: no-repeat;
-			position: relative;
-			display: flex;
-			align-content: flex-end;
-			align-items: flex-end;
-			padding: 0 10px 10px 10px;
-			color: $light;
-			text-transform: uppercase;
-			font-family: 'Montserrat', sans-serif;
-			font-size: 16px;
-			.nameplate {
-				background: $primary;
-				width: 100%;
-				height: 30px;
-				line-height: 30px;
-				text-align: center;
-			}
-		}
-	  }
-	}
-}
-
-@include mq('tablet', 'max')
-{
-	#member-list {
-		display: none;
-
-		.member {
-			padding-right: 15px;
-			justify-content: center;
+		  	}
 			.avatar {
-			}
-			.details {
-				display: none;
+				align-self: flex-end;
+				width: 140px;
+				height: 220px;
+				background-size: contain;
+				background-position: bottom center;
+				background-repeat: no-repeat;
+				position: relative;
+				display: flex;
+				align-content: flex-end;
+				align-items: flex-end;
+				padding: 0 10px 10px 10px;
+				color: $light;
+				text-transform: uppercase;
+				font-size: 16px;
+				.nameplate {
+					background: $primary;
+					width: 100%;
+					height: 30px;
+					line-height: 30px;
+					text-align: center;
+				}
 			}
 		}
 	}
-}
-
-@include mq('phone', 'max')
-{
-	#member-list {
-		.member {
-			max-width: 100% !important;
-			min-width: 100% !important;
+ 
+	@include mq('tablet', 'max')
+	{
+		#member-list {
+			display: none;
+			.member {
+				justify-content: center;
+				.details {
+				  	display: none;
+				}
+			}
+		}
+	}
+ 
+	@include mq('desktop-small', 'max')
+	{
+		#member-list {
+			.member {
+				max-width: 100% !important;
+				min-width: 100% !important;
+			}
 		}
 	}
 }

@@ -1,0 +1,32 @@
+#route-view-gallery-list {
+  /*
+  min-height: 100%;
+  position: relative;
+  overflow: visible;
+  article.gallery { min-height: 100px;}
+  article.gallery
+  {
+	background: $light;
+	margin-bottom: 15px;
+	padding: 15px;
+	border-bottom: 10px solid $lightGrey;
+	h2.title {
+	  font-size: 40px;
+	  color: $primary;
+	  text-transform: uppercase;
+	  padding: 0;
+	  margin: 0 0 15px 0;
+	}
+	p.text {
+	  font-size: 16px;
+	  padding: 0;
+	  line-height: 25px;
+	  margin: 0;
+	}
+  }
+  */ }
+  #route-view-gallery-list .infinite-grid .gallery-item {
+    min-height: 200px;
+    height: 200px; }
+
+/*# sourceMappingURL=route.view.gallery.list.css.map */

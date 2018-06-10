@@ -18,7 +18,7 @@
         color: $light;
         padding-left: 15px;
         padding-right: 15px;
-        font-family: 'Noto Sans', sans-serif;
+        //font-family: 'Noto Sans', sans-serif;
       }
       .form {
         height: 100%;
@@ -49,8 +49,8 @@
       background: $light;
       min-height: 50px;
       margin-bottom: 15px;
-      //border-bottom: 10px solid $lightgrey;
-      color: $darkergrey;
+      //border-bottom: 10px solid $lightGrey;
+      color: $darkerGrey;
 
       .inline-info {
         display: flex;
@@ -68,7 +68,7 @@
 
         }
         .game {
-          background: $darkergrey;
+          background: $darkerGrey;
           color: $light;
           margin-right: 7px;
           text-align: center;
@@ -97,15 +97,15 @@
       .block-info {
         display: none;
         overflow: hidden;
-        background: $darkgrey;
+        background: $darkGrey;
         padding: 0 15px 0 15px;
 
         .map {
           height: 40px;
           line-height: 40px;
-          border-bottom: 1px solid $darkergrey;
+          border-bottom: 1px solid $darkerGrey;
           display: flex;
-          color: $lightgrey;
+          color: $lightGrey;
           .name {}
           .score {
             font-weight: bold;
