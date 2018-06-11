@@ -679,6 +679,10 @@ p, .paragraph {
 #comments .comment-field {
   padding-bottom: 15px;
   display: flex; }
+  #comments .comment-field > .input-field {
+    margin-bottom: 0 !important; }
+  #comments .comment-field .input-status-wrapper {
+    border-color: #dbdbdb !important; }
   #comments .comment-field > .input {
     border-color: #dbdbdb; }
 #comments .sign-in-note {
@@ -699,14 +703,26 @@ p, .paragraph {
 @media only screen and (max-width: 399px) {
   #comments .comment-tree {
     margin-left: 3px !important;
-    border-left: 2px solid #f6a00c; }
+    border-left: 2px solid #dbdbdb; }
   #comments .comment {
     padding-left: 3px !important; } }
+@keyframes pulseLoading {
+  0% {
+    opacity: 0.4; }
+  50% {
+    opacity: 0.7; }
+  100% {
+    opacity: 0.4; } }
+#comments.loading {
+  animation-name: pulseLoading;
+  animation-duration: 2s;
+  animation-iteration-count: infinite; }
+
 .comment-tree {
   margin-top: 20px; }
   .comment-tree .comment-tree {
     margin-left: 60px;
-    border-left: 4px solid #f6a00c; }
+    border-left: 4px solid #dbdbdb; }
   .comment-tree .comment {
     margin-bottom: 20px;
     position: relative; }
@@ -736,16 +752,16 @@ p, .paragraph {
             font-weight: bold;
             color: #f6a00c; }
       .comment-tree .comment .content .controls {
-        height: 35px;
         line-height: 35px;
-        border-bottom: 1px dotted #dbdbdb;
-        display: flex; }
+        border-bottom: 2px solid #dbdbdb;
+        display: flex;
+        padding-bottom: 7.5px; }
         .comment-tree .comment .content .controls .reply-trigger {
           display: block;
           padding-right: 10px;
           height: 100%;
           font-size: 12px;
-          color: #dbdbdb;
+          color: #626262;
           cursor: pointer;
           -webkit-user-select: none;
           /* Safari */
@@ -759,7 +775,7 @@ p, .paragraph {
           background: lightblue;
           display: block; }
         .comment-tree .comment .content .controls .reply-input {
-          border-radius: 2px;
+          border-radius: 0px;
           border: 1px solid #dbdbdb;
           font-size: 12px;
           height: 25px;
@@ -768,10 +784,10 @@ p, .paragraph {
           font-size: 12px;
           background: none;
           height: 25px;
-          color: #f6a00c;
+          color: white;
           cursor: pointer;
-          border: 1px solid #f6a00c;
-          border-radius: 2px; }
+          background: #f6a00c;
+          border: none; }
   .comment-tree .footer {
     margin-left: 10px; }
     .comment-tree .footer button.showMore {
@@ -1146,8 +1162,9 @@ footer#main-footer {
   footer#main-footer .footer-sponsor-row {
     background: #454545; }
   footer#main-footer .footer-content-row {
-    padding-top: 40px;
-    padding-bottom: 40px; }
+    border-top: 1px solid #454545;
+    padding-top: 60px;
+    padding-bottom: 30px; }
     footer#main-footer .footer-content-row .site-map-container {
       display: flex;
       justify-content: space-between; }
@@ -1156,6 +1173,7 @@ footer#main-footer {
           flex-direction: column-reverse;
           align-items: center; } }
       footer#main-footer .footer-content-row .site-map-container .site-map {
+        margin-top: -10px;
         position: relative;
         display: flex;
         justify-content: space-between;
@@ -1174,19 +1192,18 @@ footer#main-footer {
         @media only screen and (max-width: 399px) {
           footer#main-footer .footer-content-row .site-map-container .site-map .site-map-item {
             min-width: 50%; } }
-        footer#main-footer .footer-content-row .site-map-container .site-map .site-map-item h4 {
+        footer#main-footer .footer-content-row .site-map-container .site-map .site-map-item h1 {
           display: inline-block;
           margin: 0;
-          font-size: 1.3em;
-          color: #a8a8a8;
+          color: white;
           line-height: 45px;
-          border-bottom: 5px solid #f6a00c;
+          border-bottom: 7.5px solid #f6a00c;
           text-transform: uppercase; }
         footer#main-footer .footer-content-row .site-map-container .site-map .site-map-item ul {
           list-style-type: none;
           padding: 0; }
           footer#main-footer .footer-content-row .site-map-container .site-map .site-map-item ul li {
-            line-height: 30px;
+            line-height: 35px;
             text-transform: uppercase;
             font-weight: 700;
             font-size: 12px; }
@@ -1199,20 +1216,25 @@ footer#main-footer {
         flex-direction: column;
         justify-content: space-between;
         width: 150px; }
-        footer#main-footer .footer-content-row .site-map-container .brand .social-icons {
+        footer#main-footer .footer-content-row .site-map-container .brand .logo {
           display: flex;
-          justify-content: center; }
-  footer#main-footer .footer-bottom-row .info-container {
-    min-height: 60px;
-    line-height: 60px;
-    align-items: center;
-    font-weight: 700;
-    background: black;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap; }
-    footer#main-footer .footer-bottom-row .info-container a {
-      color: #626262; }
+          flex-direction: column;
+          justify-content: space-between; }
+        footer#main-footer .footer-content-row .site-map-container .brand .icons .icon {
+          margin-bottom: 7.5px; }
+  footer#main-footer .footer-bottom-row {
+    border-top: 1px solid #454545; }
+    footer#main-footer .footer-bottom-row .info-container {
+      min-height: 60px;
+      line-height: 60px;
+      align-items: center;
+      font-weight: 700;
+      background: black;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap; }
+      footer#main-footer .footer-bottom-row .info-container a {
+        color: #626262; }
 
 @media only screen and (max-width: 559px) {
   footer#main-footer .footer-content-row {
@@ -2772,16 +2794,22 @@ div#wrapper {
 .sponsor-inline-container {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap; }
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  min-height: 160px;
+  max-height: 160px;
+  padding-top: 30px;
+  padding-bottom: 30px; }
   .sponsor-inline-container a.sponsor {
-    margin: 20px 0 20px 0;
     display: block;
     padding: 0;
     min-width: 220px;
     max-width: 220px;
     min-height: 100px;
     max-height: 100px;
-    background: no-repeat center center;
+    background-position: center center;
+    background-repeat: no-repeat;
     background-size: contain; }
   @media only screen and (max-width: 767px) {
     .sponsor-inline-container {

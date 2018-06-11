@@ -1,9 +1,16 @@
 
  <!-- comments -->
-<div id="comments">
+<div id="comments" v-bind:class="{ loading : loading }" >
     {% if AuthUser %}
-	<div class="comment-field input-field">
-		<input placeholder="Type your comment here" type="text" v-on:keyup.enter="postComment" class="input" ref="input">
+	<div class="comment-field">
+		<div class="input-field">
+			<div class="input-status-wrapper">
+				<input placeholder="Type your comment here" type="text" v-on:keyup.enter="postComment" class="input" ref="input">
+				<div class="input-status">
+					<i v-show="loading" class="fas fa-circle-notch fa-spin"></i>
+				</div>
+			</div>
+		</div>
 		<button class="button button-primary" v-on:click="postComment">post</button>
 	</div>
     {% else %}
@@ -92,7 +99,7 @@
 			data: function () {
 				return {
 					limit : 0,
-					model: []
+					model: [],
 				}
 			},
 			created: function(){
@@ -128,6 +135,7 @@
 					replyForm: {
 						show: false,
 						text: '',
+					  	loading : false,
 					}
 				}
 			},
@@ -152,7 +160,9 @@
 					if(!this.replyForm.text) return false;
 
 					var data = { pid: this.data.id, text: this.replyForm.text };
-
+					
+					
+					
 					EventBus.$emit('postComment', data, function( response )
 					{
 						if(response)
@@ -161,6 +171,7 @@
 							this.$emit('newReply', response);
 							this.replyForm.text = '';
 							this.$forceUpdate();
+							this.replyForm.show = false;
 						}
 					}
 					.bind(this));
@@ -174,6 +185,7 @@
 			data: function () {
 				return {
 					comments: __COMMENTS__,
+					loading: false
 				}
 			},
 			methods:
@@ -204,10 +216,10 @@
 				EventBus.$on('postComment', function ( data, cb )
 				{
 					data.model_id = MODEL_ID;
-
+					this.loading = true;
 					$.post(ENDPOINT, data )
-					  .then( function( response ) { cb(response); })
-					  .catch(function( error ) { cb(false); });
+					  .then( function( response ) { this.loading = false; cb(response); }.bind(this))
+					  .catch(function( error ) { this.loading = false; cb(false); }.bind(this))
 				}
 				.bind(this));
 			}

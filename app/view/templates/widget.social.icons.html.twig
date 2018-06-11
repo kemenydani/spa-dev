@@ -3,7 +3,7 @@
 
     {% set limit = ( limit ? limit : 3 ) %}
 
-    {% for key,link in Config.getSocialLinks() if limit > 0 %}
+    {% for key,link in items if limit > 0 %}
 
         <a href="{{ key }}" class="icon round">
             <i class="fab fa-{{ key }} fa-lg"></i>

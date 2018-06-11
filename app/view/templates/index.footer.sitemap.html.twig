@@ -5,7 +5,7 @@
     {% for item in items if limit > 0 %}
 
         <div class="site-map-item">
-            <h4>{{ item.title }}</h4>
+            <h1>{{ item.title }}</h1>
             <ul>
                 {% for link in item.links %}
                     <li><a target="{{ (link.blank ? "_blank" : "") }}" href="{{ link.url }}">{{ link.title }}</a></li>

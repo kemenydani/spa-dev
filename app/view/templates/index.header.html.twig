@@ -2,8 +2,8 @@
     <div class="header-aside header-left">
         {% include 'widget.social.icons.html.twig'
             with {
-                items: { 'twitter' : 'www.twitter.com', 'facebook' : 'www.twitter.com' },
-                limit: 10
+                items: Config.getSocialLinks(),
+                limit: 5
             }
             only
         %}

@@ -4,6 +4,13 @@
   {
 	padding-bottom: 15px;
 	display: flex;
+	  > .input-field {
+		  margin-bottom: 0 !important;
+
+	  }
+	  .input-status-wrapper {
+		  border-color: $lightGrey !important;
+	  }
 	> .input {
 	  //margin-right: 15px;
 	  border-color: $lightGrey;
@@ -40,7 +47,7 @@
 	.comment-tree
 	{
 	  margin-left: 3px !important;
-	  border-left: 2px solid $primary;
+	  border-left: 2px solid $lightGrey;
 	}
 	.comment {
 	  padding-left: 3px !important;
@@ -48,11 +55,32 @@
   }
 }
 
+@keyframes pulseLoading {
+	0% {
+		opacity: 0.4;
+	}
+	50% {
+		opacity: 0.7;
+	}
+	100% {
+		opacity: 0.4;
+	}
+}
+
+#comments {
+	&.loading {
+		animation-name: pulseLoading;
+		animation-duration: 2s;
+		animation-iteration-count: infinite;
+	}
+}
+
 .comment-tree {
+
   margin-top: 20px;
   .comment-tree {
 	margin-left: 60px;
-	border-left: 4px solid $primary;
+	border-left: 4px solid $lightGrey;
   }
   .comment {
 	margin-bottom: 20px;
@@ -88,16 +116,17 @@
 		}
 	  }
 	  .controls {
-		height: 35px;
+		//height: 35px;
 		line-height: 35px;
-		border-bottom: 1px dotted $lightGrey;;
+		border-bottom: 2px solid $lightGrey;
 		display: flex;
+			padding-bottom: 7.5px;
 		.reply-trigger {
 		  display: block;
 		  padding-right: 10px;
 		  height: 100%;
 		  font-size: 12px;
-		  color: $lightGrey;
+		  color: $darkGrey;
 		  cursor: pointer;
 		  -webkit-user-select: none; /* Safari */
 		  -moz-user-select: none; /* Firefox */
@@ -109,7 +138,7 @@
 		  display: block;
 		}
 		.reply-input {
-		  border-radius: 2px;
+		  border-radius: 0px;
 		  border: 1px solid $lightGrey;
 		  font-size: 12px;
 		  height: 25px;
@@ -120,10 +149,10 @@
 		  //background: $darkGrey;
 		  background: none;
 		  height: 25px;
-		  color: $primary;
+		  color: $light;
 		  cursor: pointer;
-		  border: 1px solid $primary;
-		  border-radius: 2px;
+			background: $primary;
+			border: none;
 		}
 	  }
 	}

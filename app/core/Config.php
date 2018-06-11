@@ -47,7 +47,11 @@ class Config
 
         foreach($this->settings as $key => $setting)
         {
-            if((strpos($key, 'social_') === 0)) $res[str_replace('social_', '', $key)] = $setting['val'];
+            if((strpos($key, 'social_') === 0))
+            {
+                $nk = str_replace('social_', '', $key);
+                if($this->settings['show_social_' . $nk]['val'] == 1) $res[$nk] = $setting['val'];
+            }
         }
 
         return $res;

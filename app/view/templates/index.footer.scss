@@ -7,13 +7,15 @@ footer#main-footer {
 	background: $darkerGrey;
   }
   .footer-content-row {
-	padding-top: 40px;
-	padding-bottom: 40px;
+	  border-top: 1px solid $darkerGrey;
+		padding-top: 60px;
+		padding-bottom: 30px;
 	.site-map-container {
 	  display: flex;
 	  justify-content: space-between;
 	  @include mq('phablet', 'max') { flex-direction: column-reverse; align-items: center; }
 	  .site-map {
+		  margin-top: -10px;
 		position: relative;
 		display: flex;
 		justify-content: space-between;
@@ -25,14 +27,13 @@ footer#main-footer {
 		.site-map-item
 		{
 		  @include mq('phone', 'max') { min-width: 50%; }
-		  h4
+		  h1
 		  {
 			display: inline-block;
 			margin: 0;
-			font-size: 1.3em;
-			color: darken( $lightGrey, 20 );
+			color: $light;
 			line-height: 45px;
-			border-bottom: 5px solid $primary;
+			border-bottom: 7.5px solid $primary;
 			text-transform: uppercase;
 		  }
 		  ul
@@ -41,7 +42,7 @@ footer#main-footer {
 			padding: 0;
 			li
 			{
-			  line-height: 30px;
+			  line-height: 35px;
 			  text-transform: uppercase;
 			  font-weight: 700;
 			  font-size: 12px;
@@ -62,12 +63,17 @@ footer#main-footer {
 		flex-direction: column;
 		justify-content: space-between;
 		width: 150px;
-		.logo {}
-		.social-icons { display: flex; justify-content: center; }
+		.logo {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+		}
+		.icons { .icon { margin-bottom: 7.5px; } }
 	  }
 	}
   }
   .footer-bottom-row {
+	  border-top: 1px solid $darkerGrey;
 	.info-container {
 	  min-height: 60px;
 	  line-height: 60px;
@@ -77,6 +83,7 @@ footer#main-footer {
 	  display: flex;
 	  justify-content: space-between;
 	  flex-wrap: wrap;
+
       a {
 		color: $darkGrey;
 	  }

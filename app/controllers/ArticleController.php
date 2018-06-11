@@ -39,19 +39,32 @@ class ArticleController extends ViewController
     public function getLoadInfinite( Request $request, Response $response )
     {
 	    $search = $request->getQueryParam('search');
+        $orderBy = $request->getQueryParam('orderBy');
 	    $startAt = $request->getQueryParam('startAt') ? $request->getQueryParam('startAt') : 0;
 	    
-	    $data = $this->getMore($search, $startAt);
+	    $data = $this->getMore($search, $startAt, $orderBy);
 
 	    return $response->withStatus(200)->withJson($data);
 
     }
 
-    protected function getMore($search = null, $startAt = 0)
+    protected function getMore($search = null, $startAt = 0, $orderBy = "")
     {
         $params = [];
         $where = "";
-       
+
+        $order = "ORDER BY id DESC";
+
+        if(strlen($orderBy))
+        {
+            $orderBy = explode('|', $orderBy);
+            if(count($orderBy))
+            {
+                // TODO: change this to date
+                $order = " ORDER BY id {$orderBy[1]} ";
+            }
+        }
+
 	    if($search)
 	    {
 		    $params['name'] = '%'. $search .'%';
@@ -60,7 +73,7 @@ class ArticleController extends ViewController
 
         $q1 = " SELECT SQL_CALC_FOUND_ROWS * FROM _xyz_article " .
             " {$where} " .
-            " ORDER BY date_created DESC " .
+            " {$order} " .
             " LIMIT ".static::INFINITE_LIMIT." OFFSET " . (int)$startAt
         ;
 
@@ -68,7 +81,7 @@ class ArticleController extends ViewController
 
         $total = DB::instance()->totalRowCount();
 
-        return ['articles' => $articles, 'totalItems' => $total];
+        return ['articles' => $articles, 'totalItems' => $total, 'q' => $q1];
     }
     
     public function postComment( Request $request, Response $response )
