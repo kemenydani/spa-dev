@@ -88,6 +88,7 @@ class HomeController extends ViewController
                     /* @var \models\Product $Product */
                     $Product = $randomModel;
                     $randomFeaturedItem['type']   = 'product';
+	                $randomFeaturedItem['id']     = $Product->getId();
                     $randomFeaturedItem['name']   = $Product->getName();
                     $randomFeaturedItem['image']  = $Product->getPreviewImage()->requestImageUrl();
                     $randomFeaturedItem['teaser'] = $Product->getPrice() . ' ' . $Product->getCurrency();
@@ -106,7 +107,7 @@ class HomeController extends ViewController
         ;
         $ltArticles  = (ArticleCollection::queryToCollection($q2, 0))->getFormatted();
 
-        $this->view->render($response, 'route.view.home.html.twig', [
+        $this->view->render($response, 'route.view.home2.html.twig', [
             'articles' => [
                 'hl' => $hlArticles,
                 'lt' => $ltArticles,

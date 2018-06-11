@@ -3,50 +3,71 @@
 {% block content %}
 
 <div id="route-view-home" class="container-full">
-
+    {% if Config.get('page_show_sponsors_top') == 1 %}
+    <section id="home-partners-top" class="container-full section-content bg-dark">
+            {% include 'widget.sponsor.inline.html.twig'
+                with {
+                collection: partnersTop,
+                limit: 4,
+                class: 'widget-sponsor-top'
+                }
+                only
+            %}
+    </section>
+    {% endif %}
     <!-- top news -->
     <section id="home-headlines" class="container-full">
+        <div class="section-header">
+            <h1>HEADLINES</h1>
+        </div>
         <div class="container section-content">
-            <article class="container pad-default bg-light box-shadow-1 round-2">
-                foo
+            <article class="container primary-headline pad-default bg-light box-shadow-1 round-2">
+                {% include 'route.view.home.headline.primary.html.twig' with { article : articles.hl[0] } %}
             </article>
-
-            <article class="container pad-default bg-light box-shadow-1 round-2">
-                foo
-
+            <article class="container secondary-headline pad-default bg-light box-shadow-1 round-2">
+                {% include 'route.view.home.headline.secondary.html.twig' with { article : articles.hl[1] } %}
             </article>
         </div>
     </section>
 
     <!-- last news -->
     <section id="home-last-articles" class="container-full bg bg-dark">
-        <div class="section-header">foo</div>
+        <div class="section-header">
+            <h1>LAST NEWS</h1>
+        </div>
         <div class="container section-content">
             <div class="container last-article-list">
-                <div class="bg-light pad-default round-2">
+                <div class="bg-light pad-default box-shadow-1 round-2">
                     <h1><a href="" class="a-primary">THIS IS A TITLE</a></h1>
                     <p class="paragraph low-p">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
                     <a class="more-button uc-text">read more</a>
                 </div>
-                <div class="bg-light pad-default round-2">
+                <div class="bg-light pad-default box-shadow-1 round-2">
                     <h1><a href="" class="a-primary">THIS IS A TITLE</a></h1>
                     <p class="paragraph low-p">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
                     <a class="more-button uc-text">read more</a>
                 </div>
-                <div class="bg-light pad-default round-2">
+                <div class="bg-light pad-default box-shadow-1 round-2">
                     <h1><a href="" class="a-primary">THIS IS A TITLE</a></h1>
                     <p class="paragraph low-p">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
                     <a class="more-button uc-text">read more</a>
                 </div>
-                <div class="bg-light pad-default round-2">
+                <div class="bg-light pad-default box-shadow-1 round-2">
                     <h1><a href="" class="a-primary">THIS IS A TITLE</a></h1>
                     <p class="paragraph low-p">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
                     <a class="more-button uc-text">read more</a>
                 </div>
             </div>
             <div class="container featured-content">
-                <div class="bg-light box-shadow-1 round-2 pad-default">
-                    foo
+                <div class="wrapper bg-light box-shadow-1 round-2 pad-default">
+                    <div class="image bg bg-centered bg-contain" style="background-image: url({{ featuredItem.image }})"></div>
+                    <div class="body">
+                        <h1 class="title ellipsis"><a class="a-primary" href="/product/{{ featuredItem.id }}">{{ featuredItem.name }}</a></h1>
+                        <div class="footer">
+                            <span class="price">{{ featuredItem.teaser }}</span>
+                            {{ featuredItem.button_next|raw }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -54,17 +75,26 @@
 
     <!-- matches / events -->
     <section id="home-matches-events" class="container-full">
-        <div class="section-header">foo</div>
+        <div class="section-header">
+            <h1>ACTIVITY</h1>
+        </div>
         <div class="container section-content">
-            3
+            <div class="matches bg-light round-2 box-shadow-1 pad-default">
+                1
+            </div>
+            <div class="events bg-light round-2 box-shadow-1 pad-default">
+                2
+            </div>
         </div>
     </section>
 
     <!-- members -->
     <section id="home-members" class="container-full bg bg-dark">
-        <div class="section-header">foo</div>
+        <div class="section-header">
+            <h1>MEET AVENUE</h1>
+        </div>
         <div class="container section-content">
-            4
+            {% include 'route.view.home.members.html.twig' with { squad : squads.first() } %}
         </div>
     </section>
 

@@ -97,6 +97,13 @@ body {
 
 img { -ms-interpolation-mode: bicubic; }
 
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
+}
+
 a {
   text-decoration: none;
   color: $light;

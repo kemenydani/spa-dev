@@ -1,0 +1,14 @@
+<div class="container squad-container">
+    <div class="squad" style="background-image: url({{ squad.requestHomeWallpaper() }})">
+        <div class="squad-game" >
+            <h1><a class="bg-text" href="/squad/{{ squad.getName() }}">{{ squad.getName() }}</a></h1>
+        </div>
+        <div class="members">
+            {% for pk, member in squad.getMembers() %}
+                <div class="member" style="background-image: url({{ member.requestHomeAvatar() }})">
+                    <a href="/profile/{{ member.getUser().getUserName() }}" class="nameplate">{{ member.formatName() }}</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
