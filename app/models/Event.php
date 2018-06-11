@@ -4,6 +4,7 @@ namespace models;
 
 use core\Model as Model;
 use models\Match as Match;
+use core\DB;
 
 class Event extends Model
 {
@@ -13,18 +14,93 @@ class Event extends Model
         'id',
         'name',
         'website',
+        'description',
+        'comments_enabled',
         'start_date',
 	    'end_date',
     ];
 
     public function getMatches()
     {
-    	return Match::getAll(['event_id' => $this->getId()]);
+    	return Match::findAll($this->getId(), 'event_id');
+    }
+
+    public function getArticles()
+    {
+        $id = $this->getId();
+
+        $stmt = " SELECT a.* FROM _xyz_event_article_pivot eap " .
+                " LEFT JOIN _xyz_article a ON a.id = eap.article_id " .
+                " WHERE eap.event_id = $id "
+        ;
+
+        // TODO: where active
+
+        $ArticleCollection = ArticleCollection::queryToCollection($stmt);
+
+        return $ArticleCollection;
+    }
+
+    public function getSquads()
+    {
+        $id = $this->getId();
+
+        $stmt = " SELECT a.* FROM _xyz_event_squad_pivot esp " .
+            " LEFT JOIN _xyz_squad a ON a.id = esp.squad_id " .
+            " WHERE esp.event_id = $id "
+        ;
+
+        // TODO: where active
+
+        $SquadCollection = SquadCollection::queryToCollection($stmt);
+
+        return $SquadCollection;
+    }
+
+    public function getComments()
+    {
+        $id = $this->getId();
+
+        $stmt = " SELECT c.*, c.id as id, u.username, u.profile_picture FROM _xyz_event_comment_pivot ecp " .
+                " LEFT JOIN _xyz_comment c ON c.id = ecp.comment_id " .
+                " LEFT JOIN _xyz_user u ON u.id = c.user_id " .
+                " WHERE ecp.event_id = $id "
+        ;
+
+        $sql = DB::instance()->query( $stmt );
+
+        $rows = $sql->fetchAll(\PDO::FETCH_UNIQUE|\PDO::FETCH_ASSOC );
+
+        $result = CommentCollection::toTree( $rows  );
+
+        return $result;
+    }
+
+    //TODO:: create commentable trait
+    public function addComment( Comment $Comment )
+    {
+        DB::instance()->beginTransaction();
+
+        $Comment->save();
+
+        $success = DB::pivot('event_comment_pivot', [
+            'event_id' => $this->getProperty('id'),
+            'comment_id' => $Comment->getProperty('id')
+        ]);
+
+        $success ? DB::instance()->commit() : DB::instance()->rollBack();
+
+        return $Comment;
     }
     
     public function getId()
     {
         return $this->getProperty('id');
+    }
+
+    public function getCommentsEnabled()
+    {
+        return $this->getProperty('comments_enabled');
     }
 
     public function getName()

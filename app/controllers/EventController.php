@@ -2,6 +2,8 @@
 
 namespace controllers;
 
+use core\Auth;
+use models\Comment;
 use models\EventCollection as EventCollection;;
 use Slim\Http\Response;
 use Slim\Http\Request;
@@ -59,17 +61,40 @@ class EventController extends ViewController
         return ['events' => $events, 'totalItems' => $total];
     }
 
+    public function postComment( Request $request, Response $response )
+    {
+        $formData = $request->getParsedBody();
+
+        $Event = Event::find($formData['model_id']);
+
+        if(!$Event) return $response->withStatus(404, 'Event not found');
+
+        $User = Auth::user();
+
+        $formData['user_id'] = $User->getProperty('id');
+
+        /* @var \models\Comment $Comment */
+        $Comment = $Event->addComment( Comment::create( $formData ) );
+
+        $data = $Comment->getProperties();
+        $data['username'] = $User->getUsername();
+        $data['profile_picture'] = $User->requestProfilePicture();
+
+        return $response->withJson( $data );
+    }
+
     public function view ( Request $request, Response $response, $args )
     {
         $event = Event::find($args['name'], 'name');
 
-        if(!$event) return false;
+        $comments = $event->getComments();
 
         $this->view->render(
             $response,
             'route.view.event.view.html.twig',
             [
-                'event'  => $event->getProperties(),
+                'event'  => $event,
+                'comments' => json_encode($comments, true)
             ]
         );
     }

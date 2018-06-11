@@ -1,6 +1,7 @@
 <?php
 
 use core\Auth as Auth;
+use core\Config;
 
 // Slim configuration
 $configuration = [
@@ -13,6 +14,7 @@ $configuration = [
 
         $cacheDir = __DEBUG__ ? false : __ROOT__ . '/storage/cache/';
 
+        //TODO:: enable caching
         $settings = [
             //'cache' => $cacheDir
         ];
@@ -21,6 +23,7 @@ $configuration = [
 
         $view->getEnvironment()->addGlobal('isLogged', Auth::isLoggedIn());
         $view->getEnvironment()->addGlobal('AuthUser', Auth::user());
+        $view->getEnvironment()->addGlobal('Config',  Config::instance());
 
         $view->addExtension(new \Slim\Views\TwigExtension(
             $container->router,

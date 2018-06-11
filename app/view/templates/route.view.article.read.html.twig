@@ -18,6 +18,7 @@
             </article>
         </div>
         {% if (article.comments_enabled == true ) %}
+        <h1 class="route-section-header">COMMENTS</h1>
         <div class="container bg-light pad-default round-2 box-shadow-1 article-comments-container" id="article-comments">
             {% include 'widget.comments.html.twig' with { comments : comments, model : 'article' , model_id : article.id } %}
         </div>

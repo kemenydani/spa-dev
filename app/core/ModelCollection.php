@@ -141,6 +141,9 @@ class ModelCollection
     public static function parseModels( array $data, $class )
     {
         $parsed = [];
+
+        if(!is_array($data)) return $parsed;
+
         foreach($data as $key => $value)
         {
             if(is_array($value)) $parsed[$key] = $class::create($value);

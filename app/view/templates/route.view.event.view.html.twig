@@ -2,26 +2,74 @@
 
 {% block content %}
 
-<div class="container-full route-container" id="route-view-squad-view">
-    <div class="container-full route-header squad-view-route-header">
-        <div class="body">
-            <div class="container squad-header-container"><h2 class="title">{{ squad.getName() }}</h2></div>
-        </div>
-       <div class="bg-image" style="background-image: url({{ squad.requestHeaderImage() }})"></div>
+<div class="container-full route-container" id="route-view-event-view">
+    
+    <div class="container-full route-header event-read-route-header" style="background-image: url(static/images/route_header.jpg)">
+        <div><h1 class="title uc-text bg-text">{{ event.getName() }}</h1></div>
     </div>
-    <div class="container member-list-container" id="member-list">
-        {% for mk, member in squad.getMembers() %}
-            <article class="member">
-                <div class="avatar" style="background-image: url({{ member.requestHomeAvatar() }})">
-                    <div class="nameplate"><img src="{{ member.getUser().getCountry().smallFlag() }}"> {{ member.formatName() }}</div>
-                </div>
-                <div class="details">
-                    <p class="position">{{ member.getPosition() }}</p>
-                    <p class="desc">{{ member.getDesc() }}</p>
-                </div>
+    {#
+    <div class="container-full">
+        <h1 class="route-section-header">DESCRIPTION</h1>
+        <div class="container bg bg-light round-2 box-shadow-1 pad-2x mar-btm-default">
+            <article class="event-content">
+                <p class="teaser paragraph big-p">
+                    {{ event.getDescription() }}
+                </p>
             </article>
-        {% endfor %}
+        </div>
     </div>
+   #}
+    <div class="container-full">
+        <h1 class="route-section-header">PARTICPATING SQUADS</h1>
+        <div class="container">
+            {% for squad in event.getSquads().getModels() %}
+                <div style="height: 240px; position: relative; display: flex; justify-content: center; align-items: center; align-content: center; text-align: center;" class="bg bg-light round-2 box-shadow-1 bg-toggle-hover pad-default mar-btm-default">
+                    <div style="position: relative; z-index: 1;">
+                        <h2 class="uc-text bg-text">
+                            <a href="/squad/{{ squad.getName() }}">{{ squad.getName() }}</a>
+                        </h2>
+                    </div>
+                    <a  href="/squad/{{ squad.getName() }}"
+                        class="bg bg-centered bg-cover bg-toggle-hover bg-grayed"
+                        style="background-image: url({{ squad.requestHeaderImage() }}); position: absolute; z-index: 0; top: 15px; left: 15px; right: 15px; bottom: 15px;">
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {#
+    <div class="container-full">
+        <h1 class="route-section-header">MATCHES</h1>
+        <div class="container">
+            {% for match in event.getMatches() %}
+                <div class="bg bg-light round-2 box-shadow-1 bg-toggle-hover pad-default mar-btm-default">
+                    <h2 class="uc-text">{{ match.getId() }}</h2>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    #}
+    <div class="container-full">
+        <h1 class="route-section-header">RELATED ARTICLES</h1>
+        <div class="container">
+            {% for article in event.getArticles().getModels() %}
+            <div class="bg bg-light round-2 box-shadow-1 bg-toggle-hover pad-default mar-btm-default" style="display: flex; justify-content: space-between; align-items: center; align-content: center;">
+                <h2 class="uc-text"><a href="/article/read/{{ article.getTitleSeo() }}" class="a-primary">{{ article.getTitle() }}</a></h2>
+                <span>{% if article.getActivationTime() %}{{ article.getActivationTime()|date('d M Y') }}{% endif %}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% if (event.getCommentsEnabled()) %}
+    <div class="container-full">
+        <h1 class="route-section-header">COMMENTS</h1>
+        <div class="container bg-light pad-default round-2 box-shadow-1 event-comments-container" id="event-comments">
+            {% include 'widget.comments.html.twig' with { comments : comments, model : 'event' , model_id : event.id } %}
+        </div>
+    </div>
+    {% endif %}
+    
 </div>
+
 
 {% endblock %}

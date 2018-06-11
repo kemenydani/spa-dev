@@ -7,15 +7,15 @@
 		</div>
         {% verbatim %}
         <div class="container event-list-container infinite-list-container" id="event-list">
-            <div class="infinite-search">
+            <div class="infinite-search box-shadow-2">
                 <div class="info">Loaded {{ events.length }} from total {{ totalItems }} events</div>
                 <div class="form input-field">
 					<input v-on:keyup.enter="search()" v-model="searchParam" placeholder="Search" type="text">
 					<button class="button button-primary" v-on:click="search()">SEARCH</button>
                 </div>
             </div>
-            <article v-for="(event, key) in events" v-bind:key="key" class="event bg-light pad-default mar-btm-default">
-                <a class="a-primary" v-bind:href="'/event/read/' + event.name">
+            <article v-for="(event, key) in events" v-bind:key="key" class="event bg bg-light round-2 box-shadow-1 bg-toggle-hover pad-default mar-btm-default">
+                <a class="a-primary" v-bind:href="'/event/view/' + event.name">
                   <h2 class="name">{{ event.name }}</h2>
                 </a>
                 <p class="text">{{ event.description }}</p>

@@ -4,7 +4,10 @@
 	<base href="{{ app.request.getBaseURL() }}/public/">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="UTF-8">
-	<title>Avenue Esports</title>
+	<meta name="keywords" content="{{ Config.get('page_keywords') }}">
+	<meta name="author" content="{{ Config.get('page_title') }}">
+	<title>{{ Config.get('page_title') }}</title>
+	<link rel="shortcut icon" type="image/png" href="static/drawable/favicon.png"/>
 	<link rel="stylesheet" type="text/css" href="static/css/index.css">
 	<link rel="stylesheet" type="text/css" href="static/css/croppie.css">
 	<link rel="stylesheet" type="text/css" href="static/lib/font-awesome/5.0.8/css/fontawesome-all.min.css">
@@ -26,6 +29,7 @@
 <body>
 
 <div id="wrapper">
+	
     {% include 'index.header.html.twig' %}
 	<section id="main-content">
 	{% block body %}
