@@ -18,7 +18,8 @@ class Product extends \core\Model
         'currency',
 		'active',
         'in_stock',
-        'desc'
+        'desc',
+        'comments_allowed'
 	];
 	
 	const IMAGE_PATH = __UPLOADS__ . '/images/product';
@@ -27,6 +28,11 @@ class Product extends \core\Model
 	{
 		return $this->getProperty('id');
 	}
+
+    public function getCommentsAllowed()
+    {
+        return $this->getProperty('comments_allowed');
+    }
 	
 	public function getName()
 	{

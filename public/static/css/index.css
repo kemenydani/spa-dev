@@ -1332,7 +1332,17 @@ footer#main-footer {
   clip-path: polygon(15% 100%, 85% 100%, 100% 0, 0 0); }
 
 .container-full.top-sponsors-container-full {
-  margin-top: 50px; }
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background: black;
+  margin-bottom: 50px;
+  border-top: 1px solid #454545; }
+  @media only screen and (max-width: 1247px) {
+    .container-full.top-sponsors-container-full {
+      margin-left: -15px;
+      min-width: calc(100% + 30px);
+      padding-left: 15px;
+      padding-right: 15px; } }
 
 .container.headline-container .article-item:first-child {
   flex-direction: row; }

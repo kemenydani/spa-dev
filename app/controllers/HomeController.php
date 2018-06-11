@@ -60,14 +60,7 @@ class HomeController extends ViewController
               " LIMIT 4 "
         ;
 
-        $q8 = " SELECT * FROM _xyz_partner pt " .
-              " WHERE featured_bottom = ? "     .
-              " ORDER BY pt.id DESC "           .
-              " LIMIT 4 "
-        ;
-
         $partnersTop = PartnerCollection::queryToCollection($q7, true);
-        $partnersBot = PartnerCollection::queryToCollection($q8, true);
 
         $featuredItems = [];
 
@@ -124,7 +117,7 @@ class HomeController extends ViewController
             'matches' => $ltMatches,
 	        'squads' => $squadCollection,
             'partnersTop' => $partnersTop,
-            'partnersBot' => $partnersBot,
+            //'partnersBot' => $partnersBot,
         ]);
     }
 }

@@ -2,6 +2,7 @@
 
 use core\Auth as Auth;
 use core\Config;
+use models\PartnerCollection;
 
 // Slim configuration
 $configuration = [
@@ -24,6 +25,16 @@ $configuration = [
         $view->getEnvironment()->addGlobal('isLogged', Auth::isLoggedIn());
         $view->getEnvironment()->addGlobal('AuthUser', Auth::user());
         $view->getEnvironment()->addGlobal('Config',  Config::instance());
+
+        $q8 = " SELECT * FROM _xyz_partner pt " .
+            " WHERE featured_bottom = ? "     .
+            " ORDER BY pt.id DESC "           .
+            " LIMIT 4 "
+        ;
+
+        $partnersBot = PartnerCollection::queryToCollection($q8, true);
+        $view->getEnvironment()->addGlobal('partnersBot', $partnersBot);
+
 
         $view->addExtension(new \Slim\Views\TwigExtension(
             $container->router,

@@ -1,4 +1,5 @@
 
+
 .flex-box {
   width: 100%;
   max-width: 100%;
@@ -107,7 +108,18 @@
 }
 
 .container-full.top-sponsors-container-full {
-  margin-top: 50px;
+    padding-top: 30px;
+   padding-bottom: 30px;
+   background: $dark;
+  margin-bottom: 50px;
+  border-top: 1px solid $darkerGrey;
+  @include mq('desktop', 'max') {
+    margin-left: -15px;
+    min-width: calc(100% + 30px);
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
 }
 
 .container.headline-container .article-item {

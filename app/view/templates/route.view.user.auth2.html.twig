@@ -191,8 +191,8 @@
                         errors: {},
                         valid: false,
                         fields: {
-                            email: 'sno@sno.com',
-                            password: 'admin',
+                            email: '',
+                            password: '',
                             remember: true
                         },
                         settings: {
@@ -261,7 +261,7 @@
                         .catch(
                             function(error)
                             {
-                                this.status.info = error.message;
+                                this.status.info = error.statusText;
                                 setTimeout(function(){ this.status.loading = false; }.bind(this), this.delay + 3000 );
                             }
                             .bind(this)

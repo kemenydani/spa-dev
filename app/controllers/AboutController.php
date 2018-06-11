@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+use core\Config;
 use Slim\Http\Response;
 use Slim\Http\Request;
 use core\DB as DB;
@@ -12,8 +13,6 @@ class AboutController extends ViewController
     {
         // TODO:: db query page settings and get about
 
-        $text = [];
-
-        $this->view->render($response, 'route.view.about.html.twig', ['text' => $text]);
+        $this->view->render($response, 'route.view.about.html.twig', ['text' => Config::instance()->get('page_about_long', '')]);
     }
 }

@@ -38,13 +38,25 @@ class AuthController extends ViewController
         $password = $request->getParsedBody()['password'];
         $remember = $request->getParsedBody()['remember'];
 
-        $User = User::find($email, 'email');
+        $User = null;
 
-        if(!$User->getId())
-            return $response->withStatus(404, 'Could not find user.');
+        $errors = [];
+
+        if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $User = User::find($email, 'email');
+        } else {
+            $errors['email'] = 'Invalid email format.';
+        }
+
+        if(!$User || !$User->getId())
+            return $response->withStatus(404, 'Wrong email or password.')->withJson(['success' => false, 'errors' => $errors]);
 
         if(!$User->login( $password, $remember))
-            return $response->withJson(['success' => false])->withStatus(404, 'Authorization failed.');
+        {
+            $errors['email'] = 'Wrong email or password given.';
+            $errors['password'] = 'Wrong email or password given.';
+            return $response->withJson(['success' => false, 'errors' => $errors])->withStatus(404, 'Wrong email or password.');
+        }
 
         return $response->withJson(['success' => true])->withStatus(200);
     }

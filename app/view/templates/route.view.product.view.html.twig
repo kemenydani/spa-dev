@@ -83,9 +83,13 @@
         </modal>
         {% endverbatim %}
     </div>
+	{% if product.getCommentsAllowed() == 1 %}
+	<h1 class="route-section-header">COMMENTS</h1>
 	<div class="container box-shadow-1 round-2 bg-light pad-default" id="product-comments">
 		{% include 'widget.comments.html.twig' with { comments : comments, model : 'product' , model_id : product.getId() } %}
 	</div>
+	{% endif %}
+	
 	{% else %}
 		<div class="container bg-light box-shadow-1 round-2 pad-default">
 			<div class="msg">
