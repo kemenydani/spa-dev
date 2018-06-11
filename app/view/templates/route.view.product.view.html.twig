@@ -2,11 +2,13 @@
 
 {% block content %}
 
-
 <div class="container-full route-container" id="route-view-product-view">
 	<div class="container-full route-header" style="background-image: url(static/images/route_header.jpg)">
-		<span><h1 class="title bg-text uc-text">{{ product.name }}</h1></span>
+		<span>
+			<h1 class="title bg-text uc-text">{{ product.name }}</h1>
+		</span>
 	</div>
+	{% if Config.get('route_shop_enabled') == 1 %}
     <div class="container product-view-container" id="product-view">
         <div class="product box-shadow-1 round-2 bg-light mar-btm-default">
 			{% verbatim %}
@@ -20,9 +22,12 @@
                 <div class="price">{{ product.price }}{{ product.currency }}</div>
                 <div class="stock">{{ product.in_stock }} left in stock</div>
                 <div class="description" v-if="product.desc"><p>{{ product.desc }}</p></div>
-                <div class="buy">
+                <div class="buy" v-if="product.in_stock > 0">
                     <div v-on:click="form.show = !form.show" class="button button-primary buy-button">BUY NOW!</div>
                 </div>
+                <div v-else>
+                  <div class="msg">This item is out of stock.</div>
+				</div>
                 <div class="order-details" v-show="form.show">
                     <form class="paypal" action="paypal/paymentRequest" method="post" id="paypal_form" target="_blank">
                         <input type="hidden" name="cmd" value="_xclick" />
@@ -78,17 +83,20 @@
         </modal>
         {% endverbatim %}
     </div>
-	
 	<div class="container box-shadow-1 round-2 bg-light pad-default" id="product-comments">
 		{% include 'widget.comments.html.twig' with { comments : comments, model : 'product' , model_id : product.getId() } %}
 	</div>
+	{% else %}
+		<div class="container bg-light box-shadow-1 round-2 pad-default">
+			<div class="msg">
+				Our shop is currently closed.
+			</div>
+		</div>
+	{% endif %}
 </div>
 
-<script>
 
-	
-</script>
-
+{% if Config.get('route_shop_enabled') == 1 %}
 {% include 'vue.component.modal.html.twig' with { width: '1004px' } %}
 
 <script>
@@ -156,6 +164,8 @@
               watch: {
               	'form.quantity': function(val)
                 {
+                	if(val > this.product.in_stock) this.form.quantity = 1;
+                	
 	                this.form.lock = function(val)
 	                {
                         return (typeof val === 'undefined' || val === null || val === '');
@@ -178,5 +188,5 @@
     });
 
 </script>
-
+{% endif %}
 {% endblock %}

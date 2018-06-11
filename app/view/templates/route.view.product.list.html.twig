@@ -1,10 +1,13 @@
 {% extends 'block.full.html.twig' %}
 
+
 {% block content %}
+
     <div class="container-full route-container" id="route-view-product-list">
 		<div class="container-full route-header" style="background-image: url(static/images/route_header.jpg)">
 			<span><h1 class="title bg-text uc-text">SHOP</h1></span>
 		</div>
+		{% if Config.get('route_shop_enabled') == 1 %}
         {% verbatim %}
         <div class="container product-list-container infinite-list-container" id="product-list">
             <div class="infinite-search box-shadow-2">
@@ -52,8 +55,15 @@
 			</div>
         </div>
         {% endverbatim %}
+		{% else %}
+			<div class="container bg-light box-shadow-1 round-2 pad-default">
+				<div class="msg">
+					Our shop is currently closed.
+				</div>
+			</div>
+		{% endif %}
     </div>
-
+	{% if Config.get('route_shop_enabled') == 1 %}
     <script type="text/javascript">
 
         (function($, Vue){
@@ -164,4 +174,6 @@
         }(jQuery, Vue));
 
     </script>
+	{% endif %}
+	
 {% endblock %}

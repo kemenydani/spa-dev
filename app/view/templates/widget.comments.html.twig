@@ -160,9 +160,7 @@
 					if(!this.replyForm.text) return false;
 
 					var data = { pid: this.data.id, text: this.replyForm.text };
-					
-					
-					
+
 					EventBus.$emit('postComment', data, function( response )
 					{
 						if(response)

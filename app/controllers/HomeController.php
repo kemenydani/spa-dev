@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+use core\Config;
 use models\Product;
 use models\ProductCollection;
 use \Psr\Http\Message\RequestInterface as Request;
@@ -75,27 +76,31 @@ class HomeController extends ViewController
               " ORDER BY pr.id DESC "           .
               " LIMIT 10 "
         ;
-        $featuredProducts = ProductCollection::queryToCollection($q9, true);
-
-        foreach($featuredProducts->getModels() as $Product) $featuredItems[] = $Product;
 
         $randomFeaturedItem = null;
 
-        if(count($featuredItems))
+        if(Config::instance()->get('page_show_featured_item', 0) == 1)
         {
-            $randKey = array_rand($featuredItems, 1);
-            $randomModel = $featuredItems[$randKey];
+            $featuredProducts = ProductCollection::queryToCollection($q9, true);
 
-            if(is_a($randomModel, Product::class))
+            foreach($featuredProducts->getModels() as $Product) $featuredItems[] = $Product;
+
+            if(count($featuredItems))
             {
-                /* @var \models\Product $Product */
-                $Product = $randomModel;
-                $randomFeaturedItem['type']   = 'product';
-                $randomFeaturedItem['name']   = $Product->getName();
-                $randomFeaturedItem['image']  = $Product->getPreviewImage()->requestImageUrl();
-                $randomFeaturedItem['teaser'] = $Product->getPrice() . ' ' . $Product->getCurrency();
-                $href = '/product/' . $Product->getId();
-                $randomFeaturedItem['button_next'] = "<a class='more-button' href='".$href."'>Buy Now</a>";
+                $randKey = array_rand($featuredItems, 1);
+                $randomModel = $featuredItems[$randKey];
+
+                if(is_a($randomModel, Product::class))
+                {
+                    /* @var \models\Product $Product */
+                    $Product = $randomModel;
+                    $randomFeaturedItem['type']   = 'product';
+                    $randomFeaturedItem['name']   = $Product->getName();
+                    $randomFeaturedItem['image']  = $Product->getPreviewImage()->requestImageUrl();
+                    $randomFeaturedItem['teaser'] = $Product->getPrice() . ' ' . $Product->getCurrency();
+                    $href = '/product/' . $Product->getId();
+                    $randomFeaturedItem['button_next'] = "<a class='more-button' href='".$href."'>Buy Now</a>";
+                }
             }
         }
 

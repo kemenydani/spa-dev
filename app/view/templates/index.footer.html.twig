@@ -2,6 +2,7 @@
 <footer id="main-footer">
     <!-- row -->
     <div class="container-full footer-sponsors-container-full">
+		{% if Config.get('page_show_sponsors_bottom') == 1 %}
         {% include 'widget.sponsor.inline.html.twig'
             with {
             collection: partnersBot,
@@ -10,6 +11,7 @@
         }
         only
         %}
+		{% endif%}
     </div>
     <!-- row -->
     <div  class="container-full footer-content-row">

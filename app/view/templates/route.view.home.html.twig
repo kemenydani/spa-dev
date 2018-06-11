@@ -2,6 +2,7 @@
 
 {% block content %}
     <div class="container-full top-sponsors-container-full">
+        {% if Config.get('page_show_sponsors_top') == 1 %}
         {% include 'widget.sponsor.inline.html.twig'
             with {
                 collection: partnersTop,
@@ -10,6 +11,7 @@
             }
             only
         %}
+        {% endif %}
     </div>
     <div class="container-full headline-container-full">
         <section class="container headline-container">
