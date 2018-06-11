@@ -1073,10 +1073,10 @@ header#main-header {
     display: none;
     min-width: 100%;
     position: absolute;
-    min-height: 200px;
-    border-bottom: 5px solid #f6a00c;
+    min-height: 300px;
+    border-bottom: 15px solid #f6a00c;
     background: #111111;
-    top: 140px;
+    top: 145px;
     z-index: 5; }
 
 nav#side-nav {
