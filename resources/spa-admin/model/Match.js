@@ -1,5 +1,5 @@
 
-import MatchDataService from '../service/MatchEventDataService';
+import MatchDataService from '../service/MatchDataService';
 import Model from "../core/Model";
 
 export default class Match extends Model {
