@@ -5,39 +5,15 @@ namespace controllers\api;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-use models\Article as Article;
+use models\Gallery as Gallery;
 use core\Auth as Auth;
 use core\DB as DB;
-use models\Comment as Comment;
 
-class ArticleController extends ModelController
+class GalleryController extends ModelController
 {
     public function __construct()
     {
-        parent::__construct( new Article() );
-    }
-
-    public function postComment( Request $request, Response $response ) : Response
-    {
-        /* @var Article $Article */
-        $data = $request->getParsedBody();
-
-        $Article = Article::find($data['article_id']);
-
-        if(!$Article) return $response->withStatus(404, 'Article not found');
-
-        $data['user_id'] = 16; // auth user
-
-        $Comment = $Article->addComment( Comment::create( $data ) );
-
-        $result = [];
-
-        if( $Comment->getProperty('id'))
-        {
-            $result = $Comment->getProperties();
-        }
-
-        return $response->withJson( $result );
+        parent::__construct( new Gallery() );
     }
 
     public function postCreate( Request $request, Response $response ) : Response
@@ -49,14 +25,14 @@ class ArticleController extends ModelController
 		$content    = isset($data['content'])    ? $data['content']    : '';
 		$categories = isset($data['categories']) ? $data['categories'] : '';
 		
-		$Article = Article::create([
+		$Gallery = Gallery::create([
 			'title'      => $title,
 			'teaser'     => $teaser,
 			'content'    => $content,
 			'created_by' => Auth::user()->getId()
 		]);
 
-		$id = $Article->save();
+		$id = $Gallery->save();
 		
 		$category_ids = [];
 		
@@ -65,11 +41,10 @@ class ArticleController extends ModelController
 			$category_ids[] = $value['id'];
 		}
 		
-		$Article->categorize( $category_ids );
-		
+
 		if( $id === false ) return $response->withStatus(500, 'Database error: Could not insert article.');
 		
-		return $response->withJson( $Article->getProperties() )->withStatus(200);
+		return $response->withJson( $Gallery->getProperties() )->withStatus(200);
 	}
 	
 }

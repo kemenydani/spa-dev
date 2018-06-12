@@ -5,20 +5,20 @@ const Index = resolve =>
 
 const Overview = resolve =>
 {
-	require.ensure(['../components/views/stream/overview.vue'], () => resolve(require('../components/views/stream/overview.vue')))
+	require.ensure(['../components/views/award/overview.vue'], () => resolve(require('../components/views/award/overview.vue')))
 };
 
 export default
 {
-    path: '/stream',
+    path: '/award',
     component: Index,
     children: [
         {
             path: '/',
             component: Overview,
-            name: 'stream.overview',
+            name: 'award.overview',
             meta: {
-                title: 'Stream Overview'
+                title: 'Award Overview'
             }
         }
     ]

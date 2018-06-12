@@ -19,14 +19,14 @@ export default class User extends Model {
 	login( user, password, remember )
 	{
 		return this.DB.post('auth', { user, password, remember }).then( response => response.data )
-			       .then( state =>
-			       {
-			       	    this.logged = true;
-			       	    this.state   = state;
-			       	    
-			       	    return state;
-			       })
-			       .catch( () => { this.logged = false } );
+       .then( state =>
+       {
+            this.logged = true;
+            this.state   = state;
+            
+            return state;
+       })
+       .catch( () => { this.logged = false } );
 	}
 	
 	destroy()

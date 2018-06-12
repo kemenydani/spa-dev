@@ -6,16 +6,15 @@ import loginRouteConfig from './routes/login';
 import roleRouteConfig from './routes/role';
 import settingsRouteConfig from './routes/settings';
 import categoryRouteConfig from './routes/category';
-import teamRouteConfig from './routes/team';
 import squadRouteConfig from './routes/squad';
-import seasonRouteConfig from './routes/season';
-import tournamentRouteConfig from './routes/tournament';
-import videoRouteConfig from './routes/video';
-import streamRouteConfig from './routes/stream';
 import galleryRouteConfig from './routes/gallery';
 import storageRouteConfig from './routes/storage';
-import forumRouteConfig from './routes/forum';
 import commentRouteConfig from './routes/comment';
+
+import eventRouteConfig from './routes/event';
+import matchRouteConfig from './routes/match';
+import enemyRouteConfig from './routes/enemy';
+import awardRouteConfig from './routes/award';
 
 const Main = resolve =>
 {
@@ -33,16 +32,14 @@ export default [
 	        roleRouteConfig,
 	        settingsRouteConfig,
 	        categoryRouteConfig,
-	        teamRouteConfig,
 	        squadRouteConfig,
-	        seasonRouteConfig,
-	        tournamentRouteConfig,
-	        streamRouteConfig,
-	        videoRouteConfig,
 	        galleryRouteConfig,
 	        storageRouteConfig,
-	        forumRouteConfig,
 	        commentRouteConfig,
+	        eventRouteConfig,
+					matchRouteConfig,
+          enemyRouteConfig,
+          awardRouteConfig,
         ]
     },
     loginRouteConfig

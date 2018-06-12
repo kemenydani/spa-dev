@@ -4,7 +4,7 @@
 		
 		</data-model-manager>
 		
-		<router-link is="v-btn" :to="{ name: 'gallery.create' }"
+		<router-link is="v-btn" :to="{ name: 'award.create' }"
 		             fab
 		             bottom
 		             right
@@ -21,7 +21,7 @@
 <script>
 	
 	import DataModelManager from '../../DataModelManager';
-	import Gallery from '../../../model/Gallery';
+	import Award from '../../../model/Award';
 	
 	export default {
 		components: { DataModelManager },
@@ -43,7 +43,7 @@
 						},
 						{ text: 'Created At', value: 'date_created', sortable: true, align: 'right', width: '200px' },
 					],
-					model: new Gallery()
+					model: new Award()
 				},
 			}
 		},

@@ -1,5 +1,5 @@
 
-import ArticleDataService from '../service/CommentDataService';
+import CommentDataService from '../service/CommentDataService';
 import Model from "../core/Model";
 
 export default class Comment extends Model {

@@ -159,13 +159,20 @@
 		methods: {
 			actionSelected()
 			{
+				let cb = () => {
+					this.selectedAction = null;
+				};
+				
 				switch(this.selectedAction)
 				{
-					case 'delete'	: this.deleteSelected();
+					case 'delete'	: this.deleteSelected(cb);
+						
 						break;
-					case 'activate'	:
+					case 'activate'	: this.toggleActivateSelected( true, cb );
+						
 						break;
-					case 'deactivate'	:
+					case 'deactivate'	: this.toggleActivateSelected( false, cb );
+						
 						break;
 				}
 			},
@@ -177,14 +184,36 @@
 				
 				return ids;
 			},
-			deleteSelected()
+			deleteSelected( cb )
 			{
 				let selectedKeys = this.getSelectedKeys();
 				
 				this.Model.deleteIn( selectedKeys ).then( response =>
 				{
 					this.fetchData();
+					cb();
 				})
+			},
+			toggleActivateSelected( val = true, cb  )
+			{
+				let selectedKeys = this.getSelectedKeys();
+				
+				if(val === true )
+				{
+					this.Model.activateIn( selectedKeys ).then( response =>
+					{
+						this.fetchData();
+						cb();
+					})
+				}
+				if(val === false )
+				{
+					this.Model.deactivateIn( selectedKeys ).then( response =>
+					{
+						this.fetchData();
+						cb();
+					})
+				}
 			},
 			formatColumn( items, config ){
 				if( !config.hasOwnProperty('format') ) return items[config.value];

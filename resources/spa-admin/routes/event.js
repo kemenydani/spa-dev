@@ -5,20 +5,20 @@ const Index = resolve =>
 
 const Overview = resolve =>
 {
-	require.ensure(['../components/views/season/overview.vue'], () => resolve(require('../components/views/season/overview.vue')))
+	require.ensure(['../components/views/event/overview.vue'], () => resolve(require('../components/views/event/overview.vue')))
 };
 
 export default
 {
-    path: '/season',
+    path: '/event',
     component: Index,
     children: [
         {
             path: '/',
             component: Overview,
-            name: 'season.overview',
+            name: 'event.overview',
             meta: {
-                title: 'Season Overview'
+                title: 'Gallery Overview'
             }
         }
     ]

@@ -288,6 +288,11 @@ abstract class Model {
         return DB::instance()->deleteIn( static::$TABLE, $column, $range );
     }
 
+    public static function toggleActivateIn( $column, $range , $val = 1 ) : bool
+    {
+        return DB::instance()->toggleActivateIn( static::$TABLE, $column, $range, $val );
+    }
+
     /**
      * @param $method
      * @param array $arguments

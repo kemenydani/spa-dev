@@ -21,4 +21,16 @@ export default class Model
 			.catch( error => error );
 	}
 	
+	activateIn( range = [] ){
+		return this.DB.post('activate', { range } )
+			.then( response => response.data )
+			.catch( error => error );
+	}
+	
+	deactivateIn( range = [] ){
+		return this.DB.post('deactivate', { range } )
+			.then( response => response.data )
+			.catch( error => error );
+	}
+	
 }

@@ -1,9 +1,7 @@
 <template>
-	<div style="width: 100%;">
-		<h1>Page Settings</h1>
-		<br>
-		<div>
-			<form style="width: 100%">
+	<v-content>
+			<form>
+				
 				<div v-for="config in formConfig">
 					<component style=""
 							v-model="config.data.val"
@@ -15,9 +13,9 @@
 		          @change="saveSetting.call(this, config)"
 							></component>
 				</div>
+				
 			</form>
-		</div>
-	</div>
+	</v-content>
 </template>
 
 <script>

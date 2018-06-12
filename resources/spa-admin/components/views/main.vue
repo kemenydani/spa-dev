@@ -100,6 +100,24 @@
 					</v-list-tile-content>
 				</router-link>
 				
+				<router-link is="v-list-tile" :to="{ name: 'enemy.overview' }">
+					<v-list-tile-action>
+						<v-icon>people_outline</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>Opponents</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
+				
+				<router-link is="v-list-tile" :to="{ name: 'event.overview' }">
+					<v-list-tile-action>
+						<v-icon>people_outline</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>Events</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
+				
 				<router-link is="v-list-tile" :to="{ name: 'match.overview' }">
 					<v-list-tile-action>
 						<v-icon>people_outline</v-icon>

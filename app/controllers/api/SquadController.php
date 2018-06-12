@@ -2,45 +2,49 @@
 
 namespace controllers\api;
 
-use models\SquadMember;
-use \Psr\Http\Message\RequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
+
 use models\Squad as Squad;
+use core\Auth as Auth;
+use core\DB as DB;
 
 class SquadController extends ModelController
 {
-
     public function __construct()
     {
         parent::__construct( new Squad() );
     }
-    
-    public function getAll(Request $request, Response $response) : Response
-    {
-	    $Squads = Squad::all();
-	    
-	    $data = [];
-	    
-	    foreach( $Squads as $Squad )
-	    {
-	    	$propertyArray =  $Squad->getPublicProperties();
-		    $propertyArray['members'] = [];
-	    	
-	    	foreach( $Squad->getMembers() as $SquadMember ) $propertyArray['members'][] = $SquadMember->getPublicProperties();
-	    	
-	    	$data[] = $propertyArray;
-	    }
 
-	    return $response->withJson( $data )->withStatus(200);
-    }
-    
-    public function addSquadMember( Request $request, Response $response )
+    public function postCreate( Request $request, Response $response ) : Response
     {
-    	$squad_id = $request->getParsedBody();
-    	
-        $SquadMember = SquadMember::create( [ 'squad_id' => $squad_id ] );
-        
-        return $response->withJson( $SquadMember->getPublicProperties() )->withStatus(200);
+        $data = $request->getParsedBody();
+
+        $title      = isset($data['title'])      ? $data['title']      : '';
+        $teaser     = isset($data['teaser'])     ? $data['teaser']     : '';
+        $content    = isset($data['content'])    ? $data['content']    : '';
+        $categories = isset($data['categories']) ? $data['categories'] : '';
+
+        $Squad = Squad::create([
+            'title'      => $title,
+            'teaser'     => $teaser,
+            'content'    => $content,
+            'created_by' => Auth::user()->getId()
+        ]);
+
+        $id = $Squad->save();
+
+        $category_ids = [];
+
+        foreach( $categories as $key => $value )
+        {
+            $category_ids[] = $value['id'];
+        }
+
+
+        if( $id === false ) return $response->withStatus(500, 'Database error: Could not insert article.');
+
+        return $response->withJson( $Squad->getProperties() )->withStatus(200);
     }
-	
+
 }

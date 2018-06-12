@@ -147,6 +147,33 @@ class DB extends \PDO
         return $isDeleted;
     }
 
+    public function toggleActivateIn( $table, $column, array $range, $val = 1  )
+    {
+        $commaList = implode(",", $range);
+
+        $stmt = " UPDATE " . self::prependPrefix($table) .
+            " SET active = {$val} WHERE ".$column." IN ({$commaList}) "
+        ;
+
+        $sql = DB::instance()->prepare( $stmt );
+
+        DB::instance()->beginTransaction();
+
+        $success = $sql->execute();
+
+        if( !$success )
+        {
+            DB::instance()->rollBack();
+            return false;
+        }
+        else
+        {
+            DB::instance()->commit();
+            return true;
+        }
+
+    }
+
     // TODO : delete this when compatibility issues are solved
     public function getRow($stmt = '', $bind = null, $fetch_style = \PDO::FETCH_ASSOC, $class = null)
     {

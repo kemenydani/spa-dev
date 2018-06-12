@@ -1,11 +1,11 @@
 
 import DataService from "../core/DataService";
 
-export default class SquadDataService extends DataService {
+export default class MatchDataService extends DataService {
 	
 	constructor()
 	{
-		super('squad');
+		super('match');
 		
 		return this;
 	}

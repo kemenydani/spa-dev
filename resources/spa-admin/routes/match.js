@@ -5,20 +5,20 @@ const Index = resolve =>
 
 const Overview = resolve =>
 {
-	require.ensure(['../components/views/video/overview.vue'], () => resolve(require('../components/views/video/overview.vue')))
+	require.ensure(['../components/views/match/overview.vue'], () => resolve(require('../components/views/match/overview.vue')))
 };
 
 export default
 {
-    path: '/video',
+    path: '/match',
     component: Index,
     children: [
         {
             path: '/',
             component: Overview,
-            name: 'video.overview',
+            name: 'match.overview',
             meta: {
-                title: 'Video Overview'
+                title: 'Gallery Overview'
             }
         }
     ]

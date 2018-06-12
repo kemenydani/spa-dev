@@ -15,6 +15,9 @@ $app->group('/api', function ()
         $this->post('/delete', 'controllers\api\UserController:postDelete');
         $this->get('/search_paginate', 'controllers\api\UserController:getSearchPaginate');
         $this->get('/all', 'controllers\api\UserController:getAll');
+
+        $this->post('/activate', 'controllers\api\UserController:postActivate');
+        $this->post('/deactivate', 'controllers\api\UserController:postDeactivate');
     });
 	
 	$this->group('/article', function()
@@ -23,7 +26,65 @@ $app->group('/api', function ()
         $this->get('/search_paginate', 'controllers\api\ArticleController:getSearchPaginate');
 		$this->post('/create', 'controllers\api\ArticleController:postCreate');
         $this->post('/delete', 'controllers\api\ArticleController:postDelete');
+        $this->post('/activate', 'controllers\api\ArticleController:postActivate');
+        $this->post('/deactivate', 'controllers\api\ArticleController:postDeactivate');
 	});
+
+    $this->group('/gallery', function()
+    {
+        $this->get('/all', 'controllers\api\GalleryController:getAll');
+        $this->get('/search_paginate', 'controllers\api\GalleryController:getSearchPaginate');
+        $this->post('/create', 'controllers\api\GalleryController:postCreate');
+        $this->post('/delete', 'controllers\api\GalleryController:postDelete');
+        $this->post('/activate', 'controllers\api\GalleryController:postActivate');
+        $this->post('/deactivate', 'controllers\api\GalleryController:postDeactivate');
+    });
+
+    $this->group('/squad', function()
+    {
+        $this->get('/all', 'controllers\api\SquadController:getAll');
+        $this->get('/search_paginate', 'controllers\api\SquadController:getSearchPaginate');
+        $this->post('/create', 'controllers\api\SquadController:postCreate');
+        $this->post('/delete', 'controllers\api\SquadController:postDelete');
+        $this->post('/activate', 'controllers\api\SquadController:postActivate');
+        $this->post('/deactivate', 'controllers\api\SquadController:postDeactivate');
+    });
+
+    $this->group('/event', function()
+    {
+        $this->get('/all', 'controllers\api\EventController:getAll');
+        $this->get('/search_paginate', 'controllers\api\EventController:getSearchPaginate');
+        $this->post('/create', 'controllers\api\EventController:postCreate');
+        $this->post('/delete', 'controllers\api\EventController:postDelete');
+        $this->post('/activate', 'controllers\api\EventController:postActivate');
+        $this->post('/deactivate', 'controllers\api\EventController:postDeactivate');
+    });
+
+    $this->group('/award', function()
+    {
+        $this->get('/all', 'controllers\api\AwardController:getAll');
+        $this->get('/search_paginate', 'controllers\api\AwardController:getSearchPaginate');
+        $this->post('/create', 'controllers\api\AwardController:postCreate');
+        $this->post('/delete', 'controllers\api\AwardController:postDelete');
+        $this->post('/activate', 'controllers\api\AwardController:postActivate');
+        $this->post('/deactivate', 'controllers\api\AwardController:postDeactivate');
+    });
+
+    $this->group('/match', function()
+    {
+        $this->get('/all', 'controllers\api\MatchController:getAll');
+        $this->get('/search_paginate', 'controllers\api\MatchController:getSearchPaginate');
+        $this->post('/create', 'controllers\api\MatchController:postCreate');
+        $this->post('/delete', 'controllers\api\MatchController:postDelete');
+    });
+
+    $this->group('/enemy', function()
+    {
+        $this->get('/all', 'controllers\api\EnemyController:getAll');
+        $this->get('/search_paginate', 'controllers\api\EnemyController:getSearchPaginate');
+        $this->post('/create', 'controllers\api\EnemyController:postCreate');
+        $this->post('/delete', 'controllers\api\EnemyController:postDelete');
+    });
 
     $this->group('/setting', function()
     {
@@ -39,42 +100,14 @@ $app->group('/api', function ()
         $this->post('/delete', 'controllers\api\CategoryController:postDelete');
 	});
 
-    $this->group('/video', function()
+    $this->group('/comment', function()
     {
-        $this->get('/all', 'controllers\api\VideoController:getAll');
-        $this->get('/search_paginate', 'controllers\api\VideoController:getSearchPaginate');
-        $this->post('/create', 'controllers\api\VideoController:postCreate');
-        $this->post('/delete', 'controllers\api\VideoController:postDelete');
+        $this->get('/all', 'controllers\api\CommentController:getAll');
+        $this->get('/search_paginate', 'controllers\api\CommentController:getSearchPaginate');
+        $this->post('/delete', 'controllers\api\CommentController:postDelete');
     });
-	
-	$this->group('/squad', function()
-	{
-        $this->get('/all', 'controllers\api\SquadController:getAll');
-        $this->post('/create', 'controllers\api\SquadController:postCreate');
-        $this->post('/delete', 'controllers\api\SquadController:postDelete');
-	});
-	
-	$this->group('/team', function()
-	{
-        $this->get('/all', 'controllers\api\TeamController:getAll');
-        $this->get('/search_paginate', 'controllers\api\TeamController:getSearchPaginate');
-        $this->post('/create', 'controllers\api\TeamController:postCreate');
-        $this->post('/delete', 'controllers\api\TeamController:postDelete');
-	});
-	
-	$this->group('/tournament', function()
-	{
-        $this->get('/all', 'controllers\api\TournamentController:getAll');
-        $this->get('/search_paginate', 'controllers\api\TournamentController:getSearchPaginate');
-        $this->post('/create', 'controllers\api\TournamentController:postCreate');
-        $this->post('/delete', 'controllers\api\TournamentController:postDelete');
-	});
-	
-	$this->group('/comment', function()
-	{
-	
-	});
-    
+
+
 })->add(function ( $request, $response, $next )
 {
 	$response = $next( $request, $response );

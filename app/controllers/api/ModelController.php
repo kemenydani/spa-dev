@@ -2,8 +2,8 @@
 
 namespace controllers\api;
 
-use \Psr\Http\Message\RequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 use core\DB as DB;
 use core\Model as Model;
@@ -20,6 +20,28 @@ abstract class ModelController implements ModelControllerInterface
     public function __construct( Model $Model )
     {
         $this->Model = $Model;
+    }
+
+    public function postActivate( Request $request, Response $response ) : Response
+    {
+        $range = $request->getParsedBody()['range'];
+
+        $isActivated = ( $this->Model )::toggleActivateIn('id', $range, 1 );
+
+        if( !$isActivated ) return $response->withStatus( 500, 'Database error: Could not activate items.' );
+
+        return $response->withJson( $range );
+    }
+
+    public function postDeactivate( Request $request, Response $response ) : Response
+    {
+        $range = $request->getParsedBody()['range'];
+
+        $isActivated = ( $this->Model )::toggleActivateIn('id', $range, 0 );
+
+        if( !$isActivated ) return $response->withStatus( 500, 'Database error: Could not deactivate items.' );
+
+        return $response->withJson( $range );
     }
 
     public function postDelete( Request $request, Response $response ) : Response
@@ -70,7 +92,7 @@ abstract class ModelController implements ModelControllerInterface
 
         foreach( $Models as $Model )
         {
-            $data[] = $Model->getPublicProperties();
+            $data[] = $Model->getProperties();
         }
 
         return $response->withJson( $data );
@@ -92,11 +114,11 @@ abstract class ModelController implements ModelControllerInterface
         $search = $request->getQueryParam('search');
         $searchConditions = [];
 
-        if( $search !== null && $this->Model::isSearchable() )
+        if( $search !== null /*&& $this->Model::isSearchable()*/ )
         {
-            foreach( $this->Model::getSearchableProps() as $column )
+            foreach( /*$this->Model::getSearchableProps()*/Model::$COLUMNS as $column )
             {
-                if( !array_key_exists( $column, $this->Model::getPropertyNames() ) ) continue;
+                if( !array_key_exists( $column, /*$this->Model::getPropertyNames()*/Model::$COLUMNS ) ) continue;
                 $searchConditions[] = $column . ' LIKE ' . "'%".$search."%'";
             }
         }
