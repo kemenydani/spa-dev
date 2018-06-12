@@ -35,7 +35,7 @@ class HomeController extends ViewController
 
         $q4 = " SELECT * FROM _xyz_match mc " .
               " ORDER BY mc.id DESC "         .
-              " LIMIT 5 "
+              " LIMIT 4 "
         ;
 
         $q5 = " SELECT * FROM _xyz_match mc " .
@@ -49,7 +49,7 @@ class HomeController extends ViewController
 
         $q6 = " SELECT * FROM _xyz_event ev " .
               " ORDER BY ev.start_date DESC " .
-              " LIMIT 5 "
+              " LIMIT 4 "
         ;
 
         $ltEvents = EventCollection::queryToCollection($q6);

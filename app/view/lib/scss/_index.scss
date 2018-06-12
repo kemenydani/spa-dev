@@ -115,18 +115,33 @@ a {
   &:hover { color: $lightGrey; }
   &.a-primary { color: $primary; &:hover { color: darken($primary, 70%); }  }
   &.a-light { color: $light;  &:hover { color: $lightGrey }  }
+  &.a-dark { color: $dark;  &:hover { color: $darkerGrey } }
   &.a-darkGrey { color: $darkGrey;  &:hover { color: $darkerGrey; }  }
   &.a-bold { font-weight: bold; }
 }
 
-a.more-button {
+.more-button {
   background: $primary;
   display: inline-block;
-  padding: 3px 10px 3px 10px;
+  padding: 0px 10px 0px 10px;
   color: $light;
   text-transform: uppercase;
   font-size: 12px;
   font-weight: bold;
+	text-align: center;
+	&.outlined {
+		border: 1px solid $primary;
+		color: $primary;
+		border-radius: 2px;
+		background: none;
+		&:hover {
+			color: $light;
+			background: $primary;
+		}
+	}
+
+	height: 30px;
+	line-height: 30px;
 }
 
 h1, h2 { margin-top: $spaceDefault; margin-bottom: $spaceDefault; padding: 0;}
@@ -403,4 +418,5 @@ div#wrapper {
 	align-self: flex-end;
 	margin-top: $spaceDefault / 2;
   }
+
 }

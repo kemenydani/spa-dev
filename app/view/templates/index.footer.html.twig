@@ -14,12 +14,9 @@
 		{% endif%}
     </div>
     <!-- row -->
-    <div  class="container-full footer-content-row">
-        <div class="container site-map-container">
-            {% include 'index.footer.sitemap.html.twig'
-                with {
-                    items: [
-                        {
+    
+    {#
+                                {
                             title: 'social',
                             links: [
                                 { title: 'facebook', url: 'https://facebook.com', blank: true },
@@ -29,6 +26,13 @@
                                 { title: 'twitch.tv', url: 'https://twitch.tv', blank: true },
                             ]
                         },
+    #}
+    
+    <div  class="container-full footer-content-row">
+        <div class="container site-map-container">
+            {% include 'index.footer.sitemap.html.twig'
+                with {
+                    items: [
                         {
                             title: 'pages',
                             links: [

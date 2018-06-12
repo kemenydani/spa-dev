@@ -1,0 +1,24 @@
+<div class="head">
+	<h1 class="title">MATCHES</h1>
+	<span><a href="/matches" class="more-button uc-text">Show More &raquo;</a></span>
+</div>
+<ul class="match-list">
+	{% for mk, match in items %}
+		<li>
+			<span>
+				<span class="game">
+					<span class="uc-text outlined more-button">{{ match.getGame().getNameShort() }}</span>
+				</span>
+				<span class="team">
+					<span class="vs">vs.</span>
+					<span class="enemy-name">{{ match.getEnemyTeam().getName() }}</span>
+				</span>
+			</span>
+			<span class="score">
+				<span class="score-home">{{ match.formatTotalHomeScore() }}</span>
+				<span class="sep-char">-</span>
+				<span class="score-enemy">{{ match.formatTotalEnemyScore() }}</span>
+			</span>
+		</li>
+	{% endfor %}
+</ul>

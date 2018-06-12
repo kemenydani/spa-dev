@@ -22,10 +22,10 @@
         </div>
         <div class="container section-content">
             <article class="container primary-headline pad-default bg-light box-shadow-1 round-2">
-                {% include 'route.view.home.headline.primary.html.twig' with { article : articles.hl[0] } %}
+                {% include 'route.view.home.headline.primary.html.twig' with { article : articles.hl[0] } only %}
             </article>
             <article class="container secondary-headline pad-default bg-light box-shadow-1 round-2">
-                {% include 'route.view.home.headline.secondary.html.twig' with { article : articles.hl[1] } %}
+                {% include 'route.view.home.headline.secondary.html.twig' with { article : articles.hl[1] } only %}
             </article>
         </div>
     </section>
@@ -37,32 +37,21 @@
         </div>
         <div class="container section-content">
             <div class="container last-article-list">
+				{% for lastArticle in articles.lt %}
                 <div class="bg-light pad-default box-shadow-1 round-2">
-                    <h1><a href="" class="a-primary">THIS IS A TITLE</a></h1>
-                    <p class="paragraph low-p">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-                    <a class="more-button uc-text">read more</a>
+                    <h1 class="title ellipsis"><a href="/article/read/{{ lastArticle.title }}" class="a-dark">{{ lastArticle.title }}</a></h1>
+                    <div class="teaser">
+                        <p class="paragraph low-p">{{ lastArticle.teaser }}</p>
+                    </div>
+                    <a class="more-button outlined uc-text" href="/article/read/{{ lastArticle.title }}">read more &raquo;</a>
                 </div>
-                <div class="bg-light pad-default box-shadow-1 round-2">
-                    <h1><a href="" class="a-primary">THIS IS A TITLE</a></h1>
-                    <p class="paragraph low-p">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-                    <a class="more-button uc-text">read more</a>
-                </div>
-                <div class="bg-light pad-default box-shadow-1 round-2">
-                    <h1><a href="" class="a-primary">THIS IS A TITLE</a></h1>
-                    <p class="paragraph low-p">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-                    <a class="more-button uc-text">read more</a>
-                </div>
-                <div class="bg-light pad-default box-shadow-1 round-2">
-                    <h1><a href="" class="a-primary">THIS IS A TITLE</a></h1>
-                    <p class="paragraph low-p">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-                    <a class="more-button uc-text">read more</a>
-                </div>
+                {% endfor %}
             </div>
             <div class="container featured-content">
                 <div class="wrapper bg-light box-shadow-1 round-2 pad-default">
                     <div class="image bg bg-centered bg-contain" style="background-image: url({{ featuredItem.image }})"></div>
                     <div class="body">
-                        <h1 class="title ellipsis"><a class="a-primary" href="/product/{{ featuredItem.id }}">{{ featuredItem.name }}</a></h1>
+                        <h1 class="title ellipsis"><a class="a-dark ellipsis" href="/product/{{ featuredItem.id }}">{{ featuredItem.name }}</a></h1>
                         <div class="footer">
                             <span class="price">{{ featuredItem.teaser }}</span>
                             {{ featuredItem.button_next|raw }}
@@ -79,11 +68,11 @@
             <h1>ACTIVITY</h1>
         </div>
         <div class="container section-content">
-            <div class="matches bg-light round-2 box-shadow-1 pad-default">
-                1
+            <div class="matches bg-dark round-2 box-shadow-1">
+				{% include 'route.view.home.matches.html.twig' with { items: matches.getModels() } only %}
             </div>
-            <div class="events bg-light round-2 box-shadow-1 pad-default">
-                2
+            <div class="events bg-dark round-2 box-shadow-1">
+                {% include 'route.view.home.events.html.twig' with { events : ltEvents.getModels() } only %}
             </div>
         </div>
     </section>
@@ -94,7 +83,7 @@
             <h1>MEET AVENUE</h1>
         </div>
         <div class="container section-content">
-            {% include 'route.view.home.members.html.twig' with { squad : squads.first() } %}
+            {% include 'route.view.home.members.html.twig' with { squad : squads.first() } only %}
         </div>
     </section>
 
