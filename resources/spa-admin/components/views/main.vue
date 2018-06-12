@@ -42,6 +42,35 @@
 					</v-list-tile-content>
 				</router-link>
 				
+				<router-link is="v-list-tile" :to="{ name: 'category.overview' }">
+					<v-list-tile-action>
+						<v-icon>library_books</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>Content Categories</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
+				
+				<router-link is="v-list-tile" :to="{ name: 'gallery.overview' }">
+					<v-list-tile-action>
+						<v-icon>photo</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>Galleries</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
+				
+				<router-link is="v-list-tile" :to="{ name: 'comment.overview' }">
+					<v-list-tile-action>
+						<v-icon>chat</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>Comments</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
+				
+				<v-divider inset></v-divider>
+				
 				<router-link is="v-list-tile" :to="{ name: 'user.overview' }">
 					<v-list-tile-action>
 						<v-icon>person</v-icon>
@@ -60,23 +89,7 @@
 					</v-list-tile-content>
 				</router-link>
 				
-				<router-link is="v-list-tile" :to="{ name: 'category.overview' }">
-					<v-list-tile-action>
-						<v-icon>library_books</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Content Categories</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
-				
-				<router-link is="v-list-tile" :to="{ name: 'team.overview' }">
-					<v-list-tile-action>
-						<v-icon>group</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Tournament Teams</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
+				<v-divider inset></v-divider>
 				
 				<router-link is="v-list-tile" :to="{ name: 'squad.overview' }">
 					<v-list-tile-action>
@@ -87,50 +100,25 @@
 					</v-list-tile-content>
 				</router-link>
 				
-				<router-link is="v-list-tile" :to="{ name: 'tournament.overview' }">
+				<router-link is="v-list-tile" :to="{ name: 'match.overview' }">
 					<v-list-tile-action>
-						<v-icon>star</v-icon>
+						<v-icon>people_outline</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
-						<v-list-tile-title>Tournaments</v-list-tile-title>
+						<v-list-tile-title>Matches</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
 				
-				<router-link is="v-list-tile" :to="{ name: 'season.overview' }">
+				<router-link is="v-list-tile" :to="{ name: 'award.overview' }">
 					<v-list-tile-action>
-						<v-icon>event_note</v-icon>
+						<v-icon>people_outline</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
-						<v-list-tile-title>Seasons</v-list-tile-title>
+						<v-list-tile-title>Awards</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
 				
-				<router-link is="v-list-tile" :to="{ name: 'stream.overview' }">
-					<v-list-tile-action>
-						<v-icon>live_tv</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Streams</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
-				
-				<router-link is="v-list-tile" :to="{ name: 'video.overview' }">
-					<v-list-tile-action>
-						<v-icon>videocam</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Videos</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
-				
-				<router-link is="v-list-tile" :to="{ name: 'gallery.overview' }">
-					<v-list-tile-action>
-						<v-icon>photo</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Galleries</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
+				<v-divider inset></v-divider>
 				
 				<router-link is="v-list-tile" :to="{ name: 'storage.overview' }">
 					<v-list-tile-action>
@@ -140,26 +128,8 @@
 						<v-list-tile-title>Storage</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
+	
 				
-				<router-link is="v-list-tile" :to="{ name: 'comment.overview' }">
-					<v-list-tile-action>
-						<v-icon>chat</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Comments</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
-				
-				<router-link is="v-list-tile" :to="{ name: 'forum.overview' }">
-					<v-list-tile-action>
-						<v-icon>question_answer</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Forums</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
-				
-			
 			</v-list>
 		</v-navigation-drawer>
 		
@@ -209,25 +179,6 @@
 					</v-card>
 				</v-menu>
 				
-				
-				
-				
-				<v-menu offset-y>
-					<v-btn icon dark slot="activator">
-						<v-icon dark language>language</v-icon>
-					</v-btn>
-					<v-list>
-						<v-list-tile v-for="lang in locales" :key="lang" @mouseover.native="changeLocale(lang)">
-							<v-list-tile-title> {{lang}} </v-list-tile-title>
-						</v-list-tile>
-					</v-list>
-				</v-menu>
-				<v-btn icon>
-					<v-icon>message</v-icon>
-				</v-btn>
-				<v-btn icon>
-					<v-icon on>notifications</v-icon>
-				</v-btn>
 				<v-btn icon @click=" logout() ">
 					<v-icon>exit_to_app</v-icon>
 				</v-btn>

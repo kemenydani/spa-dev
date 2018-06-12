@@ -1,6 +1,7 @@
 import 'babel-polyfill';
 
 import 'vuetify/dist/vuetify.css';
+import "vue-wysiwyg/dist/vueWysiwyg.css";
 
 import Vue from 'vue';
 
@@ -13,6 +14,9 @@ import App from './App.vue';
 
 import moment from 'moment';
 import moment_countdown from 'moment-countdown';
+
+import wysiwyg from "vue-wysiwyg";
+Vue.use(wysiwyg, {});
 
 Vue.use(Router);
 Vue.use(Vuetify);

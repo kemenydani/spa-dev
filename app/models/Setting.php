@@ -13,6 +13,8 @@ class Setting extends Model
         'codename',
         'protected',
         'val',
+        'alias',
+        'input_type',
         'date_modified',
     ];
 

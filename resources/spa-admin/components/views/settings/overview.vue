@@ -1,24 +1,137 @@
 <template>
-	<div>
-		global settings overview
+	<div style="width: 100%;">
+		<h1>Page Settings</h1>
+		<br>
+		<div>
+			<form style="width: 100%">
+				<div v-for="config in formConfig">
+					<component style=""
+							v-model="config.data.val"
+							:is="config.inputType"
+							:error-messages="errors.collect(config.data.codename)"
+							v-bind="config.props"
+							@focus="config.focused = true"
+							@blur="config.focused = false"
+		          @change="saveSetting.call(this, config)"
+							></component>
+				</div>
+			</form>
+		</div>
 	</div>
 </template>
 
 <script>
 	
 	export default {
-		name: 'role-overview',
-		data() {
-			return {
-				data_field: 'data_field'
-			}
+		$_veeValidate: {
+			validator: 'new'
 		},
-		mounted() {
-			console.log('new component mounted');
-		}
+		name: 'role-overview',
+		data: () => ({
+			formConfig : [],
+			dictionary: {
+				attributes: {
+					email: 'E-mail Address'
+					// custom attributes
+				},
+				custom: {
+					name: {
+						required: () => 'Name can not be empty',
+						max: 'The name field may not be greater than 10 characters'
+						// custom messages
+					},
+					select: {
+						required: 'Select field is required'
+					}
+				}
+			}
+		}),
+		methods: {
+			fetchSettings(){
+				return this.axios.get('/api/setting/fetchSettings')
+					.then((response) =>
+					{
+						if(response.status === 200) return response.data;
+						throw new Error(response.statusText);
+					})
+					.catch((error) =>
+					{
+						console.log(error)
+					})
+			},
+			saveSetting( config, event = 'change' )
+			{
+					if(event === 'change' && config.inputType !== 'v-checkbox' ) return false;
+					
+					config.props.loading = true;
+					
+					this.updateSetting( config.data ).then((response) =>
+					{
+						config.props.loading = false;
+					});
+			},
+			updateSetting( data ){
+				
+				return this.axios.post('/api/setting/updateSetting', { data : data } )
+					.then( response => {
+					
+					}).catch( error => {
+					
+					})
+			},
+			parseColumnToConfig( data )
+			{
+				let config = {};
+				config.data = data;
+				
+				let type = data.hasOwnProperty('input_type') ? data.input_type : null;
+				
+				config.props = {};
+				
+				config.props.label = data.alias ? data.alias : data.codename;
+				config.focused = false;
+				config.props.loading = false;
+				
+				switch ( type ) {
+					case 'text' :
+						config.inputType = 'v-text-field';
+						config.props['append-icon'] = 'save';
+						config.props['append-icon-cb'] = this.saveSetting.bind(this, config, 'click');
+						break;
+					case 'textarea' :
+						config.inputType = 'wysiwyg';
+						config.textarea = true;
+						break;
+					case 'bool' :
+						config.inputType = 'v-checkbox';
+						break;
+				}
+	
+				return config;
+			},
+			submit () {
+				//this.$validator.validateAll()
+			},
+			renderForm(){
+				this.fetchSettings().then(( data ) => {
+					data.forEach(( column ) => {
+						let config = this.parseColumnToConfig(column);
+						this.formConfig.push(config);
+					})
+				})
+			},
+		},
+		mounted () {
+			this.renderForm();
+			this.$validator.localize('en', this.dictionary)
+		},
 	}
 </script>
 
 <style lang="scss">
-
+	.setting-field {
+		i {
+			cursor:pointer;
+		}
+	}
 </style>

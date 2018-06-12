@@ -24,6 +24,12 @@ $app->group('/api', function ()
 		$this->post('/create', 'controllers\api\ArticleController:postCreate');
         $this->post('/delete', 'controllers\api\ArticleController:postDelete');
 	});
+
+    $this->group('/setting', function()
+    {
+        $this->get('/fetchSettings', 'controllers\api\SettingController:getFetchSettings');
+        $this->post('/updateSetting', 'controllers\api\SettingController:postUpdateSetting');
+    });
 	
 	$this->group('/category', function()
 	{
