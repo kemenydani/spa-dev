@@ -59,7 +59,17 @@ $app->group('/api', function ()
         $this->post('/activate', 'controllers\api\EventController:postActivate');
         $this->post('/deactivate', 'controllers\api\EventController:postDeactivate');
     });
-
+	
+	$this->group('/product', function()
+	{
+		$this->get('/all', 'controllers\api\ProductController:getAll');
+		$this->get('/search_paginate', 'controllers\api\ProductController:getSearchPaginate');
+		$this->post('/create', 'controllers\api\ProductController:postCreate');
+		$this->post('/delete', 'controllers\api\ProductController:postDelete');
+		$this->post('/activate', 'controllers\api\ProductController:postActivate');
+		$this->post('/deactivate', 'controllers\api\ProductController:postDeactivate');
+	});
+    
     $this->group('/award', function()
     {
         $this->get('/all', 'controllers\api\AwardController:getAll');

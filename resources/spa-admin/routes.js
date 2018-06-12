@@ -15,6 +15,7 @@ import eventRouteConfig from './routes/event';
 import matchRouteConfig from './routes/match';
 import enemyRouteConfig from './routes/enemy';
 import awardRouteConfig from './routes/award';
+import productRouteConfig from './routes/product';
 
 const Main = resolve =>
 {
@@ -40,6 +41,7 @@ export default [
 					matchRouteConfig,
           enemyRouteConfig,
           awardRouteConfig,
+	        productRouteConfig,
         ]
     },
     loginRouteConfig
