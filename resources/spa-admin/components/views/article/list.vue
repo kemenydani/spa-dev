@@ -3,7 +3,7 @@
 		
 
 		
-		<data-model-manager :Model="table.model" :headers="table.headers"></data-model-manager>
+		<data-model-manager :model="table.model"  :headers="table.headers"></data-model-manager>
 		
 		<router-link is="v-btn" :to="{ name: 'article.create' }"
 		             fab

@@ -4,13 +4,13 @@
 		<v-card-title>
 			<v-layout row>
 				<v-flex sm2>
-					<v-select v-if="allowDelete || allowActivation"
+					<v-select v-if="selectable"
 							label="Action"
 							single-line
 							bottom
 							persistent-hint
 							@input="actionSelected()"
-				      v-bind:items="data.actions"
+				      v-bind:items="actions"
 				      v-model="selectedAction"
 	            :disabled="!data.selectedItems.length"
 	            :hint="selectActionHint"
@@ -86,7 +86,7 @@
 	{
 		name: "data-model-manager",
 		props: {
-			Model: {
+			model: {
 				type: Object,
 				required: true,
 			},
@@ -94,6 +94,16 @@
 				type: String,
 				required: false,
 				default: () => 'id'
+			},
+			actionsAllowed : {
+				type: Array,
+				required: false,
+				default: () => ['delete', 'activate', 'deactivate']
+			},
+			selectable: {
+				type: Boolean,
+				required: false,
+				default: () => true
 			},
 			headers: {
 				type: Array,
@@ -147,9 +157,10 @@
 		},
 		computed:
 		{
-			selectable()
-			{
-				return this.allowActivation || this.allowDelete;
+			actions(){
+				return this.data.actions.filter( action => {
+					return this.actionsAllowed.indexOf(action.value) > -1;
+				})
 			},
 			selectActionHint()
 			{
@@ -192,7 +203,7 @@
 			{
 				let selectedKeys = this.getSelectedKeys();
 				this.$app.$emit('toast', 'Deleting items...', 'info');
-				this.Model.deleteIn( selectedKeys ).then( response =>
+				this.model.deleteIn( selectedKeys ).then( response =>
 				{
 					this.fetchData();
 					cb();
@@ -207,7 +218,7 @@
 				{
 					this.$app.$emit('toast', 'Activating items...', 'info');
 					
-					this.Model.activateIn( selectedKeys )
+					this.model.activateIn( selectedKeys )
 						.then( response =>
 						{
 							this.fetchData();
@@ -222,7 +233,7 @@
 				{
 					this.$app.$emit('toast', 'Deactivating items...', 'info');
 					
-					this.Model.deactivateIn( selectedKeys )
+					this.model.deactivateIn( selectedKeys )
 						.then( response =>
 						{
 							this.fetchData();
@@ -266,7 +277,7 @@
 				
 				return new Promise((resolve, reject) =>
 				{
-					this.getModelData()
+					this.getmodelData()
 						.then( ( APIResponse ) =>
 						{
 							let items = APIResponse.items;
@@ -286,9 +297,9 @@
 						});
 				})
 			},
-			getModelData()
+			getmodelData()
 			{
-				return this.Model.search( { search: this.filter.search, filter: this.filter.pagination } ).then();
+				return this.model.search( { search: this.filter.search, filter: this.filter.pagination } ).then();
 			},
 		},
 		mounted () {

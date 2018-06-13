@@ -72,7 +72,7 @@
 					this.updateSetting( config.data ).then((response) =>
 					{
 						config.props.loading = false;
-						this.$app.$emit('toast', 'Updated ' + config.props.label + '...' , 'success');
+						this.$app.$emit('toast', 'Updated ' + config.props.label , 'success');
 					});
 			},
 			updateSetting( data ){

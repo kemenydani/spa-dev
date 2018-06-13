@@ -1,6 +1,6 @@
 <template>
 	<v-content>
-		<data-model-manager :Model="table.model" :headers="table.headers">
+		<data-model-manager :model="table.model" :actions-allowed="table.actions"  :headers="table.headers">
 		
 		</data-model-manager>
 		
@@ -28,6 +28,7 @@
 		data() {
 			return {
 				table: {
+					actions : ['delete'],
 					headers: [
 						{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},
 						{ text: 'Title', value: 'name', sortable: true, align: 'left' },
