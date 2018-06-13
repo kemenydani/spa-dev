@@ -23,7 +23,7 @@
 							label="Search"
 							single-line
 							hide-details
-							@input="fetchData()"
+							@input="debounceSearch()"
 							v-model="filter.search"
 					></v-text-field>
 				</v-flex>
@@ -121,6 +121,7 @@
 					items: [],
 					selectedItems: [],
 					loading: true,
+					searchIsDebounced: false,
 					actions: [
 						{
 							text: 'Delete',
@@ -157,6 +158,9 @@
 			}
 		},
 		methods: {
+			debounceSearch(){
+				this.fetchData();
+			},
 			actionSelected()
 			{
 				let cb = () => {
@@ -187,11 +191,12 @@
 			deleteSelected( cb )
 			{
 				let selectedKeys = this.getSelectedKeys();
-				
+				this.$app.$emit('toast', 'Deleting items...', 'info');
 				this.Model.deleteIn( selectedKeys ).then( response =>
 				{
 					this.fetchData();
 					cb();
+					this.$app.$emit('toast', 'Items Deleted', 'success');
 				})
 			},
 			toggleActivateSelected( val = true, cb  )
@@ -200,19 +205,33 @@
 				
 				if(val === true )
 				{
-					this.Model.activateIn( selectedKeys ).then( response =>
-					{
-						this.fetchData();
-						cb();
-					})
+					this.$app.$emit('toast', 'Activating items...', 'info');
+					
+					this.Model.activateIn( selectedKeys )
+						.then( response =>
+						{
+							this.fetchData();
+							cb();
+							this.$app.$emit('toast', 'Items activated', 'success');
+						})
+						.catch( error => {
+							this.$app.$emit('toast', 'Activation failed', 'error');
+						})
 				}
 				if(val === false )
 				{
-					this.Model.deactivateIn( selectedKeys ).then( response =>
-					{
-						this.fetchData();
-						cb();
-					})
+					this.$app.$emit('toast', 'Deactivating items...', 'info');
+					
+					this.Model.deactivateIn( selectedKeys )
+						.then( response =>
+						{
+							this.fetchData();
+							cb();
+							this.$app.$emit('toast', 'Items deactivated', 'success');
+						})
+						.catch( error => {
+							this.$app.$emit('toast', 'Deactivation failed', 'error');
+						})
 				}
 			},
 			formatColumn( items, config ){
@@ -234,10 +253,12 @@
 			},
 			fetchData()
 			{
-				this.getDataFromApi()
+				this.$app.$emit('toast', 'Updating table...', 'info');
+				return this.getDataFromApi()
 					.then(data => {
 						this.data.items = data.items;
 						this.filter.totalItems = data.total;
+						this.$app.$emit('toast', 'Table updated', 'success');
 					})
 			},
 			getDataFromApi () {
@@ -245,21 +266,24 @@
 				
 				return new Promise((resolve, reject) =>
 				{
-					this.getModelData().then( ( APIResponse ) =>
-					{
-						let items = APIResponse.items;
-						const total = APIResponse.total;
-						
-						setTimeout( () =>
+					this.getModelData()
+						.then( ( APIResponse ) =>
 						{
-							this.data.loading = false;
-							resolve({
-								items,
-								total
-							})
-						}, 400)
-					});
-					
+							let items = APIResponse.items;
+							const total = APIResponse.total;
+				
+							setTimeout( () =>
+							{
+								this.data.loading = false;
+								resolve({
+									items,
+									total
+								})
+							}, 0)
+						})
+						.catch( error => {
+							this.$app.$emit('toast', 'Database error', 'error');
+						});
 				})
 			},
 			getModelData()

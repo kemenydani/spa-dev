@@ -1,3 +1,5 @@
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+
 /* multi */
 let path = require('path');
 let webpack = require('webpack');
@@ -62,10 +64,16 @@ let exportable = {
 		rules: [
 			{
 				test: /\.css$/,
+				loader: ExtractTextPlugin.extract({
+					use: 'css-loader',
+					fallback: 'vue-style-loader'
+				})
+				/*
 				use: [
 					'vue-style-loader',
 					'css-loader'
 				],
+				*/
 			},
 			{
 				test: /\.scss$/,
@@ -128,6 +136,7 @@ let exportable = {
 };
 
 let production_config = [
+	new ExtractTextPlugin("style.min.css"),
 	new webpack.DefinePlugin({
 		'process.env': {
 			NODE_ENV: '"production"'

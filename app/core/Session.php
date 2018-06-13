@@ -21,7 +21,9 @@ class Session
     }
     public static function put($name, $value)
     {
-        return $_SESSION[$name] = $value;
+        $_SESSION[$name] = $value;
+        session_write_close();
+        return $_SESSION[$name];
     }
     public static function delete($name)
     {

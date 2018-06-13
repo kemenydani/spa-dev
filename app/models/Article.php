@@ -26,6 +26,8 @@ class Article extends Model
 		'comments_enabled'
     ];
 
+    static $SEARCH_COLUMNS = ['title', 'teaser', 'date_created'];
+
     const IMAGE_PATH = __UPLOADS__ . '/images/article';
 
 	public function categorize( array $new_categories )

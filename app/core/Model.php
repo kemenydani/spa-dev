@@ -22,7 +22,16 @@ abstract class Model {
     /**
      * @var array
      */
+    static $SEARCH_COLUMNS = [];
+    /**
+     * @var array
+     */
     protected $props = [];
+
+    public function getSearchColumns()
+    {
+        return isset(static::$SEARCH_COLUMNS) ? static::$SEARCH_COLUMNS : $this->getColumns();
+    }
 
     public function __construct($props = [])
     {
@@ -225,7 +234,7 @@ abstract class Model {
     /**
      * @return array
      */
-    public function getColumns() : array
+    public function getColumns( ) : array
     {
         return isset(static::$COLUMNS) ? static::$COLUMNS : self::$COLUMNS;
     }

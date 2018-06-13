@@ -46,26 +46,33 @@
 		}),
 		methods: {
 			fetchSettings(){
+				this.$app.$emit('toast', 'Loading settings...', 'info');
 				return this.axios.get('/api/setting/fetchSettings')
 					.then((response) =>
 					{
-						if(response.status === 200) return response.data;
+						if(response.status === 200) {
+							this.$app.$emit('toast', 'Settings loaded', 'success');
+							return response.data;
+						}
 						throw new Error(response.statusText);
 					})
-					.catch((error) =>
+					.catch( error =>
 					{
-						console.log(error)
+						this.$app.$emit('toast', 'Database error: could not fetch settings', 'error');
 					})
 			},
 			saveSetting( config, event = 'change' )
 			{
 					if(event === 'change' && config.inputType !== 'v-checkbox' ) return false;
 					
+					this.$app.$emit('toast', 'Updating ' + config.props.label + '...' , 'info');
+				
 					config.props.loading = true;
 					
 					this.updateSetting( config.data ).then((response) =>
 					{
 						config.props.loading = false;
+						this.$app.$emit('toast', 'Updated ' + config.props.label + '...' , 'success');
 					});
 			},
 			updateSetting( data ){

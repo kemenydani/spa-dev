@@ -2,14 +2,17 @@
 
 namespace controllers\api;
 
+use core\Model;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 use core\DB as DB;
-use core\Model as Model;
 
 abstract class ModelController implements ModelControllerInterface
 {
+    /**
+     * @var Model
+     */
     protected $Model;
 
     public function getModel() : Model
@@ -17,11 +20,20 @@ abstract class ModelController implements ModelControllerInterface
         return $this->Model;
     }
 
+    /**
+     * ModelController constructor.
+     * @param Model $Model
+     */
     public function __construct( Model $Model )
     {
         $this->Model = $Model;
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return Response
+     */
     public function postActivate( Request $request, Response $response ) : Response
     {
         $range = $request->getParsedBody()['range'];
@@ -33,6 +45,11 @@ abstract class ModelController implements ModelControllerInterface
         return $response->withJson( $range );
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return Response
+     */
     public function postDeactivate( Request $request, Response $response ) : Response
     {
         $range = $request->getParsedBody()['range'];
@@ -44,6 +61,11 @@ abstract class ModelController implements ModelControllerInterface
         return $response->withJson( $range );
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return Response
+     */
     public function postDelete( Request $request, Response $response ) : Response
     {
         $range = $request->getParsedBody()['range'];
@@ -54,23 +76,39 @@ abstract class ModelController implements ModelControllerInterface
 
         return $response->withJson( $range );
     }
- 
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return Response
+     */
     public function postCreate( Request $request, Response $response ) : Response
     {
+        /* @var Model $Model */
         $Model = $this->Model::create( $request->getParsedBody() );
 
         $isInserted = $Model->save();
 
         if( $isInserted === false ) return $response->withStatus(500, 'Database error: Could not insert item.');
 
-        return $response->withJson( $Model->getPublicProperties() )->withStatus(200);
+        return $response->withJson( $Model->getProperties() )->withStatus(200);
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return Response
+     */
     public function postUpdate( Request $request, Response $response ) : Response
     {
 
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return Response
+     */
     public function getOne( Request $request, Response $response ) : Response
     {
         $id = $request->getParsedBody()['id'];
@@ -84,16 +122,20 @@ abstract class ModelController implements ModelControllerInterface
         return $response->withJson( $data )->withStatus(200);
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return Response
+     */
     public function getAll( Request $request, Response $response) : Response
     {
-        $Models = ( $this->Model )::all();
+        /* @var Model[] $Models */
+        $Models = $this->Model::getAll();
 
         $data = [];
 
-        foreach( $Models as $Model )
-        {
-            $data[] = $Model->getProperties();
-        }
+        /* @var Model $Model */
+        foreach( $Models as $Model ) $data[] = $Model->getProperties();
 
         return $response->withJson( $data );
     }
@@ -114,11 +156,10 @@ abstract class ModelController implements ModelControllerInterface
         $search = $request->getQueryParam('search');
         $searchConditions = [];
 
-        if( $search !== null /*&& $this->Model::isSearchable()*/ )
+        if( $search !== null )
         {
-            foreach( /*$this->Model::getSearchableProps()*/Model::$COLUMNS as $column )
+            foreach( $this->Model->getSearchColumns() as $key => $column  )
             {
-                if( !array_key_exists( $column, /*$this->Model::getPropertyNames()*/Model::$COLUMNS ) ) continue;
                 $searchConditions[] = $column . ' LIKE ' . "'%".$search."%'";
             }
         }
@@ -132,9 +173,11 @@ abstract class ModelController implements ModelControllerInterface
 
         $items = $sql->fetchAll(\PDO::FETCH_ASSOC );
 
-        $total = DB::instance()->query('SELECT FOUND_ROWS()')->fetch(\PDO::FETCH_COLUMN );
+        //$total = DB::instance()->query('SELECT FOUND_ROWS()')->fetch(\PDO::FETCH_COLUMN );
 
-        return $response->withJson( [ 'total' => (int)$total, 'items' => $items ] );
+        $total = DB::instance()->totalRowCount();
+
+        return $response->withJson( [ 'total' => (int)$total, 'items' => $items , 'query' => $searchConditions] );
     }
 
 }

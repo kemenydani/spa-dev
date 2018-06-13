@@ -1,8 +1,9 @@
 <template>
 	<v-content>
-		<data-model-manager :Model="table.model" :headers="table.headers">
 		
-		</data-model-manager>
+
+		
+		<data-model-manager :Model="table.model" :headers="table.headers"></data-model-manager>
 		
 		<router-link is="v-btn" :to="{ name: 'article.create' }"
 		             fab
@@ -14,7 +15,6 @@
 		>
 			<v-icon>add</v-icon>
 		</router-link>
-
 	</v-content>
 </template>
 
