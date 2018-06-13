@@ -158,7 +158,7 @@ class UserController extends ViewController
 
         /* @var $uploadedFile UploadedFile */
 	    $uploadedFile = $files['user_picture'];
-
+	    
 	    if(!$uploadedFile) return false;
 
 	    $img = $ImageManager->make($uploadedFile->getStream());

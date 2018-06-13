@@ -1,14 +1,12 @@
 <template>
 	<div>
 		<v-content>
-			
 			<div id="images">
 				<input type="file" @change="uploadImages" ref="input" name="images" accept="image/*" multiple>
 				<div class="image" v-for="image in images">
 					{{ image.name }}
 				</div>
 			</div>
-			
 			<v-btn
          fab
          bottom
@@ -20,8 +18,7 @@
 			>
 				<v-icon>add</v-icon>
 			</v-btn>
-		
-		
+			
 		</v-content>
 	</div>
 </template>
@@ -50,14 +47,14 @@
 				{
 					let formData = new FormData();
 					formData.append('image', files[i], files[i].name);
-					
-					this.axios.post('api/gallery/uploadImage', formData, {
+	
+					this.axios.post('api/gallery/uploadImage?id=' + this.$route.params.id, formData, {
 						onUploadProgress: progressEvent => {
 							console.log(progressEvent.loaded / progressEvent.total)
 						}
 					})
 					.then(response => {
-					
+						console.log(response)
 					})
 					.catch(() => {
 					

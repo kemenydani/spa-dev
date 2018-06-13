@@ -2,8 +2,12 @@
 
 namespace controllers\api;
 
+use Intervention\Image\ImageManager;
+use models\GalleryImage;
 use Slim\Http\Request;
 use Slim\Http\Response;
+
+use Slim\Http\UploadedFile;
 
 use models\Gallery as Gallery;
 use core\Auth as Auth;
@@ -18,7 +22,38 @@ class GalleryController extends ModelController
 
     public function postUploadImage( Request $request, Response $response ) : Response
     {
-        return $response->withJson( ['suc'] )->withStatus(200);
+	    $files = $request->getUploadedFiles();
+	    $id = $request->getQueryParam('id');
+	    
+	    $ImageManager = new ImageManager(array('driver' => 'gd'));
+	
+	    /* @var $uploadedFile UploadedFile */
+	    $uploadedFile = $files['image'];
+	
+	    $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+	    $basename = basename($uploadedFile->getClientFilename());
+	    
+	    //TODO:: pathinfo bug, fix: double fake extansion needed
+	    $fileName = 'gallery_' . md5($basename) . ".gallery.jpg";
+	    
+	    $img = $ImageManager->make($uploadedFile->getStream());
+	    
+	    $img->interlace(true);
+	
+	    $path = GalleryImage::IMAGE_PATH . DIRECTORY_SEPARATOR . $fileName;
+		   
+	    $img->encode('jpg');
+	    
+	    $img->save((string)$path);
+	    
+	    $GalleryImage = GalleryImage::create([
+		    'gallery_id' => $id,
+		    'file_name' => $fileName
+	    ]);
+	    
+	    $GalleryImage->save();
+	    
+        return $response->withStatus(200);
     }
 
     public function postCreate( Request $request, Response $response ) : Response
