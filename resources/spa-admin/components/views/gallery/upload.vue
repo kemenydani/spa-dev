@@ -31,11 +31,17 @@
 	export default {
 		data() {
 			return {
+				gallery : {
+					id : null // get it from route
+				},
 				files : 0,
 				images : []
 			}
 		},
 		methods : {
+			fetchGallery( id ){
+			
+			},
 			uploadImages( event )
 			{
 				let files = event.target.files;
