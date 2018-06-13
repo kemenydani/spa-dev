@@ -38,6 +38,7 @@ $app->group('/api', function ()
         $this->post('/delete', 'controllers\api\GalleryController:postDelete');
         $this->post('/activate', 'controllers\api\GalleryController:postActivate');
         $this->post('/deactivate', 'controllers\api\GalleryController:postDeactivate');
+        $this->post('/uploadImage', 'controllers\api\GalleryController:postUploadImage');
     });
 
     $this->group('/squad', function()

@@ -16,6 +16,11 @@ class GalleryController extends ModelController
         parent::__construct( new Gallery() );
     }
 
+    public function postUploadImage( Request $request, Response $response ) : Response
+    {
+        return $response->withJson( ['suc'] )->withStatus(200);
+    }
+
     public function postCreate( Request $request, Response $response ) : Response
 	{
 		$data = $request->getParsedBody();
