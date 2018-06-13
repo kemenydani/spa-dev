@@ -2,12 +2,11 @@
 
 namespace controllers\api;
 
-use core\Session;
 use core\DB as DB;
-use \Psr\Http\Message\RequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use core\Auth as Auth;
-use models\User as User;
+use models\User;
 
 class UserController extends ModelController
 {
@@ -16,6 +15,7 @@ class UserController extends ModelController
         parent::__construct( new User() );
     }
 
+    // TODO: to auth controller
     public function getAuth( Request $request, Response $response )
     {
         $User = Auth::user();

@@ -4,7 +4,7 @@
 		<v-card-title>
 			<v-layout row>
 				<v-flex sm2>
-					<v-select v-if="selectable"
+					<v-select v-if="selectable && actions.length"
 							label="Action"
 							single-line
 							bottom
@@ -56,8 +56,11 @@
 					    filter.pagination.sortBy ? 'active' : '']"
 					    @click="changeSort(header.value)"
 					>
-						<v-icon>arrow_upward</v-icon>
+					<v-icon>arrow_upward</v-icon>
 						{{ header.text }}
+					</th>
+					<th v-if="rowActions" style="text-align: center; max-width: 40px;" v-for="action in rowActions">
+						{{ action.name }}
 					</th>
 				</tr>
 			</template>
@@ -71,9 +74,12 @@
 								:input-value="props.selected"
 						></v-checkbox>
 					</td>
-					
 					<td :style="{ textAlign: column.align }" v-for="column in headers">{{ formatColumn(props.item, column) }}</td>
-					
+					<td class="justify-center px-0" style="text-align: center; max-width: 40px;" v-for="action in rowActions">
+						<v-btn icon class="mx-0" @click.prevent.stop="action.callback.call(this, props.item)">
+							<v-icon color="teal">{{ action.icon }}</v-icon>
+						</v-btn>
+					</td>
 				</tr>
 			</template>
 		</v-data-table>
@@ -94,6 +100,11 @@
 				type: String,
 				required: false,
 				default: () => 'id'
+			},
+			rowActions : {
+				type: Array,
+				required: false,
+				default: () => []
 			},
 			actionsAllowed : {
 				type: Array,

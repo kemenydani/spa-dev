@@ -26,6 +26,8 @@ class User extends Model {
 	    'password_temporary'
     ];
 
+    static $SEARCH_COLUMNS = ['username', 'email'];
+
     const PUBLIC_DATASET = [ 'id', 'username', 'country_name', 'profile_picture', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated' ];
     const SMALL_DATASET = [ 'id', 'username', 'profile_picture', 'email'];
     const IMAGE_PATH = __UPLOADS__ . '/images/user';

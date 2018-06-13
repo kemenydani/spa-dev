@@ -140,7 +140,12 @@ abstract class ModelController implements ModelControllerInterface
         return $response->withJson( $data );
     }
 
-    public function getSearchPaginate( Request $request, Response $response ) : Response
+    public function searchPaginate( Request $request, Response $response, $args = [], $callback = null )
+    {
+
+    }
+
+    public function getSearchPaginate( Request $request, Response $response, $args = [], $joinModels = [] ) : Response
     {
         $filterArray = json_decode($request->getQueryParam('filter'), true);
 
@@ -150,23 +155,33 @@ abstract class ModelController implements ModelControllerInterface
         $sortBy         = strlen($filterArray['sortBy']) > 0      ? $filterArray['sortBy'] : 'id';
 
         $startAtRow = ( ( $currentPage - 1 ) * $rowsPerPage );
-        $orderDirection = " ORDER BY " . $sortBy . " " . $orderDirection . " ";
+        $orderDirection = " ORDER BY main." . $sortBy . " " . $orderDirection . " ";
         $limit = " LIMIT " . $startAtRow . ", " . $rowsPerPage ." ";
 
         $search = $request->getQueryParam('search');
         $searchConditions = [];
 
+        $joins = "";
+
         if( $search !== null )
         {
-            foreach( $this->Model->getSearchColumns() as $key => $column  )
+            foreach( $this->Model->getSearchColumns() as $key => $column  ) $searchConditions[] = 'main.' . $column . ' LIKE ' . "'%".$search."%'";
+
+            $jk = 1;
+            /* @var Model $Model */
+            foreach($joinModels as $joinColumn => $Model)
             {
-                $searchConditions[] = $column . ' LIKE ' . "'%".$search."%'";
+                $alias = 'join' . $jk;
+                $joins .= ' LEFT JOIN ' . $Model::getTable() . ' '.$alias . ' ON ' . $alias . '.' . $Model::getPrimaryKey() . ' = main.' . $joinColumn;
+                foreach( $Model::$SEARCH_COLUMNS as $key => $column  ) $searchConditions[] = $alias . '.' . $column . ' LIKE ' . "'%".$search."%'";
+                $jk++;
             }
+
         }
 
         $where = count($searchConditions) ? implode(' OR ', $searchConditions) : 1;
 
-        $stmt = " SELECT SQL_CALC_FOUND_ROWS * FROM ".$this->Model::getTable()." WHERE $where $orderDirection $limit";
+        $stmt = " SELECT SQL_CALC_FOUND_ROWS * FROM ".$this->Model::getTable()." main $joins WHERE $where $orderDirection $limit";
 
         $sql = DB::instance()->prepare( $stmt );
         $sql->execute();
@@ -177,7 +192,7 @@ abstract class ModelController implements ModelControllerInterface
 
         $total = DB::instance()->totalRowCount();
 
-        return $response->withJson( [ 'total' => (int)$total, 'items' => $items , 'query' => $searchConditions] );
+        return $response->withJson( [ 'total' => (int)$total, 'items' => $items] );
     }
 
 }
