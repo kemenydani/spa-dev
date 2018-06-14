@@ -35,13 +35,10 @@ var router =  new Router({ routes: ROUTES });
 router.beforeEach( (to, from, next ) => {
 	
 	if( to.path === '/login') next(); // can check prototype aswell
-  
-	Vue.prototype.$User.auth().then( response => {
-		next();
-	}).catch( error => {
-		next('/login');
-	});
 	
+	Vue.prototype.$User.auth()
+		.then(  () => next() )
+		.catch( () => next('/login'))
 });
 
 new Vue({

@@ -23,7 +23,7 @@
 							label="Search"
 							single-line
 							hide-details
-							@input="debounceSearch()"
+							@input="fetchData()"
 							v-model="filter.search"
 					></v-text-field>
 				</v-flex>
@@ -59,12 +59,12 @@
 					<v-icon>arrow_upward</v-icon>
 						{{ header.text }}
 					</th>
-					<th v-if="rowActions" style="text-align: center; max-width: 40px;" v-for="action in rowActions">
+					
+					<th v-if="rowActions" class="column" style="text-align: center; max-width: 70px; min-width: 70px;" :key="action.name" v-for="action in rowActions">
 						{{ action.name }}
 					</th>
 				</tr>
 			</template>
-			
 			<template slot="items" slot-scope="props">
 				<tr :active="props.selected" @click="props.selected = !props.selected">
 					<td v-if="selectable">
@@ -75,14 +75,27 @@
 						></v-checkbox>
 					</td>
 					<td :style="{ textAlign: column.align }" v-for="column in headers">{{ formatColumn(props.item, column) }}</td>
-					<td class="justify-center px-0" style="text-align: center; max-width: 40px;" v-for="action in rowActions">
-						<v-btn icon class="mx-0" @click.prevent.stop="action.callback.call(this, props.item)">
+					<td class="justify-center px-0" style="text-align: center;" v-for="action in rowActions">
+						<v-btn style="text-align: center;" icon class="mx-0" @click.prevent.stop="action.callback.call(this, props.item)">
 							<v-icon color="teal">{{ action.icon }}</v-icon>
 						</v-btn>
 					</td>
 				</tr>
 			</template>
 		</v-data-table>
+		
+		<v-dialog v-model="showPrompt" max-width="290">
+			<v-card>
+				<v-card-title class="headline">Delete selected items?</v-card-title>
+				<v-card-text>It will not be possible to bring them back.</v-card-text>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn color="green darken-1" flat="flat" @click.native="showPrompt = false">No</v-btn>
+					<v-btn color="green darken-1" flat="flat" @click.native="deleteSelected">Yes</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+		
 	</v-card>
 	
 </template>
@@ -138,11 +151,11 @@
 		},
 		data () {
 			return {
+				showPrompt: false,
 				data: {
 					items: [],
 					selectedItems: [],
 					loading: true,
-					searchIsDebounced: false,
 					actions: [
 						{
 							text: 'Delete',
@@ -180,25 +193,15 @@
 			}
 		},
 		methods: {
-			debounceSearch(){
-				this.fetchData();
-			},
 			actionSelected()
 			{
-				let cb = () => {
-					this.selectedAction = null;
-				};
-				
 				switch(this.selectedAction)
 				{
-					case 'delete'	: this.deleteSelected(cb);
-						
+					case 'delete'	: this.deleteSelected();
 						break;
-					case 'activate'	: this.toggleActivateSelected( true, cb );
-						
+					case 'activate'	: this.toggleActivateSelected( true );
 						break;
-					case 'deactivate'	: this.toggleActivateSelected( false, cb );
-						
+					case 'deactivate'	: this.toggleActivateSelected( false );
 						break;
 				}
 			},
@@ -210,18 +213,25 @@
 				
 				return ids;
 			},
-			deleteSelected( cb )
+			propmptMessage( message )
+			{
+				return new Promise((resolve, reject) => {
+					this.showPrompt = true;
+				});
+			},
+			deleteSelected( )
 			{
 				let selectedKeys = this.getSelectedKeys();
+				
 				this.$app.$emit('toast', 'Deleting items...', 'info');
-				this.model.deleteIn( selectedKeys ).then( response =>
-				{
+				this.model.deleteIn( selectedKeys ).then( () => {
 					this.fetchData();
-					cb();
 					this.$app.$emit('toast', 'Items Deleted', 'success');
 				})
+				.finally( () => this.selectedAction = null )
+				
 			},
-			toggleActivateSelected( val = true, cb  )
+			toggleActivateSelected( val = true )
 			{
 				let selectedKeys = this.getSelectedKeys();
 				
@@ -233,12 +243,12 @@
 						.then( response =>
 						{
 							this.fetchData();
-							cb();
 							this.$app.$emit('toast', 'Items activated', 'success');
 						})
 						.catch( error => {
 							this.$app.$emit('toast', 'Activation failed', 'error');
 						})
+						.finally( () => this.selectedAction = null )
 				}
 				if(val === false )
 				{
@@ -248,12 +258,12 @@
 						.then( response =>
 						{
 							this.fetchData();
-							cb();
 							this.$app.$emit('toast', 'Items deactivated', 'success');
 						})
 						.catch( error => {
 							this.$app.$emit('toast', 'Deactivation failed', 'error');
 						})
+						.finally( () => this.selectedAction = null )
 				}
 			},
 			formatColumn( items, config ){

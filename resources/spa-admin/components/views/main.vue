@@ -191,15 +191,15 @@
 		<!-- route content -->
 		<v-content>
 			<v-container fluid fill-height>
-				<router-view></router-view>
+				<div v-show="loading" class="">loading</div>
+				<router-view v-show="!loading"></router-view>
 			</v-container>
 		</v-content>
 	</v-app>
 </template>
 
 <script>
-	
-	import UserDataService from '../../service/UserDataService';
+
 	import AppToaster from '../app-toaster';
 	
 	export default {
@@ -210,6 +210,7 @@
 		},
 		data () {
 			return {
+				loading : false,
 				fav: true,
 				menu: false,
 				message: false,
@@ -223,6 +224,9 @@
 				location: '',
 				colors: ['blue', 'green', 'purple', 'red']
 			}
+		},
+		created(){
+		
 		},
 		methods: {
 			logout(){

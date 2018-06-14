@@ -3,7 +3,7 @@
 		
 
 		
-		<data-model-manager :model="table.model"  :headers="table.headers"></data-model-manager>
+		<data-model-manager :model="table.model" :row-actions="table.rowActions" :headers="table.headers"></data-model-manager>
 		
 		<router-link is="v-btn" :to="{ name: 'article.create' }"
 		             fab
@@ -28,8 +28,25 @@
 		data() {
 			return {
 				table: {
+					rowActions : [
+						{
+							name : 'Edit',
+							icon : 'edit',
+							callback : this.editGallery
+						},
+						{
+							name : 'Compose',
+							icon : 'subject',
+							callback : this.editGallery
+						},
+						{
+							name : 'Image',
+							icon : 'image',
+							callback : this.uploadImages
+						}
+					],
 					headers: [
-						{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},
+						//{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},
 						{ text: 'Title', value: 'title', sortable: true, align: 'left' },
 						{
 							text: 'Activated',
@@ -38,7 +55,7 @@
 							align: 'right',
 							width: '200px',
 							format: function( value, values ){
-								return value == 1 ? 'Active' : values['activation_time'];
+								return value == 1 ? 'Active' : 'Inactive';
 							}
 						},
 						{ text: 'Created At', value: 'date_created', sortable: true, align: 'right', width: '200px' },

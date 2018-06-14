@@ -1,8 +1,6 @@
 
 <template>
-	
 		<router-view class="view-content" ></router-view>
-
 </template>
 
 <script>
