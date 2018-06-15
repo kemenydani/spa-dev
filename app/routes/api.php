@@ -28,6 +28,7 @@ $app->group('/api', function ()
         $this->post('/delete', 'controllers\api\ArticleController:postDelete');
         $this->post('/activate', 'controllers\api\ArticleController:postActivate');
         $this->post('/deactivate', 'controllers\api\ArticleController:postDeactivate');
+		$this->post('/store', 'controllers\api\ArticleController:postStore');
 	});
 
     $this->group('/gallery', function()

@@ -33,4 +33,10 @@ export default class Model
 			.catch( error => error );
 	}
 	
+	store( obj ){
+		return this.DB.post('store', obj )
+			.then( response => response.data )
+			.catch( error => error );
+	}
+	
 }

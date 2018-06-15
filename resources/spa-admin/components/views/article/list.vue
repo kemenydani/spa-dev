@@ -1,18 +1,80 @@
 <template>
 	<v-content>
 		
-
-		
 		<data-model-manager :model="table.model" :row-actions="table.rowActions" :headers="table.headers"></data-model-manager>
 		
+		<v-dialog
+				v-model="compose.dialog"
+				fullscreen
+				hide-overlay
+				transition="dialog-bottom-transition"
+				scrollable
+		>
+			<v-card tile>
+				<v-toolbar card dark color="primary">
+					<v-btn icon dark @click.native="compose.dialog = false">
+						<v-icon>close</v-icon>
+					</v-btn>
+					<v-toolbar-title>Compose Article</v-toolbar-title>
+					<v-spacer></v-spacer>
+					<v-toolbar-items>
+				
+					</v-toolbar-items>
+					<v-spacer></v-spacer>
+					<v-toolbar-items>
+						<v-btn dark flat @click.native="saveCloseModel(compose.item, edit.dialog)">Save</v-btn>
+					</v-toolbar-items>
+				</v-toolbar>
+				<v-card-text style="min-height: 100% !important; position: relative !important;">
+					<div style="max-width: 1140px; margin: 0px auto;">
+						<v-text-field :textarea="true" :rows="3" v-model="compose.item.teaser"></v-text-field>
+						<wysiwyg v-model="compose.item.content"></wysiwyg>
+					</div>
+				</v-card-text>
+			</v-card>
+		</v-dialog>
+		<!-- edit dialog -->
+		
+		<v-dialog v-model="edit.dialog" max-width="500px">
+			<v-card>
+				<v-card-title>
+					<span class="headline">Edit Article</span>
+				</v-card-title>
+				<v-card-text>
+					<v-container grid-list-md>
+						<v-layout wrap>
+							<v-flex xs12>
+								<v-text-field label="Title" v-model="edit.item.title" required></v-text-field>
+							</v-flex>
+							<v-flex xs12>
+								<v-switch :true-value="'1'" :false-value="'0'" label="Active" v-model="edit.item.active"></v-switch>
+							</v-flex>
+							<v-flex xs12>
+								<v-switch :true-value="'1'" :false-value="'0'" label="Highlighted" v-model="edit.item.highlighted"></v-switch>
+							</v-flex>
+							<v-flex xs12>
+								<v-switch :true-value="'1'" :false-value="'0'" label="Commentable" v-model="edit.item.comments_enabled"></v-switch>
+							</v-flex>
+						</v-layout>
+					</v-container>
+					<small>*indicates required field</small>
+				</v-card-text>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn color="blue darken-1" flat @click.native="edit.dialog = false">Close</v-btn>
+					<v-btn color="blue darken-1" flat @click.native="saveCloseModel(edit.item, edit.dialog)">Save</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+		
+		<!-- fab -->
 		<router-link is="v-btn" :to="{ name: 'article.create' }"
 		             fab
 		             bottom
 		             right
 		             color="red"
 		             dark
-		             fixed
-		>
+		             fixed>
 			<v-icon>add</v-icon>
 		</router-link>
 	</v-content>
@@ -27,22 +89,30 @@
 		components: { DataModelManager },
 		data() {
 			return {
+				compose : {
+					item : {},
+					dialog: false
+				},
+				edit : {
+					item : {},
+					dialog: false
+				},
 				table: {
 					rowActions : [
 						{
 							name : 'Edit',
 							icon : 'edit',
-							callback : this.editGallery
+							callback : this.editArticle
 						},
 						{
 							name : 'Compose',
 							icon : 'subject',
-							callback : this.editGallery
+							callback : this.composeArticle
 						},
 						{
 							name : 'Image',
 							icon : 'image',
-							callback : this.uploadImages
+							callback : function(){}
 						}
 					],
 					headers: [
@@ -64,6 +134,37 @@
 				},
 			}
 		},
+		methods : {
+			composeArticle( article ){
+				this.compose.dialog = true;
+				this.compose.item = Object.assign({}, article);
+			},
+			editArticle( article ){
+				this.edit.dialog = true;
+				this.edit.item = Object.assign({}, article);
+			},
+			saveCloseModel( model, dialog ){
+				this.$app.$emit('toast', 'Saving...', 'info');
+				this.storeModel( model )
+					.then((response) => {
+						if(response.success) {
+							this.$app.$emit('toast', 'Saved : ' + response.data.title  , 'success');
+						} else {
+							this.$app.$emit('toast', 'Save failed: ' + response.data.title, 'error');
+						}
+					})
+					.catch( (error) => {
+						console.log(error)
+					})
+					.finally(() => {
+						this.edit.item = {};
+					});
+				dialog = false;
+			},
+			storeModel( article ){
+				return (new Article).store( article )
+			}
+		}
 
 	}
 </script>

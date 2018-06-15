@@ -268,6 +268,8 @@
 </script>
 
 <style lang="scss">
-
+	#inspire {
+			background-color: #eee;
+	}
 
 </style>

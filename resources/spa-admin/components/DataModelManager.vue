@@ -1,83 +1,80 @@
 <template>
 	
-	<v-card>
+	<v-card class="elevation-2">
+		<!-- table top -->
 		<v-card-title>
 			<v-layout row>
 				<v-flex sm2>
 					<v-select v-if="selectable && actions.length"
-							label="Action"
-							single-line
-							bottom
-							persistent-hint
-							@input="actionSelected()"
-				      v-bind:items="actions"
-				      v-model="selectedAction"
-	            :disabled="!data.selectedItems.length"
-	            :hint="selectActionHint"
+						@input="actionSelected"
+				        v-model="selectedAction"
+				        :items="actions"
+	                    :disabled="!data.selectedItems.length"
+	                    :hint="selectActionHint"
+	                    label="Action"
+                        single-line
+                        bottom
+                        persistent-hint
 					></v-select>
 				</v-flex>
 				<v-spacer></v-spacer>
 				<v-flex sm3>
-					<v-text-field v-if="searchable"
-							append-icon="search"
-							label="Search"
-							single-line
-							hide-details
-							@input="fetchData()"
-							v-model="filter.search"
+					<v-text-field
+						@input="fetchData"
+						v-if="searchable"
+						v-model="filter.search"
+						append-icon="search"
+						label="Search"
+						single-line
+						hide-details
 					></v-text-field>
 				</v-flex>
 			</v-layout>
 		</v-card-title>
-		<v-data-table
-				v-bind:headers="headers"
-				v-bind:items="data.items"
-				v-bind:pagination.sync="filter.pagination"
-				v-model="data.selectedItems"
-				:total-items="filter.totalItems"
-				:loading="data.loading"
-				class="elevation-1"
-				select-all
+		<!-- table -->
+		<v-data-table style="min-height: 400px;"
+			v-model="data.selectedItems"
+			:headers="headers"
+			:items="data.items"
+			:pagination.sync="filter.pagination"
+			:total-items="filter.totalItems"
+			:loading="data.loading"
+			select-all
 		>
+			<!-- table headline -->
 			<template slot="headers" slot-scope="props">
 				<tr>
 					<th style="width: 50px; max-width: 50px;" v-if="selectable">
 						<v-checkbox
-								primary
-								hide-details
-								:input-value="props.all"
-								:indeterminate="props.indeterminate"
-								@click.native="toggleAll"
+							@click.native="toggleAll"
+							:input-value="props.all"
+							:indeterminate="props.indeterminate"
+							primary
+							hide-details
 						></v-checkbox>
 					</th>
-					<th v-for="header in headers" :key="header.text"
-							:style="{ textAlign: header.align, width: header.width }"
-					    :class="['column sortable', filter.pagination.descending ? 'desc' : 'asc', header.value ===
-					    filter.pagination.sortBy ? 'active' : '']"
-					    @click="changeSort(header.value)"
+					<th
+						@click="changeSort(header.value)"
+						v-for="header in headers"
+						:key="header.text"
+						:style="{ textAlign: header.align, width: header.width }"
+					    :class="['column sortable', filter.pagination.descending ? 'desc' : 'asc', header.value === filter.pagination.sortBy ? 'active' : '']"
 					>
-					<v-icon>arrow_upward</v-icon>
-						{{ header.text }}
+						<v-icon>arrow_upward</v-icon> {{ header.text }}
 					</th>
-					
-					<th v-if="rowActions" class="column" style="text-align: center; max-width: 70px; min-width: 70px;" :key="action.name" v-for="action in rowActions">
-						{{ action.name }}
-					</th>
+					<th v-if="rowActions" class="column">Actions</th>
 				</tr>
 			</template>
-			<template slot="items" slot-scope="props">
+			<!-- table rows -->
+			<template slot="items" slot-scope="props" style="min-height: 400px;">
 				<tr :active="props.selected" @click="props.selected = !props.selected">
 					<td v-if="selectable">
-						<v-checkbox
-								primary
-								hide-details
-								:input-value="props.selected"
-						></v-checkbox>
+						<v-checkbox :input-value="props.selected" primary hide-details></v-checkbox>
 					</td>
 					<td :style="{ textAlign: column.align }" v-for="column in headers">{{ formatColumn(props.item, column) }}</td>
-					<td class="justify-center px-0" style="text-align: center;" v-for="action in rowActions">
-						<v-btn style="text-align: center;" icon class="mx-0" @click.prevent.stop="action.callback.call(this, props.item)">
-							<v-icon color="teal">{{ action.icon }}</v-icon>
+					<td class="justify-center px-0" style="text-align: center;">
+						<v-btn v-for="action in rowActions" icon class="mx-0" @click.prevent.stop="action.callback.call(this, props.item)">
+							<v-icon :color="action.color ? action.color : 'teal'">{{ action.icon }}</v-icon>
 						</v-btn>
 					</td>
 				</tr>

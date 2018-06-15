@@ -94,6 +94,22 @@ abstract class ModelController implements ModelControllerInterface
         return $response->withJson( $Model->getProperties() )->withStatus(200);
     }
 
+    public function postStore(Request $request, Response $response)
+    {
+    	$formData = $request->getParsedBody();
+    	
+    	$errors = []; //$this->Model::validate($formData);
+    	
+    	if(count($errors)) return $response->withStatus(200)->withJson(['success' => false, 'data' => $errors]);
+    	
+    	$Model = $this->Model::create($formData);
+    	
+    	$id = $Model->save();
+    	
+    	if($id) return $response->withStatus(200)->withJson(['success' => true, 'data' => $Model->getFormatted()]);
+	    return $response->withStatus(500, 'Server Error: Could not save.');
+    }
+    
     /**
      * @param Request $request
      * @param Response $response
