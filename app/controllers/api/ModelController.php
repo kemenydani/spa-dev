@@ -155,6 +155,62 @@ abstract class ModelController implements ModelControllerInterface
 
         return $response->withJson( $data );
     }
+	
+	/**
+	 * @param Request $request
+	 * @param Response $response
+	 * @return Response
+	 */
+	public function findAll( Request $request, Response $response) : Response
+	{
+		return $this->findAllWhere($request, $response, true);
+	}
+
+	/**
+	 * @param Request $request
+	 * @param Response $response
+	 * @return Response
+	 */
+	public function likeAll( Request $request, Response $response) : Response
+	{
+		return $this->findAllWhere($request, $response, false );
+	}
+	
+	/**
+	 * @param Request $request
+	 * @param Response $response
+	 * @param bool $strict
+	 * @return Response
+	 */
+	private function findAllWhere(Request $request, Response $response, $strict = true)
+	{
+		$queryParams = $request->getQueryParams();
+		
+		$binds = [];
+		$where = "";
+		
+		$i = 0;
+		foreach($queryParams as $key => $value)
+		{
+			if($i === 0) $where .= ' WHERE ';
+			$binds[] = $value;
+			$where .= $key . ' = ? ';
+			$i++;
+			if($i < count($queryParams)) $where .= ' AND ';
+		}
+		
+		$q = " SELECT * FROM " . $this->Model::getTable() . $where;
+		
+		/* @var Model[] $Models */
+		$Models = $this->Model::getAll($q, $binds);
+		
+		$data = [];
+		
+		/* @var Model $Model */
+		foreach( $Models as $Model ) $data[] = $Model->getProperties();
+		
+		return $response->withJson( $data );
+	}
 
     public function searchPaginate( Request $request, Response $response, $args = [], $callback = null )
     {
@@ -165,7 +221,7 @@ abstract class ModelController implements ModelControllerInterface
     {
         $filterArray = json_decode($request->getQueryParam('filter'), true);
 
-        $orderDirection = $filterArray['descending'] !== true     ? 'DESC' : 'ASC';
+        $orderDirection = $filterArray['descending'] === true     ?  'ASC' : 'DESC';
         $currentPage    = is_numeric($filterArray['page'])        ? (int)$filterArray['page'] : 1;
         $rowsPerPage    = is_numeric($filterArray['rowsPerPage']) ? (int)$filterArray['rowsPerPage'] : 5;
         $sortBy         = strlen($filterArray['sortBy']) > 0      ? $filterArray['sortBy'] : 'id';

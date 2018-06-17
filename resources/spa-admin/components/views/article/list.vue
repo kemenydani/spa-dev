@@ -1,6 +1,6 @@
 <template>
 	<v-content>
-		
+	
 		<data-model-manager :model="table.model" :row-actions="table.rowActions" :headers="table.headers"></data-model-manager>
 		
 		<v-dialog
@@ -18,11 +18,11 @@
 					<v-toolbar-title>Compose Article</v-toolbar-title>
 					<v-spacer></v-spacer>
 					<v-toolbar-items>
-				
+					
 					</v-toolbar-items>
 					<v-spacer></v-spacer>
 					<v-toolbar-items>
-						<v-btn dark flat @click.native="saveCloseModel(compose.item, edit.dialog)">Save</v-btn>
+						<v-btn dark flat @click.native="saveCloseModel(compose.item); compose.dialog = false">Save</v-btn>
 					</v-toolbar-items>
 				</v-toolbar>
 				<v-card-text style="min-height: 100% !important; position: relative !important;">
@@ -33,7 +33,6 @@
 				</v-card-text>
 			</v-card>
 		</v-dialog>
-		<!-- edit dialog -->
 		
 		<v-dialog v-model="edit.dialog" max-width="500px">
 			<v-card>
@@ -62,21 +61,22 @@
 				<v-card-actions>
 					<v-spacer></v-spacer>
 					<v-btn color="blue darken-1" flat @click.native="edit.dialog = false">Close</v-btn>
-					<v-btn color="blue darken-1" flat @click.native="saveCloseModel(edit.item, edit.dialog)">Save</v-btn>
+					<v-btn color="blue darken-1" flat @click.native="saveCloseModel(edit.item); edit.dialog = false">Save</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
 		
 		<!-- fab -->
-		<router-link is="v-btn" :to="{ name: 'article.create' }"
-		             fab
-		             bottom
-		             right
-		             color="red"
-		             dark
-		             fixed>
-			<v-icon>add</v-icon>
-		</router-link>
+		<v-btn
+			@click="addModel"
+			fab
+			bottom
+			right
+			color="red"
+			dark
+			fixed>
+				<v-icon>add</v-icon>
+		</v-btn>
 	</v-content>
 </template>
 
@@ -135,6 +135,13 @@
 			}
 		},
 		methods : {
+			tableFetchData(){
+				this.$app.$emit('tableFetchData');
+			},
+			addModel(){
+				this.edit.dialog = true;
+				this.edit.item = { title: '', active: false, comments_enabled: true, highlighted: false };
+			},
 			composeArticle( article ){
 				this.compose.dialog = true;
 				this.compose.item = Object.assign({}, article);
@@ -158,6 +165,7 @@
 					})
 					.finally(() => {
 						this.edit.item = {};
+						this.tableFetchData();
 					});
 				dialog = false;
 			},

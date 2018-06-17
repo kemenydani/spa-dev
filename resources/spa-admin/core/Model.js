@@ -1,9 +1,28 @@
+
 export default class Model
 {
-
+	static instance(){
+		return new this;
+	}
+	
+	
 	all()
 	{
 		return this.DB.get('all')
+			.then( response => response.data )
+			.catch( error => error );
+	}
+	
+	findAll( query )
+	{
+		return this.DB.get('findAll', { params: query, headers: {'Content-Type': 'application/json'} })
+			.then( response => response.data )
+			.catch( error => error );
+	}
+	
+	findAllLike( query )
+	{
+		return this.DB.get('findAllLike', { params: query, headers: {'Content-Type': 'application/json'} })
 			.then( response => response.data )
 			.catch( error => error );
 	}

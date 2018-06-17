@@ -17,8 +17,9 @@ class Product extends \core\Model
 		'price',
         'currency',
 		'active',
+		'featured',
         'in_stock',
-        'desc',
+        'description',
         'comments_allowed'
 	];
 	
@@ -56,7 +57,7 @@ class Product extends \core\Model
 
     public function getDesc()
     {
-        return $this->getProperty('desc');
+        return $this->getProperty('description');
     }
 
     public function getInStock()

@@ -13,6 +13,7 @@ class Gallery extends Model
     public static $COLUMNS = [
         'id',
         'name',
+	    'active',
         'folder',
     ];
  

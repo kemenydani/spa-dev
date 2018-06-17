@@ -185,8 +185,7 @@
 			},
 			selectActionHint()
 			{
-				return (this.data.selectedItems.length > 0) ? 'Choose action for ' + this.data.selectedItems.length + ' selected items.' :
-					'';
+				return (this.data.selectedItems.length > 0) ? 'Choose action for ' + this.data.selectedItems.length + ' selected items.' : '';
 			}
 		},
 		methods: {
@@ -322,6 +321,7 @@
 		},
 		mounted () {
 			this.fetchData();
+			this.$app.$on('tableFetchData', this.fetchData);
 		},
 		watch: {
 			'filter.pagination': {
