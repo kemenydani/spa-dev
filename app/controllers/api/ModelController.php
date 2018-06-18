@@ -173,7 +173,7 @@ abstract class ModelController implements ModelControllerInterface
 	 */
 	public function likeAll( Request $request, Response $response) : Response
 	{
-		return $this->findAllWhere($request, $response, false );
+		return $this->findAllWhere($request, $response, false, 8 );
 	}
 	
 	/**
@@ -182,24 +182,36 @@ abstract class ModelController implements ModelControllerInterface
 	 * @param bool $strict
 	 * @return Response
 	 */
-	private function findAllWhere(Request $request, Response $response, $strict = true)
+	private function findAllWhere(Request $request, Response $response, $strict = true, $limit = null)
 	{
-		$queryParams = $request->getQueryParams();
+		$baseQuery = $request->getQueryParam('baseQuery');
+		$baseQuery = json_decode($baseQuery);
 		
+		$search = $request->getQueryParam('search');
+	
 		$binds = [];
 		$where = "";
 		
 		$i = 0;
-		foreach($queryParams as $key => $value)
+		foreach($baseQuery as $key => $value)
 		{
 			if($i === 0) $where .= ' WHERE ';
 			$binds[] = $value;
 			$where .= $key . ' = ? ';
 			$i++;
-			if($i < count($queryParams)) $where .= ' AND ';
+			if($i < count($baseQuery)) $where .= ' AND ';
+		}
+		
+		if($search) {
+			$searchColumns = $this->Model->getSearchColumns();
+			foreach($searchColumns as $key => $column){
+				$where .= " AND {$column} LIKE '%{$search}%'";
+			}
 		}
 		
 		$q = " SELECT * FROM " . $this->Model::getTable() . $where;
+		
+		if($limit) $q .= ' LIMIT ' . $limit;
 		
 		/* @var Model[] $Models */
 		$Models = $this->Model::getAll($q, $binds);

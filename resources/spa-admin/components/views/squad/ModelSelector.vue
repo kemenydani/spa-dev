@@ -1,21 +1,28 @@
 <template>
-	<v-select :label="label" :items="items" :return-object="true" :autocomplete="autoComplete"></v-select>
+	<v-select :label="label" @input="selection" :multiple="multiple" :search-input.sync="search" :items="items" :value="value" :autocomplete="autoComplete"></v-select>
 </template>
 
 <script>
 	export default {
-		name: "selectCategory",
+		name: "ModelSelector",
 		props: {
+			value : {
+				required: true,
+			},
 			label: {
 				type: String,
 				required: true,
 			},
-			text: {
+			multiple : {
+				type: Boolean,
+				required: false,
+				default : () => false
+			},
+			textColumn: {
 				type: String,
 				required: true,
 			},
-			value: {
-				type: String,
+			valueColumn: {
 				required: true,
 			},
 			context: {
@@ -39,24 +46,47 @@
 		},
 		data: () => {
 			return {
+				search : '',
 				loading : false,
-				/* text : value */
 				items: [],
 				searchMethod: null,
 			}
 		},
-		methods : {
-			fetchModels(){
-				return this.model.instance().findAll( this.baseQuery ).then( response => {
-					this.items = response.map( ( ri ) => {
-						return { text: ri[this.text], value: ri[this.value]  }
-					})
-					console.log(this.items)
-				})
+		watch : {
+			search: {
+				handler: function(v) {
+					this.fetchLazy()
+				}
 			}
 		},
-		created()
-		{
+		methods : {
+			fetchModels(){
+				if(!this.autoComplete){
+					return this.fetchStrict();
+				}
+			},
+			fetchStrict(){
+				return this.model.instance().findAll(  { baseQuery : this.baseQuery, search : this.search } ).then( response => {
+					this.items = response.map( ( ri ) =>
+					{
+						return { text: ri[this.textColumn], value: ri[this.valueColumn]  }
+					});
+				})
+			},
+			fetchLazy(){
+				return this.model.instance().findAllLike( { baseQuery : this.baseQuery, search : this.search } ).then( response => {
+					this.items = response.map( ( ri ) =>
+					{
+						return { text: ri[this.textColumn], value: ri[this.valueColumn]  }
+					});
+				})
+			},
+			selection(item) {
+			
+				this.$emit('input', item)
+			}
+		},
+		created() {
 			this.fetchModels();
 		}
 	}

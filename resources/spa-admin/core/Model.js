@@ -22,7 +22,7 @@ export default class Model
 	
 	findAllLike( query )
 	{
-		return this.DB.get('findAllLike', { params: query, headers: {'Content-Type': 'application/json'} })
+		return this.DB.get('likeAll', { params: query, headers: {'Content-Type': 'application/json'} })
 			.then( response => response.data )
 			.catch( error => error );
 	}

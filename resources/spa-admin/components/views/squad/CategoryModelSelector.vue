@@ -1,11 +1,14 @@
 <template>
 	<model-selector
 		:label="label"
+		:multiple="multiple"
 		:model="model"
-		:text="text"
+		:textColumn="textColumn"
+		:valueColumn="valueColumn"
 		:value="value"
 		:baseQuery="baseQuery"
-		:auto-complete="autoComplete"
+		:autoComplete="autoComplete"
+		@input="selection"
 	>
 	</model-selector>
 </template>
@@ -13,21 +16,18 @@
 <script>
 	
 	import Category from '../../../model/Category';
-	import ModelSelector from './ModelSelector';
+	import ModelSelectorMixin from './ModelSelectorMixin';
 	
 	export default {
-		components: { ModelSelector },
-		props: ['label', 'autoComplete'],
+		mixins: [ModelSelectorMixin],
 		data() {
 			return {
-				value : 'id',
-				text  : 'name',
+				textColumn  : 'name',
+				valueColumn : 'id',
 				model : Category,
 				baseQuery : { context : 'game' }
 			}
-		},
-		methods: {},
-		mounted() {}
+		}
 	}
 </script>
 

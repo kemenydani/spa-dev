@@ -4,7 +4,7 @@
 		<data-model-manager :model="table.model" :row-actions="table.rowActions" :headers="table.headers"></data-model-manager>
 		-->
 
-		<CategoryModelSelector label="Select Category"></CategoryModelSelector>
+		<CategoryModelSelector v-model="category" :multiple="true" :autoComplete="true" label="Select Category"></CategoryModelSelector>
 		
 		<v-dialog v-model="edit.dialog" max-width="500px">
 			<v-card>
@@ -61,8 +61,16 @@
 	
 	export default {
 		components: { DataModelManager, CategoryModelSelector },
+		watch : {
+			category : {
+				handler : function(v){
+					console.log(v)
+				}
+			}
+		},
 		data() {
 			return {
+				category : ['2', '3'],
 				edit : {
 					item : {},
 					title : 'Manage',
