@@ -45,10 +45,10 @@
 				
 				<router-link is="v-list-tile" :to="{ name: 'category.overview' }">
 					<v-list-tile-action>
-						<v-icon>library_books</v-icon>
+						<v-icon>notes</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
-						<v-list-tile-title>Content Categories</v-list-tile-title>
+						<v-list-tile-title>Categories</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
 				
@@ -63,7 +63,7 @@
 				
 				<router-link is="v-list-tile" :to="{ name: 'product.overview' }">
 					<v-list-tile-action>
-						<v-icon>photo</v-icon>
+						<v-icon>monetization_on</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
 						<v-list-tile-title>Products</v-list-tile-title>
@@ -92,7 +92,7 @@
 				
 				<router-link is="v-list-tile" :to="{ name: 'role.overview' }">
 					<v-list-tile-action>
-						<v-icon>transfer_within_a_station</v-icon>
+						<v-icon>vpn_key</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
 						<v-list-tile-title>User Roles</v-list-tile-title>
@@ -103,7 +103,7 @@
 				
 				<router-link is="v-list-tile" :to="{ name: 'squad.overview' }">
 					<v-list-tile-action>
-						<v-icon>people_outline</v-icon>
+						<v-icon>headset_mic</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
 						<v-list-tile-title>Squads</v-list-tile-title>
@@ -112,7 +112,7 @@
 				
 				<router-link is="v-list-tile" :to="{ name: 'enemy.overview' }">
 					<v-list-tile-action>
-						<v-icon>people_outline</v-icon>
+						<v-icon>games</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
 						<v-list-tile-title>Opponents</v-list-tile-title>
@@ -121,7 +121,7 @@
 				
 				<router-link is="v-list-tile" :to="{ name: 'event.overview' }">
 					<v-list-tile-action>
-						<v-icon>people_outline</v-icon>
+						<v-icon>today</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
 						<v-list-tile-title>Events</v-list-tile-title>
@@ -130,7 +130,7 @@
 				
 				<router-link is="v-list-tile" :to="{ name: 'match.overview' }">
 					<v-list-tile-action>
-						<v-icon>people_outline</v-icon>
+						<v-icon>reorder</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
 						<v-list-tile-title>Matches</v-list-tile-title>
@@ -139,24 +139,12 @@
 				
 				<router-link is="v-list-tile" :to="{ name: 'award.overview' }">
 					<v-list-tile-action>
-						<v-icon>people_outline</v-icon>
+						<v-icon>star</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
 						<v-list-tile-title>Awards</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
-				
-				<v-divider inset></v-divider>
-				
-				<router-link is="v-list-tile" :to="{ name: 'storage.overview' }">
-					<v-list-tile-action>
-						<v-icon>folder</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Storage</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
-	
 				
 			</v-list>
 		</v-navigation-drawer>
