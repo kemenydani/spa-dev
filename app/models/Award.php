@@ -17,7 +17,9 @@ class Award extends Model
 	    'squad_id',
         'description'
     ];
-
+	
+	static $SEARCH_COLUMNS = ['event_name', 'place'];
+    
     public function getSquad()
     {
     	return Squad::find(['squad_id' => $this->getSquadId()]);

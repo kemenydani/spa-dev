@@ -30,18 +30,9 @@
 				table: {
 					headers: [
 						{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},
-						{ text: 'Title', value: 'name', sortable: true, align: 'left' },
-						{
-							text: 'Activated',
-							value: 'active',
-							sortable: true,
-							align: 'right',
-							width: '200px',
-							format: function( value, values ){
-								return value == 1 ? 'Active' : 'Inactive';
-							}
-						},
-						{ text: 'Created At', value: 'date_created', sortable: true, align: 'right', width: '200px' },
+						{ text: 'Title', value: 'event_name', sortable: true, align: 'left' },
+						{ text: 'Place', value: 'place', sortable: true, align: 'center' },
+						{ text: 'Date', value: 'award_date', sortable: true, align: 'right', width: '200px' },
 					],
 					model: new Award()
 				},

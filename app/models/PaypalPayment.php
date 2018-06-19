@@ -26,7 +26,9 @@ class PaypalPayment extends \core\Model
 		'last_updated',
 		'post'
 	];
-
+	
+	static $SEARCH_COLUMNS = ['product_name', 'amount', 'currency', 'txn_id', 'ipn_track_id', 'payer_email', 'payment_status'];
+	
 	public function getId()
 	{
 		return $this->getProperty('id');

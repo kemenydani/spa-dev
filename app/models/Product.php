@@ -23,6 +23,8 @@ class Product extends \core\Model
         'comments_allowed'
 	];
 	
+	static $SEARCH_COLUMNS = ['name'];
+	
 	const IMAGE_PATH = __UPLOADS__ . '/images/product';
 
 	public function getId()
