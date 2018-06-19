@@ -1,10 +1,7 @@
 <template>
 	<v-content>
-		<!--
+		
 		<data-model-manager :model="table.model" :row-actions="table.rowActions" :headers="table.headers"></data-model-manager>
-		-->
-
-		<CategoryModelSelector v-model="category" :multiple="true" :autoComplete="true" label="Select Category"></CategoryModelSelector>
 		
 		<v-dialog v-model="edit.dialog" max-width="500px">
 			<v-card>
@@ -24,7 +21,7 @@
 								<v-switch :true-value="'1'" :false-value="'0'" label="Featured" v-model="edit.item.featured"></v-switch>
 							</v-flex>
 							<v-flex xs12>
-								<v-switch label="Game" v-model="edit.item.game_id"></v-switch>
+								<CategoryModelSelector v-model="edit.item.game_id" :context="'game'" label="Select Game"></CategoryModelSelector>
 							</v-flex>
 						</v-layout>
 					</v-container>
@@ -57,7 +54,7 @@
 	
 	import DataModelManager from '../../DataModelManager';
 	import Squad from '../../../model/Squad';
-	import CategoryModelSelector from './CategoryModelSelector';
+	import CategoryModelSelector from '../../CategoryModelSelector';
 	
 	export default {
 		components: { DataModelManager, CategoryModelSelector },
@@ -70,7 +67,6 @@
 		},
 		data() {
 			return {
-				category : ['2', '3'],
 				edit : {
 					item : {},
 					title : 'Manage',

@@ -4,10 +4,14 @@ export default {
 	components: { ModelSelector },
 	props: {
 		value : {
-			type: [String, Array],
+			
 			required : true
 		},
 		label : {
+			type: String,
+			required: false
+		},
+		context : {
 			type: String,
 			required: false
 		},

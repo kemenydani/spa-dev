@@ -13,7 +13,9 @@ class Squad extends Model
 
 	public static $PKEY = 'id';
 	public static $TABLE = 'squad';
-	
+
+    static $SEARCH_COLUMNS = ['name'];
+
 	public static $COLUMNS = [
 		'id',
 		'name',

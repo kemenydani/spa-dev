@@ -1379,7 +1379,7 @@ ALTER TABLE `_xyz_category`
 --
 -- Indexes for table `_xyz_category_context`
 --
-ALTER TABLE `_xyz_category_context`
+ALTER TABLE `_xyz_context`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1509,7 +1509,7 @@ ALTER TABLE `_xyz_category`
 --
 -- AUTO_INCREMENT for table `_xyz_category_context`
 --
-ALTER TABLE `_xyz_category_context`
+ALTER TABLE `_xyz_context`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `_xyz_notification`
@@ -1592,7 +1592,7 @@ ALTER TABLE `_xyz_article_category_pivot`
 -- Constraints for table `_xyz_context_category_pivot`
 --
 ALTER TABLE `_xyz_context_category_pivot`
-  ADD CONSTRAINT `_xyz_context_category_pivot_ibfk_1` FOREIGN KEY (`context_id`) REFERENCES `_xyz_category_context` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `_xyz_context_category_pivot_ibfk_1` FOREIGN KEY (`context_id`) REFERENCES `_xyz_context` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `_xyz_context_category_pivot_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `_xyz_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --

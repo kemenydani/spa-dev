@@ -15,7 +15,7 @@
 
 <script>
 	
-	import Category from '../../../model/Category';
+	import Category from '../model/Category';
 	import ModelSelectorMixin from './ModelSelectorMixin';
 	
 	export default {
@@ -25,7 +25,7 @@
 				textColumn  : 'name',
 				valueColumn : 'id',
 				model : Category,
-				baseQuery : { context : 'game' }
+				baseQuery : { context : this.context }
 			}
 		}
 	}

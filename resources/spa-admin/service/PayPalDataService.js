@@ -1,11 +1,11 @@
 
 import DataService from "../core/DataService";
 
-export default class CategoryDataService extends DataService {
+export default class PayPalDataService extends DataService {
 	
 	constructor()
 	{
-		super('category');
+		super('paypal');
 		
 		return this;
 	}

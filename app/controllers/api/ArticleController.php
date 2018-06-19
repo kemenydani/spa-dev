@@ -2,12 +2,12 @@
 
 namespace controllers\api;
 
+use core\DB;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 use models\Article as Article;
 use core\Auth as Auth;
-use core\DB as DB;
 use models\Comment as Comment;
 
 class ArticleController extends ModelController
@@ -15,6 +15,27 @@ class ArticleController extends ModelController
     public function __construct()
     {
         parent::__construct( new Article() );
+    }
+
+    public function getSearchPaginate( Request $request, Response $response, $args = [], $joinModels = []) : Response
+    {
+        return parent::getSearchPaginate($request, $response, [], function($items){
+
+            $q = "SELECT category_id FROM _xyz_article_category_pivot WHERE article_id = ? ";
+
+            foreach($items as &$article)
+            {
+                $categories = DB::instance()->getAll($q, $article['id']);
+
+                $idArr = [];
+
+                if(is_array($categories)) foreach($categories as $key => $value) $idArr[] = (string)$value['category_id'];
+
+                $article['categories'] = $idArr;
+            }
+
+            return $items;
+        });
     }
 
     public function postComment( Request $request, Response $response ) : Response

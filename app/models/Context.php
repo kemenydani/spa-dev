@@ -4,11 +4,11 @@ namespace models;
 
 use core\Model as Model;
 
-class Category extends Model
+class Context extends Model
 {
 	public static $PKEY = 'id';
-	public static $TABLE = 'category';
-    public static $COLUMNS = ['id', 'name', 'name_short', 'context', 'date_created'];
+	public static $TABLE = 'context';
+    public static $COLUMNS = ['id', 'name'];
 
     static $SEARCH_COLUMNS = ['name'];
 
@@ -28,21 +28,6 @@ class Category extends Model
     public function getName()
     {
         return $this->getProperty('name');
-    }
-
-    public function getNameShort()
-    {
-        return $this->getProperty('name_short');
-    }
-
-    public function getContext()
-    {
-        return $this->getProperty('context');
-    }
-
-    public function getDateCreated()
-    {
-        return $this->getProperty('date_created');
     }
 
 }

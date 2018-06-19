@@ -70,6 +70,15 @@
 					</v-list-tile-content>
 				</router-link>
 				
+				<router-link is="v-list-tile" :to="{ name: 'paypal.overview' }">
+					<v-list-tile-action>
+						<v-icon>payment</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>PayPal</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
+				
 				<router-link is="v-list-tile" :to="{ name: 'comment.overview' }">
 					<v-list-tile-action>
 						<v-icon>chat</v-icon>

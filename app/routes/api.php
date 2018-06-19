@@ -75,6 +75,14 @@ $app->group('/api', function ()
 		$this->post('/deactivate', 'controllers\api\ProductController:postDeactivate');
 		$this->post('/store', 'controllers\api\ProductController:postStore');
 	});
+
+    $this->group('/paypal', function()
+    {
+        $this->get('/all', 'controllers\api\PayPalController:getAll');
+        $this->get('/search_paginate', 'controllers\api\PayPalController:getSearchPaginate');
+        $this->post('/create', 'controllers\api\ProductController:postCreate');
+        $this->post('/delete', 'controllers\api\ProductController:postDelete');
+    });
     
     $this->group('/award', function()
     {
@@ -122,6 +130,17 @@ $app->group('/api', function ()
 		$this->get('/findAll', 'controllers\api\CategoryController:findAll');
 		$this->get('/likeAll', 'controllers\api\CategoryController:likeAll');
 	});
+
+    $this->group('/context', function()
+    {
+        $this->get('/all', 'controllers\api\ContextController:getAll');
+        $this->get('/search_paginate', 'controllers\api\ContextController:getSearchPaginate');
+        $this->post('/create', 'controllers\api\ContextController:postCreate');
+        $this->post('/delete', 'controllers\api\ContextController:postDelete');
+        $this->post('/store', 'controllers\api\ContextController:postStore');
+        $this->get('/findAll', 'controllers\api\ContextController:findAll');
+        $this->get('/likeAll', 'controllers\api\ContextController:likeAll');
+    });
 
     $this->group('/comment', function()
     {

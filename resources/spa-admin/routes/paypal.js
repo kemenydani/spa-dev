@@ -5,20 +5,20 @@ const Index = resolve =>
 
 const List= resolve =>
 {
-	require.ensure(['../components/views/category/list.vue'], () => resolve(require('../components/views/category/list.vue')))
+	require.ensure(['../components/views/paypal/list.vue'], () => resolve(require('../components/views/paypal/list.vue')))
 };
 
 export default
 {
-	path: '/category',
+	path: '/paypal',
 	component: Index,
 	children: [
 		{
 			path: '/',
 			component: List,
-			name: 'category.overview',
+			name: 'paypal.overview',
 			meta: {
-				title: 'Category Overview'
+				title: 'PayPal History'
 			}
 		},
 	]

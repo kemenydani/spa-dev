@@ -229,7 +229,7 @@ abstract class ModelController implements ModelControllerInterface
 
     }
 
-    public function getSearchPaginate( Request $request, Response $response, $args = [], $joinModels = [] ) : Response
+    public function getSearchPaginate( Request $request, Response $response, $args = [], $joinModels = null ) : Response
     {
         $filterArray = json_decode($request->getQueryParam('filter'), true);
 
@@ -251,16 +251,19 @@ abstract class ModelController implements ModelControllerInterface
         {
             foreach( $this->Model->getSearchColumns() as $key => $column  ) $searchConditions[] = 'main.' . $column . ' LIKE ' . "'%".$search."%'";
 
-            $jk = 1;
             /* @var Model $Model */
-            foreach($joinModels as $joinColumn => $Model)
+            if(is_array($joinModels))
             {
-                $alias = 'join' . $jk;
-                $joins .= ' LEFT JOIN ' . $Model::getTable() . ' '.$alias . ' ON ' . $alias . '.' . $Model::getPrimaryKey() . ' = main.' . $joinColumn;
-                foreach( $Model::$SEARCH_COLUMNS as $key => $column  ) $searchConditions[] = $alias . '.' . $column . ' LIKE ' . "'%".$search."%'";
-                $jk++;
-            }
+                $jk = 1;
 
+                foreach($joinModels as $joinColumn => $Model)
+                {
+                    $alias = 'join' . $jk;
+                    $joins .= ' LEFT JOIN ' . $Model::getTable() . ' '.$alias . ' ON ' . $alias . '.' . $Model::getPrimaryKey() . ' = main.' . $joinColumn;
+                    foreach( $Model::$SEARCH_COLUMNS as $key => $column  ) $searchConditions[] = $alias . '.' . $column . ' LIKE ' . "'%".$search."%'";
+                    $jk++;
+                }
+            }
         }
 
         $where = count($searchConditions) ? implode(' OR ', $searchConditions) : 1;
@@ -272,9 +275,9 @@ abstract class ModelController implements ModelControllerInterface
 
         $items = $sql->fetchAll(\PDO::FETCH_ASSOC );
 
-        //$total = DB::instance()->query('SELECT FOUND_ROWS()')->fetch(\PDO::FETCH_COLUMN );
-
         $total = DB::instance()->totalRowCount();
+
+        if(is_callable($joinModels)) $items = $joinModels(@$items);
 
         return $response->withJson( [ 'total' => (int)$total, 'items' => $items] );
     }

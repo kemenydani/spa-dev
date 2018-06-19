@@ -62,7 +62,7 @@
 					>
 						<v-icon>arrow_upward</v-icon> {{ header.text }}
 					</th>
-					<th v-if="rowActions" class="column">Actions</th>
+					<th v-if="rowActions.length" class="column">Actions</th>
 				</tr>
 			</template>
 			<!-- table rows -->

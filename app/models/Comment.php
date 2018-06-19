@@ -11,6 +11,8 @@ class Comment extends Model
     public static $TABLE = 'comment';
     public static $COLUMNS = ['id', 'pid', 'text', 'user_id', 'date_posted'];
 
+    static $SEARCH_COLUMNS = ['text', 'user_id'];
+
     protected $user = null;
     
     public function setUser( User $user )

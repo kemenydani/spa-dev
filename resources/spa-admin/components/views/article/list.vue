@@ -34,7 +34,7 @@
 			</v-card>
 		</v-dialog>
 		
-		<v-dialog v-model="edit.dialog" max-width="500px">
+		<v-dialog v-model="edit.dialog" max-width="800px">
 			<v-card>
 				<v-card-title>
 					<span class="headline">Edit Article</span>
@@ -53,6 +53,9 @@
 							</v-flex>
 							<v-flex xs12>
 								<v-switch :true-value="'1'" :false-value="'0'" label="Commentable" v-model="edit.item.comments_enabled"></v-switch>
+							</v-flex>
+							<v-flex xs12>
+								<CategoryModelSelector v-model="edit.item.categories" :multiple="true" :context="'article'" label="Select Category"></CategoryModelSelector>
 							</v-flex>
 						</v-layout>
 					</v-container>
@@ -84,9 +87,10 @@
 	
 	import DataModelManager from '../../DataModelManager';
 	import Article from '../../../model/Article';
+	import CategoryModelSelector from '../../CategoryModelSelector';
 	
 	export default {
-		components: { DataModelManager },
+		components: { DataModelManager, CategoryModelSelector },
 		data() {
 			return {
 				compose : {
@@ -116,19 +120,18 @@
 						}
 					],
 					headers: [
-						//{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},
+						{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},
 						{ text: 'Title', value: 'title', sortable: true, align: 'left' },
 						{
 							text: 'Activated',
 							value: 'active',
 							sortable: true,
 							align: 'right',
-							width: '200px',
 							format: function( value, values ){
 								return value == 1 ? 'Active' : 'Inactive';
 							}
 						},
-						{ text: 'Created At', value: 'date_created', sortable: true, align: 'right', width: '200px' },
+						{ text: 'Created At', value: 'date_created', sortable: true, align: 'right' },
 					],
 					model: new Article()
 				},
