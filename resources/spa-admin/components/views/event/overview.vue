@@ -2,7 +2,7 @@
 	<v-content>
 		<data-model-manager :row-actions="table.rowActions" :model="table.model" :headers="table.headers"></data-model-manager>
 		
-		<v-dialog v-model="edit.dialog" max-width="500px">
+		<v-dialog v-model="edit.dialog" max-width="800px">
 			<v-card>
 				<v-card-title>
 					<span class="headline">{{ edit.title }}</span>
@@ -189,7 +189,6 @@
 				return (new Event).store( model )
 			}
 		}
-		
 	}
 </script>
 

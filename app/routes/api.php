@@ -52,6 +52,9 @@ $app->group('/api', function ()
         $this->post('/activate', 'controllers\api\SquadController:postActivate');
         $this->post('/deactivate', 'controllers\api\SquadController:postDeactivate');
 	    $this->post('/store', 'controllers\api\SquadController:postStore');
+	
+	    $this->get('/findAll', 'controllers\api\SquadController:findAll');
+	    $this->get('/likeAll', 'controllers\api\SquadController:likeAll');
     });
 
     $this->group('/event', function()
