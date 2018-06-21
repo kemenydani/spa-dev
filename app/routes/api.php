@@ -1,5 +1,10 @@
 <?php
 
+use models\Article;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use controllers\api\ImageUploadController;
+
 $app->group('/api', function ()
 {
     $this->get('/build', 'controllers\PublicSPAController:build');
@@ -31,6 +36,20 @@ $app->group('/api', function ()
         $this->post('/activate', 'controllers\api\ArticleController:postActivate');
         $this->post('/deactivate', 'controllers\api\ArticleController:postDeactivate');
 		$this->post('/store', 'controllers\api\ArticleController:postStore');
+
+        $this->post('/uploadArticleImage', function(Request $request, Response $response)
+        {
+            $id = $request->getQueryParam('id');
+            /* @var Article $Article */
+            $Article = Article::find($id);
+
+            return ImageUploadController::upload($request, $response, Article::IMAGE_PATH, function($filename) use ($Article)
+            {
+                $Article->setProperty('headline_image', $filename);
+                $Article->save();
+                return 'http://phpapp' . $Article->formatHeadlineImage();
+            });
+        });
 	});
 
     $this->group('/gallery', function()
