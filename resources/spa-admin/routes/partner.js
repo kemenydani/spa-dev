@@ -5,22 +5,21 @@ const Index = resolve =>
 
 const Overview = resolve =>
 {
-	require.ensure(['../components/views/article/overview.vue'], () => resolve(require('../components/views/article/overview.vue')))
+	require.ensure(['../components/views/partner/overview.vue'], () => resolve(require('../components/views/partner/overview.vue')))
 };
-
 
 export default
 {
-    path: '/article',
+    path: '/partner',
     component: Index,
     children: [
         {
             path: '/',
             component: Overview,
-            name: 'article.overview',
+            name: 'partner.overview',
             meta: {
-                title: 'Article Overview'
+                title: 'Partner Overview'
             }
-        },
+        }
     ]
 }

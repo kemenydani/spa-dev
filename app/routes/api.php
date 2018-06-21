@@ -18,6 +18,8 @@ $app->group('/api', function ()
 
         $this->post('/activate', 'controllers\api\UserController:postActivate');
         $this->post('/deactivate', 'controllers\api\UserController:postDeactivate');
+
+        $this->post('/store', 'controllers\api\UserController:postStore');
     });
 	
 	$this->group('/article', function()
@@ -41,6 +43,18 @@ $app->group('/api', function ()
         $this->post('/deactivate', 'controllers\api\GalleryController:postDeactivate');
         $this->post('/uploadImage', 'controllers\api\GalleryController:postUploadImage');
 	    $this->post('/store', 'controllers\api\GalleryController:postStore');
+    });
+
+    $this->group('/partner', function()
+    {
+        $this->get('/all', 'controllers\api\PartnerController:getAll');
+        $this->get('/search_paginate', 'controllers\api\PartnerController:getSearchPaginate');
+        $this->post('/create', 'controllers\api\PartnerController:postCreate');
+        $this->post('/delete', 'controllers\api\PartnerController:postDelete');
+        $this->post('/activate', 'controllers\api\PartnerController:postActivate');
+        $this->post('/deactivate', 'controllers\api\PartnerController:postDeactivate');
+        $this->post('/uploadImage', 'controllers\api\PartnerController:postUploadImage');
+        $this->post('/store', 'controllers\api\PartnerController:postStore');
     });
 
     $this->group('/squad', function()
@@ -67,7 +81,7 @@ $app->group('/api', function ()
         $this->post('/deactivate', 'controllers\api\EventController:postDeactivate');
 	    $this->post('/store', 'controllers\api\EventController:postStore');
     });
-	
+
 	$this->group('/product', function()
 	{
 		$this->get('/all', 'controllers\api\ProductController:getAll');
@@ -78,6 +92,17 @@ $app->group('/api', function ()
 		$this->post('/deactivate', 'controllers\api\ProductController:postDeactivate');
 		$this->post('/store', 'controllers\api\ProductController:postStore');
 	});
+
+    $this->group('/squad_member', function()
+    {
+        $this->get('/all', 'controllers\api\SquadMemberController:getAll');
+        $this->get('/search_paginate', 'controllers\api\SquadMemberController:getSearchPaginate');
+        $this->post('/create', 'controllers\api\SquadMemberController:postCreate');
+        $this->post('/delete', 'controllers\api\SquadMemberController:postDelete');
+        $this->post('/activate', 'controllers\api\SquadMemberController:postActivate');
+        $this->post('/deactivate', 'controllers\api\SquadMemberController:postDeactivate');
+        $this->post('/store', 'controllers\api\SquadMemberController:postStore');
+    });
 
     $this->group('/paypal', function()
     {
@@ -113,6 +138,9 @@ $app->group('/api', function ()
         $this->get('/search_paginate', 'controllers\api\EnemyController:getSearchPaginate');
         $this->post('/create', 'controllers\api\EnemyController:postCreate');
         $this->post('/delete', 'controllers\api\EnemyController:postDelete');
+
+        $this->get('/findAll', 'controllers\api\EnemyController:findAll');
+        $this->get('/likeAll', 'controllers\api\EnemyController:likeAll');
 	    $this->post('/store', 'controllers\api\EnemyController:postStore');
     });
 
@@ -133,6 +161,13 @@ $app->group('/api', function ()
 		$this->get('/findAll', 'controllers\api\CategoryController:findAll');
 		$this->get('/likeAll', 'controllers\api\CategoryController:likeAll');
 	});
+
+    $this->group('/country', function()
+    {
+        $this->get('/all', 'controllers\api\CategoryController:getAll');
+        $this->get('/findAll', 'controllers\api\CountryController:findAll');
+        $this->get('/likeAll', 'controllers\api\CountryController:likeAll');
+    });
 
     $this->group('/context', function()
     {

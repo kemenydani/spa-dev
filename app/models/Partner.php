@@ -14,9 +14,14 @@ class Partner extends Model
         'name',
         'logo',
         'website_url',
+        'featured_top',
+        'featured_bottom',
+        'active',
         'description',
         'dark_colored',
     ];
+
+    public static $SEARCH_COLUMNS = ['name', "website_url"];
 
     public function getId()
     {

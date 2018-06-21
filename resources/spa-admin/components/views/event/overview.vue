@@ -20,7 +20,7 @@
 								<v-switch :true-value="'1'" :false-value="'0'" label="Active" v-model="edit.item.active"></v-switch>
 							</v-flex>
 							<v-flex xs12>
-								<v-switch :true-value="'1'" :false-value="'0'" label="Active" v-model="edit.item.comments_enabled"></v-switch>
+								<v-switch :true-value="'1'" :false-value="'0'" label="Commentable" v-model="edit.item.comments_enabled"></v-switch>
 							</v-flex>
 							<v-flex xs12>
 								<v-menu

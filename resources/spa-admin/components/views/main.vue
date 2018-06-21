@@ -34,7 +34,7 @@
 				
 				<v-divider inset></v-divider>
 				
-				<router-link is="v-list-tile" :to="{ name: 'article.list' }">
+				<router-link is="v-list-tile" :to="{ name: 'article.overview' }">
 					<v-list-tile-action>
 						<v-icon>font_download</v-icon>
 					</v-list-tile-action>
@@ -85,6 +85,15 @@
 					</v-list-tile-action>
 					<v-list-tile-content>
 						<v-list-tile-title>Comments</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
+				
+				<router-link is="v-list-tile" :to="{ name: 'partner.overview' }">
+					<v-list-tile-action>
+						<v-icon>contacts</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>Partners</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
 				

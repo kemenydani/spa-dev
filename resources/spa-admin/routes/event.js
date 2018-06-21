@@ -18,7 +18,7 @@ export default
             component: Overview,
             name: 'event.overview',
             meta: {
-                title: 'Gallery Overview'
+                title: 'Event Overview'
             }
         }
     ]

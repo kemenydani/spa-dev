@@ -4,7 +4,6 @@ export default {
 	components: { ModelSelector },
 	props: {
 		value : {
-			
 			required : true
 		},
 		label : {

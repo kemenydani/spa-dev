@@ -58,13 +58,6 @@
 	
 	export default {
 		components: { DataModelManager, CategoryModelSelector },
-		watch : {
-			category : {
-				handler : function(v){
-					console.log(v)
-				}
-			}
-		},
 		data() {
 			return {
 				edit : {

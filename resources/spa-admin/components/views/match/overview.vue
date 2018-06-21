@@ -13,12 +13,14 @@
 							<v-flex xs12>
 								<SquadModelSelector v-model="edit.item.squad_id" label="Select Squad"></SquadModelSelector>
 							</v-flex>
-							<!-- enemyselector ... -->
+							<v-flex xs12>
+								<EnemyModelSelector v-model="edit.item.enemy_team_id" label="Select Opponent Team"></EnemyModelSelector>
+							</v-flex>
 							<v-flex xs12>
 								<CategoryModelSelector :context="'game'" v-model="edit.item.game_id" label="Select Game"></CategoryModelSelector>
 							</v-flex>
 							<v-flex xs12>
-								<EventModelSelector v-model="edit.item.event_id" label="Select Squad"></EventModelSelector>
+								<EventModelSelector v-model="edit.item.event_id" label="Select Event"></EventModelSelector>
 							</v-flex>
 							<v-flex xs12>
 								<v-switch :true-value="'1'" :false-value="'0'" label="Featured" v-model="edit.item.featured"></v-switch>
@@ -62,6 +64,29 @@
 			</v-card>
 		</v-dialog>
 		
+		<v-dialog v-model="maps.dialog" max-width="800px">
+			<v-card>
+				<v-card-title>
+					<span class="headline">{{ maps.title }}</span>
+				</v-card-title>
+				<v-card-text>
+					<v-container grid-list-md>
+						<v-layout wrap>
+							<v-flex xs12>
+								<v-text-field label="Name" v-model="maps.item.name" required></v-text-field>
+							</v-flex>
+						</v-layout>
+					</v-container>
+					<small>*indicates required field</small>
+				</v-card-text>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn color="blue darken-1" flat @click.native="maps.dialog = false">Close</v-btn>
+					<v-btn color="blue darken-1" flat @click.native="saveCloseModel(edit.item); maps.dialog = false">Save</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+		
 		<v-btn
 				@click="addModel"
 				fab
@@ -83,9 +108,11 @@
 	import Match from '../../../model/Match';
 	import SquadModelSelector from '../../SquadModelSelector';
 	import CategoryModelSelector from '../../CategoryModelSelector';
+	import EventModelSelector from '../../EventModelSelector';
+	import EnemyModelSelector from '../../EnemyModelSelector';
 	
 	export default {
-		components: { DataModelManager, SquadModelSelector, CategoryModelSelector },
+		components: { DataModelManager, SquadModelSelector, CategoryModelSelector, EventModelSelector, EnemyModelSelector },
 		data() {
 			return {
 				edit : {
@@ -94,7 +121,24 @@
 					dialog: false,
 					datePickerMenu: false,
 				},
+				maps : {
+					item : {},
+					title : 'Manage Maps',
+					dialog: false,
+				},
 				table: {
+					rowActions : [
+						{
+							name : 'Edit',
+							icon : 'edit',
+							callback : this.editModel
+						},
+						{
+							name : 'Maps',
+							icon : 'map',
+							callback : this.editMaps
+						},
+					],
 					actions : ['delete'],
 					headers: [
 						{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},
@@ -117,6 +161,11 @@
 				this.edit.dialog = true;
 				this.edit.title = 'Edit';
 				this.edit.item = Object.assign({}, model );
+			},
+			editMaps( model ){
+				this.maps.dialog = true;
+				this.maps.title = 'Edit Maps';
+				this.maps.item = Object.assign({}, model );
 			},
 			saveCloseModel( model, dialog )
 			{

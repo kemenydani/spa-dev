@@ -61,14 +61,13 @@
 		},
 		methods : {
 			fetchModels(){
-				if(!this.autoComplete){
-					return this.fetchStrict();
-				}
+					return this.fetchLazy();
 			},
 			fetchStrict(){
 				return this.model.instance().findAll(  { baseQuery : this.baseQuery, search : this.search } ).then( response => {
 					this.items = response.map( ( ri ) =>
 					{
+						console.log(ri)
 						return { text: ri[this.textColumn], value: ri[this.valueColumn]  }
 					});
 				})
@@ -77,12 +76,12 @@
 				return this.model.instance().findAllLike( { baseQuery : this.baseQuery, search : this.search } ).then( response => {
 					this.items = response.map( ( ri ) =>
 					{
+						console.log(ri)
 						return { text: ri[this.textColumn], value: ri[this.valueColumn]  }
 					});
 				})
 			},
 			selection(item) {
-			
 				this.$emit('input', item)
 			}
 		},

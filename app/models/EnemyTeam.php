@@ -15,6 +15,8 @@ class EnemyTeam extends Model
         'game_id',
     ];
 
+    public static $SEARCH_COLUMNS = ['name'];
+
     const IMAGE_PATH = __UPLOADS__ . '/images/enemy_team';
 
     public function requestLogo()

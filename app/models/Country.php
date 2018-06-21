@@ -272,6 +272,10 @@ class Country
         return $this;
     }
 
+    public static function getAll(){
+        return self::$db;
+    }
+
     public static function create( $code = null )
     {
         return new static($code);

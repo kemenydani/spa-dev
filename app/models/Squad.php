@@ -22,6 +22,8 @@ class Squad extends Model
 		'game_id',
 		'header_image',
         'home_wallpaper',
+        'active',
+        'featured',
         'logo',
 		'position',
 	];

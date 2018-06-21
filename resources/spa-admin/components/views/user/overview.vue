@@ -1,20 +1,63 @@
 <template>
 	<v-content>
-		<data-model-manager :model="table.model" :actions-allowed="table.actions"  :headers="table.headers">
 		
-		</data-model-manager>
+		<data-model-manager :model="table.model" :row-actions="table.rowActions" :actions-allowed="table.actions"  :headers="table.headers"></data-model-manager>
 		
-		<router-link is="v-btn" :to="{ name: 'user.create' }"
-		             fab
-		             bottom
-		             right
-		             color="red"
-		             dark
-		             fixed
-		>
-			<v-icon>add</v-icon>
-		</router-link>
-	
+		<v-dialog v-model="edit.dialog" max-width="800px">
+			<v-card>
+				<v-card-title>
+					<span class="headline">{{ edit.title }}</span>
+				</v-card-title>
+				<v-card-text>
+					<v-container grid-list-md>
+						<v-layout wrap>
+							<v-flex xs12>
+								<v-text-field label="Title" v-model="edit.item.username" required></v-text-field>
+							</v-flex>
+							<v-flex xs12>
+								<v-text-field label="Email" v-model="edit.item.email" required></v-text-field>
+							</v-flex>
+							<v-flex xs12>
+								<CountryModelSelector v-model="edit.item.country_code" :autoComplete="true" label="Select Country"></CountryModelSelector>
+							</v-flex>
+						</v-layout>
+					</v-container>
+					<small>*indicates required field</small>
+				</v-card-text>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn color="blue darken-1" flat @click.native="edit.dialog = false">Close</v-btn>
+					<v-btn color="blue darken-1" flat @click.native="saveCloseModel(edit.item); edit.dialog = false">Save</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+		<!--
+		<v-dialog v-model="editpw.dialog" max-width="800px">
+			<v-card>
+				<v-card-title>
+					<span class="headline">{{ editpw.title }}</span>
+				</v-card-title>
+				<v-card-text>
+					<v-container grid-list-md>
+						<v-layout wrap>
+							<v-flex xs12>
+								<v-text-field label="Title" v-model="editpw.item.password" required></v-text-field>
+							</v-flex>
+							<v-flex xs12>
+								<v-text-field label="Title" v-model="editpw.item.password_repeat" required></v-text-field>
+							</v-flex>
+						</v-layout>
+					</v-container>
+					<small>*indicates required field</small>
+				</v-card-text>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn color="blue darken-1" flat @click.native="editpw.dialog = false">Close</v-btn>
+					<v-btn color="blue darken-1" flat @click.native="saveCloseModel(editpw.item); editpw.dialog = false">Save</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+		-->
 	</v-content>
 </template>
 
@@ -22,13 +65,40 @@
 	
 	import DataModelManager from '../../DataModelManager';
 	import User from '../../../model/User';
+	import CountryModelSelector from "../../CountryModelSelector";
 	
 	export default {
-		components: { DataModelManager },
+		components: {CountryModelSelector, DataModelManager },
 		data() {
 			return {
+				edit : {
+					item : {},
+					title : 'Manage',
+					dialog: false
+				},
+				/*
+				editpw : {
+					item : {},
+					title : 'Edit Password',
+					dialog: false
+				},
+				*/
 				table: {
 					actions : ['delete'],
+					rowActions : [
+						{
+							name : 'Edit',
+							icon : 'edit',
+							callback : this.editModel
+						},
+						/*
+						{
+							name : 'Edit Password',
+							icon : 'vpn_key',
+							callback : this.editPassword
+						},
+						*/
+					],
 					headers: [
 						{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},
 						{ text: 'Name', value: 'username', sortable: true, align: 'left' },
@@ -38,7 +108,47 @@
 				},
 			}
 		},
-		
+		methods : {
+			tableFetchData(){
+				this.$app.$emit('tableFetchData');
+			},
+			editModel( model ){
+				this.edit.dialog = true;
+				this.edit.title = 'Edit';
+				this.edit.item = Object.assign({}, model );
+			},
+			editPassword( model ){
+				this.editpw.dialog = true;
+				this.editpw.title = 'Edit Password';
+				this.editpw.item = Object.assign({}, model );
+				this.editpw.item.passwod = null;
+				this.editpw.item.passwod_repeat = null;
+			},
+			saveCloseModel( model, dialog )
+			{
+				this.$app.$emit('toast', 'Saving...', 'info');
+				
+				this.storeModel( model )
+					.then((response) => {
+						if(response.success) {
+							this.$app.$emit('toast', 'Saved : ' + response.data.username  , 'success');
+						} else {
+							this.$app.$emit('toast', 'Save failed: ' + response.data.username, 'error');
+						}
+					})
+					.catch( (error) => {
+						this.$app.$emit('toast', 'Database Error', 'error');
+					})
+					.finally(() => {
+						this.edit.item = {};
+						this.tableFetchData();
+					});
+				dialog = false;
+			},
+			storeModel( model ){
+				return (new User).store( model )
+			}
+		}
 	}
 </script>
 

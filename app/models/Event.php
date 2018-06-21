@@ -14,11 +14,14 @@ class Event extends Model
         'id',
         'name',
         'website',
+        'active',
         'description',
         'comments_enabled',
         'start_date',
 	    'end_date',
     ];
+
+    public static $SEARCH_COLUMNS = ['name', 'website'];
 
     public function getMatches()
     {
