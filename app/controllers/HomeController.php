@@ -90,7 +90,8 @@ class HomeController extends ViewController
                     $randomFeaturedItem['type']   = 'product';
 	                $randomFeaturedItem['id']     = $Product->getId();
                     $randomFeaturedItem['name']   = $Product->getName();
-                    $randomFeaturedItem['image']  = $Product->getPreviewImage()->requestImageUrl();
+                    $img = $Product->getPreviewImage();
+                    if($img) $randomFeaturedItem['image'] = $img->requestImageUrl();
                     $randomFeaturedItem['teaser'] = $Product->getPrice() . ' ' . $Product->getCurrency();
                     $href = '/product/' . $Product->getId();
                     $randomFeaturedItem['button_next'] = "<a class='more-button' href='".$href."'>Buy Now</a>";
