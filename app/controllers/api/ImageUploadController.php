@@ -22,7 +22,7 @@ class ImageUploadController
         $basename = basename($uploadedFile->getClientFilename());
 
         //TODO:: pathinfo bug, fix: double fake extansion needed
-        $fileName = '_' . md5($basename) . ".jpg";
+        $fileName = '_' . md5(sanitize($basename, true, true)) . ".jpg.jpg";
 
         $img = $ImageManager->make($uploadedFile->getStream());
 

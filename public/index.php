@@ -1,6 +1,6 @@
 <?php
-ini_set('post_max_size', '30M');
-ini_set('upload_max_filesize', '30M');
+ini_set('post_max_size', '100M');
+ini_set('upload_max_filesize', '100M');
 error_reporting(0);
 session_start();
 

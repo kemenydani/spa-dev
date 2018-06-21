@@ -90,11 +90,20 @@
 				
 				for(let i = 0; i < files.length; i++)
 				{
+					let randName = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+					let ext = files[i].name.split('.').pop();
+					let blob = files[i].slice(0, -1, files[i].type);
+					
+					let file = new File([blob], randName + '.' + ext, {
+						type: files[i].type,
+						size: files[i].size
+					});
+					
 					this.fileQueue.push({
 						index : i,
-						file : files[i],
-						name : files[i].name,
-						size : files[i].size,
+						file : file,
+						name : file.name,
+						size : file.size,
 						preview : false,
 						cropped: null,
 						url : '',
@@ -105,9 +114,12 @@
 			},
 			uploadFile( queueItem )
 			{
-				let formData = new FormData();
-				formData.append('image', queueItem.file, queueItem.file.name);
+
 				
+				let formData = new FormData();
+				
+				formData.append('image', queueItem.file, queueItem.file.name);
+				console.log(queueItem.file)
 				return new Promise( (resolve, reject) =>
 				{
 					this.axios.post('api/' + this.apiRoute, formData,
