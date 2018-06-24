@@ -35,7 +35,7 @@
 				fab
 				bottom
 				right
-				color="red"
+				color="amber accent-3"
 				dark
 				fixed>
 			<v-icon>add</v-icon>

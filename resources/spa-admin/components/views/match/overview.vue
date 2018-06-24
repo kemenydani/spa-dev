@@ -70,19 +70,40 @@
 					<span class="headline">{{ maps.title }}</span>
 				</v-card-title>
 				<v-card-text>
-					<v-container grid-list-md>
-						<v-layout wrap>
-							<v-flex xs12>
-								<v-text-field label="Name" v-model="maps.item.name" required></v-text-field>
-							</v-flex>
-						</v-layout>
-					</v-container>
-					<small>*indicates required field</small>
+					<v-layout wrap>
+						<v-flex xs12 v-for="map in maps.items">
+							<v-card color="grey lighten-3">
+								<v-card-text>
+									<v-layout row wrap>
+										<v-flex xs-8>
+											<label>Map name</label>
+											<v-text-field prepend-icon="map" v-model="map.name"></v-text-field>
+										</v-flex>
+
+										<v-flex xs-2>
+											<label>Home score</label>
+											<v-text-field type="number" prepend-icon="exposure" style="text-align: center;" v-model="map.homeScore"></v-text-field>
+										</v-flex>
+
+										<v-flex xs-2>
+											<label>Enemy score</label>
+											<v-text-field type="number" prepend-icon="exposure" style="text-align: center;" v-model="map.enemyScore"></v-text-field>
+										</v-flex>
+									</v-layout>
+								</v-card-text>
+								<v-card-actions>
+									<v-btn flat color="orange">REMOVE</v-btn>
+								</v-card-actions>
+							</v-card>
+							<br>
+						</v-flex>
+					</v-layout>
 				</v-card-text>
 				<v-card-actions>
+					<v-btn flat color="orange" @click="maps.items.push({ name: null, homeScore: 0, enemyScore: 0 })">ADD MAP +</v-btn>
 					<v-spacer></v-spacer>
-					<v-btn color="blue darken-1" flat @click.native="maps.dialog = false">Close</v-btn>
-					<v-btn color="blue darken-1" flat @click.native="saveCloseModel(edit.item); maps.dialog = false">Save</v-btn>
+					<v-btn color="orange" flat @click.native="maps.dialog = false">Close</v-btn>
+					<v-btn color="orange" flat @click.native="saveCloseModel(edit.item); maps.dialog = false">Save</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -92,7 +113,7 @@
 				fab
 				bottom
 				right
-				color="red"
+				color="amber accent-3"
 				dark
 				fixed
 		>
@@ -122,7 +143,11 @@
 					datePickerMenu: false,
 				},
 				maps : {
-					item : {},
+					items : [
+						{ name: 'dust2', homeScore: 0, enemyScore: 0 },
+                        { name: 'dust3', homeScore: 0, enemyScore: 0 },
+                        { name: 'dust4', homeScore: 0, enemyScore: 0 }
+					],
 					title : 'Manage Maps',
 					dialog: false,
 				},

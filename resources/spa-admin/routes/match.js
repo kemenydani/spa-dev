@@ -18,7 +18,7 @@ export default
             component: Overview,
             name: 'match.overview',
             meta: {
-                title: 'Gallery Overview'
+                title: 'Match Overview'
             }
         }
     ]

@@ -18,7 +18,7 @@ export default
             component: Overview,
             name: 'enemy.overview',
             meta: {
-                title: 'Gallery Overview'
+                title: 'Opponent Overview'
             }
         }
     ]

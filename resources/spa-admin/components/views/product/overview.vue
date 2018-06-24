@@ -51,7 +51,7 @@
 			fab
 			bottom
 			right
-			color="red"
+			color="amber accent-3"
 			dark
 			fixed
 		>

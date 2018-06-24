@@ -12,25 +12,22 @@
 					<v-container grid-list-md>
 						<v-layout wrap>
 							<v-flex xs12>
+								<UserModelSelector v-model="edit.item.user_id" :auto-complete="true" label="Select User"></UserModelSelector>
+							</v-flex>
+							<v-flex xs12>
 								<v-text-field label="Name" v-model="edit.item.name" required></v-text-field>
 							</v-flex>
 							<v-flex xs12>
-								<v-text-field label="Webiste" v-model="edit.item.website_url" required></v-text-field>
+								<v-text-field label="Position" v-model="edit.item.position"></v-text-field>
 							</v-flex>
 							<v-flex xs12>
-								<v-text-field :textarea="true" :rows="3" v-model="edit.item.description"></v-text-field>
+								<SquadModelSelector v-model="edit.item.squad_id" label="Select Squad"></SquadModelSelector>
 							</v-flex>
 							<v-flex xs12>
-								<v-switch :true-value="'1'" :false-value="'0'" label="Featured Top" v-model="edit.item.featured_top"></v-switch>
-							</v-flex>
-							<v-flex xs12>
-								<v-switch :true-value="'1'" :false-value="'0'" label="Featured Bottom" v-model="edit.item.featured_bottom"></v-switch>
+								<v-text-field :textarea="true"  :rows="3" v-model="edit.item.description"></v-text-field>
 							</v-flex>
 							<v-flex xs12>
 								<v-switch :true-value="'1'" :false-value="'0'" label="Active" v-model="edit.item.active"></v-switch>
-							</v-flex>
-							<v-flex xs12>
-								<v-switch :true-value="'1'" :false-value="'0'" label="Dark colored" v-model="edit.item.dark_colored"></v-switch>
 							</v-flex>
 						</v-layout>
 					</v-container>
@@ -43,13 +40,13 @@
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
-		
+
 		<v-btn
 				@click="addModel"
 				fab
 				bottom
 				right
-				color="red"
+				color="amber accent-3"
 				dark
 				fixed
 		>
@@ -62,10 +59,12 @@
 <script>
 	
 	import DataModelManager from '../../DataModelManager';
-	import Partner from '../../../model/Partner';
-	
+    import SquadMember from "../../../model/SquadMember";
+    import SquadModelSelector from '../../SquadModelSelector';
+    import UserModelSelector from '../../UserModelSelector';
+
 	export default {
-		components: { DataModelManager },
+		components: { DataModelManager, SquadModelSelector, UserModelSelector },
 		data() {
 			return {
 				contexts: [],
@@ -74,6 +73,11 @@
 					title : 'Manage',
 					dialog: false
 				},
+                compose : {
+                    item : {},
+                    title : 'Members',
+                    dialog: false
+                },
 				table: {
 					actions : ['delete','activate', 'deactivate'],
 					rowActions : [
@@ -91,7 +95,6 @@
 					headers: [
 						{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},
 						{ text: 'Name', value: 'name', sortable: true, align: 'left' },
-						{ text: 'Website', value: 'website_url', sortable: true, align: 'left' },
 						{
 							text: 'Activated',
 							value: 'active',
@@ -102,7 +105,7 @@
 							}
 						},
 					],
-					model: new Partner()
+					model: new SquadMember()
 				},
 			}
 		},
@@ -113,7 +116,7 @@
 			addModel(){
 				this.edit.dialog = true;
 				this.edit.title = 'Add';
-				this.edit.item = { name: '', website_url: '', active: false, featured_top : false, featured_bottom: false, dark_colored: false, description: '' };
+				this.edit.item = { name: '', squad_id: null, user_id: null };
 			},
 			editModel( model ){
 				this.edit.dialog = true;
@@ -127,9 +130,9 @@
 				this.storeModel( model )
 					.then((response) => {
 						if(response.success) {
-							this.$app.$emit('toast', 'Saved : ' + response.data.name  , 'success');
+							this.$app.$emit('toast', 'Saved : ' + response.data.id , 'success');
 						} else {
-							this.$app.$emit('toast', 'Save failed: ' + response.data.name, 'error');
+							this.$app.$emit('toast', 'Save failed: ' + response.data.id, 'error');
 						}
 					})
 					.catch( (error) => {
@@ -142,7 +145,7 @@
 				dialog = false;
 			},
 			storeModel( model ){
-				return (new Partner).store( model )
+				return (new SquadMember).store( model )
 			},
 		}
 		

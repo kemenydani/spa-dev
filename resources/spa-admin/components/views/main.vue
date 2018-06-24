@@ -11,9 +11,11 @@
 			@mouseenter.native="toggleDrawerDelayed( $event )"
 			@mouseleave.native="toggleDrawerDelayed( $event )"
 			app>
-			<v-switch v-model="dark"></v-switch>
+			<div style="margin: 15px;">
+				<v-switch v-model="dark"></v-switch>
+			</div>
 			<v-list dense>
-		
+
 				<router-link is="v-list-tile" :to="{ name: 'dashboard' }">
 					<v-list-tile-action>
 						<v-icon>home</v-icon>
@@ -22,7 +24,7 @@
 						<v-list-tile-title>Home</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
-				
+
 				<router-link is="v-list-tile" :to="{ name: 'settings.overview' }">
 					<v-list-tile-action>
 						<v-icon>settings</v-icon>
@@ -31,74 +33,7 @@
 						<v-list-tile-title>Page Settings</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
-				
-				<v-divider inset></v-divider>
-				
-				<router-link is="v-list-tile" :to="{ name: 'article.overview' }">
-					<v-list-tile-action>
-						<v-icon>font_download</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Articles</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
-				
-				<router-link is="v-list-tile" :to="{ name: 'category.overview' }">
-					<v-list-tile-action>
-						<v-icon>notes</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Categories</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
-				
-				<router-link is="v-list-tile" :to="{ name: 'gallery.overview' }">
-					<v-list-tile-action>
-						<v-icon>photo</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Galleries</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
-				
-				<router-link is="v-list-tile" :to="{ name: 'product.overview' }">
-					<v-list-tile-action>
-						<v-icon>monetization_on</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Products</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
-				
-				<router-link is="v-list-tile" :to="{ name: 'paypal.overview' }">
-					<v-list-tile-action>
-						<v-icon>payment</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>PayPal</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
-				
-				<router-link is="v-list-tile" :to="{ name: 'comment.overview' }">
-					<v-list-tile-action>
-						<v-icon>chat</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Comments</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
-				
-				<router-link is="v-list-tile" :to="{ name: 'partner.overview' }">
-					<v-list-tile-action>
-						<v-icon>contacts</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Partners</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
-				
-				<v-divider inset></v-divider>
-				
+
 				<router-link is="v-list-tile" :to="{ name: 'user.overview' }">
 					<v-list-tile-action>
 						<v-icon>person</v-icon>
@@ -107,7 +42,7 @@
 						<v-list-tile-title>User Management</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
-				
+
 				<router-link is="v-list-tile" :to="{ name: 'role.overview' }">
 					<v-list-tile-action>
 						<v-icon>vpn_key</v-icon>
@@ -116,58 +51,170 @@
 						<v-list-tile-title>User Roles</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
-				
-				<v-divider inset></v-divider>
-				
-				<router-link is="v-list-tile" :to="{ name: 'squad.overview' }">
+
+				<v-list-group
+						prepend-icon="account_circle"
+						value="true"
+				>
+					<v-list-tile slot="activator">
+						<v-list-tile-title>Team</v-list-tile-title>
+					</v-list-tile>
+
+					<router-link is="v-list-tile" :to="{ name: 'squad.overview' }">
+						<v-list-tile-action>
+							<v-icon>headset_mic</v-icon>
+						</v-list-tile-action>
+						<v-list-tile-content>
+							<v-list-tile-title>Squads</v-list-tile-title>
+						</v-list-tile-content>
+					</router-link>
+
+					<router-link is="v-list-tile" :to="{ name: 'squad_member.overview' }">
+						<v-list-tile-action>
+							<v-icon>group_add</v-icon>
+						</v-list-tile-action>
+						<v-list-tile-content>
+							<v-list-tile-title>Squad Members</v-list-tile-title>
+						</v-list-tile-content>
+					</router-link>
+
+					<router-link is="v-list-tile" :to="{ name: 'enemy.overview' }">
+						<v-list-tile-action>
+							<v-icon>games</v-icon>
+						</v-list-tile-action>
+						<v-list-tile-content>
+							<v-list-tile-title>Opponents</v-list-tile-title>
+						</v-list-tile-content>
+					</router-link>
+
+					<router-link is="v-list-tile" :to="{ name: 'match.overview' }">
+						<v-list-tile-action>
+							<v-icon>reorder</v-icon>
+						</v-list-tile-action>
+						<v-list-tile-content>
+							<v-list-tile-title>Matches</v-list-tile-title>
+						</v-list-tile-content>
+					</router-link>
+
+					<router-link is="v-list-tile" :to="{ name: 'award.overview' }">
+						<v-list-tile-action>
+							<v-icon>star</v-icon>
+						</v-list-tile-action>
+						<v-list-tile-content>
+							<v-list-tile-title>Awards</v-list-tile-title>
+						</v-list-tile-content>
+					</router-link>
+
+				</v-list-group>
+
+				<router-link is="v-list-tile" :to="{ name: 'category.overview' }">
 					<v-list-tile-action>
-						<v-icon>headset_mic</v-icon>
+						<v-icon>notes</v-icon>
 					</v-list-tile-action>
 					<v-list-tile-content>
-						<v-list-tile-title>Squads</v-list-tile-title>
+						<v-list-tile-title>Categories</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
-				
-				<router-link is="v-list-tile" :to="{ name: 'enemy.overview' }">
-					<v-list-tile-action>
-						<v-icon>games</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Opponents</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
-				
-				<router-link is="v-list-tile" :to="{ name: 'event.overview' }">
-					<v-list-tile-action>
-						<v-icon>today</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Events</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
-				
-				<router-link is="v-list-tile" :to="{ name: 'match.overview' }">
-					<v-list-tile-action>
-						<v-icon>reorder</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Matches</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
-				
-				<router-link is="v-list-tile" :to="{ name: 'award.overview' }">
-					<v-list-tile-action>
-						<v-icon>star</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Awards</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
+
+				<v-list-group
+						prepend-icon="account_circle"
+						value="true"
+				>
+					<v-list-tile slot="activator">
+						<v-list-tile-title>Team</v-list-tile-title>
+					</v-list-tile>
+
+					<router-link is="v-list-tile" :to="{ name: 'article.overview' }">
+						<v-list-tile-action>
+							<v-icon>font_download</v-icon>
+						</v-list-tile-action>
+						<v-list-tile-content>
+							<v-list-tile-title>Articles</v-list-tile-title>
+						</v-list-tile-content>
+					</router-link>
+
+					<router-link is="v-list-tile" :to="{ name: 'gallery.overview' }">
+						<v-list-tile-action>
+							<v-icon>photo</v-icon>
+						</v-list-tile-action>
+						<v-list-tile-content>
+							<v-list-tile-title>Galleries</v-list-tile-title>
+						</v-list-tile-content>
+					</router-link>
+
+					<router-link is="v-list-tile" :to="{ name: 'comment.overview' }">
+						<v-list-tile-action>
+							<v-icon>chat</v-icon>
+						</v-list-tile-action>
+						<v-list-tile-content>
+							<v-list-tile-title>Comments</v-list-tile-title>
+						</v-list-tile-content>
+					</router-link>
+
+					<router-link is="v-list-tile" :to="{ name: 'partner.overview' }">
+						<v-list-tile-action>
+							<v-icon>contacts</v-icon>
+						</v-list-tile-action>
+						<v-list-tile-content>
+							<v-list-tile-title>Partners</v-list-tile-title>
+						</v-list-tile-content>
+					</router-link>
+
+					<router-link is="v-list-tile" :to="{ name: 'event.overview' }">
+						<v-list-tile-action>
+							<v-icon>today</v-icon>
+						</v-list-tile-action>
+						<v-list-tile-content>
+							<v-list-tile-title>Events</v-list-tile-title>
+						</v-list-tile-content>
+					</router-link>
+
+				</v-list-group>
+
+				<v-list-group
+						prepend-icon="account_circle"
+						value="false"
+				>
+					<v-list-tile slot="activator">
+						<v-list-tile-title>Shop</v-list-tile-title>
+					</v-list-tile>
+
+					<router-link is="v-list-tile" :to="{ name: 'product.overview' }">
+						<v-list-tile-action>
+
+						</v-list-tile-action>
+						<v-list-tile-content>
+							<v-list-tile-title>Products</v-list-tile-title>
+						</v-list-tile-content>
+					</router-link>
+
+					<router-link is="v-list-tile" :to="{ name: 'paypal.overview' }">
+						<v-list-tile-action>
+
+						</v-list-tile-action>
+						<v-list-tile-content>
+							<v-list-tile-title>PayPal</v-list-tile-title>
+						</v-list-tile-content>
+					</router-link>
+
+				</v-list-group>
 				
 			</v-list>
 		</v-navigation-drawer>
-		
-		<v-toolbar color="red" dark fixed app>
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<v-toolbar color="amber accent-4" dark fixed app>
 			<v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
 			<v-toolbar-title>{{ $route.meta.title }}</v-toolbar-title>
 			<div class="d-flex align-center" style="margin-left: auto">

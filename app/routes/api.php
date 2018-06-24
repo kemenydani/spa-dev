@@ -24,6 +24,9 @@ $app->group('/api', function ()
         $this->post('/activate', 'controllers\api\UserController:postActivate');
         $this->post('/deactivate', 'controllers\api\UserController:postDeactivate');
 
+        $this->get('/findAll', 'controllers\api\UserController:findAll');
+        $this->get('/likeAll', 'controllers\api\UserController:likeAll');
+
         $this->post('/store', 'controllers\api\UserController:postStore');
     });
 	
