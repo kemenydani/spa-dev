@@ -37,11 +37,11 @@
 		<input type="file" style="display: none;" @change="handleInputChange" ref="input" :multiple="true" :accept="accept">
 		
 		<v-dialog
-				v-model="crop.show"
-				fullscreen
-				hide-overlay
-				transition="dialog-bottom-transition"
-				scrollable
+			v-model="crop.show"
+			fullscreen
+			hide-overlay
+			transition="dialog-bottom-transition"
+			scrollable
 		>
 			<v-card tile>
 				<v-toolbar card dark color="primary">
@@ -56,9 +56,11 @@
 				</v-toolbar>
 				
 				<v-card-text>
-					<vue-croppie
+					<vue-croppie style="width: 1000px"
 							ref="croppieRef"
 							:enableOrientation="true"
+							:viewport="{ width: 800, height: 300, circle: false }"
+							:boundary="{ width: 1200, height: 500 }"
 							@result="result"
 							@update="update">
 					</vue-croppie>
@@ -287,6 +289,19 @@
 				type: Boolean,
 				default: () => false
 			},
+            maxSize : {
+                type: Number,
+                required: true,
+				default: () => 1200
+            },
+            boundaryW : {
+                type: Number,
+                required: false
+            },
+            boundaryH : {
+                type: Number,
+                required: false
+            },
 			ratioX : {
 				type: Number,
 				required: false
