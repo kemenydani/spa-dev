@@ -15,27 +15,39 @@ class ImageUploadController
 
         $ImageManager = new ImageManager(array('driver' => 'gd'));
 
+        $result = [];
+        $images = [];
         /* @var $uploadedFile UploadedFile */
-        $uploadedFile = $files['image'];
+        foreach($files as $name => $file)
+        {
+            $uploadedFile = $file;
 
-        $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
-        $basename = basename($uploadedFile->getClientFilename());
+            $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+            $basename = basename($uploadedFile->getClientFilename());
 
-        //TODO:: pathinfo bug, fix: double fake extansion needed
-        $fileName = '_' . md5(sanitize($basename, true, true)) . ".jpg.jpg";
+            $fileName = '_' . md5(sanitize($basename, true, true)) . ".jpg";
 
-        $img = $ImageManager->make($uploadedFile->getStream());
+            $img = $ImageManager->make($uploadedFile->getStream());
 
-        $img->interlace(true);
+            $img->interlace(true);
 
-        $finalPath = $destinationPath . DIRECTORY_SEPARATOR . $fileName;
+            $finalPath = $destinationPath . DIRECTORY_SEPARATOR . $fileName;
 
-        $img->encode('jpg');
+            $img->encode('jpg');
 
-        $img->save((string)$finalPath);
+            try {
+                $img->save((string)$finalPath);
+            } catch( \Exception $e ){
+                continue;
+            }
 
-        $savedPath = $callback($fileName);
+            $savedPath = $callback($fileName);
 
-        return $response->withStatus(200)->withJson(['path' => $savedPath]);
+            $result[$name] = $fileName;
+            $img->encode('data-url');
+            $images[$name] = $img->getEncoded();
+        }
+
+        return $response->withStatus(200)->withJson(['result' => $result, 'images' => $images]);
     }
 }

@@ -1,6 +1,11 @@
 <?php
+ini_set('file_uploads', 'On');
 ini_set('post_max_size', '100M');
 ini_set('upload_max_filesize', '100M');
+ini_set('memory_limit', '200M');
+ini_set('max_file_uploads', '100');
+ini_set('max_input_time', '120');
+
 error_reporting(0);
 session_start();
 

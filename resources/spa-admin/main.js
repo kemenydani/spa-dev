@@ -15,7 +15,18 @@ import App from './App.vue';
 import VueCroppie from 'vue-croppie';
 
 Vue.use(Router);
-Vue.use(Vuetify);
+Vue.use(Vuetify, {
+	theme:
+	{
+		primary: "#ffa700",
+		secondary: "#FFE57F",
+		accent: "#ffa700",
+		error: "#f44336",
+		warning: "#ffeb3b",
+		info: "#2196f3",
+		success: "#4caf50",
+	}
+});
 Vue.use(VeeValidate);
 Vue.use(VueAxios, axios);
 Vue.use(wysiwyg, {});

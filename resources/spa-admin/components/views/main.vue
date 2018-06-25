@@ -1,6 +1,6 @@
 
 <template>
-	<v-app id="inspire" :dark="dark">
+	<v-app id="inspire" :dark="dark" :style="{ backgroundColor: (!dark ? '#eeeeee' : '') }">
 		
 		<app-toaster></app-toaster>
 		
@@ -10,13 +10,14 @@
 			v-model="drawer"
 			@mouseenter.native="toggleDrawerDelayed( $event )"
 			@mouseleave.native="toggleDrawerDelayed( $event )"
+			dark
 			app>
 			<div style="margin: 15px;">
 				<v-switch v-model="dark"></v-switch>
 			</div>
 			<v-list dense>
 
-				<router-link is="v-list-tile" :to="{ name: 'dashboard' }">
+				<router-link is="v-list-tile" :to="{ name: 'dashboard' }" exact>
 					<v-list-tile-action>
 						<v-icon>home</v-icon>
 					</v-list-tile-action>
@@ -51,12 +52,23 @@
 						<v-list-tile-title>User Roles</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
+				
+				<router-link is="v-list-tile" :to="{ name: 'category.overview' }">
+					<v-list-tile-action>
+						<v-icon>folder</v-icon>
+					</v-list-tile-action>
+					<v-list-tile-content>
+						<v-list-tile-title>Categories</v-list-tile-title>
+					</v-list-tile-content>
+				</router-link>
 
 				<v-list-group
-						prepend-icon="account_circle"
-						value="true"
+						:value="false"
 				>
 					<v-list-tile slot="activator">
+						<v-list-tile-action>
+							<v-icon>headset_mic</v-icon>
+						</v-list-tile-action>
 						<v-list-tile-title>Team</v-list-tile-title>
 					</v-list-tile>
 
@@ -107,23 +119,16 @@
 
 				</v-list-group>
 
-				<router-link is="v-list-tile" :to="{ name: 'category.overview' }">
-					<v-list-tile-action>
-						<v-icon>notes</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-content>
-						<v-list-tile-title>Categories</v-list-tile-title>
-					</v-list-tile-content>
-				</router-link>
-
 				<v-list-group
-						prepend-icon="account_circle"
-						value="true"
+						:value="false"
 				>
 					<v-list-tile slot="activator">
-						<v-list-tile-title>Team</v-list-tile-title>
+						<v-list-tile-action>
+							<v-icon>notes</v-icon>
+						</v-list-tile-action>
+						<v-list-tile-title>Content</v-list-tile-title>
 					</v-list-tile>
-
+					
 					<router-link is="v-list-tile" :to="{ name: 'article.overview' }">
 						<v-list-tile-action>
 							<v-icon>font_download</v-icon>
@@ -172,16 +177,18 @@
 				</v-list-group>
 
 				<v-list-group
-						prepend-icon="account_circle"
-						value="false"
+						:value="false"
 				>
 					<v-list-tile slot="activator">
+						<v-list-tile-action>
+							<v-icon>local_grocery_store</v-icon>
+						</v-list-tile-action>
 						<v-list-tile-title>Shop</v-list-tile-title>
 					</v-list-tile>
 
 					<router-link is="v-list-tile" :to="{ name: 'product.overview' }">
 						<v-list-tile-action>
-
+							<v-icon>inbox</v-icon>
 						</v-list-tile-action>
 						<v-list-tile-content>
 							<v-list-tile-title>Products</v-list-tile-title>
@@ -190,7 +197,7 @@
 
 					<router-link is="v-list-tile" :to="{ name: 'paypal.overview' }">
 						<v-list-tile-action>
-
+							<v-icon>attach_money</v-icon>
 						</v-list-tile-action>
 						<v-list-tile-content>
 							<v-list-tile-title>PayPal</v-list-tile-title>
@@ -214,7 +221,7 @@
 
 
 
-		<v-toolbar color="amber accent-4" dark fixed app>
+		<v-toolbar color="primary" dark fixed app>
 			<v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
 			<v-toolbar-title>{{ $route.meta.title }}</v-toolbar-title>
 			<div class="d-flex align-center" style="margin-left: auto">
@@ -269,13 +276,13 @@
 				message: false,
 				hints: true,
 				dialog: false,
-				dark: false,
+				dark: true,
 				theme: 'primary',
 				mini: false,
 				drawer: true,
-				locales: ['en-US', 'zh-CN'],
-				location: '',
-				colors: ['blue', 'green', 'purple', 'red']
+				locales: [],
+				location: [],
+				colors: []
 			}
 		},
 		created(){
@@ -322,7 +329,7 @@
 
 <style lang="scss">
 	#inspire {
-			background-color: #eee;
+			//background-color: #eee;
 	}
 
 </style>
