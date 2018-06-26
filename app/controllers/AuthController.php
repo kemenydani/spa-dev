@@ -233,7 +233,8 @@ class AuthController extends ViewController
 
 	    $this->view->render($response, 'route.view.user.activatepwreset.html.twig', ['errors' => $errors]);
     }
-    
+
+    //https://www.kaplankomputing.com/blog/tutorials/php/setting-recaptcha-2-0-ajax-demotutorial/
     public function postRegister ( Request $request, Response $response )
     {
         $email    = $request->getParsedBody()['email'];
