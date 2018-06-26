@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<ArticleImageUploadManager modelId="1" api-route="article/uploadImage"></ArticleImageUploadManager>
+		<ArticleImageUploadManager modelId="1" :max-size="1200" api-route="article/uploadImage"></ArticleImageUploadManager>
 	</div>
 </template>
 

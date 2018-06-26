@@ -1,6 +1,6 @@
 
 <template>
-		<ImageUploadManager :model-id="modelId" :crop="true" :api-route="apiRoute"></ImageUploadManager>
+		<ImageUploadManager :model-id="modelId" :crop="true" :max-size="maxSize" :api-route="apiRoute"></ImageUploadManager>
 </template>
 
 <script>
@@ -13,6 +13,11 @@
 		props : {
 			modelId : {
 				required: true,
+			},
+			maxSize : {
+				type : Number,
+				required: true,
+				default: () => 1200
 			}
 		},
 		data : () => {
