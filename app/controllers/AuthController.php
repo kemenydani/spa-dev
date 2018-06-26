@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+use core\Config;
 use models\UserProfile;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -238,8 +239,15 @@ class AuthController extends ViewController
         $email    = $request->getParsedBody()['email'];
         $username = $request->getParsedBody()['username'];
         $password = $request->getParsedBody()['password'];
-
+        $captcha = $request->getParsedBody()['captcha'];
         $errors = [];
+
+        $secret = Config::instance()->get('page_recaptcha_secret_key', '');
+        $chapresp = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secret}&response={$captcha}");
+        $captcha_success = json_decode($chapresp);
+        if ($captcha_success->success == false) {
+            $errors['captcha'] = 'Are you a robot?';
+        }
 
         $usernameErr = self::validateUsername($username);
         $emailErr    = self::validateEmail($email);
@@ -258,8 +266,6 @@ class AuthController extends ViewController
         ]);
 
         $User->save();
-
-        if( !$User->getProperty('id') ) return $response->withStatus(500, 'Failed to insert user to database.');
 
         $UserProfile = UserProfile::create([
             'user_id' => $User->getProperty('id')
