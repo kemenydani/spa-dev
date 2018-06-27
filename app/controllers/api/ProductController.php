@@ -27,8 +27,6 @@ class ProductController extends ModelController
                 $Images = ProductImage::findAll($product['id'], 'product_id');
 
                 $urls = [];
-                /* @var \models\GalleryImage $Image */
-                //if(is_array($Images)) foreach($Images as $Image) $urls[] = 'http://phpapp' . (string)$Image->requestImageUrl();
 
                 foreach($Images as $Image) {
                     $path = $Image::IMAGE_PATH . DIRECTORY_SEPARATOR . $Image->getFileName();

@@ -2,6 +2,7 @@
 
 namespace controllers\api;
 
+use Intervention\Image\ImageManager;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -15,6 +16,28 @@ class SquadController extends ModelController
     {
         parent::__construct( new Squad() );
     }
+
+    public function getSearchPaginate( Request $request, Response $response, $args = [], $joinModels = []) : Response
+    {
+        return parent::getSearchPaginate($request, $response, [], function($items){
+
+            $ImageManager = new ImageManager(array('driver' => 'gd'));
+
+            foreach($items as &$squad)
+            {
+                $path = Squad::IMAGE_PATH . DIRECTORY_SEPARATOR;;
+                $img1 = $ImageManager->make($path . $squad['header_image']);
+                $img2 = $ImageManager->make($path . $squad['logo']);
+                $img3 = $ImageManager->make($path . $squad['home_wallpaper']);
+                $squad['imageDataUrlHeader'] = $img1->encode('data-url');
+                $squad['imageDataUrlLogo'] = $img2->encode('data-url');
+                $squad['imageDataUrlWallpaper'] = $img3->encode('data-url');
+            }
+
+            return $items;
+        });
+    }
+
 
     public function postCreate( Request $request, Response $response ) : Response
     {

@@ -3,6 +3,7 @@
 namespace controllers\api;
 
 use core\DB;
+use Intervention\Image\ImageManager;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -23,6 +24,8 @@ class ArticleController extends ModelController
 
             $q = "SELECT category_id FROM _xyz_article_category_pivot WHERE article_id = ? ";
 
+            $ImageManager = new ImageManager(array('driver' => 'gd'));
+
             foreach($items as &$article)
             {
                 $categories = DB::instance()->getAll($q, $article['id']);
@@ -32,6 +35,9 @@ class ArticleController extends ModelController
                 if(is_array($categories)) foreach($categories as $key => $value) $idArr[] = (string)$value['category_id'];
 
                 $article['categories'] = $idArr;
+                $path = Article::IMAGE_PATH . DIRECTORY_SEPARATOR . $article['headline_image'];
+                $img = $ImageManager->make($path);
+                $article['imageDataUrl'] = $img->encode('data-url');
             }
 
             return $items;

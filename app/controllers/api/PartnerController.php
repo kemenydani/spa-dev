@@ -2,6 +2,7 @@
 
 namespace controllers\api;
 
+use Intervention\Image\ImageManager;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -12,6 +13,23 @@ class PartnerController extends ModelController
     public function __construct()
     {
         parent::__construct( new Partner() );
+    }
+
+    public function getSearchPaginate( Request $request, Response $response, $args = [], $joinModels = []) : Response
+    {
+        return parent::getSearchPaginate($request, $response, [], function($items){
+
+            $ImageManager = new ImageManager(array('driver' => 'gd'));
+
+            foreach($items as &$partner)
+            {
+                $path = Partner::IMAGE_PATH . DIRECTORY_SEPARATOR . $partner['logo'];
+                $img = $ImageManager->make($path);
+                $partner['imageDataUrl'] = $img->encode('data-url');
+            }
+
+            return $items;
+        });
     }
 
 }

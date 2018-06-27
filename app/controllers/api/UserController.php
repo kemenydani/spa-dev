@@ -3,6 +3,7 @@
 namespace controllers\api;
 
 use core\DB as DB;
+use Intervention\Image\ImageManager;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use core\Auth as Auth;
@@ -13,6 +14,23 @@ class UserController extends ModelController
     public function __construct()
     {
         parent::__construct( new User() );
+    }
+
+    public function getSearchPaginate( Request $request, Response $response, $args = [], $joinModels = []) : Response
+    {
+        return parent::getSearchPaginate($request, $response, [], function($items){
+
+            $ImageManager = new ImageManager(array('driver' => 'gd'));
+
+            foreach($items as &$user)
+            {
+                $path = User::IMAGE_PATH . DIRECTORY_SEPARATOR . $user['profile_picture'];
+                $img = $ImageManager->make($path);
+                $user['imageDataUrl'] = $img->encode('data-url');
+            }
+
+            return $items;
+        });
     }
 
     // TODO: to auth controller
