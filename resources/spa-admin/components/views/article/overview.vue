@@ -63,10 +63,6 @@
 							api-route="article/uploadImage">
 					</ArticleImageUploadManager>
 				</v-card-text>
-				<v-card-actions>
-					<v-spacer></v-spacer>
-					<v-btn color="amber" flat @click.native="image.dialog = false">Close</v-btn>
-				</v-card-actions>
 			</v-card>
 		</v-dialog>
 		
