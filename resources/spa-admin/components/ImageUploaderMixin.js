@@ -15,4 +15,9 @@ export default {
 			default : () => false
 		},
 	},
+	methods : {
+		uploadedImage( data ){
+			this.$emit('uploaded', data)
+		}
+	}
 }

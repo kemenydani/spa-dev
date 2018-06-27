@@ -1,6 +1,6 @@
 
 <template>
-		<ImageUploadManager :model-id="modelId" :crop="true" :max-size="maxSize" :api-route="apiRoute"></ImageUploadManager>
+		<ImageUploadManager @uploaded="uploadedImage" :model-id="modelId" :multiple="false" :allow-crop="true" :force-crop="true" :crop="true" :max-width="maxWidth" :max-height="maxHeight" :api-route="apiRoute"></ImageUploadManager>
 </template>
 
 <script>
@@ -14,10 +14,15 @@
 			modelId : {
 				required: true,
 			},
-			maxSize : {
+			maxWidth : {
 				type : Number,
-				required: true,
-				default: () => 1200
+				required: false,
+				default: () => 700
+			},
+			maxHeight : {
+				type : Number,
+				required: false,
+				default: () => 400
 			}
 		},
 		data : () => {

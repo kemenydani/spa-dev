@@ -34,6 +34,42 @@
 			</v-card>
 		</v-dialog>
 		
+		<v-dialog
+				v-model="image.dialog"
+				max-width="800px"
+				fullscreen
+				height="600px"
+				transition="dialog-bottom-transition"
+		>
+			<v-card>
+				<v-toolbar card dark color="primary">
+					<v-toolbar-title>Edit Image</v-toolbar-title>
+					<v-spacer></v-spacer>
+					<v-toolbar-items>
+					
+					</v-toolbar-items>
+					<v-spacer></v-spacer>
+					<v-btn icon dark @click.native="image.dialog = false">
+						<v-icon>close</v-icon>
+					</v-btn>
+				</v-toolbar>
+				<v-card-text>
+					<div class="article-image">
+						<img :src="image.img">
+					</div>
+					<ArticleImageUploadManager
+							:modelId="image.item.id"
+							@uploaded="imageUploaded"
+							api-route="article/uploadImage">
+					</ArticleImageUploadManager>
+				</v-card-text>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn color="amber" flat @click.native="image.dialog = false">Close</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+		
 		<v-dialog v-model="edit.dialog" max-width="800px">
 			<v-card>
 				<v-card-title>
@@ -88,9 +124,10 @@
 	import DataModelManager from '../../DataModelManager';
 	import Article from '../../../model/Article';
 	import CategoryModelSelector from '../../CategoryModelSelector';
+	import ArticleImageUploadManager from '../../ArticleImageUploadManager'
 	
 	export default {
-		components: { DataModelManager, CategoryModelSelector },
+		components: { DataModelManager, CategoryModelSelector, ArticleImageUploadManager },
 		data() {
 			return {
 				compose : {
@@ -98,6 +135,11 @@
 					dialog: false
 				},
 				edit : {
+					item : {},
+					dialog: false
+				},
+				image : {
+					img : null,
 					item : {},
 					dialog: false
 				},
@@ -116,7 +158,7 @@
 						{
 							name : 'Image',
 							icon : 'image',
-							callback : function(){}
+							callback : this.editImage
 						}
 					],
 					headers: [
@@ -138,6 +180,10 @@
 			}
 		},
 		methods : {
+			imageUploaded( queueItems ){
+				console.log( queueItems)
+				this.image.img = queueItems[0].imageDataUrl;
+			},
 			tableFetchData(){
 				this.$app.$emit('tableFetchData');
 			},
@@ -148,6 +194,10 @@
 			composeArticle( article ){
 				this.compose.dialog = true;
 				this.compose.item = Object.assign({}, article);
+			},
+			editImage( article ){
+				this.image.dialog = true;
+				this.image.item = Object.assign({}, article);
 			},
 			editArticle( article ){
 				this.edit.dialog = true;

@@ -276,7 +276,7 @@
 				message: false,
 				hints: true,
 				dialog: false,
-				dark: true,
+				dark: false,
 				theme: 'primary',
 				mini: false,
 				drawer: true,
