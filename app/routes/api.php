@@ -3,6 +3,8 @@
 use models\Article;
 use models\Gallery;
 use models\GalleryImage;
+use models\Product;
+use models\ProductImage;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use controllers\api\ImageUploadController;
@@ -132,6 +134,23 @@ $app->group('/api', function ()
 		$this->post('/activate', 'controllers\api\ProductController:postActivate');
 		$this->post('/deactivate', 'controllers\api\ProductController:postDeactivate');
 		$this->post('/store', 'controllers\api\ProductController:postStore');
+
+        $this->post('/uploadProductImage', function(Request $request, Response $response)
+        {
+            $id = $request->getQueryParam('id');
+            /* @var Product $Product */
+            $Product = Product::find($id);
+
+            return ImageUploadController::upload($request, $response, ProductImage::IMAGE_PATH, function($filename) use ($Product)
+            {
+                $ProductImage = GalleryImage::create([
+                    'file_name' => $filename,
+                    'product_id' => $Product->getProperty('id'),
+                ]);
+                $ProductImage->save();
+                return 'http://phpapp' . $ProductImage->requestImageUrl();
+            });
+        });
 	});
 
     $this->group('/squad_member', function()
