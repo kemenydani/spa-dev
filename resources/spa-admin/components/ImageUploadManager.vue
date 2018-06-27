@@ -100,7 +100,7 @@
 					busy : false,
 					progress: 0,
 				},
-				imageQueue : [],
+				imageQueue : [ ],
 			}
 		},
 		methods:
