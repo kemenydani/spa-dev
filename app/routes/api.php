@@ -1,10 +1,14 @@
 <?php
 
+use Intervention\Image\ImageManager;
 use models\Article;
+use models\EnemyTeam;
 use models\Gallery;
 use models\GalleryImage;
+use models\Partner;
 use models\Product;
 use models\ProductImage;
+use models\SquadMember;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use controllers\api\ImageUploadController;
@@ -54,6 +58,7 @@ $app->group('/api', function ()
             {
                 $Article->setProperty('headline_image', $filename);
                 $Article->save();
+                //TODO:: RETURN DATAURL
                 return 'http://phpapp' . $Article->formatHeadlineImage();
             });
         });
@@ -81,7 +86,7 @@ $app->group('/api', function ()
                 $GalleryImage = GalleryImage::create([
                     'file_name' => $filename,
                     'gallery_id' => $Gallery->getProperty('id'),
-                ]);
+                ]);//TODO:: RETURN DATAURL
                 $GalleryImage->save();
                 return 'http://phpapp' . $GalleryImage->requestImageUrl();
             });
@@ -98,6 +103,23 @@ $app->group('/api', function ()
         $this->post('/deactivate', 'controllers\api\PartnerController:postDeactivate');
         $this->post('/uploadImage', 'controllers\api\PartnerController:postUploadImage');
         $this->post('/store', 'controllers\api\PartnerController:postStore');
+
+        $this->post('/uploadPartnerImage', function(Request $request, Response $response)
+        {
+            $id = $request->getQueryParam('id');
+            /* @var Partner $Partner */
+            $Partner = Partner::find($id);
+
+            return ImageUploadController::upload($request, $response, Partner::IMAGE_PATH, function($filename) use ($Partner)
+            {
+                $ImageManager = new ImageManager(array('driver' => 'gd'));
+                $Partner->setProperty('logo', $filename);
+                $Partner->save();
+                $path = Partner::IMAGE_PATH . DIRECTORY_SEPARATOR . $Partner->getLogo();
+                $img = $ImageManager->make($path);
+                return $img->encode('data-url');
+            });
+        });
     });
 
     $this->group('/squad', function()
@@ -109,7 +131,7 @@ $app->group('/api', function ()
         $this->post('/activate', 'controllers\api\SquadController:postActivate');
         $this->post('/deactivate', 'controllers\api\SquadController:postDeactivate');
 	    $this->post('/store', 'controllers\api\SquadController:postStore');
-	
+        //TODO:: UPLOAD IMAGES STUFF
 	    $this->get('/findAll', 'controllers\api\SquadController:findAll');
 	    $this->get('/likeAll', 'controllers\api\SquadController:likeAll');
     });
@@ -147,7 +169,7 @@ $app->group('/api', function ()
                     'file_name' => $filename,
                     'product_id' => $Product->getProperty('id'),
                 ]);
-                $ProductImage->save();
+                $ProductImage->save();//TODO:: RETURN DATAURL
                 return 'http://phpapp' . $ProductImage->requestImageUrl();
             });
         });
@@ -162,6 +184,23 @@ $app->group('/api', function ()
         $this->post('/activate', 'controllers\api\SquadMemberController:postActivate');
         $this->post('/deactivate', 'controllers\api\SquadMemberController:postDeactivate');
         $this->post('/store', 'controllers\api\SquadMemberController:postStore');
+
+        $this->post('/uploadSquadMemberAvatar', function(Request $request, Response $response)
+        {
+            $id = $request->getQueryParam('id');
+            /* @var SquadMember $SquadMember */
+            $SquadMember = SquadMember::find($id);
+
+            return ImageUploadController::upload($request, $response, SquadMember::IMAGE_PATH, function($filename) use ($SquadMember)
+            {
+                $ImageManager = new ImageManager(array('driver' => 'gd'));
+                $SquadMember->setProperty('logo', $filename);
+                $SquadMember->save();
+                $path = SquadMember::IMAGE_PATH . DIRECTORY_SEPARATOR . $SquadMember->getLogo();
+                $img = $ImageManager->make($path);
+                return $img->encode('data-url');
+            });
+        });
     });
 
     $this->group('/paypal', function()
@@ -202,6 +241,23 @@ $app->group('/api', function ()
         $this->get('/findAll', 'controllers\api\EnemyController:findAll');
         $this->get('/likeAll', 'controllers\api\EnemyController:likeAll');
 	    $this->post('/store', 'controllers\api\EnemyController:postStore');
+
+        $this->post('/uploadEnemyTeamLogo', function(Request $request, Response $response)
+        {
+            $id = $request->getQueryParam('id');
+            /* @var EnemyTeam $EnemyTeam */
+            $EnemyTeam = EnemyTeam::find($id);
+
+            return ImageUploadController::upload($request, $response, EnemyTeam::IMAGE_PATH, function($filename) use ($EnemyTeam)
+            {
+                $ImageManager = new ImageManager(array('driver' => 'gd'));
+                $EnemyTeam->setProperty('logo', $filename);
+                $EnemyTeam->save();
+                $path = EnemyTeam::IMAGE_PATH . DIRECTORY_SEPARATOR . $EnemyTeam->getLogo();
+                $img = $ImageManager->make($path);
+                return $img->encode('data-url');
+            });
+        });
     });
 
     $this->group('/setting', function()
