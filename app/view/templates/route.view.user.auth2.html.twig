@@ -1,7 +1,8 @@
 {% extends 'block.full.html.twig' %}
 
 {% block content %}
-<script src='https://www.google.com/recaptcha/api.js'></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
 <div class="container-full route-container" id="route-view-user-auth">
     <div class="container auth-container" id="auth-container">
         {% verbatim %}
@@ -128,6 +129,10 @@
                                  </div>
                                  <span class="field-info">{{ forms.register.errors.password }}</span>
                              </div>
+                             <div class="input-field" style="text-align: center;">
+                                  <div style="text-align: center; margin: 0 auto;" class="g-recaptcha" :data-sitekey="sitekey"></div>
+                                  <span class="field-info">{{ forms.register.errors.captcha }}</span>
+                             </div>
                         </form>
                     </div>
                 </div>
@@ -149,10 +154,13 @@
 
 (function($, Vue){
 
+    var SITEKEY = '{{ Config.get('page_recaptcha_site_key', '')|raw }}';
+
     new Vue({
         el: '#auth-container',
         data: function () {
             return {
+                sitekey : SITEKEY,
                 delay: 2000,
                 status : {
                     tab: 1,
@@ -172,7 +180,7 @@
                 forms: {
                     register: {
                         action: '/postRegister',
-                        errors: { email : null, username : null, password : null },
+                        errors: { email : null, username : null, password : null, captcha: null },
                         showUsernameLoading: false,
                         showEmailLoading: false,
                         valid: false,
@@ -247,6 +255,9 @@
 
                 setTimeout(function()
                 {
+                    var postData = this.forms[name].fields;
+                    if(name === 'register') postData.captcha = window.grecaptcha.getResponse();
+
                     $.post(this.forms[name].action, this.forms[name].fields)
                         .then(
                             function( response )
