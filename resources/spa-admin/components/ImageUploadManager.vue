@@ -2,7 +2,7 @@
 <template>
 	<div class="fileUploader">
 		
-		<v-card color="amber">
+		<v-card color="grey lighten-3">
 			<v-card-text>
 				<v-btn @click="browseComputer" :disabled="status.busy" class="white--text" color="grey darken-3">
 					BROWSE
@@ -19,7 +19,7 @@
 		</v-card>
 		<br>
 		<div>
-			<v-card color="grey darken-3" class="white--text" style="margin-bottom: 10px;" :key="key"  v-if="!queueItem.removed" v-for="(queueItem, key) in imageQueue">
+			<v-card color="grey lighten-3" class="" style="margin-bottom: 10px;" :key="key"  v-if="!queueItem.removed" v-for="(queueItem, key) in imageQueue">
 				<v-card-title>
 					<b>{{ queueItem.fileName }}</b>&nbsp;<small>({{ (queueItem.size * 0.000001).toFixed(2) }} MB)</small>
 				</v-card-title>
@@ -27,14 +27,14 @@
 					<v-progress-linear :color="queueItem.done === true ? 'success' : ''" :buffer-value="queueItem.buffer" v-model="queueItem.progress" buffer></v-progress-linear>
 				</v-card-media>
 				<v-card-actions>
-							<v-btn small flat @click="removeQueueItem(queueItem.index)" class="white--text" v-if="queueItem.done !== true">
+							<v-btn small flat @click="removeQueueItem(queueItem.index)" class="" v-if="queueItem.done !== true">
 								<v-icon color="error">delete_sweep</v-icon>&nbsp;remove
 							</v-btn>
-							<v-btn small flat @click="initCropDialog(queueItem)"class="white--text" v-if="allowCrop && queueItem.done === null">
+							<v-btn small flat @click="initCropDialog(queueItem)"class="" v-if="allowCrop && queueItem.done === null">
 								<v-icon color="amber darken-2">crop_free</v-icon>&nbsp;resize
 							</v-btn>
 							<v-spacer></v-spacer>
-							<v-btn flat class="white--text" small @click.native="queueItem.preview = !queueItem.preview">
+							<v-btn flat class="" small @click.native="queueItem.preview = !queueItem.preview">
 								show
 								<v-icon light>{{ queueItem.preview ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
 							</v-btn>

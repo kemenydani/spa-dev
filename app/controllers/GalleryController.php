@@ -102,17 +102,7 @@ class GalleryController extends ViewController
 		    $where = ' WHERE name LIKE :name ';
 		    $params['name'] = '%' . $name . '%';
 	    }
-	    
-		/*
-	    $i = 0;
-	    foreach($search as $key => $value)
-	    {
-		    if(!$value) continue;
-		    $params[] = $value;
-		    $where .= $i === 0 ? ' WHERE name = ? ' : ' AND id = ? ';
-		    $i++;
-	    }
-        */
+
         $q1 = " SELECT SQL_CALC_FOUND_ROWS * FROM _xyz_gallery " .
 	          " {$where} " .
               " ORDER BY id ASC " .
@@ -124,12 +114,15 @@ class GalleryController extends ViewController
 	    $totalItems = DB::instance()->totalRowCount();
 	    
 	    $galleries = [];
-	    
+
 	    /* @var \models\Gallery $Gallery */
         foreach($collection->getModels() as &$Gallery)
         {
         	$fi = $Gallery->getFeaturedImage();
-        	if(!$fi) unset($Gallery);
+        	if(!$fi) {
+                unset($Gallery);
+                continue;
+            }
         	
         	$g = $Gallery->getProperties();
         	$g['featured_image'] = $fi->requestImageUrl();

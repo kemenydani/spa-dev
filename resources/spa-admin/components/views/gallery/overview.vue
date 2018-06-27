@@ -28,7 +28,50 @@
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
-		
+
+		<v-dialog
+				v-model="compose.dialog"
+				fullscreen
+				hide-overlay
+				transition="dialog-bottom-transition"
+				scrollable
+		>
+			<v-card tile>
+				<v-toolbar color="primary" dark tabs>
+					<v-toolbar-title>Gallery Image Manager</v-toolbar-title>
+					<v-spacer></v-spacer>
+					<v-btn icon dark @click.native="compose.dialog = false">
+						<v-icon>close</v-icon>
+					</v-btn>
+					<v-tabs
+						slot="extension"
+						v-model="tabs"
+						centered
+						color="grey darken-3"
+					>
+						<v-tab>GALLERY IMAGES</v-tab>
+						<v-tab>UPLOAD IMAGES</v-tab>
+					</v-tabs>
+				</v-toolbar>
+				<v-card-text>
+				<v-tabs-items v-model="tabs">
+					<v-tab-item>
+						<v-card flat>
+							<v-card-text>a</v-card-text>
+						</v-card>
+					</v-tab-item>
+					<v-tab-item>
+						<v-card flat>
+							<v-card-text>
+								<GalleryImageUploadManager :model-id="compose.item.id"></GalleryImageUploadManager>
+							</v-card-text>
+						</v-card>
+					</v-tab-item>
+				</v-tabs-items>
+				</v-card-text>
+			</v-card>
+		</v-dialog>
+
 		<!-- fab -->
 		<v-btn
 				@click="addModel"
@@ -48,11 +91,13 @@
 	
 	import DataModelManager from '../../DataModelManager';
 	import Gallery from '../../../model/Gallery';
-	
+	import GalleryImageUploadManager from '../../GalleryImageUploadManager';
+
 	export default {
-		components: { DataModelManager },
+		components: { DataModelManager, GalleryImageUploadManager },
 		data() {
 			return {
+			    tabs: 0,
 				compose : {
 					item : {},
 					dialog: false

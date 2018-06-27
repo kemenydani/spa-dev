@@ -1,6 +1,8 @@
 <?php
 
 use models\Article;
+use models\Gallery;
+use models\GalleryImage;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use controllers\api\ImageUploadController;
@@ -65,6 +67,23 @@ $app->group('/api', function ()
         $this->post('/deactivate', 'controllers\api\GalleryController:postDeactivate');
         $this->post('/uploadImage', 'controllers\api\GalleryController:postUploadImage');
 	    $this->post('/store', 'controllers\api\GalleryController:postStore');
+
+        $this->post('/uploadGalleryImage', function(Request $request, Response $response)
+        {
+            $id = $request->getQueryParam('id');
+            /* @var Gallery $Gallery */
+            $Gallery = Gallery::find($id);
+
+            return ImageUploadController::upload($request, $response, GalleryImage::IMAGE_PATH, function($filename) use ($Gallery)
+            {
+                $GalleryImage = GalleryImage::create([
+                    'file_name' => $filename,
+                    'gallery_id' => $Gallery->getProperty('id'),
+                ]);
+                $GalleryImage->save();
+                return 'http://phpapp' . $GalleryImage->requestImageUrl();
+            });
+        });
     });
 
     $this->group('/partner', function()
