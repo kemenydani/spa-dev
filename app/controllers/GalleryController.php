@@ -119,17 +119,14 @@ class GalleryController extends ViewController
         foreach($collection->getModels() as &$Gallery)
         {
         	$fi = $Gallery->getFeaturedImage();
-        	if(!$fi) {
-                unset($Gallery);
-                continue;
-            }
+
+        	if(!$fi) { unset($Gallery); continue; }
         	
         	$g = $Gallery->getProperties();
         	$g['featured_image'] = $fi->requestImageUrl();
         	
         	$galleries[] = $g;
         }
-       
 
         return [
             'galleries' => $galleries ,

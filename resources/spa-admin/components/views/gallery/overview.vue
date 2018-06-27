@@ -57,7 +57,11 @@
 				<v-tabs-items v-model="tabs">
 					<v-tab-item>
 						<v-card flat>
-							<v-card-text>a</v-card-text>
+							<v-card-text>
+								<div :style="{ width: '200px', height: '200px', backgroundImage: 'url(' + image.dataUrl.encoded  + ')' }" v-for="image in compose.item.images">
+
+								</div>
+							</v-card-text>
 						</v-card>
 					</v-tab-item>
 					<v-tab-item>

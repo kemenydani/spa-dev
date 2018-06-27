@@ -86,5 +86,38 @@ class GalleryController extends ModelController
 		
 		return $response->withJson( $Gallery->getProperties() )->withStatus(200);
 	}
-	
+
+    public function getSearchPaginate( Request $request, Response $response, $args = [], $joinModels = []) : Response
+    {
+        return parent::getSearchPaginate($request, $response, [], function($items)
+        {
+            $ImageManager = new ImageManager(array('driver' => 'gd'));
+
+            $q = "SELECT * FROM _xyz_gallery_image WHERE gallery_id = ? ";
+
+            foreach($items as &$gallery)
+            {
+                $Images = GalleryImage::findAll($gallery['id'], 'gallery_id');
+
+                $urls = [];
+                /* @var \models\GalleryImage $Image */
+                //if(is_array($Images)) foreach($Images as $Image) $urls[] = 'http://phpapp' . (string)$Image->requestImageUrl();
+
+
+                    foreach($Images as $Image) {
+                        $path = $Image::IMAGE_PATH . DIRECTORY_SEPARATOR . $Image->getFileName();
+                        $img = $ImageManager->make($path);
+                        $urls[] = ['id' => $Image->getId(), 'dataUrl' => $img->encode('data-url')];
+                    }
+
+
+                $gallery['images'] = $urls;
+            }
+
+            return $items;
+        });
+    }
+
+
+
 }
