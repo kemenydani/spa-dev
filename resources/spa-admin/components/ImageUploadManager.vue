@@ -171,6 +171,7 @@
 						busy : false,
 						progress: 0,
 					}
+					this.$refs.input.value ="";
 				},
 				removeQueueItem(index){
 					this.imageQueue[index].removed = true;

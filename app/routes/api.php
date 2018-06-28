@@ -219,14 +219,16 @@ $app->group('/api', function ()
             /* @var SquadMember $SquadMember */
             $SquadMember = SquadMember::find($id);
 
-            return ImageUploadController::upload($request, $response, SquadMember::IMAGE_PATH, function($filename) use ($SquadMember)
+            ImageUploadController::$unique = true;
+
+            $oldPath = SquadMember::IMAGE_PATH . DIRECTORY_SEPARATOR . $SquadMember->getHomeAvatar();
+
+            return ImageUploadController::upload($request, $response, SquadMember::IMAGE_PATH, function($filename) use ($SquadMember, $oldPath)
             {
-                $ImageManager = new ImageManager(array('driver' => 'gd'));
-                $SquadMember->setProperty('logo', $filename);
+                if(isWritableFile($oldPath) && isReadableFile($oldPath)) unlink(realpath($oldPath));
+
+                $SquadMember->setProperty('home_avatar', $filename);
                 $SquadMember->save();
-                $path = SquadMember::IMAGE_PATH . DIRECTORY_SEPARATOR . $SquadMember->getLogo();
-                $img = $ImageManager->make($path);
-                return $img->encode('data-url');
             });
         });
     });

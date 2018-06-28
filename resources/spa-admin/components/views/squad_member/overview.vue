@@ -41,6 +41,39 @@
 			</v-card>
 		</v-dialog>
 
+		<v-dialog
+				v-model="image.dialog"
+				fullscreen
+				transition="dialog-bottom-transition"
+		>
+			<v-card>
+				<v-toolbar card dark color="primary">
+					<v-toolbar-title>Edit Image</v-toolbar-title>
+					<v-spacer></v-spacer>
+					<v-toolbar-items>
+
+					</v-toolbar-items>
+					<v-spacer></v-spacer>
+					<v-btn icon dark @click.native="image.dialog = false">
+						<v-icon>close</v-icon>
+					</v-btn>
+				</v-toolbar>
+				<v-card-text>
+					<v-card color="grey darken-4">
+						<v-card-text style="text-align: center;">
+							<img :src="image.item.imageDataUrl">
+						</v-card-text>
+					</v-card>
+					<br>
+					<SquadMemberImageUploadManager
+							:modelId="image.item.id"
+							@uploaded="imageUploaded($event, image.item )">
+					</SquadMemberImageUploadManager>
+				</v-card-text>
+			</v-card>
+		</v-dialog>
+
+
 		<v-btn
 				@click="addModel"
 				fab
@@ -62,9 +95,10 @@
     import SquadMember from "../../../model/SquadMember";
     import SquadModelSelector from '../../SquadModelSelector';
     import UserModelSelector from '../../UserModelSelector';
+	import SquadMemberImageUploadManager from '../../SquadMemberImageUploadManager'
 
 	export default {
-		components: { DataModelManager, SquadModelSelector, UserModelSelector },
+		components: { DataModelManager, SquadModelSelector, UserModelSelector, SquadMemberImageUploadManager },
 		data() {
 			return {
 				contexts: [],
@@ -78,6 +112,11 @@
                     title : 'Members',
                     dialog: false
                 },
+                image : {
+                    img : null,
+                    item : {},
+                    dialog: false
+                },
 				table: {
 					actions : ['delete','activate', 'deactivate'],
 					rowActions : [
@@ -86,10 +125,11 @@
 							icon : 'edit',
 							callback : this.editModel
 						},
+
 						{
 							name : 'Image',
 							icon : 'image',
-							callback : function(){}
+							callback : this.editImage
 						}
 					],
 					headers: [
@@ -110,6 +150,18 @@
 			}
 		},
 		methods : {
+            imageUploaded( images, model ){
+                this.$app.$emit('tableFetchData', true,  () => {
+
+                    let image = images[0];
+
+                    if(image)
+                    {
+                        this.image.item.imageDataUrl = image[Object.keys(image)[0]].encoded;
+                    }
+                });
+                //this.image.imageDataUrl
+            },
 			tableFetchData(){
 				this.$app.$emit('tableFetchData');
 			},
@@ -118,6 +170,10 @@
 				this.edit.title = 'Add';
 				this.edit.item = { name: '', squad_id: null, user_id: null };
 			},
+            editImage( model ){
+                this.image.dialog = true;
+                this.image.item = model;
+            },
 			editModel( model ){
 				this.edit.dialog = true;
 				this.edit.title = 'Edit';

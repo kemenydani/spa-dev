@@ -43,7 +43,41 @@
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
-		
+
+		<v-dialog
+				v-model="image.dialog"
+				fullscreen
+				transition="dialog-bottom-transition"
+		>
+			<v-card>
+				<v-toolbar card dark color="primary">
+					<v-toolbar-title>Edit Image</v-toolbar-title>
+					<v-spacer></v-spacer>
+					<v-toolbar-items>
+
+					</v-toolbar-items>
+					<v-spacer></v-spacer>
+					<v-btn icon dark @click.native="image.dialog = false">
+						<v-icon>close</v-icon>
+					</v-btn>
+				</v-toolbar>
+				<v-card-text>
+					<v-card color="grey darken-4">
+						<v-card-text style="text-align: center;">
+							<img :src="image.item.imageDataUrl">
+						</v-card-text>
+					</v-card>
+					<br>
+					<PartnerImageUploadManager
+							:modelId="image.item.id"
+							@uploaded="imageUploaded($event, image.item )"
+							api-route="article/uploadImage">
+					</PartnerImageUploadManager>
+				</v-card-text>
+			</v-card>
+		</v-dialog>
+
+
 		<v-btn
 				@click="addModel"
 				fab
@@ -63,12 +97,17 @@
 	
 	import DataModelManager from '../../DataModelManager';
 	import Partner from '../../../model/Partner';
-	
+	import PartnerImageUploadManager from '../../PartnerImageUploadManager';
+
 	export default {
-		components: { DataModelManager },
+		components: { DataModelManager, PartnerImageUploadManager },
 		data() {
 			return {
 				contexts: [],
+                image : {
+                    item : {},
+                    dialog: false
+                },
 				edit : {
 					item : {},
 					title : 'Manage',
@@ -82,11 +121,11 @@
 							icon : 'edit',
 							callback : this.editModel
 						},
-						{
-							name : 'Image',
-							icon : 'image',
-							callback : function(){}
-						}
+                        {
+                            name : 'Image',
+                            icon : 'image',
+                            callback : this.editImage
+                        }
 					],
 					headers: [
 						{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},
@@ -107,6 +146,12 @@
 			}
 		},
 		methods : {
+            imageUploaded( images, model ){
+                this.$app.$emit('tableFetchData', true,  () => {
+                    let image = images[0];
+                    if(image) this.image.item.imageDataUrl = image[Object.keys(image)[0]].encoded;
+                });
+            },
 			tableFetchData(){
 				this.$app.$emit('tableFetchData');
 			},
@@ -120,6 +165,10 @@
 				this.edit.title = 'Edit';
 				this.edit.item = Object.assign({}, model );
 			},
+            editImage( model){
+                this.image.dialog = true;
+                this.image.item = model;
+            },
 			saveCloseModel( model, dialog )
 			{
 				this.$app.$emit('toast', 'Saving...', 'info');

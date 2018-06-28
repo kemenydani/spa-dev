@@ -24,8 +24,14 @@ class PartnerController extends ModelController
             foreach($items as &$partner)
             {
                 $path = Partner::IMAGE_PATH . DIRECTORY_SEPARATOR . $partner['logo'];
+
+                $partner['imageDataUrl'] = null;
+
+                if(!isReadableFile($path)) continue;
+
                 $img = $ImageManager->make($path);
-                $partner['imageDataUrl'] = $img->encode('data-url');
+                $img->encode('data-url');
+                $partner['imageDataUrl'] = $img->getEncoded();
             }
 
             return $items;

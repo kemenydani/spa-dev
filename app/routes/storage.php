@@ -1,6 +1,7 @@
 <?php
 
 use models\Country;
+use models\SquadMember;
 use Slim\Http\Response;
 use models\User as User;
 use models\Article as Article;
@@ -79,7 +80,7 @@ $app->get('/squad_home_wallpaper/[{filename}]', function( $request, $response, $
 
 $app->get('/squadMemberHomeAvatar/[{filename}]', function( $request, $response, $args )
 {
-	$path = Squad::getRealImagePath($args['filename']);
+	$path = SquadMember::getRealImagePath($args['filename']);
 	
 	if($path) return modelImageResponse($response, $path);
 	

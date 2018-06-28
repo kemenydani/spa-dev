@@ -25,8 +25,14 @@ class SquadMemberController extends ModelController
             foreach($items as &$squadMember)
             {
                 $path = SquadMember::IMAGE_PATH . DIRECTORY_SEPARATOR . $squadMember['home_avatar'];
+
+                $squadMember['imageDataUrl'] = null;
+
+                if(!isReadableFile($path)) continue;
+
                 $img = $ImageManager->make($path);
-                $squadMember['imageDataUrl'] = $img->encode('data-url');
+                $img->encode('data-url');
+                $squadMember['imageDataUrl'] = $img->getEncoded();
             }
 
             return $items;
