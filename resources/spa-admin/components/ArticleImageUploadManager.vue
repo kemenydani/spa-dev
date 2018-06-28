@@ -27,7 +27,7 @@
 		},
 		data : () => {
 			return {
-				apiRoute: 'article/uploadArticleImage?id=1'
+				api: 'article/uploadArticleImage?id='
 			}
 		}
 	}

@@ -13,8 +13,13 @@ export default class Product extends Model {
 	
 		return this;
 	}
-
 	
+	fetchImages( productId )
+	{
+		return this.DB.get('fetchImages', { params: { id: productId }, headers: {'Content-Type': 'application/json'} })
+			.then( response => response.data )
+			.catch( error => error );
+	}
 
 }
 

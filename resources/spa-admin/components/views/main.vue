@@ -209,18 +209,6 @@
 			</v-list>
 		</v-navigation-drawer>
 
-
-
-
-
-
-
-
-
-
-
-
-
 		<v-toolbar color="primary" dark fixed app>
 			<v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
 			<v-toolbar-title>{{ $route.meta.title }}</v-toolbar-title>
@@ -232,9 +220,6 @@
 						:close-on-content-click="false"
 						:nudge-width="200"
 						v-model="menu">
-					<v-btn icon dark slot="activator">
-						<v-icon dark language>message</v-icon>
-					</v-btn>
 					<v-card style="max-width: 400px">
 						<v-card-actions>
 							<v-spacer></v-spacer>
@@ -243,7 +228,7 @@
 						</v-card-actions>
 					</v-card>
 				</v-menu>
-				<v-btn icon @click=" logout() ">
+				<v-btn icon @click="logout() ">
 					<v-icon>exit_to_app</v-icon>
 				</v-btn>
 			</div>

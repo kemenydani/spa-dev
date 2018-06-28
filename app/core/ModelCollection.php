@@ -18,7 +18,8 @@ class ModelCollection
 
     public function first()
     {
-        return array_values($this->getModels())[0];
+        $av = array_values($this->getModels());
+        return count($av) ? $av[0] : null;
     }
 
     public function last()

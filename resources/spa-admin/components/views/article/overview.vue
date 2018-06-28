@@ -54,12 +54,15 @@
 					</v-btn>
 				</v-toolbar>
 				<v-card-text>
-					<div class="article-image">
-						<img :src="image.img">
-					</div>
+					<v-card color="grey darken-4">
+						<v-card-text style="text-align: center;">
+							<img :src="image.item.imageDataUrl">
+						</v-card-text>
+					</v-card>
+					<br>
 					<ArticleImageUploadManager
 							:modelId="image.item.id"
-							@uploaded="imageUploaded"
+							@uploaded="imageUploaded($event, image.item )"
 							api-route="article/uploadImage">
 					</ArticleImageUploadManager>
 				</v-card-text>
@@ -176,9 +179,17 @@
 			}
 		},
 		methods : {
-			imageUploaded( queueItems ){
-				console.log( queueItems)
-				this.image.img = queueItems[0].imageDataUrl;
+			imageUploaded( images, model ){
+				this.$app.$emit('tableFetchData', true,  () => {
+					
+					let image = images[0];
+					
+					if(image)
+					{
+						this.image.item.imageDataUrl = image[Object.keys(image)[0]].encoded;
+					}
+				});
+				//this.image.imageDataUrl
 			},
 			tableFetchData(){
 				this.$app.$emit('tableFetchData');
@@ -193,7 +204,7 @@
 			},
 			editImage( article ){
 				this.image.dialog = true;
-				this.image.item = Object.assign({}, article);
+				this.image.item = article;
 			},
 			editArticle( article ){
 				this.edit.dialog = true;

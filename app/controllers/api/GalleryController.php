@@ -20,6 +20,26 @@ class GalleryController extends ModelController
         parent::__construct( new Gallery() );
     }
 
+    public function postDelete(Request $request, Response $response, $beforeDelete = null, $afterDelete = null): Response
+    {
+        return parent::postDelete($request, $response, function($range)
+        {
+            foreach($range as $galleryId)
+            {
+                $GalleryImages = GalleryImage::findAll($galleryId, 'gallery_id');
+                /* @var GalleryImage $GalleryImage */
+                foreach($GalleryImages as $GalleryImage)
+                {
+                    $path = GalleryImage::IMAGE_PATH . DIRECTORY_SEPARATOR . $GalleryImage->getFileName();
+
+                    if(isReadableFile($path) && isReadableFile($path)) unlink(realpath($path));
+
+                    $GalleryImage->destroy();
+                }
+            }
+        }, $afterDelete);
+    }
+
     public function postUploadImage( Request $request, Response $response ) : Response
     {
 	    $files = $request->getUploadedFiles();
@@ -87,6 +107,29 @@ class GalleryController extends ModelController
 		return $response->withJson( $Gallery->getProperties() )->withStatus(200);
 	}
 
+    public function fetchImages(Request $request, Response $response, $args = [])
+    {
+        $id = $request->getQueryParam('id');
+
+        $GalleryImages = GalleryImage::findAll($id, 'gallery_id');
+
+        if(!$GalleryImages) $GalleryImages = [];
+
+        $res = [];
+
+        /* @var GalleryImage $Image */
+        foreach ($GalleryImages as $Image)
+        {
+            $res[] = [
+                'id' => $Image->getId(),
+                'file_name' => $Image->getFileName(),
+                'path' => $Image->requestImageUrl()
+            ];
+        }
+
+        return $response->withJson($res)->withStatus(200);
+    }
+
     public function getSearchPaginate( Request $request, Response $response, $args = [], $joinModels = []) : Response
     {
         return parent::getSearchPaginate($request, $response, [], function($items)
@@ -99,10 +142,19 @@ class GalleryController extends ModelController
 
                 $urls = [];
 
-                foreach($Images as $Image) {
-                    $path = $Image::IMAGE_PATH . DIRECTORY_SEPARATOR . $Image->getFileName();
+                /* @var \models\GalleryImage $GalleryImage */
+                foreach($Images as $GalleryImage)
+                {
+                    /*
+                    $path = GalleryImage::IMAGE_PATH . DIRECTORY_SEPARATOR .$GalleryImage->getFileName();
+
+                    if(!isReadableFile($path)) continue;
+
                     $img = $ImageManager->make($path);
-                    $urls[] = ['id' => $Image->getId(), 'dataUrl' => $img->encode('data-url')];
+                    $img = $img->encode('data-url');
+                    $encoded = $img->getEncoded();
+                    $urls[] = ['file_name' => $GalleryImage->getFileName(), 'encoded' => $encoded];
+                    */
                 }
 
                 $gallery['images'] = $urls;
@@ -111,7 +163,5 @@ class GalleryController extends ModelController
             return $items;
         });
     }
-
-
 
 }

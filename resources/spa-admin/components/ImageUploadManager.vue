@@ -12,6 +12,10 @@
 					Upload ({{ activeItemCount }} IN QUEUE)
 					<v-icon right dark>cloud_upload</v-icon>
 				</v-btn>
+				<v-btn @click="reset()" :loading="status.busy" :disabled="imageQueue.length === 0 || status.busy" class="white--text" color="grey darken-3">
+					Clear
+					<v-icon right dark>cancel</v-icon>
+				</v-btn>
 				<div style="margin-left: 8px; margin-right: 8px; margin-top: 10px;" v-if="forceCrop" small color="grey" type="warning" icon="crop_free" :value="true">
 					Image(s) must be resized before upload.
 				</div>
@@ -23,8 +27,8 @@
 				<v-card-title>
 					<b>{{ queueItem.fileName }}</b>&nbsp;<small>({{ (queueItem.size * 0.000001).toFixed(2) }} MB)</small>
 				</v-card-title>
-				<v-card-media v-if="queueItem.progress">
-					<v-progress-linear :color="queueItem.done === true ? 'success' : ''" :buffer-value="queueItem.buffer" v-model="queueItem.progress" buffer></v-progress-linear>
+				<v-card-media style="height: 40px; min-height: 40px; max-height: 40px; overflow: hidden;">
+					<v-progress-linear :indeterminate="status.busy" v-model="queueItem.progress"></v-progress-linear>
 				</v-card-media>
 				<v-card-actions>
 							<v-btn small flat @click="removeQueueItem(queueItem.index)" class="" v-if="queueItem.done !== true">
@@ -57,22 +61,20 @@
 				transition="dialog-bottom-transition"
 				scrollable
 		>
-			<v-card tile>
+			<v-card tile color="grey darken-4">
 				<v-toolbar card dark color="primary">
 					<v-btn icon dark @click.native="crop.show = false">
 						<v-icon>close</v-icon>
 					</v-btn>
-					<v-toolbar-title>Crop Image:  {{ crop.item.fileName }}</v-toolbar-title>
+					<v-toolbar-title>Crop Image</v-toolbar-title>
 					<v-spacer></v-spacer>
 					<v-toolbar-items>
-						<v-btn dark flat @click.native="cropImage(crop.item)">CROP</v-btn>
+						<v-btn dark flat @click.native="cropImage(crop.item)">resize</v-btn>
 					</v-toolbar-items>
 				</v-toolbar>
-				
 				<v-card-text>
-					
-					<div style="text-align: center; margin-bottom: 10px;">
-						Required size for this image: {{ maxWidth }} x {{ maxHeight }}
+					<div style="text-align: center; margin-bottom: 10px;" class="white--text">
+						Required size: {{ maxWidth }} x {{ maxHeight }}
 					</div>
 					
 					<div :style="{ minWidth: maxWidth +'px', minHeight: maxHeight +'px'}">
@@ -81,10 +83,17 @@
 					             :enableExif="true"
 					             :enableResize="false"
 					             :viewport="{ width: maxWidth, height: maxHeight, circle: false }"
-					             :boundary="{ width: maxWidth + 30, height: maxHeight + 30}">
+					             :boundary="{ width: maxWidth, height: maxHeight}">
 					</vue-croppie>
 					<img v-bind:src="crop.item.imageDataUrl" style="display: none;">
 					</div>
+					
+					<div style="text-align: center;">
+						<v-btn large color="amber" class="white--text" @click.native="cropImage(crop.item)">
+							<v-icon color="white">crop_free</v-icon>&nbsp;resize
+						</v-btn>
+					</div>
+					
 				</v-card-text>
 				
 				<div style="flex: 1 1 auto;"></div>
@@ -125,6 +134,14 @@
 				imageQueue : [],
 			}
 		},
+		watch : {
+			apiRoute : {
+				handler : function () {
+					this.reset();
+				},
+				deep: true
+			}
+		},
 		computed :
 			{
 			activeItemCount()
@@ -141,12 +158,26 @@
 		},
 		methods:
 			{
+				reset(){
+					this.crop = {
+						show : false,
+						item : {
+							index : 0,
+							imageDataUrl : '',
+						}
+					};
+					this.imageQueue = [];
+					this.status = {
+						busy : false,
+						progress: 0,
+					}
+				},
 				removeQueueItem(index){
 					this.imageQueue[index].removed = true;
 					this.imageQueue[index].done = false;
 				},
-				onUploadFinished(){
-					this.$emit('uploaded', this.imageQueue)
+				onUploadFinished(images){
+					this.$emit('uploaded', images)
 				},
 				onUploadImages()
 				{
@@ -158,12 +189,13 @@
 				},
 				handleInputChange( event )
 				{
+					this.status.busy = true;
 					let files = event.target.files;
 					if(!files) return false;
 					let ql = this.imageQueue.length;
 					for(let i = 0; i < files.length; i++)
 					{
-						(function(originalFile)
+						(function(originalFile, allFiles)
 						{
 							let reader = new FileReader();
 							
@@ -190,7 +222,7 @@
 									canvas.width = width;
 									canvas.height = height;
 									canvas.getContext('2d').drawImage(image, 0, 0, width, height);
-									let dataUrl = canvas.toDataURL('image/jpeg');
+									let dataUrl = canvas.toDataURL('image/' + this.format);
 									let imageResized = dataURLtoBlob(dataUrl);
 									
 									this.imageQueue.push({
@@ -208,16 +240,19 @@
 										removed : false,
 										cropped: false,
 									});
+									
+									if(i === (allFiles.length -1)) this.status.busy = false;
 								}
 								.bind(this);
 								
 								image.src = readerEvent.target.result;
+								
 							}
 							.bind(this);
 							
 							reader.readAsDataURL(originalFile);
 						}
-						.call(this, files[i]));
+						.call(this, files[i], files));
 					}
 				},
 				uploadImages( queueItems )
@@ -249,19 +284,22 @@
 							})
 							.then( response =>
 							{
-								if(!response.data.hasOwnProperty('result')) return false;
+								if(!response.data) return false;
 								
-								let keys = response.data.result;
+								let keys = Object.keys(response.data);
+								let images = [];
+								
 								this.imageQueue.forEach( ( queueItem, index ) =>
 								{
 									if(queueItem.done === null)
 									{
-										if(keys.hasOwnProperty('image_' + index) && queueItem.done === null)
+										if(keys.includes('image_' + index) && queueItem.done === null)
 										{
 											this.imageQueue[index].buffer = 100;
 											this.imageQueue[index].progress = 100;
 											this.imageQueue[index].done = true;
-											this.imageQueue[index].imageDataUrl = response.data.images['image_' + index];
+											this.imageQueue[index].imageDataUrl = response.data['image_' + index].encoded;
+											images.push(response.data);
 										}
 										else
 										{
@@ -271,7 +309,7 @@
 								});
 								this.status.busy = false;
 								
-								this.onUploadFinished();
+								this.onUploadFinished(images);
 							})
 							.catch( () =>
 							{
@@ -293,7 +331,7 @@
 				{
 					this.crop.show = false;
 					let options = {
-						format: 'jpeg',
+						format: this.format,
 					};
 					this.$refs['croppieRef'].result(options, ( result ) =>
 					{
@@ -369,6 +407,11 @@
 				type : String,
 				required:false,
 				default: () => 'image/*'
+			},
+			format : {
+				type : String,
+				required:false,
+				default: () => 'jpeg'
 			}
 		},
 		

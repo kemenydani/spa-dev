@@ -64,15 +64,21 @@ abstract class ModelController implements ModelControllerInterface
     /**
      * @param Request $request
      * @param Response $response
+     * @param null $beforeDelete
+     * @param null $afterDelete
      * @return Response
      */
-    public function postDelete( Request $request, Response $response ) : Response
+    public function postDelete( Request $request, Response $response, $beforeDelete = null, $afterDelete = null ) : Response
     {
         $range = $request->getParsedBody()['range'];
+
+        if(is_callable($beforeDelete)) $beforeDelete($range);
 
         $isDeleted = ( $this->Model )::deleteIn('id', $range );
 
         if( !$isDeleted ) return $response->withStatus( 500, 'Database error: Could not delete items.' );
+
+        if(is_callable($afterDelete)) $afterDelete($range);
 
         return $response->withJson( $range );
     }
@@ -186,9 +192,13 @@ abstract class ModelController implements ModelControllerInterface
 	{
 		$baseQuery = $request->getQueryParam('baseQuery');
 		$baseQuery = json_decode($baseQuery);
-		
+
+		if(!$baseQuery) $baseQuery = [];
+
 		$search = $request->getQueryParam('search');
-	
+
+        if(!$search) $search = "";
+
 		$binds = [];
 		$where = "";
 		

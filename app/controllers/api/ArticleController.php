@@ -36,8 +36,14 @@ class ArticleController extends ModelController
 
                 $article['categories'] = $idArr;
                 $path = Article::IMAGE_PATH . DIRECTORY_SEPARATOR . $article['headline_image'];
+
+                $article['imageDataUrl'] = null;
+
+                if(!isReadableFile($path)) continue;
+
                 $img = $ImageManager->make($path);
-                $article['imageDataUrl'] = $img->encode('data-url');
+                $img->encode('data-url');
+                $article['imageDataUrl'] = $img->getEncoded();
             }
 
             return $items;
@@ -67,6 +73,24 @@ class ArticleController extends ModelController
         return $response->withJson( $result );
     }
 
+    public function postStore(Request $request, Response $response): Response
+    {
+        $formData = $request->getParsedBody();
+
+        $formData['title_seo'] = url_slug($formData['title']);
+
+        $errors = []; //$this->Model::validate($formData);
+
+        if(count($errors)) return $response->withStatus(200)->withJson(['success' => false, 'data' => $errors]);
+
+        $Model = $this->Model::create($formData);
+
+        $id = $Model->save();
+
+        if($id) return $response->withStatus(200)->withJson(['success' => true, 'data' => $Model->getFormatted()]);
+        return $response->withStatus(500, 'Server Error: Could not save.');
+    }
+
     public function postCreate( Request $request, Response $response ) : Response
 	{
 		$data = $request->getParsedBody();
@@ -78,6 +102,7 @@ class ArticleController extends ModelController
 		
 		$Article = Article::create([
 			'title'      => $title,
+			'title_seo'  => url_slug($title),
 			'teaser'     => $teaser,
 			'content'    => $content,
 			'created_by' => Auth::user()->getId()

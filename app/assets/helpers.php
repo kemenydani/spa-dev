@@ -6,6 +6,27 @@ function debug( $var)
     die();
 }
 
+function isReadableFile($path)
+{
+    return is_file($path) && is_readable($path);
+}
+
+function randomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
+function isWritableFile($path)
+{
+    return is_file($path) && is_writable($path);
+}
+
+
 function sanitize($string, $force_lowercase = true, $anal = false) {
 	$strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]",
 		"}", "\\", "|", ";", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;",

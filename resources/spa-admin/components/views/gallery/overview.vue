@@ -6,7 +6,7 @@
 		<v-dialog v-model="edit.dialog" max-width="500px">
 			<v-card>
 				<v-card-title>
-					<span class="headline">Edit Article</span>
+					<span class="headline">{{ edit.title }}</span>
 				</v-card-title>
 				<v-card-text>
 					<v-container grid-list-md>
@@ -49,8 +49,8 @@
 						centered
 						color="grey darken-3"
 					>
-						<v-tab>GALLERY IMAGES</v-tab>
 						<v-tab>UPLOAD IMAGES</v-tab>
+						<v-tab>GALLERY IMAGES</v-tab>
 					</v-tabs>
 				</v-toolbar>
 				<v-card-text>
@@ -58,16 +58,45 @@
 					<v-tab-item>
 						<v-card flat>
 							<v-card-text>
-								<div :style="{ width: '200px', height: '200px', backgroundImage: 'url(' + image.dataUrl.encoded  + ')' }" v-for="image in compose.item.images">
-
-								</div>
+								<GalleryImageUploadManager
+										@uploaded="imagesUploaded.call(this, $event, compose.item)"
+										:model-id="compose.item.id">
+								</GalleryImageUploadManager>
 							</v-card-text>
 						</v-card>
 					</v-tab-item>
 					<v-tab-item>
 						<v-card flat>
 							<v-card-text>
-								<GalleryImageUploadManager :model-id="compose.item.id"></GalleryImageUploadManager>
+								<v-flex xs12 sm12 md12 lg12 xl12>
+									<v-card flat>
+										<v-container v-bind="{ [`grid-list-lg`]: true }" fluid>
+											<v-flex style="height: 40px; min-height: 40px; max-height: 40px; overflow: hidden;">
+												<v-progress-linear v-if="compose.loadingImages" :indeterminate="true"></v-progress-linear>
+											</v-flex>
+											<v-layout row wrap>
+												<v-flex xs12 sm6 md4 lg3 xl2
+												        v-for="(image, key) in compose.item.images"
+												        :key="key"
+												>
+													<v-card  tile>
+														<v-card-media
+																:src="image.path"
+																height="280px"
+														>
+														</v-card-media>
+														<v-card-actions>
+															<v-spacer></v-spacer>
+															<v-btn @click="deleteImage.call(this, compose.item, image)" small flat color="error">
+																<v-icon color="error">delete_sweep</v-icon>&nbsp;DELETE
+															</v-btn>
+														</v-card-actions>
+													</v-card>
+												</v-flex>
+											</v-layout>
+										</v-container>
+									</v-card>
+								</v-flex>
 							</v-card-text>
 						</v-card>
 					</v-tab-item>
@@ -96,6 +125,7 @@
 	import DataModelManager from '../../DataModelManager';
 	import Gallery from '../../../model/Gallery';
 	import GalleryImageUploadManager from '../../GalleryImageUploadManager';
+	import GalleryImage from "../../../model/GalleryImage";
 
 	export default {
 		components: { DataModelManager, GalleryImageUploadManager },
@@ -104,10 +134,12 @@
 			    tabs: 0,
 				compose : {
 					item : {},
-					dialog: false
+					dialog: false,
+					loadingImages : false
 				},
 				edit : {
-					item : {},
+					item : { },
+					title: 'Edit',
 					dialog: false
 				},
 				table: {
@@ -141,30 +173,55 @@
 			}
 		},
 		methods : {
-			editGallery( item ){
-				console.log(item.id)
+			imagesUploaded( images, model )
+			{
+				this.fetchGalleryImages(model.id).then( ( response ) => {
+					this.compose.item.images = response;
+				})
 			},
-			uploadImages( item ){
-				this.$router.push({ name: 'gallery.upload', params: { id: item.id }})
+			deleteImage(model, image)
+			{
+				this.compose.loadingImages = true;
+				GalleryImage.instance().deleteIn([image.id])
+					.then( () => {
+						this.fetchGalleryImages(model.id).then( ( response ) => {
+							this.compose.item.images = response;
+						})
+					});
 			},
-			
+			fetchGalleryImages( galleryId )
+			{
+				this.compose.loadingImages = true;
+				return Gallery.instance()
+					.fetchImages(galleryId)
+					.then( response =>
+					{
+						this.compose.loadingImages = false;
+						return response;
+					});
+			},
 			tableFetchData(){
 				this.$app.$emit('tableFetchData');
 			},
 			addModel(){
 				this.edit.dialog = true;
+				this.edit.title = 'Add';
 				this.edit.item = { name: '', active: false };
 			},
 			composeModel( model ){
-				this.compose.dialog = true;
-				this.compose.item = Object.assign({}, model);
+				  this.compose.dialog = true;
+				  this.compose.item = model;
+					this.fetchGalleryImages(model.id).then( ( response ) => {
+						this.compose.item.images = response;
+					})
 			},
 			editModel( model ){
 				this.edit.dialog = true;
-				this.edit.item = Object.assign({}, model );
+				this.edit.title = 'Edit';
+				this.edit.item = Object.assign({}, model);
 			},
 			saveCloseModel( model, dialog ){
-				console.log(model)
+	
 				this.$app.$emit('toast', 'Saving...', 'info');
 				this.storeModel( model )
 					.then((response) => {

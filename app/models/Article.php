@@ -52,7 +52,7 @@ class Article extends Model
 		{
 			if( !in_array( $category_id, $current_categories ) )
 			{
-				DB::insert('article_categories', [ 'article_id' => $article_id, 'category_id' => $category_id ] );
+				DB::instance()->insert('article_categories', [ 'article_id' => $article_id, 'category_id' => $category_id ] );
 			}
 		}
 		
@@ -63,6 +63,17 @@ class Article extends Model
     {
         return '/article_headline/' . $this->getProperty('headline_image');
     }
+
+    public function getHeadlineImage()
+    {
+        return $this->getProperty('headline_image');
+    }
+
+    public function getTitle()
+    {
+        return $this->getProperty('title');
+    }
+
 
     public function readLink()
     {

@@ -46,6 +46,82 @@
 			</v-card>
 		</v-dialog>
 		
+		<v-dialog
+				v-model="compose.dialog"
+				fullscreen
+				hide-overlay
+				transition="dialog-bottom-transition"
+				scrollable
+		>
+			<v-card tile>
+				<v-toolbar color="primary" dark tabs>
+					<v-toolbar-title>Product Image Manager</v-toolbar-title>
+					<v-spacer></v-spacer>
+					<v-btn icon dark @click.native="compose.dialog = false">
+						<v-icon>close</v-icon>
+					</v-btn>
+					<v-tabs
+							slot="extension"
+							v-model="tabs"
+							centered
+							color="grey darken-3"
+					>
+						<v-tab>UPLOAD IMAGES</v-tab>
+						<v-tab>PRODUCT IMAGES</v-tab>
+					</v-tabs>
+				</v-toolbar>
+				<v-card-text>
+					<v-tabs-items v-model="tabs">
+						<v-tab-item>
+							<v-card flat>
+								<v-card-text>
+									<ProductImageUploadManager
+											@uploaded="imagesUploaded.call(this, $event, compose.item)"
+											:model-id="compose.item.id">
+									</ProductImageUploadManager>
+								</v-card-text>
+							</v-card>
+						</v-tab-item>
+						<v-tab-item>
+							<v-card flat>
+								<v-card-text>
+									<v-flex xs12 sm12 md12 lg12 xl12>
+										<v-card flat>
+											<v-container v-bind="{ [`grid-list-lg`]: true }" fluid>
+												<v-flex style="height: 40px; min-height: 40px; max-height: 40px; overflow: hidden;">
+													<v-progress-linear v-if="compose.loadingImages" :indeterminate="true"></v-progress-linear>
+												</v-flex>
+												<v-layout row wrap>
+													<v-flex xs12 sm6 md4 lg3 xl2
+													        v-for="(image, key) in compose.item.images"
+													        :key="key"
+													>
+														<v-card  tile>
+															<v-card-media
+																	:src="image.path"
+																	height="280px"
+															>
+															</v-card-media>
+															<v-card-actions>
+																<v-spacer></v-spacer>
+																<v-btn @click="deleteImage.call(this, compose.item, image)" small flat color="error">
+																	<v-icon color="error">delete_sweep</v-icon>&nbsp;DELETE
+																</v-btn>
+															</v-card-actions>
+														</v-card>
+													</v-flex>
+												</v-layout>
+											</v-container>
+										</v-card>
+									</v-flex>
+								</v-card-text>
+							</v-card>
+						</v-tab-item>
+					</v-tabs-items>
+				</v-card-text>
+			</v-card>
+		</v-dialog>
+		
 		<v-btn
 			@click="addModel"
 			fab
@@ -65,11 +141,19 @@
 	
 	import DataModelManager from '../../DataModelManager';
 	import Product from '../../../model/Product';
+	import ProductImageUploadManager from '../../ProductImageUploadManager';
+	import ProductImage from "../../../model/ProductImage";
 	
 	export default {
-		components: { DataModelManager },
+		components: { DataModelManager, ProductImageUploadManager },
 		data() {
 			return {
+				tabs: 0,
+				compose : {
+					item : {},
+					dialog: false,
+					loadingImages : false
+				},
 				edit : {
 					item : {},
 					title : 'Manage',
@@ -83,9 +167,9 @@
 							callback : this.editModel
 						},
 						{
-							name : 'Image',
+							name : 'Upload',
 							icon : 'image',
-							callback : function(){}
+							callback : this.composeModel
 						}
 					],
 					headers: [
@@ -108,6 +192,35 @@
 	
 		},
 		methods: {
+			imagesUploaded( images, model )
+			{
+				this.fetchProductImages(model.id).then( ( response ) => {
+					this.compose.item.images = response;
+				})
+			},
+			deleteImage(model, image)
+			{
+				this.compose.loadingImages = true;
+				ProductImage.instance().deleteIn([image.id]).then( response => {
+					model.images.forEach( (loopImg, index) =>
+					{
+						if(response.includes(loopImg.id)) model.images.splice(index, 1);
+					});
+					model = Object.assign({},  model);
+					this.compose.loadingImages = false;
+				});
+			},
+			fetchProductImages( galleryId )
+			{
+				this.compose.loadingImages = true;
+				return Product.instance()
+					.fetchImages(galleryId)
+					.then( response =>
+					{
+						this.compose.loadingImages = false;
+						return response;
+					});
+			},
 			tableFetchData(){
 				this.$app.$emit('tableFetchData');
 			},
@@ -120,6 +233,13 @@
 				this.edit.dialog = true;
 				this.edit.title = 'Edit';
 				this.edit.item = Object.assign({}, model );
+			},
+			composeModel( model ){
+				this.compose.dialog = true;
+				this.compose.item = model;
+				this.fetchProductImages(model.id).then( ( response ) => {
+					this.compose.item.images = response;
+				})
 			},
 			saveCloseModel( model, dialog ){
 				this.$app.$emit('toast', 'Saving...', 'info');

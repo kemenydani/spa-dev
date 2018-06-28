@@ -279,14 +279,15 @@
 					this.filter.pagination.descending = false;
 				}
 			},
-			fetchData()
+			fetchData( silent = false )
 			{
-				this.$app.$emit('toast', 'Updating table...', 'info');
+				if(!silent) this.$app.$emit('toast', 'Updating table...', 'info');
 				return this.getDataFromApi()
 					.then(data => {
 						this.data.items = data.items;
 						this.filter.totalItems = data.total;
-						this.$app.$emit('toast', 'Table updated', 'success');
+						if(!silent) this.$app.$emit('toast', 'Table updated', 'success');
+						return this.data.items;
 					})
 			},
 			getDataFromApi () {
@@ -321,7 +322,13 @@
 		},
 		mounted () {
 			this.fetchData();
-			this.$app.$on('tableFetchData', this.fetchData);
+			this.$app.$on('tableFetchData', (silent = false, cb = null) => {
+					this.fetchData( silent ).then( () => {
+						if(cb) cb(true);
+					}).catch(() => {
+						if(cb) cb(false);
+					});
+			});
 		},
 		watch: {
 			'filter.pagination': {

@@ -54,12 +54,16 @@ $app->group('/api', function ()
             /* @var Article $Article */
             $Article = Article::find($id);
 
-            return ImageUploadController::upload($request, $response, Article::IMAGE_PATH, function($filename) use ($Article)
+            ImageUploadController::$unique = true;
+
+            $oldPath = Article::IMAGE_PATH . DIRECTORY_SEPARATOR . $Article->getHeadlineImage();
+
+            return ImageUploadController::upload($request, $response, Article::IMAGE_PATH, function($filename) use ($Article, $oldPath)
             {
+                if(isWritableFile($oldPath) && isReadableFile($oldPath)) unlink(realpath($oldPath));
+
                 $Article->setProperty('headline_image', $filename);
                 $Article->save();
-                //TODO:: RETURN DATAURL
-                return 'http://phpapp' . $Article->formatHeadlineImage();
             });
         });
 	});
@@ -72,8 +76,10 @@ $app->group('/api', function ()
         $this->post('/delete', 'controllers\api\GalleryController:postDelete');
         $this->post('/activate', 'controllers\api\GalleryController:postActivate');
         $this->post('/deactivate', 'controllers\api\GalleryController:postDeactivate');
-        $this->post('/uploadImage', 'controllers\api\GalleryController:postUploadImage');
+        //$this->post('/uploadImage', 'controllers\api\GalleryController:postUploadImage');
 	    $this->post('/store', 'controllers\api\GalleryController:postStore');
+
+        $this->get('/fetchImages', 'controllers\api\GalleryController:fetchImages');
 
         $this->post('/uploadGalleryImage', function(Request $request, Response $response)
         {
@@ -81,17 +87,34 @@ $app->group('/api', function ()
             /* @var Gallery $Gallery */
             $Gallery = Gallery::find($id);
 
+            ImageUploadController::$unique = true;
+
             return ImageUploadController::upload($request, $response, GalleryImage::IMAGE_PATH, function($filename) use ($Gallery)
             {
                 $GalleryImage = GalleryImage::create([
                     'file_name' => $filename,
                     'gallery_id' => $Gallery->getProperty('id'),
-                ]);//TODO:: RETURN DATAURL
+                ]);
+
                 $GalleryImage->save();
-                return 'http://phpapp' . $GalleryImage->requestImageUrl();
             });
         });
     });
+
+    $this->group('/gallery_image', function()
+    {
+        $this->get('/all', 'controllers\api\GalleryImageController:getAll');
+        $this->get('/findAll', 'controllers\api\GalleryImageController:findAll');
+        $this->post('/delete', 'controllers\api\GalleryImageController:postDelete');
+    });
+
+    $this->group('/product_image', function()
+    {
+        $this->get('/all', 'controllers\api\ProductImageController:getAll');
+        $this->get('/findAll', 'controllers\api\ProductImageController:findAll');
+        $this->post('/delete', 'controllers\api\ProductImageController:postDelete');
+    });
+
 
     $this->group('/partner', function()
     {
@@ -157,20 +180,25 @@ $app->group('/api', function ()
 		$this->post('/deactivate', 'controllers\api\ProductController:postDeactivate');
 		$this->post('/store', 'controllers\api\ProductController:postStore');
 
+        $this->get('/fetchImages', 'controllers\api\ProductController:fetchImages');
+
         $this->post('/uploadProductImage', function(Request $request, Response $response)
         {
             $id = $request->getQueryParam('id');
             /* @var Product $Product */
             $Product = Product::find($id);
 
+            ImageUploadController::$unique = true;
+            ImageUploadController::$format = 'png';
+
             return ImageUploadController::upload($request, $response, ProductImage::IMAGE_PATH, function($filename) use ($Product)
             {
-                $ProductImage = GalleryImage::create([
+                $ProductImage = ProductImage::create([
                     'file_name' => $filename,
                     'product_id' => $Product->getProperty('id'),
                 ]);
-                $ProductImage->save();//TODO:: RETURN DATAURL
-                return 'http://phpapp' . $ProductImage->requestImageUrl();
+
+                $ProductImage->save();
             });
         });
 	});

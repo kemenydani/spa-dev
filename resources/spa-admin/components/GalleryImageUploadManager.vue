@@ -36,7 +36,7 @@
 		},
 		data : () => {
 			return {
-				apiRoute: 'gallery/uploadGalleryImage?id=1'
+				api: 'gallery/uploadGalleryImage?id='
 			}
 		}
 	}

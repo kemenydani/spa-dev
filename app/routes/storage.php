@@ -16,28 +16,6 @@ function modelImageResponse(Response $response, $path)
 {
     $type = mime_content_type($path);
     readfile($path);
-	
-    /*
-	$ImageManager = new ImageManager(array('driver' => 'gd'));
-	
-	// open an image file
-
-	$img = $ImageManager->make($path);
-	
-	$img->interlace(true);
-	
-	// prevent possible upsizing
-	$img->resize(null, 200, function ($constraint) {
-		$constraint->aspectRatio();
-		$constraint->upsize();
-	});
-	
-	$img->save(__UPLOADS__ . '/images/thumbs/' . md5($path) . '.jpg');
-	
-	return $img->response('jpg');
-	
-	//$response->withHeader('Content-Type', $type);
-	*/
     return $response->withHeader('Content-Type', $type)->withHeader('Content-Length', filesize($path));
 }
 

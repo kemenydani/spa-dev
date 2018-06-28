@@ -9,23 +9,27 @@ use Slim\Http\UploadedFile;
 
 class ImageUploadController
 {
+    static $format = 'jpg';
+    static $unique = false;
+
     public static function upload(Request $request, Response $response, $destinationPath = null, $callback )
     {
         $files = $request->getUploadedFiles();
 
         $ImageManager = new ImageManager(array('driver' => 'gd'));
 
-        $result = [];
         $images = [];
         /* @var $uploadedFile UploadedFile */
         foreach($files as $name => $file)
         {
+            $unique = static::$unique ? '_' . strtolower(randomString(15)) . '_' : '';
+
             $uploadedFile = $file;
 
-            $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+            //$extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
             $basename = basename($uploadedFile->getClientFilename());
 
-            $fileName = '_' . md5(sanitize($basename, true, true)) . ".jpg";
+            $fileName = $unique . '_' . md5(sanitize($basename, true, true)) . "." . static::$format;
 
             $img = $ImageManager->make($uploadedFile->getStream());
 
@@ -33,7 +37,7 @@ class ImageUploadController
 
             $finalPath = $destinationPath . DIRECTORY_SEPARATOR . $fileName;
 
-            $img->encode('jpg');
+            $img->encode(static::$format);
 
             try {
                 $img->save((string)$finalPath);
@@ -43,11 +47,11 @@ class ImageUploadController
 
             $savedPath = $callback($fileName);
 
-            $result[$name] = $fileName;
             $img->encode('data-url');
-            $images[$name] = $img->getEncoded();
+            $images[$name]['file_name'] = $fileName;
+            $images[$name]['encoded'] = $img->getEncoded();
         }
 
-        return $response->withStatus(200)->withJson(['result' => $result, 'images' => $images]);
+        return $response->withStatus(200)->withJson($images);
     }
 }

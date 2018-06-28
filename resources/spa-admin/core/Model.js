@@ -5,7 +5,6 @@ export default class Model
 		return new this;
 	}
 	
-	
 	all()
 	{
 		return this.DB.get('all')

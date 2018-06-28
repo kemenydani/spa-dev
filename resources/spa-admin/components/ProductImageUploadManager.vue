@@ -8,6 +8,7 @@
 				:force-crop="false"
 				:max-width="maxWidth"
 				:max-height="maxHeight"
+				:format="'png'"
 				:api-route="apiRoute">
 		</ImageUploadManager>
 </template>
@@ -36,7 +37,7 @@
 		},
 		data : () => {
 			return {
-				apiRoute: 'product/uploadProductImage?id=1'
+				api: 'product/uploadProductImage?id='
 			}
 		}
 	}
