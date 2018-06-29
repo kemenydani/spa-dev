@@ -1,7 +1,6 @@
 <template>
 	<v-content>
 			<form>
-				
 				<div v-for="config in formConfig">
 					<component style=""
 							v-model="config.data.val"
@@ -13,8 +12,36 @@
 		          @change="saveSetting.call(this, config)"
 							></component>
 				</div>
-				
 			</form>
+		
+		<v-dialog v-model="pageHint" max-width="600">
+			<v-card>
+				<v-card-title class="headline">Help</v-card-title>
+				<v-card-text>
+					<h3>Text fields</h3>
+					In order to update your changes, always hit the save icon after modifying a field value.<br><br>
+					<h3>Checkboxes</h3>
+					Checkboxes automatically update themselves after you change them.
+				</v-card-text>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn color="blue" flat="flat" @click.native="pageHint  = false">close</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+		
+		<!-- fab -->
+		<v-btn
+				@click="pageHint = true"
+				fab
+				bottom
+				right
+				color="blue"
+				dark
+				fixed>
+			<v-icon>help</v-icon>
+		</v-btn>
+		
 	</v-content>
 </template>
 
@@ -24,8 +51,9 @@
 		$_veeValidate: {
 			validator: 'new'
 		},
-		name: 'role-overview',
+		name: 'settings-overview',
 		data: () => ({
+			pageHint: false,
 			formConfig : [],
 			dictionary: {
 				attributes: {
