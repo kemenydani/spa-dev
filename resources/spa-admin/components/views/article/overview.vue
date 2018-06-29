@@ -92,6 +92,9 @@
 							<v-flex xs12>
 								<CategoryModelSelector v-model="edit.item.categories" :multiple="true" :context="'article'" label="Select Category"></CategoryModelSelector>
 							</v-flex>
+							<v-flex xs12>
+								<EventModelSelector v-model="edit.item.event_id" label="Select Event"></EventModelSelector>
+							</v-flex>
 						</v-layout>
 					</v-container>
 					<small>*indicates required field</small>
@@ -124,9 +127,10 @@
 	import Article from '../../../model/Article';
 	import CategoryModelSelector from '../../CategoryModelSelector';
 	import ArticleImageUploadManager from '../../ArticleImageUploadManager'
+	import EventModelSelector from '../../EventModelSelector'
 	
 	export default {
-		components: { DataModelManager, CategoryModelSelector, ArticleImageUploadManager },
+		components: { DataModelManager, CategoryModelSelector, ArticleImageUploadManager, EventModelSelector },
 		data() {
 			return {
 				compose : {

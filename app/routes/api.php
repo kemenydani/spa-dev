@@ -252,6 +252,8 @@ $app->group('/api', function ()
         $this->post('/activate', 'controllers\api\EventController:postActivate');
         $this->post('/deactivate', 'controllers\api\EventController:postDeactivate');
         $this->post('/store', 'controllers\api\EventController:postStore');
+        $this->get('/findAll', 'controllers\api\EventController:findAll');
+        $this->get('/likeAll', 'controllers\api\EventController:likeAll');
     });
 
     $this->group('/award', function()

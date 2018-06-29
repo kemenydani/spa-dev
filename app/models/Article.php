@@ -23,7 +23,8 @@ class Article extends Model
         'content',
         'activation_time',
         'date_created',
-		'comments_enabled'
+		'comments_enabled',
+        'event_id'
     ];
 
     static $SEARCH_COLUMNS = ['title', 'teaser', 'date_created'];
@@ -89,7 +90,12 @@ class Article extends Model
     {
 	    return $this->getProperty('id');
     }
-	
+
+    public function getEventId()
+    {
+        return $this->getProperty('event_id');
+    }
+
 	public function getCommentsEnabled()
 	{
 		return $this->getProperty('comments_enabled');

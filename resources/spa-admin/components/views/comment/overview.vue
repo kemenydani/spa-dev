@@ -18,7 +18,7 @@
 					headers: [
 						{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},
 						{ text: 'Message', value: 'text', sortable: true, align: 'left' },
-						{ text: 'User', value: 'username', sortable: true, align: 'left' },
+						{ text: 'User', value: 'join1__username', sortable: true, align: 'left' },
 						{ text: 'Posted', value: 'date_posted', sortable: true, align: 'right' },
 					],
 					model: new Comment()

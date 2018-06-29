@@ -257,6 +257,8 @@ abstract class ModelController implements ModelControllerInterface
 
         $joins = "";
 
+        $selectPrefixed = "main.*";
+
         if( $search !== null )
         {
             foreach( $this->Model->getSearchColumns() as $key => $column  ) $searchConditions[] = 'main.' . $column . ' LIKE ' . "'%".$search."%'";
@@ -270,7 +272,13 @@ abstract class ModelController implements ModelControllerInterface
                 {
                     $alias = 'join' . $jk;
                     $joins .= ' LEFT JOIN ' . $Model::getTable() . ' '.$alias . ' ON ' . $alias . '.' . $Model::getPrimaryKey() . ' = main.' . $joinColumn;
-                    foreach( $Model::$SEARCH_COLUMNS as $key => $column  ) $searchConditions[] = $alias . '.' . $column . ' LIKE ' . "'%".$search."%'";
+
+                    foreach( $Model::$SEARCH_COLUMNS as $key => $column  )
+                    {
+                        $searchConditions[] = $alias . '.' . $column . ' LIKE ' . "'%".$search."%'";
+                        $selectPrefixed .= ',' . $alias . '.' . $column . ' AS ' . $alias . '__' . $column;
+                    };
+
                     $jk++;
                 }
             }
@@ -278,7 +286,7 @@ abstract class ModelController implements ModelControllerInterface
 
         $where = count($searchConditions) ? implode(' OR ', $searchConditions) : 1;
 
-        $stmt = " SELECT SQL_CALC_FOUND_ROWS * FROM ".$this->Model::getTable()." main $joins WHERE $where $orderDirection $limit";
+        $stmt = " SELECT SQL_CALC_FOUND_ROWS {$selectPrefixed} FROM ".$this->Model::getTable()." main $joins WHERE $where $orderDirection $limit";
 
         $sql = DB::instance()->prepare( $stmt );
         $sql->execute();

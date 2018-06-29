@@ -145,8 +145,8 @@
 				maps : {
 					items : [
 						{ name: 'dust2', homeScore: 0, enemyScore: 0 },
-                        { name: 'dust3', homeScore: 0, enemyScore: 0 },
-                        { name: 'dust4', homeScore: 0, enemyScore: 0 }
+            { name: 'dust3', homeScore: 0, enemyScore: 0 },
+             { name: 'dust4', homeScore: 0, enemyScore: 0 }
 					],
 					title : 'Manage Maps',
 					dialog: false,
@@ -167,6 +167,8 @@
 					actions : ['delete'],
 					headers: [
 						{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},
+						{ text: 'Squad', align: 'left', sortable: true, value: 'join2__name',},
+						{ text: 'Enemy', align: 'left', sortable: true, value: 'join1__name',},
 						{ text: 'Date', value: 'date_played', sortable: true, align: 'right' },
 					],
 					model: new Match()
