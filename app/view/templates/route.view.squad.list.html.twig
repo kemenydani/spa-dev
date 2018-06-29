@@ -8,6 +8,7 @@
         <div class="container squad-list-container">
             <div class="squad-list">
             {% for sk, squad in squads.getModels() %}
+                {% if squad.getActive() %}
                 <div class="squad mar-btm-default pad-default box-shadow-1 round-2">
                     <span class="title">
                     <h2 class="uc-text bg-text">
@@ -16,6 +17,7 @@
                     </span>
                     <div class="bg bg-image bg-grayed bg-cover bg-toggle-hover bg-centered" style="background-image: url({{ squad.requestHeaderImage() }})"></div>
                 </div>
+				{% endif %}
             {% endfor %}
             </div>
         </div>
