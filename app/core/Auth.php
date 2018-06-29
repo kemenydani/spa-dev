@@ -1,4 +1,5 @@
 <?php
+
 namespace core;
 
 use core\Session as Session;
