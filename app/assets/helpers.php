@@ -26,6 +26,22 @@ function isWritableFile($path)
     return is_file($path) && is_writable($path);
 }
 
+function getMimeType( $filename ) {
+    $realpath = realpath( $filename );
+    if ( $realpath
+        && function_exists( 'finfo_file' )
+        && function_exists( 'finfo_open' )
+        && defined( 'FILEINFO_MIME_TYPE' )
+    ) {
+        // Use the Fileinfo PECL extension (PHP 5.3+)
+        return finfo_file( finfo_open( FILEINFO_MIME_TYPE ), $realpath );
+    }
+    if ( function_exists( 'mime_content_type' ) ) {
+        // Deprecated in PHP 5.3
+        return mime_content_type( $realpath );
+    }
+    return false;
+}
 
 function sanitize($string, $force_lowercase = true, $anal = false) {
 	$strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]",
