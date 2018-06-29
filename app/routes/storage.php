@@ -17,7 +17,7 @@ use models\ProductImage as ProductImage;
 
 function modelImageResponse( Response $response, $path ) : Response
 {
-    $type = getMimeType($path);
+    //$type = getMimeType($path);
     //readfile($path);
     $ImageManager = new ImageManager(array('driver' => 'gd'));
     $img = $ImageManager->make($path);
