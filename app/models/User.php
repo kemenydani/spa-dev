@@ -23,13 +23,14 @@ class User extends Model {
         'date_created',
         'date_updated',
 	    'password_change_secret',
-	    'password_temporary'
+	    'password_temporary',
+        'is_admin'
     ];
 
     static $SEARCH_COLUMNS = ['username', 'email'];
 
-    const PUBLIC_DATASET = [ 'id', 'username', 'country_name', 'profile_picture', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated' ];
-    const SMALL_DATASET = [ 'id', 'username', 'profile_picture', 'email'];
+    const PUBLIC_DATASET = [ 'id', 'username', 'is_admin', 'country_name', 'profile_picture', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated' ];
+    const SMALL_DATASET = [ 'id', 'username', 'is_admin', 'profile_picture', 'email'];
     const IMAGE_PATH = __UPLOADS__ . '/images/user';
     const NO_USER_IMAGE = 'no-user-image.png';
 
@@ -38,6 +39,11 @@ class User extends Model {
         'email' => 'required|unique|filter:email',
         'password' => 'required'
     ];
+
+    public function isAdminUser()
+    {
+        return $this->getProperty('is_admin');
+    }
 
     public function getUsername()
     {

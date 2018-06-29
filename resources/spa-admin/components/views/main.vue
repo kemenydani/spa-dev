@@ -43,7 +43,7 @@
 						<v-list-tile-title>User Management</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
-
+				<!--
 				<router-link is="v-list-tile" :to="{ name: 'role.overview' }">
 					<v-list-tile-action>
 						<v-icon>vpn_key</v-icon>
@@ -52,7 +52,7 @@
 						<v-list-tile-title>User Roles</v-list-tile-title>
 					</v-list-tile-content>
 				</router-link>
-				
+				-->
 				<router-link is="v-list-tile" :to="{ name: 'category.overview' }">
 					<v-list-tile-action>
 						<v-icon>folder</v-icon>

@@ -249,7 +249,7 @@ abstract class ModelController implements ModelControllerInterface
         $sortBy         = strlen($filterArray['sortBy']) > 0      ? $filterArray['sortBy'] : 'id';
 
         $startAtRow = ( ( $currentPage - 1 ) * $rowsPerPage );
-        $orderDirection = " ORDER BY main." . $sortBy . " " . $orderDirection . " ";
+        $orderDirection = " ORDER BY " . $sortBy . " " . $orderDirection . " ";
         $limit = " LIMIT " . $startAtRow . ", " . $rowsPerPage ." ";
 
         $search = $request->getQueryParam('search');

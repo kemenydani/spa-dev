@@ -18,6 +18,9 @@
 								<v-text-field label="Email" v-model="edit.item.email" required></v-text-field>
 							</v-flex>
 							<v-flex xs12>
+								<v-switch label="Admin access" v-model="edit.item.is_admin" required></v-switch>
+							</v-flex>
+							<v-flex xs12>
 								<CountryModelSelector v-model="edit.item.country_code" :autoComplete="true" label="Select Country"></CountryModelSelector>
 							</v-flex>
 						</v-layout>
@@ -31,33 +34,7 @@
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
-		<!--
-		<v-dialog v-model="editpw.dialog" max-width="800px">
-			<v-card>
-				<v-card-title>
-					<span class="headline">{{ editpw.title }}</span>
-				</v-card-title>
-				<v-card-text>
-					<v-container grid-list-md>
-						<v-layout wrap>
-							<v-flex xs12>
-								<v-text-field label="Title" v-model="editpw.item.password" required></v-text-field>
-							</v-flex>
-							<v-flex xs12>
-								<v-text-field label="Title" v-model="editpw.item.password_repeat" required></v-text-field>
-							</v-flex>
-						</v-layout>
-					</v-container>
-					<small>*indicates required field</small>
-				</v-card-text>
-				<v-card-actions>
-					<v-spacer></v-spacer>
-					<v-btn color="blue darken-1" flat @click.native="editpw.dialog = false">Close</v-btn>
-					<v-btn color="blue darken-1" flat @click.native="saveCloseModel(editpw.item); editpw.dialog = false">Save</v-btn>
-				</v-card-actions>
-			</v-card>
-		</v-dialog>
-		-->
+
 	</v-content>
 </template>
 

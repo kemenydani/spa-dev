@@ -25,8 +25,14 @@ class UserController extends ModelController
             foreach($items as &$user)
             {
                 $path = User::IMAGE_PATH . DIRECTORY_SEPARATOR . $user['profile_picture'];
+
+                $user['imageDataUrl'] = null;
+
+                if(!isReadableFile($path)) continue;
+
                 $img = $ImageManager->make($path);
-                $user['imageDataUrl'] = $img->encode('data-url');
+                $img->encode('data-url');
+                $user['imageDataUrl'] = $img->getEncoded();
             }
 
             return $items;
