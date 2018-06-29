@@ -17,13 +17,13 @@ use models\ProductImage as ProductImage;
 
 function modelImageResponse( Response $response, $path ) : Response
 {
-    //$type = getMimeType($path);
-    //readfile($path);
-    $ImageManager = new ImageManager(array('driver' => 'gd'));
-    $img = $ImageManager->make($path);
-    $response->write($img);
-    //return $response->withHeader('Content-Type', $type)->withHeader('Content-Length', filesize($path));
-    return $response->withStatus(200);
+    $type = getMimeType($path);
+    readfile($path);
+   // $ImageManager = new ImageManager(array('driver' => 'gd'));
+    //$img = $ImageManager->make($path);
+    //$response->write($img);
+    return $response->withHeader('Content-Type', $type)->withHeader('Content-Length', filesize($path));
+   // return $response->withStatus(200);
 }
 
 $app->get('/userProfilePicture/[{filename}]', function( Request $request, Response $response, $args ) : Response
