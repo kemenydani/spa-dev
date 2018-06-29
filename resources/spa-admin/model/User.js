@@ -16,17 +16,23 @@ export default class User extends Model {
 		return this;
 	}
 	
-	login( user, password, remember )
+	login( email, password, remember )
 	{
-		return this.DB.post('auth', { user, password, remember }).then( response => response.data )
+		return this.DB.post('auth', { email, password, remember })
+			 .then( response =>
+			 {
+			 	  return response
+			 })
        .then( state =>
        {
             this.logged = true;
-            this.state   = state;
-            
+            this.state = state.data;
             return state;
        })
-       .catch( () => { this.logged = false } );
+       .catch( (error) => {
+       	  this.logged = false;
+       	  throw error;
+       });
 	}
 	
 	destroy()

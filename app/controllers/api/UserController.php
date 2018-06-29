@@ -42,30 +42,34 @@ class UserController extends ModelController
     // TODO: to auth controller
     public function getAuth( Request $request, Response $response )
     {
+        /* @var User $User */
         $User = Auth::user();
         
-        if( !$User )
-	        return $response->withStatus(401, 'Authorization failed.');
-	
+        if( !$User ) return $response->withStatus(401, 'Authorization failed.');
+	    if( !$User->isAdminUser() ) return $response->withStatus(401, 'Authorization failed: no admin rights.');
+
 	    return $response->withJson( $User->getProperties() );
     }
 
     public function postAuth( Request $request, Response $response )
     {
-        $username = $request->getParsedBody()['user'];
+        $email = $request->getParsedBody()['email'];
         $password = $request->getParsedBody()['password'];
 	    $remember = $request->getParsedBody()['remember'];
 	    
         $remember = isset($remember) ? true : false;
 
-        $User = User::find( $username, 'username' );
+        $User = User::find( $email, 'email' );
 
 	    if( !$User->getId() )
-	    	return $response->withStatus(404, 'Could not find user.');
+	    	return $response->withStatus(404, 'Authorization failed: could not find user.');
 	    
 	    if( !$User->login( $password, $remember ) )
-	    	return $response->withStatus(404, 'Authorization failed.');
-	    
+	    	return $response->withStatus(404, 'Authorization failed: invalid credentials.');
+
+	    if( !$User->isAdminUser() )
+            return $response->withStatus(404, 'Authorization failed: no admin rights.');
+
 	    return $response->withJson( $User->getProperties() );
     }
 	
