@@ -5,7 +5,6 @@ namespace controllers;
 use core\Config;
 use Slim\Http\Response;
 use Slim\Http\Request;
-use core\DB as DB;
 
 class AboutController extends ViewController
 {

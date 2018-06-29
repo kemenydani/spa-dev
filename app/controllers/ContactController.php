@@ -6,7 +6,6 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use core\Session;
 
-use models\User as User;
 use core\Mail;
 
 class ContactController extends ViewController

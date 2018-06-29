@@ -3,10 +3,10 @@
 namespace controllers;
 
 use models\MatchMap;
-use \Psr\Http\Message\RequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
 
-use models\Match;
+use Slim\Http\Request;
+use Slim\Http\Response;
+
 use core\DB;
 
 class MatchController extends ViewController
@@ -33,7 +33,6 @@ class MatchController extends ViewController
         $data = $this->getMore($search, $startAt);
 
         return $response->withStatus(200)->withJson($data);
-
     }
 
     protected function getMore($search = [], $startAt = 0)
@@ -75,7 +74,7 @@ class MatchController extends ViewController
         {
             $res[$index] = $match;
             $res[$index]['maps'] = [];
-
+            /* @var MatchMap $map */
             foreach(MatchMap::findAll($match['id'], 'match_id') as $map) {
                 $res[$index]['maps'][] = $map->getProperties([
                     'name',
@@ -85,8 +84,6 @@ class MatchController extends ViewController
             }
         }
 
-
         return ['matches' => $res, 'totalItems' => $total];
     }
-
 }

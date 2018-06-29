@@ -3,13 +3,13 @@
 namespace controllers;
 
 use core\Session;
-use Intervention\Image\ImageManager as ImageManager;
+use Intervention\Image\ImageManager;
 
 use models\UserProfile;
-use \Slim\Http\Request as Request;
-use \Slim\Http\Response as Response;
+use \Slim\Http\Request;
+use \Slim\Http\Response;
 
-use models\User as User;
+use models\User;
 use Slim\Http\UploadedFile;
 
 use models\Country;

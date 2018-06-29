@@ -2,10 +2,10 @@
 
 namespace controllers;
 
-use \Psr\Http\Message\RequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
+
 use models\Comment;
-use core\DB as DB;
 use core\Auth;
 
 class CommentController extends ViewController
@@ -39,7 +39,7 @@ class CommentController extends ViewController
 
     public function sync ( Request $request, Response $response )
     {
-        return $response->withJson(self::getAll())->withStatus(200);
+        //return $response->withJson(self::getAll())->withStatus(200);
     }
 
 }

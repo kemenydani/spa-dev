@@ -2,9 +2,8 @@
 
 namespace controllers;
 
-use \Psr\Http\Message\RequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
-use core\DB as DB;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use models\Country as Country;
 
 class CountryController extends ViewController
@@ -20,12 +19,9 @@ class CountryController extends ViewController
 	    
 	    $d = [];
 
-        foreach($res as $key => $value){
-	        $d[] = [$key => $value];
-        }
-        
-	    return $response->withStatus(200)->withJson($res);
+        foreach($res as $key => $value) $d[] = [$key => $value];
 
+	    return $response->withStatus(200)->withJson($res);
     }
 
 }

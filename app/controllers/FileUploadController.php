@@ -1,10 +1,6 @@
 <?php
 
 namespace controllers;
-
-use \Psr\Http\Message\RequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
-
 use Slim\Http\UploadedFile;
 
 function moveUploadedFile($directory, UploadedFile $uploadedFile, $secure )
@@ -22,7 +18,7 @@ function moveUploadedFile($directory, UploadedFile $uploadedFile, $secure )
     return $filename;
 }
 
-class FileUploadController extends Controller
+class FileUploadController
 {
     const __UPLOADS__ = __ROOT__ . '/storage/uploads/';
 

@@ -4,11 +4,11 @@ namespace controllers;
 
 use core\Auth;
 use models\Comment;
-use models\EventCollection as EventCollection;;
+use models\EventCollection;
 use Slim\Http\Response;
 use Slim\Http\Request;
-use core\DB as DB;
-use models\Event as Event;
+use core\DB;
+use models\Event;
 
 class EventController extends ViewController
 {

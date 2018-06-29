@@ -5,12 +5,12 @@ namespace controllers;
 use core\Auth;
 use models\Comment;
 use models\ProductImage;
-use \Slim\Http\Request as Request;
-use \Slim\Http\Response as Response;
+use \Slim\Http\Request;
+use \Slim\Http\Response;
 
-use models\Product as Product;
-use core\Session as Session;
-use models\ProductCollection as ProductCollection;
+use models\Product;
+use core\Session;
+use models\ProductCollection;
 
 use core\DB;
 

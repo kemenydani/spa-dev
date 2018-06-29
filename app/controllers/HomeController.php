@@ -5,8 +5,9 @@ namespace controllers;
 use core\Config;
 use models\Product;
 use models\ProductCollection;
-use \Psr\Http\Message\RequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 use models\ArticleCollection;
 use models\SquadCollection;
