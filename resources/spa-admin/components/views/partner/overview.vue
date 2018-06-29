@@ -70,8 +70,7 @@
 					<br>
 					<PartnerImageUploadManager
 							:modelId="image.item.id"
-							@uploaded="imageUploaded($event, image.item )"
-							api-route="article/uploadImage">
+							@uploaded="imageUploaded($event, image.item )">
 					</PartnerImageUploadManager>
 				</v-card-text>
 			</v-card>

@@ -63,7 +63,7 @@
 		>
 			<v-card tile color="grey darken-4">
 				<v-toolbar card dark color="primary">
-					<v-btn icon dark @click.native="crop.show = false">
+					<v-btn icon dark @click.native="crop.show = false;">
 						<v-icon>close</v-icon>
 					</v-btn>
 					<v-toolbar-title>Crop Image</v-toolbar-title>
@@ -78,14 +78,14 @@
 					</div>
 					
 					<div :style="{ minWidth: maxWidth +'px', minHeight: maxHeight +'px'}">
-					<vue-croppie :style="{ minWidth: maxWidth +'px', minHeight: maxHeight +'px'}"
-					             ref="croppieRef"
-					             :enableExif="true"
-					             :enableResize="true"
-					             :viewport="{ width: maxWidth, height: maxHeight, circle: false }"
-					             :boundary="{ width: maxWidth, height: maxHeight}">
-					</vue-croppie>
-					<img v-bind:src="crop.item.imageDataUrl" style="display: none;">
+						<vue-croppie :style="{ minWidth: maxWidth +'px', minHeight: maxHeight +'px'}"
+						             ref="croppieRef"
+						             :enableExif="true"
+						             :enableResize="true"
+						             :viewport="{ width: maxWidth, height: maxHeight, circle: false }"
+						             :boundary="{ width: maxWidth, height: maxHeight}">
+						</vue-croppie>
+						<img v-bind:src="crop.item.imageDataUrl" style="display: none;">
 					</div>
 					
 					<div style="text-align: center;">
@@ -105,7 +105,8 @@
 
 <script>
 	
-	function dataURLtoBlob(dataUrl) {
+	function dataURLtoBlob(dataUrl)
+	{
 		var arr = dataUrl.split(','),
 			mime = arr[0].match(/:(.*?);/)[1],
 			bstr = atob(arr[1]),
@@ -152,7 +153,6 @@
 				{
 					queueItems = (this.imageQueue.filter( item => { return (item.done === null && item.cropped === true) } )).length || 0;
 				}
-				
 				return queueItems;
 			}
 		},
@@ -170,8 +170,8 @@
 					this.status = {
 						busy : false,
 						progress: 0,
-					}
-					this.$refs.input.value ="";
+					};
+					this.$refs.input.value = "";
 				},
 				removeQueueItem(index){
 					this.imageQueue[index].removed = true;
@@ -203,28 +203,36 @@
 							reader.onload = function(readerEvent)
 							{
 								let image = new Image();
+								
 								image.onload = function ( onImageLoadedEvent )
 								{
-									let canvas = document.createElement('canvas'),
-										max_size = this.maxWidth,
-										width = image.width,
-										height = image.height;
-									if (width > height) {
-										if (width > max_size) {
-											height *= max_size / width;
-											width = max_size;
+							
+										let canvas = document.createElement('canvas'),
+											max_size = this.maxWidth,
+											width = image.width,
+											height = image.height;
+										if (width > height) {
+											if (width > max_size) {
+												height *= max_size / width;
+												width = max_size;
+											}
+										} else {
+											if (height > max_size) {
+												width *= max_size / height;
+												height = max_size;
+											}
 										}
-									} else {
-										if (height > max_size) {
-											width *= max_size / height;
-											height = max_size;
-										}
-									}
-									canvas.width = width;
-									canvas.height = height;
-									canvas.getContext('2d').drawImage(image, 0, 0, width, height);
-									let dataUrl = canvas.toDataURL('image/' + this.format);
-									let imageResized = dataURLtoBlob(dataUrl);
+										let context = canvas.getContext('2d');
+										
+										context.imageSmoothingEnabled = true;
+										if(context.hasOwnProperty('imageSmoothingQuality')) context.imageSmoothingQuality = 'high';
+										
+										canvas.width = width;
+										canvas.height = height;
+										context.drawImage(image, 0, 0, width, height);
+										let dataUrl = canvas.toDataURL('image/' + this.format);
+										let imageResized = dataURLtoBlob(dataUrl);
+						
 									
 									this.imageQueue.push({
 										index : ql + i,
@@ -247,7 +255,6 @@
 								.bind(this);
 								
 								image.src = readerEvent.target.result;
-								
 							}
 							.bind(this);
 							

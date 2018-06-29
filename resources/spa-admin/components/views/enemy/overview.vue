@@ -14,9 +14,11 @@
 							<v-flex xs12>
 								<v-text-field label="Name" v-model="edit.item.name" required></v-text-field>
 							</v-flex>
+							<!--
 							<v-flex xs12>
 								<CategoryModelSelector v-model="edit.item.game_id" :context="'game'" label="Select Game"></CategoryModelSelector>
 							</v-flex>
+							-->
 						</v-layout>
 					</v-container>
 					<small>*indicates required field</small>
@@ -26,6 +28,38 @@
 					<v-btn color="blue darken-1" flat @click.native="edit.dialog = false">Close</v-btn>
 					<v-btn color="blue darken-1" flat @click.native="saveCloseModel(edit.item); edit.dialog = false">Save</v-btn>
 				</v-card-actions>
+			</v-card>
+		</v-dialog>
+		
+		<v-dialog
+				v-model="image.dialog"
+				fullscreen
+				transition="dialog-bottom-transition"
+		>
+			<v-card>
+				<v-toolbar card dark color="primary">
+					<v-toolbar-title>Edit Image</v-toolbar-title>
+					<v-spacer></v-spacer>
+					<v-toolbar-items>
+					
+					</v-toolbar-items>
+					<v-spacer></v-spacer>
+					<v-btn icon dark @click.native="image.dialog = false">
+						<v-icon>close</v-icon>
+					</v-btn>
+				</v-toolbar>
+				<v-card-text>
+					<v-card color="grey darken-4">
+						<v-card-text style="text-align: center;">
+							<img :src="image.item.imageDataUrl">
+						</v-card-text>
+					</v-card>
+					<br>
+					<EnemyTeamImageUploadManager
+							:modelId="image.item.id"
+							@uploaded="imageUploaded($event, image.item )">
+					</EnemyTeamImageUploadManager>
+				</v-card-text>
 			</v-card>
 		</v-dialog>
 		
@@ -49,14 +83,19 @@
 	import DataModelManager from '../../DataModelManager';
 	import Enemy from '../../../model/Enemy';
 	import CategoryModelSelector from '../../CategoryModelSelector';
+	import EnemyTeamImageUploadManager from '../../EnemyTeamImageUploadManager';
 	
 	export default {
-		components: { DataModelManager, CategoryModelSelector },
+		components: { DataModelManager, CategoryModelSelector, EnemyTeamImageUploadManager },
 		data() {
 			return {
 				edit : {
 					item : {},
 					title : 'Manage',
+					dialog: false
+				},
+				image : {
+					item : {},
 					dialog: false
 				},
 				table: {
@@ -69,7 +108,7 @@
 						{
 							name : 'Image',
 							icon : 'image',
-							callback : function(){}
+							callback : this.editImage
 						}
 					],
 					actions : ['delete'],
@@ -82,6 +121,12 @@
 			}
 		},
 		methods : {
+			imageUploaded( images, model ){
+				this.$app.$emit('tableFetchData', true,  () => {
+					let image = images[0];
+					if(image) this.image.item.imageDataUrl = image[Object.keys(image)[0]].encoded;
+				});
+			},
 			tableFetchData(){
 				this.$app.$emit('tableFetchData');
 			},
@@ -89,6 +134,10 @@
 				this.edit.dialog = true;
 				this.edit.title = 'Add';
 				this.edit.item = { name: '', game_id: null };
+			},
+			editImage( model){
+				this.image.dialog = true;
+				this.image.item = model;
 			},
 			editModel( model ){
 				this.edit.dialog = true;

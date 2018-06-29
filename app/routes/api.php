@@ -159,6 +159,7 @@ $app->group('/api', function ()
             $Partner = Partner::find($id);
 
             ImageUploadController::$unique = true;
+            ImageUploadController::$format = 'png';
 
             $oldPath = Partner::IMAGE_PATH . DIRECTORY_SEPARATOR . $Partner->getLogo();
 
@@ -291,6 +292,7 @@ $app->group('/api', function ()
             $EnemyTeam = EnemyTeam::find($id);
 
             ImageUploadController::$unique = true;
+            ImageUploadController::$format = 'png';
 
             $oldPath = EnemyTeam::IMAGE_PATH . DIRECTORY_SEPARATOR . $EnemyTeam->getLogo();
 
