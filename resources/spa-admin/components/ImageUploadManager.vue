@@ -81,7 +81,7 @@
 					<vue-croppie :style="{ minWidth: maxWidth +'px', minHeight: maxHeight +'px'}"
 					             ref="croppieRef"
 					             :enableExif="true"
-					             :enableResize="false"
+					             :enableResize="true"
 					             :viewport="{ width: maxWidth, height: maxHeight, circle: false }"
 					             :boundary="{ width: maxWidth, height: maxHeight}">
 					</vue-croppie>

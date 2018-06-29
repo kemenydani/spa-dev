@@ -158,14 +158,16 @@ $app->group('/api', function ()
             /* @var Partner $Partner */
             $Partner = Partner::find($id);
 
-            return ImageUploadController::upload($request, $response, Partner::IMAGE_PATH, function($fileName) use ($Partner)
+            ImageUploadController::$unique = true;
+
+            $oldPath = Partner::IMAGE_PATH . DIRECTORY_SEPARATOR . $Partner->getLogo();
+
+            return ImageUploadController::upload($request, $response, Partner::IMAGE_PATH, function($fileName) use ($Partner, $oldPath)
             {
-                $ImageManager = new ImageManager(array('driver' => 'gd'));
+                if(isWritableFile($oldPath) && isReadableFile($oldPath)) unlink(realpath($oldPath));
+
                 $Partner->setProperty('logo', $fileName);
                 $Partner->save();
-                $path = Partner::IMAGE_PATH . DIRECTORY_SEPARATOR . $Partner->getLogo();
-                $img = $ImageManager->make($path);
-                return $img->encode('data-url');
             });
         });
     });
