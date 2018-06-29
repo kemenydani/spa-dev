@@ -64,30 +64,28 @@
 			</v-card>
 		</v-dialog>
 		
-		<v-dialog v-model="maps.dialog" max-width="800px">
+		<v-dialog v-model="compose.dialog" max-width="800px">
 			<v-card>
 				<v-card-title>
-					<span class="headline">{{ maps.title }}</span>
+					<span class="headline">{{ compose.title }}</span>
 				</v-card-title>
 				<v-card-text>
 					<v-layout wrap>
-						<v-flex xs12 v-for="map in maps.items">
+						<v-flex xs12 v-for="m in compose.maps">
 							<v-card color="grey lighten-3">
 								<v-card-text>
 									<v-layout row wrap>
 										<v-flex xs-8>
 											<label>Map name</label>
-											<v-text-field prepend-icon="map" v-model="map.name"></v-text-field>
+											<v-text-field prepend-icon="map" v-model="m.name"></v-text-field>
 										</v-flex>
-
 										<v-flex xs-2>
 											<label>Home score</label>
-											<v-text-field type="number" prepend-icon="exposure" style="text-align: center;" v-model="map.homeScore"></v-text-field>
+											<v-text-field type="number" prepend-icon="exposure" style="text-align: center;" v-model="m.score_enemy"></v-text-field>
 										</v-flex>
-
 										<v-flex xs-2>
 											<label>Enemy score</label>
-											<v-text-field type="number" prepend-icon="exposure" style="text-align: center;" v-model="map.enemyScore"></v-text-field>
+											<v-text-field type="number" prepend-icon="exposure" style="text-align: center;" v-model="m.score_home"></v-text-field>
 										</v-flex>
 									</v-layout>
 								</v-card-text>
@@ -100,10 +98,10 @@
 					</v-layout>
 				</v-card-text>
 				<v-card-actions>
-					<v-btn flat color="orange" @click="maps.items.push({ name: null, homeScore: 0, enemyScore: 0 })">ADD MAP +</v-btn>
+					<v-btn flat color="orange" @click="addEmptyMap()">ADD MAP +</v-btn>
 					<v-spacer></v-spacer>
-					<v-btn color="orange" flat @click.native="maps.dialog = false">Close</v-btn>
-					<v-btn color="orange" flat @click.native="saveCloseModel(edit.item); maps.dialog = false">Save</v-btn>
+					<v-btn color="orange" flat @click.native="compose.dialog = false">Close</v-btn>
+					<v-btn color="orange" flat @click.native="saveMaps()">Save</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -195,12 +193,10 @@
 					dialog: false,
 					datePickerMenu: false,
 				},
-				maps : {
-					items : [
-						{ name: 'dust2', homeScore: 0, enemyScore: 0 },
-            { name: 'dust3', homeScore: 0, enemyScore: 0 },
-             { name: 'dust4', homeScore: 0, enemyScore: 0 }
-					],
+				compose : {
+					loading: false,
+					maps: [],
+					item : {},
 					title : 'Manage Maps',
 					dialog: false,
 				},
@@ -229,6 +225,9 @@
 			}
 		},
 		methods : {
+			addEmptyMap(){
+				this.compose.maps.push({ id: null, match_id: this.compose.item.id, name: '', score_home: 0, score_enemy: 0 });
+			},
 			tableFetchData(){
 				this.$app.$emit('tableFetchData');
 			},
@@ -243,9 +242,22 @@
 				this.edit.item = Object.assign({}, model );
 			},
 			editMaps( model ){
-				this.maps.dialog = true;
-				this.maps.title = 'Edit Maps';
-				this.maps.item = Object.assign({}, model );
+				this.compose.dialog = true;
+				this.compose.title = 'Edit Maps';
+				this.compose.item = Object.assign({}, model );
+				this.compose.maps = [];
+				this.compose.loading = true;
+				(new Match()).getMaps(model.id).then( ( response ) => {
+					this.compose.maps = response;
+				})
+			},
+			saveMaps()
+			{
+				(new Match())
+					.storeMaps(this.compose.item.id, this.compose.item.maps)
+					.then( ( response ) => {
+						console.log(response)
+					});
 			},
 			saveCloseModel( model, dialog )
 			{
