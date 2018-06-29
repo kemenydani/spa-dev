@@ -6,12 +6,10 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev-p": "cross-env NODE_ENV=development-spa-public webpack-dev-server --open --hot",
-    "build-p": "cross-env NODE_ENV=production-spa-public webpack --progress --hide-modules",
     "dev-a": "cross-env NODE_ENV=development-spa-admin webpack-dev-server --open --hot",
     "build-a": "cross-env NODE_ENV=production-spa-admin webpack --progress --hide-modules",
-    "dev": "concurrently --kill-others \"cross-env NODE_ENV=development-spa-admin webpack-dev-server --open --hot\" \"cross-env NODE_ENV=development-spa-public webpack-dev-server --open --hot\"",
-    "build": "concurrently --kill-others \"cross-env NODE_ENV=production-spa-admin webpack --progress --hide-modules\" \"cross-env NODE_ENV=production-spa-public webpack --progress --hide-modules\""
+    "dev": "cross-env NODE_ENV=development-spa-admin webpack-dev-server --open --hot",
+    "build": "cross-env NODE_ENV=production-spa-admin webpack --progress --hide-modules"
   },
   "dependencies": {
     "axios": "^0.17.1",
