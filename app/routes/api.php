@@ -1,22 +1,23 @@
 <?php
 
+use Slim\Http\Request;
+use Slim\Http\Response;
+
 use Intervention\Image\ImageManager;
+use controllers\api\ImageUploadController;
+
 use models\Article;
-use models\EnemyTeam;
 use models\Gallery;
 use models\GalleryImage;
 use models\Partner;
 use models\Product;
 use models\ProductImage;
+use models\Squad;
 use models\SquadMember;
-use Slim\Http\Request;
-use Slim\Http\Response;
-use controllers\api\ImageUploadController;
+use models\EnemyTeam;
 
 $app->group('/api', function ()
 {
-    $this->get('/build', 'controllers\PublicSPAController:build');
-
     $this->group('/user', function()
     {
         $this->get('/auth', 'controllers\api\UserController:getAuth');
@@ -24,17 +25,13 @@ $app->group('/api', function ()
         $this->post('/register', 'controllers\api\UserController:postRegister');
         $this->post('/login', 'controllers\api\UserController:postLogin');
 	    $this->post('/logout', 'controllers\api\UserController:postLogout');
-
         $this->post('/delete', 'controllers\api\UserController:postDelete');
         $this->get('/search_paginate', 'controllers\api\UserController:getSearchPaginate');
         $this->get('/all', 'controllers\api\UserController:getAll');
-
         $this->post('/activate', 'controllers\api\UserController:postActivate');
         $this->post('/deactivate', 'controllers\api\UserController:postDeactivate');
-
         $this->get('/findAll', 'controllers\api\UserController:findAll');
         $this->get('/likeAll', 'controllers\api\UserController:likeAll');
-
         $this->post('/store', 'controllers\api\UserController:postStore');
     });
 	
@@ -58,11 +55,11 @@ $app->group('/api', function ()
 
             $oldPath = Article::IMAGE_PATH . DIRECTORY_SEPARATOR . $Article->getHeadlineImage();
 
-            return ImageUploadController::upload($request, $response, Article::IMAGE_PATH, function($filename) use ($Article, $oldPath)
+            return ImageUploadController::upload($request, $response, Article::IMAGE_PATH, function($fileName) use ($Article, $oldPath)
             {
                 if(isWritableFile($oldPath) && isReadableFile($oldPath)) unlink(realpath($oldPath));
 
-                $Article->setProperty('headline_image', $filename);
+                $Article->setProperty('headline_image', $fileName);
                 $Article->save();
             });
         });
@@ -76,11 +73,8 @@ $app->group('/api', function ()
         $this->post('/delete', 'controllers\api\GalleryController:postDelete');
         $this->post('/activate', 'controllers\api\GalleryController:postActivate');
         $this->post('/deactivate', 'controllers\api\GalleryController:postDeactivate');
-        //$this->post('/uploadImage', 'controllers\api\GalleryController:postUploadImage');
 	    $this->post('/store', 'controllers\api\GalleryController:postStore');
-
         $this->get('/fetchImages', 'controllers\api\GalleryController:fetchImages');
-
         $this->post('/uploadGalleryImage', function(Request $request, Response $response)
         {
             $id = $request->getQueryParam('id');
@@ -89,10 +83,10 @@ $app->group('/api', function ()
 
             ImageUploadController::$unique = true;
 
-            return ImageUploadController::upload($request, $response, GalleryImage::IMAGE_PATH, function($filename) use ($Gallery)
+            return ImageUploadController::upload($request, $response, GalleryImage::IMAGE_PATH, function($fileName) use ($Gallery)
             {
                 $GalleryImage = GalleryImage::create([
-                    'file_name' => $filename,
+                    'file_name'  => $fileName,
                     'gallery_id' => $Gallery->getProperty('id'),
                 ]);
 
@@ -108,13 +102,44 @@ $app->group('/api', function ()
         $this->post('/delete', 'controllers\api\GalleryImageController:postDelete');
     });
 
+    $this->group('/product', function()
+    {
+        $this->get('/all', 'controllers\api\ProductController:getAll');
+        $this->get('/search_paginate', 'controllers\api\ProductController:getSearchPaginate');
+        $this->post('/create', 'controllers\api\ProductController:postCreate');
+        $this->post('/delete', 'controllers\api\ProductController:postDelete');
+        $this->post('/activate', 'controllers\api\ProductController:postActivate');
+        $this->post('/deactivate', 'controllers\api\ProductController:postDeactivate');
+        $this->post('/store', 'controllers\api\ProductController:postStore');
+        $this->get('/fetchImages', 'controllers\api\ProductController:fetchImages');
+
+        $this->post('/uploadProductImage', function(Request $request, Response $response)
+        {
+            $id = $request->getQueryParam('id');
+            /* @var Product $Product */
+            $Product = Product::find($id);
+
+            ImageUploadController::$unique = true;
+            ImageUploadController::$format = 'png';
+
+            return ImageUploadController::upload($request, $response, ProductImage::IMAGE_PATH, function($fileName) use ($Product)
+            {
+                $ProductImage = ProductImage::create([
+                    'file_name' => $fileName,
+                    'product_id' => $Product->getProperty('id'),
+                ]);
+
+                $ProductImage->save();
+            });
+        });
+    });
+
     $this->group('/product_image', function()
     {
         $this->get('/all', 'controllers\api\ProductImageController:getAll');
         $this->get('/findAll', 'controllers\api\ProductImageController:findAll');
         $this->post('/delete', 'controllers\api\ProductImageController:postDelete');
     });
-
 
     $this->group('/partner', function()
     {
@@ -133,10 +158,10 @@ $app->group('/api', function ()
             /* @var Partner $Partner */
             $Partner = Partner::find($id);
 
-            return ImageUploadController::upload($request, $response, Partner::IMAGE_PATH, function($filename) use ($Partner)
+            return ImageUploadController::upload($request, $response, Partner::IMAGE_PATH, function($fileName) use ($Partner)
             {
                 $ImageManager = new ImageManager(array('driver' => 'gd'));
-                $Partner->setProperty('logo', $filename);
+                $Partner->setProperty('logo', $fileName);
                 $Partner->save();
                 $path = Partner::IMAGE_PATH . DIRECTORY_SEPARATOR . $Partner->getLogo();
                 $img = $ImageManager->make($path);
@@ -154,54 +179,28 @@ $app->group('/api', function ()
         $this->post('/activate', 'controllers\api\SquadController:postActivate');
         $this->post('/deactivate', 'controllers\api\SquadController:postDeactivate');
 	    $this->post('/store', 'controllers\api\SquadController:postStore');
-        //TODO:: UPLOAD IMAGES STUFF
 	    $this->get('/findAll', 'controllers\api\SquadController:findAll');
 	    $this->get('/likeAll', 'controllers\api\SquadController:likeAll');
-    });
 
-    $this->group('/event', function()
-    {
-        $this->get('/all', 'controllers\api\EventController:getAll');
-        $this->get('/search_paginate', 'controllers\api\EventController:getSearchPaginate');
-        $this->post('/create', 'controllers\api\EventController:postCreate');
-        $this->post('/delete', 'controllers\api\EventController:postDelete');
-        $this->post('/activate', 'controllers\api\EventController:postActivate');
-        $this->post('/deactivate', 'controllers\api\EventController:postDeactivate');
-	    $this->post('/store', 'controllers\api\EventController:postStore');
-    });
-
-	$this->group('/product', function()
-	{
-		$this->get('/all', 'controllers\api\ProductController:getAll');
-		$this->get('/search_paginate', 'controllers\api\ProductController:getSearchPaginate');
-		$this->post('/create', 'controllers\api\ProductController:postCreate');
-		$this->post('/delete', 'controllers\api\ProductController:postDelete');
-		$this->post('/activate', 'controllers\api\ProductController:postActivate');
-		$this->post('/deactivate', 'controllers\api\ProductController:postDeactivate');
-		$this->post('/store', 'controllers\api\ProductController:postStore');
-
-        $this->get('/fetchImages', 'controllers\api\ProductController:fetchImages');
-
-        $this->post('/uploadProductImage', function(Request $request, Response $response)
+        $this->post('/uploadSquadImage', function(Request $request, Response $response)
         {
             $id = $request->getQueryParam('id');
-            /* @var Product $Product */
-            $Product = Product::find($id);
+            /* @var Article $Article */
+            $Squad = Squad::find($id);
 
             ImageUploadController::$unique = true;
-            ImageUploadController::$format = 'png';
 
-            return ImageUploadController::upload($request, $response, ProductImage::IMAGE_PATH, function($filename) use ($Product)
+            $oldPath = Squad::IMAGE_PATH . DIRECTORY_SEPARATOR . $Squad->getHeaderImage();
+
+            return ImageUploadController::upload($request, $response, Squad::IMAGE_PATH, function($fileName) use ($Squad, $oldPath)
             {
-                $ProductImage = ProductImage::create([
-                    'file_name' => $filename,
-                    'product_id' => $Product->getProperty('id'),
-                ]);
+                if(isWritableFile($oldPath) && isReadableFile($oldPath)) unlink(realpath($oldPath));
 
-                $ProductImage->save();
+                $Squad->setProperty('header_image', $fileName);
+                $Squad->save();
             });
         });
-	});
+    });
 
     $this->group('/squad_member', function()
     {
@@ -223,11 +222,11 @@ $app->group('/api', function ()
 
             $oldPath = SquadMember::IMAGE_PATH . DIRECTORY_SEPARATOR . $SquadMember->getHomeAvatar();
 
-            return ImageUploadController::upload($request, $response, SquadMember::IMAGE_PATH, function($filename) use ($SquadMember, $oldPath)
+            return ImageUploadController::upload($request, $response, SquadMember::IMAGE_PATH, function($fileName) use ($SquadMember, $oldPath)
             {
                 if(isWritableFile($oldPath) && isReadableFile($oldPath)) unlink(realpath($oldPath));
 
-                $SquadMember->setProperty('home_avatar', $filename);
+                $SquadMember->setProperty('home_avatar', $fileName);
                 $SquadMember->save();
             });
         });
@@ -240,7 +239,18 @@ $app->group('/api', function ()
         $this->post('/create', 'controllers\api\ProductController:postCreate');
         $this->post('/delete', 'controllers\api\ProductController:postDelete');
     });
-    
+
+    $this->group('/event', function()
+    {
+        $this->get('/all', 'controllers\api\EventController:getAll');
+        $this->get('/search_paginate', 'controllers\api\EventController:getSearchPaginate');
+        $this->post('/create', 'controllers\api\EventController:postCreate');
+        $this->post('/delete', 'controllers\api\EventController:postDelete');
+        $this->post('/activate', 'controllers\api\EventController:postActivate');
+        $this->post('/deactivate', 'controllers\api\EventController:postDeactivate');
+        $this->post('/store', 'controllers\api\EventController:postStore');
+    });
+
     $this->group('/award', function()
     {
         $this->get('/all', 'controllers\api\AwardController:getAll');
@@ -278,14 +288,16 @@ $app->group('/api', function ()
             /* @var EnemyTeam $EnemyTeam */
             $EnemyTeam = EnemyTeam::find($id);
 
-            return ImageUploadController::upload($request, $response, EnemyTeam::IMAGE_PATH, function($filename) use ($EnemyTeam)
+            ImageUploadController::$unique = true;
+
+            $oldPath = EnemyTeam::IMAGE_PATH . DIRECTORY_SEPARATOR . $EnemyTeam->getLogo();
+
+            return ImageUploadController::upload($request, $response, EnemyTeam::IMAGE_PATH, function($fileName) use ($EnemyTeam, $oldPath)
             {
-                $ImageManager = new ImageManager(array('driver' => 'gd'));
-                $EnemyTeam->setProperty('logo', $filename);
+                if(isWritableFile($oldPath) && isReadableFile($oldPath)) unlink(realpath($oldPath));
+
+                $EnemyTeam->setProperty('logo', $fileName);
                 $EnemyTeam->save();
-                $path = EnemyTeam::IMAGE_PATH . DIRECTORY_SEPARATOR . $EnemyTeam->getLogo();
-                $img = $ImageManager->make($path);
-                return $img->encode('data-url');
             });
         });
     });
@@ -294,25 +306,6 @@ $app->group('/api', function ()
     {
         $this->get('/fetchSettings', 'controllers\api\SettingController:getFetchSettings');
         $this->post('/updateSetting', 'controllers\api\SettingController:postUpdateSetting');
-    });
-	
-	$this->group('/category', function()
-	{
-        $this->get('/all', 'controllers\api\CategoryController:getAll');
-        $this->get('/search_paginate', 'controllers\api\CategoryController:getSearchPaginate');
-        $this->post('/create', 'controllers\api\CategoryController:postCreate');
-        $this->post('/delete', 'controllers\api\CategoryController:postDelete');
-		$this->post('/store', 'controllers\api\CategoryController:postStore');
-		
-		$this->get('/findAll', 'controllers\api\CategoryController:findAll');
-		$this->get('/likeAll', 'controllers\api\CategoryController:likeAll');
-	});
-
-    $this->group('/country', function()
-    {
-        $this->get('/all', 'controllers\api\CategoryController:getAll');
-        $this->get('/findAll', 'controllers\api\CountryController:findAll');
-        $this->get('/likeAll', 'controllers\api\CountryController:likeAll');
     });
 
     $this->group('/context', function()
@@ -326,6 +319,24 @@ $app->group('/api', function ()
         $this->get('/likeAll', 'controllers\api\ContextController:likeAll');
     });
 
+	$this->group('/category', function()
+	{
+        $this->get('/all', 'controllers\api\CategoryController:getAll');
+        $this->get('/search_paginate', 'controllers\api\CategoryController:getSearchPaginate');
+        $this->post('/create', 'controllers\api\CategoryController:postCreate');
+        $this->post('/delete', 'controllers\api\CategoryController:postDelete');
+		$this->post('/store', 'controllers\api\CategoryController:postStore');
+		$this->get('/findAll', 'controllers\api\CategoryController:findAll');
+		$this->get('/likeAll', 'controllers\api\CategoryController:likeAll');
+	});
+
+    $this->group('/country', function()
+    {
+        $this->get('/all', 'controllers\api\CategoryController:getAll');
+        $this->get('/findAll', 'controllers\api\CountryController:findAll');
+        $this->get('/likeAll', 'controllers\api\CountryController:likeAll');
+    });
+
     $this->group('/comment', function()
     {
         $this->get('/all', 'controllers\api\CommentController:getAll');
@@ -333,15 +344,15 @@ $app->group('/api', function ()
         $this->post('/delete', 'controllers\api\CommentController:postDelete');
     });
 
-
-})->add(function ( $request, $response, $next )
+})->add(function(Request $request, Response $response, $next)
 {
+    /* @var Response $response */
 	$response = $next( $request, $response );
 	
-		return $response
-			->withHeader( 'Access-Control-Allow-Origin', '*')
-			->withHeader( 'Access-Control-Allow-Credentials', 'true')
-			->withHeader( 'Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization' )
-			->withHeader( 'Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS' );
-		
+    return $response
+        ->withHeader( 'Access-Control-Allow-Origin', '*')
+        ->withHeader( 'Access-Control-Allow-Credentials', 'true')
+        ->withHeader( 'Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization' )
+        ->withHeader( 'Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS' );
+
 });
