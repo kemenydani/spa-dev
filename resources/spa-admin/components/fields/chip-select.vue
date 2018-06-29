@@ -70,12 +70,6 @@
 				}
 			}
 		},
-		watch: {
-			'collection': function(b, a){
-				console.log( b )
-				console.log( a )
-			}
-		},
 		methods: {
 			change(){
 				this.$emit('update', this.collection)
@@ -88,13 +82,6 @@
 				this.fetchData().then( ( data ) => {
 					this.available = data
 				});
-				/*
-				let C = new Category();
-				
-				C.getAll().then( categories => {
-					this.available = categories
-				})
-				*/
 			},
 		},
 		created()

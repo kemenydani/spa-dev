@@ -106,9 +106,6 @@
 				]
 			}
 		},
-		mounted() {
-			console.log('new component mounted');
-		},
 		methods:
 			{
 			fetchCategories()

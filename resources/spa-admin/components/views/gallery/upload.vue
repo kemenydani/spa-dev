@@ -50,18 +50,15 @@
 	
 					this.axios.post('api/gallery/uploadImage?id=' + this.$route.params.id, formData, {
 						onUploadProgress: progressEvent => {
-							console.log(progressEvent.loaded / progressEvent.total)
+							//console.log(progressEvent.loaded / progressEvent.total)
 						}
 					})
 					.then(response => {
-						console.log(response)
+					
 					})
 					.catch(() => {
 					
 					})
-					.finally(() => {
-					
-					});
 				}
 			},
 			browseComputer(){
