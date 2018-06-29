@@ -35,6 +35,38 @@
 			</v-card>
 		</v-dialog>
 		
+		<v-dialog
+				v-model="image.dialog"
+				fullscreen
+				transition="dialog-bottom-transition"
+		>
+			<v-card>
+				<v-toolbar card dark color="primary">
+					<v-toolbar-title>Edit Image</v-toolbar-title>
+					<v-spacer></v-spacer>
+					<v-toolbar-items>
+					
+					</v-toolbar-items>
+					<v-spacer></v-spacer>
+					<v-btn icon dark @click.native="image.dialog = false">
+						<v-icon>close</v-icon>
+					</v-btn>
+				</v-toolbar>
+				<v-card-text>
+					<v-card color="grey darken-4">
+						<v-card-text style="text-align: center;">
+							<img :src="image.item.imageDataUrl">
+						</v-card-text>
+					</v-card>
+					<br>
+					<SquadImageUploadManager
+							:modelId="image.item.id"
+							@uploaded="imageUploaded($event, image.item )">
+					</SquadImageUploadManager>
+				</v-card-text>
+			</v-card>
+		</v-dialog>
+		
 		<v-btn
 				@click="addModel"
 				fab
@@ -55,14 +87,19 @@
 	import DataModelManager from '../../DataModelManager';
 	import Squad from '../../../model/Squad';
 	import CategoryModelSelector from '../../CategoryModelSelector';
+	import SquadImageUploadManager from '../../SquadImageUploadManager'
 	
 	export default {
-		components: { DataModelManager, CategoryModelSelector },
+		components: { DataModelManager, CategoryModelSelector, SquadImageUploadManager },
 		data() {
 			return {
 				edit : {
 					item : {},
 					title : 'Manage',
+					dialog: false
+				},
+				image : {
+					item : {},
 					dialog: false
 				},
 				table: {
@@ -75,7 +112,7 @@
 						{
 							name : 'Image',
 							icon : 'image',
-							callback : function(){}
+							callback : this.editImage
 						}
 					],
 					headers: [
@@ -100,6 +137,12 @@
 		
 		},
 		methods : {
+			imageUploaded( images, model ){
+				this.$app.$emit('tableFetchData', true,  () => {
+					let image = images[0];
+					if(image) this.image.item.imageDataUrl = image[Object.keys(image)[0]].encoded;
+				});
+			},
 			tableFetchData(){
 				this.$app.$emit('tableFetchData');
 			},
@@ -112,6 +155,10 @@
 				this.edit.dialog = true;
 				this.edit.title = 'Edit';
 				this.edit.item = Object.assign({}, model );
+			},
+			editImage( model ){
+				this.image.dialog = true;
+				this.image.item = model;
 			},
 			saveCloseModel( model, dialog )
 			{

@@ -8,7 +8,6 @@ import settingsRouteConfig from './routes/settings';
 import categoryRouteConfig from './routes/category';
 import squadRouteConfig from './routes/squad';
 import galleryRouteConfig from './routes/gallery';
-import storageRouteConfig from './routes/storage';
 import commentRouteConfig from './routes/comment';
 
 import eventRouteConfig from './routes/event';
@@ -38,7 +37,6 @@ export default [
 	        categoryRouteConfig,
 	        squadRouteConfig,
 	        galleryRouteConfig,
-	        storageRouteConfig,
 	        commentRouteConfig,
 	        eventRouteConfig,
 					matchRouteConfig,

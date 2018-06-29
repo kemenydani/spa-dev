@@ -54,7 +54,7 @@
 					<v-toolbar-title>Edit Image</v-toolbar-title>
 					<v-spacer></v-spacer>
 					<v-toolbar-items>
-
+					
 					</v-toolbar-items>
 					<v-spacer></v-spacer>
 					<v-btn icon dark @click.native="image.dialog = false">
@@ -76,8 +76,7 @@
 				</v-card-text>
 			</v-card>
 		</v-dialog>
-
-
+		
 		<v-btn
 				@click="addModel"
 				fab
@@ -105,9 +104,9 @@
 			return {
 				contexts: [],
                 image : {
-                    item : {},
-                    dialog: false
-                },
+					item : {},
+					dialog: false
+				},
 				edit : {
 					item : {},
 					title : 'Manage',
@@ -121,11 +120,11 @@
 							icon : 'edit',
 							callback : this.editModel
 						},
-                        {
-                            name : 'Image',
-                            icon : 'image',
-                            callback : this.editImage
-                        }
+            {
+                name : 'Image',
+                icon : 'image',
+                callback : this.editImage
+            }
 					],
 					headers: [
 						{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},

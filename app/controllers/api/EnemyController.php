@@ -24,8 +24,14 @@ class EnemyController extends ModelController
             foreach($items as &$enemy)
             {
                 $path = EnemyTeam::IMAGE_PATH . DIRECTORY_SEPARATOR . $enemy['logo'];
+
+                $enemy['imageDataUrl'] = null;
+
+                if(!isReadableFile($path)) continue;
+
                 $img = $ImageManager->make($path);
-                $enemy['imageDataUrl'] = $img->encode('data-url');
+                $img->encode('data-url');
+                $enemy['imageDataUrl'] = $img->getEncoded();
             }
 
             return $items;
