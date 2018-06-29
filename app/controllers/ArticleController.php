@@ -2,14 +2,16 @@
 
 namespace controllers;
 
-use core\Auth;
-use models\ArticleCollection as ArticleCollection;;
-use \Psr\Http\Message\RequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
+
 use core\DB as DB;
+
+use core\Auth;
+
 use models\Article as Article;
+use models\ArticleCollection;
 use models\Comment as Comment;
-use models\User as User;
 
 class ArticleController extends ViewController
 {
@@ -45,7 +47,6 @@ class ArticleController extends ViewController
 	    $data = $this->getMore($search, $startAt, $orderBy);
 
 	    return $response->withStatus(200)->withJson($data);
-
     }
 
     protected function getMore($search = null, $startAt = 0, $orderBy = "")
@@ -96,9 +97,8 @@ class ArticleController extends ViewController
 
         $formData['user_id'] = $User->getProperty('id');
 
+        /* @var Comment $Comment */
         $Comment = $Article->addComment( Comment::create( $formData ) );
-
-        $result = [];
 
         $data = $Comment->getProperties();
         $data['username'] = $User->getUsername();

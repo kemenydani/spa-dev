@@ -185,7 +185,7 @@ $app->group('/api', function ()
         $this->post('/uploadSquadImage', function(Request $request, Response $response)
         {
             $id = $request->getQueryParam('id');
-            /* @var Article $Article */
+            /* @var Squad $Squad */
             $Squad = Squad::find($id);
 
             ImageUploadController::$unique = true;

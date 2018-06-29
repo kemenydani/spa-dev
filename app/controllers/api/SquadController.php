@@ -8,7 +8,6 @@ use Slim\Http\Response;
 
 use models\Squad as Squad;
 use core\Auth as Auth;
-use core\DB as DB;
 
 class SquadController extends ModelController
 {
@@ -25,13 +24,15 @@ class SquadController extends ModelController
 
             foreach($items as &$squad)
             {
-                $path = Squad::IMAGE_PATH . DIRECTORY_SEPARATOR;;
-                $img1 = $ImageManager->make($path . $squad['header_image']);
-                $img2 = $ImageManager->make($path . $squad['logo']);
-                $img3 = $ImageManager->make($path . $squad['home_wallpaper']);
-                $squad['imageDataUrlHeader'] = $img1->encode('data-url');
-                $squad['imageDataUrlLogo'] = $img2->encode('data-url');
-                $squad['imageDataUrlWallpaper'] = $img3->encode('data-url');
+                $path = Squad::IMAGE_PATH . DIRECTORY_SEPARATOR . $squad['header_image'];
+
+                $squad['imageDataUrl'] = null;
+
+                if(!isReadableFile($path)) continue;
+                // TODO:: solve squad logo thing
+                $img = $ImageManager->make($path);
+                $img->encode('data-url');
+                $squad['imageDataUrl'] = $img->getEncoded();
             }
 
             return $items;
@@ -59,11 +60,7 @@ class SquadController extends ModelController
 
         $category_ids = [];
 
-        foreach( $categories as $key => $value )
-        {
-            $category_ids[] = $value['id'];
-        }
-
+        foreach( $categories as $key => $value ) $category_ids[] = $value['id'];
 
         if( $id === false ) return $response->withStatus(500, 'Database error: Could not insert article.');
 

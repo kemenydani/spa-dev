@@ -2,13 +2,15 @@
 
 namespace controllers\api;
 
-use core\DB;
-use Intervention\Image\ImageManager;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-use models\Article as Article;
+use core\DB;
 use core\Auth as Auth;
+
+use Intervention\Image\ImageManager;
+
+use models\Article as Article;
 use models\Comment as Comment;
 
 class ArticleController extends ModelController
@@ -65,10 +67,7 @@ class ArticleController extends ModelController
 
         $result = [];
 
-        if( $Comment->getProperty('id'))
-        {
-            $result = $Comment->getProperties();
-        }
+        if( $Comment->getProperty('id')) $result = $Comment->getProperties();
 
         return $response->withJson( $result );
     }
@@ -112,11 +111,8 @@ class ArticleController extends ModelController
 		
 		$category_ids = [];
 		
-		foreach( $categories as $key => $value )
-		{
-			$category_ids[] = $value['id'];
-		}
-		
+		foreach( $categories as $key => $value ) $category_ids[] = $value['id'];
+
 		$Article->categorize( $category_ids );
 		
 		if( $id === false ) return $response->withStatus(500, 'Database error: Could not insert article.');
