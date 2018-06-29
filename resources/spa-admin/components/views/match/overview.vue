@@ -70,6 +70,9 @@
 					<span class="headline">{{ compose.title }}</span>
 				</v-card-title>
 				<v-card-text>
+					<v-flex style="height: 40px; min-height: 40px; max-height: 40px; overflow: hidden;">
+						<v-progress-linear v-if="compose.loading" :indeterminate="true"></v-progress-linear>
+					</v-flex>
 					<v-layout wrap>
 						<v-flex xs12 v-for="m in compose.maps">
 							<v-card color="grey lighten-3">
@@ -77,7 +80,7 @@
 									<v-layout row wrap>
 										<v-flex xs-8>
 											<label>Map name</label>
-											<v-text-field prepend-icon="map" v-model="m.name"></v-text-field>
+											<v-text-field placeholder="Map name" prepend-icon="map" v-model="m.name"></v-text-field>
 										</v-flex>
 										<v-flex xs-2>
 											<label>Home score</label>
@@ -90,7 +93,7 @@
 									</v-layout>
 								</v-card-text>
 								<v-card-actions>
-									<v-btn flat color="orange">REMOVE</v-btn>
+									<v-spacer></v-spacer><v-btn :disabled="compose.loading" flat @click.native="removeMap(m.id)" color="orange">REMOVE</v-btn>
 								</v-card-actions>
 							</v-card>
 							<br>
@@ -98,10 +101,10 @@
 					</v-layout>
 				</v-card-text>
 				<v-card-actions>
-					<v-btn flat color="orange" @click="addEmptyMap()">ADD MAP +</v-btn>
+					<v-btn :disabled="compose.loading" flat color="orange" @click.native="addMap(compose.item.id)">ADD MAP +</v-btn>
 					<v-spacer></v-spacer>
-					<v-btn color="orange" flat @click.native="compose.dialog = false">Close</v-btn>
-					<v-btn color="orange" flat @click.native="saveMaps()">Save</v-btn>
+					<v-btn :disabled="compose.loading" flat @click.native="storeMaps()" color="orange">SAVE</v-btn>
+					<v-btn :disabled="compose.loading" color="orange" flat @click.native="compose.dialog = false">Close</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -194,7 +197,7 @@
 					datePickerMenu: false,
 				},
 				compose : {
-					loading: false,
+					loading: true,
 					maps: [],
 					item : {},
 					title : 'Manage Maps',
@@ -225,8 +228,9 @@
 			}
 		},
 		methods : {
-			addEmptyMap(){
-				this.compose.maps.push({ id: null, match_id: this.compose.item.id, name: '', score_home: 0, score_enemy: 0 });
+			addMap(id){
+                let data = { id: null, match_id: id, name: '', score_home: 0, score_enemy: 0 };
+                this.compose.maps.push(data);
 			},
 			tableFetchData(){
 				this.$app.$emit('tableFetchData');
@@ -242,21 +246,37 @@
 				this.edit.item = Object.assign({}, model );
 			},
 			editMaps( model ){
+                this.compose.loading = true;
 				this.compose.dialog = true;
 				this.compose.title = 'Edit Maps';
 				this.compose.item = Object.assign({}, model );
 				this.compose.maps = [];
 				this.compose.loading = true;
 				(new Match()).getMaps(model.id).then( ( response ) => {
-					this.compose.maps = response;
+				    this.compose.maps = [];
+				    response.forEach( ( map ) => this.compose.maps.push(map) );
+                    this.compose.loading = false;
 				})
 			},
-			saveMaps()
+			removeMap( id ){
+                this.compose.loading = true;
+                (new Match())
+                    .deleteMap(id)
+                    .then( ( response ) => {
+                        this.compose.maps = [];
+                        response.forEach( ( map ) => this.compose.maps.push(map) );
+                        this.compose.loading = false;
+                    });
+			},
+			storeMaps()
 			{
+                this.compose.loading = true;
 				(new Match())
-					.storeMaps(this.compose.item.id, this.compose.item.maps)
+					.storeMaps(this.compose.maps)
 					.then( ( response ) => {
-						console.log(response)
+                        this.compose.maps = [];
+                        response.forEach( ( map ) => this.compose.maps.push(map) );
+                        this.compose.loading = false;
 					});
 			},
 			saveCloseModel( model, dialog )

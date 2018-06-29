@@ -275,7 +275,9 @@ $app->group('/api', function ()
         $this->post('/delete', 'controllers\api\MatchController:postDelete');
 	    $this->post('/store', 'controllers\api\MatchController:postStore');
         $this->get('/getMaps', 'controllers\api\MatchController:getMaps');
+        $this->post('/storeMap', 'controllers\api\MatchController:storeMap');
         $this->post('/storeMaps', 'controllers\api\MatchController:storeMaps');
+        $this->post('/deleteMap', 'controllers\api\MatchController:deleteMap');
     });
 
     $this->group('/enemy', function()

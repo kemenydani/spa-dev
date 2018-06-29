@@ -21,11 +21,25 @@ export default class Match extends Model {
 			.catch( error => error );
 	}
 	
-	storeMaps( matchId, maps )
-	{
-		return this.DB.post('storeMaps', { maps: maps, id: matchId })
-			.then( response => response.data )
-			.catch( error => error );
-	}
+	storeMap( data )
+    {
+        return this.DB.post('storeMap', { data : data })
+            .then( response => response.data )
+            .catch( error => error );
+    }
+
+    storeMaps( data )
+    {
+        return this.DB.post('storeMaps', { data : data })
+            .then( response => response.data )
+            .catch( error => error );
+    }
+
+    deleteMap( id )
+    {
+        return this.DB.post('deleteMap', { id : id })
+            .then( response => response.data )
+            .catch( error => error );
+    }
 	
 }

@@ -38,36 +38,81 @@ class MatchController extends ModelController
 
     public function storeMaps( Request $request, Response $response, $args = [] ) : Response
     {
-        $id = $request->getParsedBodyParam('id');
-        $formMaps = json_decode($request->getParsedBodyParam('maps'), true);
-
-        $aliveIds = [];
-        foreach($formMaps as $fMap)
-        {
-            if($fMap['id']) $aliveIds[] = $fMap['id'];
-            $Map = $fMap['id'] ? MatchMap::find($fMap['id']) : MatchMap::create();
-            $Map->setProperty('name', $fMap['name']);
-            $Map->setProperty('score_enemy', $fMap['score_enemy']);
-            $Map->setProperty('score_home', $fMap['score_home']);
-            $Map->save();
-        }
-
-        $dbMaps = MatchMap::findAll($id, 'match_id');
+        $form = $request->getParsedBodyParam('data');
 
         $result = [];
 
-        /* @var \models\MatchMap $Map */
-        foreach($dbMaps as &$Map)
+        foreach($form as $mapForm)
         {
-            if(!in_array($Map->getId(), $aliveIds)) {
-                $Map->destroy();
-                unset($Map);
-            } else {
-                $result[] = $Map->getProperties();
+            $Map = null;
+            if(is_numeric($mapForm['id']))
+            {
+                $Map = MatchMap::find($mapForm['id']);
+                $Map->setProperty('name', $mapForm['name']);
+                $Map->setProperty('match_id', $mapForm['match_id']);
+                $Map->setProperty('score_enemy', $mapForm['score_enemy']);
+                $Map->setProperty('score_home', $mapForm['score_home']);
             }
+            else
+            {
+                $Map = MatchMap::create([
+                    'name' => $mapForm['name'],
+                    'match_id' => $mapForm['match_id'],
+                    'score_enemy' => $mapForm['score_enemy'],
+                    'score_home' => $mapForm['score_home']
+                ]);
+            }
+            $Map->save();
+            $result[] = $Map->getProperties();
         }
 
-        return $response->withJson([]);
+
+        return $response->withJson($result);
+    }
+
+    public function storeMap( Request $request, Response $response, $args = [] ) : Response
+    {
+        $id = $request->getParsedBodyParam('id');
+        $form = json_decode($request->getParsedBodyParam('data'), true);
+        
+        $Map = null;
+
+        if($form['id'])
+        {
+            $Map = MatchMap::find($form['id']);
+            $Map->setProperty('name', $form['name']);
+            $Map->setProperty('score_enemy', $form['score_enemy']);
+            $Map->setProperty('score_home', $form['score_home']);
+        } 
+        else 
+        {
+            $Map = MatchMap::create([
+                'name' => $form['name'],
+                'score_enemy' => $form['score_enemy'],
+                'score_home' => $form['score_home']
+            ]);
+        }
+
+        $Map->save();
+
+        return $response->withJson($Map->getProperties());
+    }
+
+    public function deleteMap( Request $request, Response $response, $args = [] ) : Response
+    {
+        $id = $request->getParsedBodyParam('id');
+
+        $Map = MatchMap::find($id);
+        $matchId = $Map->getProperty('match_id');
+        $Map->destroy();
+
+        $result = [];
+
+        $Maps = MatchMap::findAll($matchId, 'match_id');
+        /* @var \models\MatchMap $M */
+        if($Maps) foreach($Maps as $M) $result[] = $M->getProperties();
+
+        return $response->withJson($result);
     }
 
 }
