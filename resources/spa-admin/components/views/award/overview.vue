@@ -155,7 +155,7 @@
 					],
 					headers: [
 						{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},
-						{ text: 'Event', value: 'event_name', sortable: true, align: 'left' },
+						{ text: 'Name', value: 'event_name', sortable: true, align: 'left' },
 						{ text: 'Place', value: 'place', sortable: true, align: 'center' },
 						{ text: 'Date', value: 'award_date', sortable: true, align: 'right', width: '200px' },
 					],

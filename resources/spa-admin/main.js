@@ -1,8 +1,6 @@
 import 'babel-polyfill';
 
 import 'vuetify/dist/vuetify.css';
-import "vue-wysiwyg/dist/vueWysiwyg.css";
-
 import Vue from 'vue';
 
 import Router from 'vue-router';
@@ -10,7 +8,6 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import Vuetify from 'vuetify';
 import VeeValidate from 'vee-validate';
-import wysiwyg from "vue-wysiwyg";
 import App from './App.vue';
 import VueCroppie from 'vue-croppie';
 
@@ -29,11 +26,9 @@ Vue.use(Vuetify, {
 });
 Vue.use(VeeValidate);
 Vue.use(VueAxios, axios);
-Vue.use(wysiwyg, {});
 Vue.use(VueCroppie);
 
 import ROUTES from './routes'
-
 import User from './model/User';
 
 Vue.prototype.$User = new User();

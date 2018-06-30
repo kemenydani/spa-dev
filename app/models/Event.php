@@ -28,6 +28,27 @@ class Event extends Model
     	return Match::findAll($this->getId(), 'event_id');
     }
 
+    public function setSquadPivots($postIds)
+    {
+        $sql = DB::instance()->getAll('SELECT squad_id FROM `_xyz_event_squad_pivot` WHERE event_id = ?', $this->getId());
+        $currentIds = [];
+        if(is_array($sql)) foreach ($sql as $item) $currentIds[] = $item['squad_id'];
+        
+        foreach($postIds as $id)
+        {
+            if(in_array($id, $currentIds)) continue;
+            DB::instance()->insert('event_squad_pivot', ['event_id' => $this->getId(), 'squad_id' => $id]);
+        }
+
+        foreach($currentIds as $id)
+        {
+            if(in_array($id, $postIds)) continue;
+            DB::instance()->delete('event_squad_pivot', 'squad_id', $id);
+        }
+
+        return $postIds;
+    }
+    
     public function getArticles()
     {
         $id = $this->getId();

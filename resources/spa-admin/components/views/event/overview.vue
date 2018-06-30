@@ -16,6 +16,9 @@
 							<v-flex xs12>
 								<v-text-field label="Website" v-model="edit.item.website"></v-text-field>
 							</v-flex>
+							<v-flex>
+								<SquadModelSelector :multiple="true" v-model="edit.item.squads" label="Select Squads"></SquadModelSelector>
+							</v-flex>
 							<v-flex xs12>
 								<v-switch :true-value="'1'" :false-value="'0'" label="Active" v-model="edit.item.active"></v-switch>
 							</v-flex>
@@ -158,9 +161,10 @@
 	
 	import DataModelManager from '../../DataModelManager';
 	import Event from '../../../model/Event';
-	
+    import SquadModelSelector from '../../SquadModelSelector';
+
 	export default {
-		components: { DataModelManager },
+		components: { DataModelManager, SquadModelSelector },
 		data() {
 			return {
 				pageHint: false,
@@ -179,11 +183,12 @@
 							icon : 'edit',
 							callback : this.editModel
 						},
+						/*
 						{
 							name : 'Image',
 							icon : 'image',
 							callback : function(){}
-						}
+						}*/
 					],
 					headers: [
 						{ text: 'Id', align: 'left', sortable: true, value: 'id', width: '40px'},

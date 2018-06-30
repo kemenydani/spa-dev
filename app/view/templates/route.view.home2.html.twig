@@ -39,11 +39,11 @@
             <div class="container last-article-list">
 				{% for lastArticle in articles.lt %}
                 <div class="bg-light pad-default box-shadow-1 round-2">
-                    <h1 class="title ellipsis"><a href="/article/read/{{ lastArticle.title }}" class="a-dark">{{ lastArticle.title }}</a></h1>
+                    <h1 class="title ellipsis"><a href="/article/read/{{ lastArticle.title_seo }}" class="a-dark">{{ lastArticle.title }}</a></h1>
                     <div class="teaser">
                         <p class="paragraph low-p">{{ lastArticle.teaser }}</p>
                     </div>
-                    <a class="more-button outlined uc-text" href="/article/read/{{ lastArticle.title }}">read more &raquo;</a>
+                    <a class="more-button outlined uc-text" href="/article/read/{{ lastArticle.title_seo }}">read more &raquo;</a>
                 </div>
                 {% endfor %}
             </div>

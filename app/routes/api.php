@@ -357,6 +357,7 @@ $app->group('/api', function ()
 
 })->add(function(Request $request, Response $response, $next)
 {
+
     /* @var Response $response */
 	$response = $next( $request, $response );
 	

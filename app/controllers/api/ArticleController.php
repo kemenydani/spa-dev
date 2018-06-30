@@ -32,11 +32,11 @@ class ArticleController extends ModelController
             {
                 $categories = DB::instance()->getAll($q, $article['id']);
 
-                $idArr = [];
+                $catIdArr = [];
 
-                if(is_array($categories)) foreach($categories as $key => $value) $idArr[] = (string)$value['category_id'];
+                if(is_array($categories)) foreach($categories as $key => $value) $catIdArr[] = (string)$value['category_id'];
 
-                $article['categories'] = $idArr;
+                $article['categories'] = $catIdArr;
                 $path = Article::IMAGE_PATH . DIRECTORY_SEPARATOR . $article['headline_image'];
 
                 $article['imageDataUrl'] = null;
@@ -78,15 +78,14 @@ class ArticleController extends ModelController
 
         $formData['title_seo'] = url_slug($formData['title']);
 
-        $errors = []; //$this->Model::validate($formData);
+        $Article = Article::create($formData);
+        $id = $Article->save();
 
-        if(count($errors)) return $response->withStatus(200)->withJson(['success' => false, 'data' => $errors]);
+        $idArray = $Article->setCategoryPivots($formData['categories']);
+        $data = $Article->getFormatted();
+        $data['categories'] = $idArray;
 
-        $Model = $this->Model::create($formData);
-
-        $id = $Model->save();
-
-        if($id) return $response->withStatus(200)->withJson(['success' => true, 'data' => $Model->getFormatted()]);
+        if($id) return $response->withStatus(200)->withJson(['success' => true, 'data' => $data]);
         return $response->withStatus(500, 'Server Error: Could not save.');
     }
 

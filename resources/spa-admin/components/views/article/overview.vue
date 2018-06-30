@@ -8,7 +8,7 @@
 				fullscreen
 				hide-overlay
 				transition="dialog-bottom-transition"
-				scrollable
+
 		>
 			<v-card tile>
 				<v-toolbar card dark color="primary">
@@ -28,9 +28,10 @@
 				<v-card-text style="min-height: 100% !important; position: relative !important;">
 					<div style="max-width: 1140px; margin: 0px auto;">
 						<v-text-field :textarea="true" :rows="3" v-model="compose.item.teaser"></v-text-field>
-						<wysiwyg v-model="compose.item.content"></wysiwyg>
+						<vue-editor v-model="compose.item.content"></vue-editor>
 					</div>
 				</v-card-text>
+				<div style="flex: 1 1 auto;"></div>
 			</v-card>
 		</v-dialog>
 		
@@ -90,7 +91,7 @@
 								<v-switch :true-value="'1'" :false-value="'0'" label="Commentable" v-model="edit.item.comments_enabled"></v-switch>
 							</v-flex>
 							<v-flex xs12>
-								<CategoryModelSelector v-model="edit.item.categories" :multiple="true" :context="'article'" label="Select Category"></CategoryModelSelector>
+								<CategoryModelSelector v-model="edit.item.categories" :multiple="true" label="Select Category"></CategoryModelSelector>
 							</v-flex>
 							<v-flex xs12>
 								<EventModelSelector v-model="edit.item.event_id" label="Select Event"></EventModelSelector>
@@ -180,9 +181,10 @@
 	import CategoryModelSelector from '../../CategoryModelSelector';
 	import ArticleImageUploadManager from '../../ArticleImageUploadManager'
 	import EventModelSelector from '../../EventModelSelector'
-	
+    import { VueEditor } from 'vue2-editor'
+
 	export default {
-		components: { DataModelManager, CategoryModelSelector, ArticleImageUploadManager, EventModelSelector },
+		components: { VueEditor, DataModelManager, CategoryModelSelector, ArticleImageUploadManager, EventModelSelector },
 		data() {
 			return {
 				pageHint: false,
@@ -254,7 +256,7 @@
 			},
 			addModel(){
 				this.edit.dialog = true;
-				this.edit.item = { title: '', active: false, comments_enabled: true, highlighted: false };
+				this.edit.item = { title: '', active: false, comments_enabled: true, highlighted: false, categories: [], event_id: null };
 			},
 			composeArticle( article ){
 				this.compose.dialog = true;

@@ -31,6 +31,27 @@ class Article extends Model
 
     const IMAGE_PATH = __UPLOADS__ . '/images/article';
 
+    public function setCategoryPivots($postIds)
+    {
+        $sql = DB::instance()->getAll('SELECT category_id FROM `_xyz_article_category_pivot` WHERE article_id = ?', $this->getId());
+        $currentIds = [];
+        if(is_array($sql)) foreach ($sql as $item) $currentIds[] = $item['category_id'];
+
+        foreach($postIds as $id)
+        {
+            if(in_array($id, $currentIds)) continue;
+            DB::instance()->insert('article_category_pivot', ['article_id' => $this->getId(), 'category_id' => $id]);
+        }
+
+        foreach($currentIds as $id)
+        {
+            if(in_array($id, $postIds)) continue;
+            DB::instance()->delete('article_category_pivot', 'category_id', $id);
+        }
+
+        return $postIds;
+    }
+
 	public function categorize( array $new_categories )
 	{
 		$article_id = $this->getId();
