@@ -5,6 +5,9 @@ header#main-header {
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
+
+
+	border-bottom: 1px solid $darkGrey;
   //border: 1px solid deeppink;
   
   
@@ -90,14 +93,15 @@ header#main-header {
 	}
   }
   .menu {
-	display: none;
 	min-width: 100%;
 	position: absolute;
-	min-height: 300px;
-	border-bottom: 15px solid $primary;
+	  display:none;
+  	height: 350px;
+	border-bottom: 1px solid $darkGrey;
 	background:  $dark2;
-	top: 145px;
+	top: 135px;
 	z-index: 5;
+	box-shadow: 0 28px 58px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   }
   
 }

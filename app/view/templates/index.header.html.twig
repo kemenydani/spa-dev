@@ -16,7 +16,7 @@
     <div class="container header-center-container">
         <nav class="navigation nav-left">
             <ul>
-                <li><a href="/home">Home</a></li>
+                <li v-on:mouseover="toggleMenu()"><a href="#">ESPORT</a></li>
                 <li><a href="/articles">Articles</a></li>
                 <li><a href="/squads">Squads</a></li>
             </ul>
@@ -37,7 +37,7 @@
     <div class="header-aside header-right">
         {% include 'header.user.html.twig' with { user : user } only %}
     </div>
-    <nav class="menu">
+    <nav class="menu" id="slideMenu">
         <div class="container">
             menu
         </div>
@@ -84,7 +84,15 @@ $(document).ready(function(){
                 },
 	            closeSideNav: function(){
 			        EventBus.$emit('closeSideNav');
-	            }
+	            },
+                toggleMenu : function()
+                {
+                    $('#slideMenu').slideDown(200, function(){
+                        $('#slideMenu').on('mouseleave', function(){
+                            $('#slideMenu').slideUp(200);
+                        })
+                    });
+                }
             },
             watch : {
             	'open' : function(v)
@@ -103,6 +111,10 @@ $(document).ready(function(){
 		            this.open = false;
 	            }
 		        .bind(this));
+
+	            //
+
+
             }
         });
 

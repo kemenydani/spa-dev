@@ -994,7 +994,8 @@ header#main-header {
   background: black;
   display: flex;
   flex-wrap: nowrap;
-  justify-content: center; }
+  justify-content: center;
+  border-bottom: 1px solid #626262; }
   header#main-header .header-aside {
     flex: 1;
     display: flex;
@@ -1070,14 +1071,15 @@ header#main-header {
           width: auto;
           height: 100%; }
   header#main-header .menu {
-    display: none;
     min-width: 100%;
     position: absolute;
-    min-height: 300px;
-    border-bottom: 15px solid #f6a00c;
+    display: none;
+    height: 350px;
+    border-bottom: 1px solid #626262;
     background: #111111;
-    top: 145px;
-    z-index: 5; }
+    top: 135px;
+    z-index: 5;
+    box-shadow: 0 28px 58px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); }
 
 nav#side-nav {
   height: 100%;
