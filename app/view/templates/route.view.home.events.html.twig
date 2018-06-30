@@ -5,7 +5,7 @@
 <ul class="event-list">
 	{% for ek, event in events %}
 		<li>
-			<a href="/event/{{ event.getName()}}" class="name">{{ event.getName()}}</a>
+			<a href="/event/view/{{ event.getName()}}" class="name">{{ event.getName()}}</a>
 			<span class="date more-button outlined uc-text">{{ event.getStartDate()|date('d M Y')}}</span>
 		</li>
 	{% endfor %}

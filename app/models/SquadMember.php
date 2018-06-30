@@ -16,7 +16,7 @@ class SquadMember extends Model
 		'squad_id',
         'user_id',
 		'home_avatar',
-        'desc',
+        'description',
         'position'
 	];
     const IMAGE_PATH = __UPLOADS__ . '/images/squad_member';
@@ -63,7 +63,12 @@ class SquadMember extends Model
 
     public function getDesc()
     {
-        return $this->getProperty('desc');
+        return $this->getProperty('description');
+    }
+
+    public function getDescription()
+    {
+        return $this->getProperty('description');
     }
 
     public function getPosition()

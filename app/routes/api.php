@@ -222,6 +222,7 @@ $app->group('/api', function ()
             $SquadMember = SquadMember::find($id);
 
             ImageUploadController::$unique = true;
+            ImageUploadController::$format = 'png';
 
             $oldPath = SquadMember::IMAGE_PATH . DIRECTORY_SEPARATOR . $SquadMember->getHomeAvatar();
 
