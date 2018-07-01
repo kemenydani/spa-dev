@@ -38,8 +38,12 @@
         {% include 'header.user.html.twig' with { user : user } only %}
     </div>
     <nav class="menu" id="slideMenu">
-        <div class="container">
-            menu
+        <div class="container esport-container">
+            <div></div>
+            <div></div>
+            <div>
+                {{ trendingMember.getName() }}
+            </div>
         </div>
     </nav>
 

@@ -34,6 +34,31 @@ class HomeController extends ViewController
         
         $squadCollection = SquadCollection::queryToCollection($q3, 1);
 
+        $allMembers = [];
+        $allSquads = [];
+        $trendingMember = null;
+        $trendingSquad = null;
+
+        /* @var \models\Squad $Squad */
+        foreach($squadCollection->getModels() as $Squad)
+        {
+            $allSquads[] = $Squad;
+            $members = $Squad->getMembers();
+            foreach($members as $Member) $allMembers[] = $Member;
+        }
+
+        if(count($allMembers))
+        {
+            $randMemberKey = array_rand($allMembers, 1);
+            $trendingMember = $allMembers[$randMemberKey];
+        }
+
+        if(count($allSquads))
+        {
+            $randSquadKey = array_rand($allSquads, 1);
+            $trendingSquad = $allSquads[$randSquadKey];
+        }
+
         $q4 = " SELECT * FROM _xyz_match mc " .
               " ORDER BY mc.id DESC "         .
               " LIMIT 4 "
@@ -118,8 +143,9 @@ class HomeController extends ViewController
             'ltEvents' => $ltEvents,
             'topMatches' => $topMatches,
             'matches' => $ltMatches,
-	        'squads' => $squadCollection,
+	        'trendingSquad' => $trendingSquad,
             'partnersTop' => $partnersTop,
+            'trendingMember' => $trendingMember
             //'partnersBot' => $partnersBot,
         ]);
     }

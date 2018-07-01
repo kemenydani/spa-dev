@@ -15,6 +15,8 @@
             %}
     </section>
     {% endif %}
+
+    {% if articles.hl and articles.hl|length > 1 %}
     <!-- top news -->
     <section id="home-headlines" class="container-full">
         <div class="section-header">
@@ -29,7 +31,7 @@
             </article>
         </div>
     </section>
-
+    {% endif %}
     <!-- last news -->
     <section id="home-last-articles" class="container-full bg bg-dark">
         <div class="section-header">
@@ -77,16 +79,17 @@
         </div>
     </section>
 
+    {% if trendingSquad %}
     <!-- members -->
     <section id="home-members" class="container-full bg bg-dark">
         <div class="section-header">
             <h1>MEET AVENUE</h1>
         </div>
         <div class="container section-content">
-            {% include 'route.view.home.members.html.twig' with { squad : squads.first() } only %}
+            {% include 'route.view.home.members.html.twig' with { squad : trendingSquad } only %}
         </div>
     </section>
-
+    {% endif %}
 </div>
 
 {% endblock %}
