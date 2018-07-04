@@ -47,6 +47,7 @@ class MatchController extends ViewController
             $params['name'] = '%' . $name . '%';
         }
 
+        // sql lekérdezés
         $q1 = " SELECT SQL_CALC_FOUND_ROWS " .
               " m.id, m.date_played, m.date_created, m.featured, " .
               " sq.logo AS logo_squad, sq.name AS squad_name,    " .
@@ -65,11 +66,11 @@ class MatchController extends ViewController
               " ORDER BY m.date_created DESC " .
               " LIMIT " . static::INFINITE_LIMIT . " OFFSET " . (int)$startAt
         ;
-
+        // lekérdezés vége
         $matches = DB::instance()->getAll($q1, count($params) ? $params : null);
         $total = DB::instance()->totalRowCount();
         $res = [];
-
+        // itt dolgozom fel az adatot
         foreach($matches as $index => $match)
         {
             $res[$index] = $match;
@@ -83,7 +84,7 @@ class MatchController extends ViewController
                 ]);
             }
         }
-
+        // és itt köpöm ki a weboldalnak az eredményt amit megjelenít
         return ['matches' => $res, 'totalItems' => $total];
     }
 }

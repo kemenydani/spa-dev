@@ -39,10 +39,25 @@
     </div>
     <nav class="menu" id="slideMenu">
         <div class="container esport-container">
-            <div></div>
-            <div></div>
-            <div>
-                {{ trendingMember.getName() }}
+            <div class="menu-section">
+
+            </div>
+            <div class="menu-section">
+
+            </div>
+            <div class="menu-section trending-member-section">
+                <div
+                    class="trending-member-bg"
+                    style="background-image: url({{ trendingMember.requestHomeAvatar() }});
+                           background-repeat: no-repeat;
+                           background-position: center bottom;
+                           background-size: contain;
+                           width: 200px;
+                           height: 260px;
+                    ">
+                    {{ trendingMember.getName() }}
+                    {{ trendingMember.getPosition() }}
+                </div>
             </div>
         </div>
     </nav>

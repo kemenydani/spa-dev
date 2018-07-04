@@ -1074,12 +1074,26 @@ header#main-header {
     min-width: 100%;
     position: absolute;
     display: none;
-    height: 350px;
+    height: 300px;
     border-bottom: 1px solid #626262;
     background: #111111;
     top: 135px;
     z-index: 5;
     box-shadow: 0 28px 58px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); }
+    header#main-header .menu > .esport-container {
+      display: flex;
+      height: 300px;
+      position: relative;
+      flex-wrap: nowrap; }
+      header#main-header .menu > .esport-container > * {
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+        flex: 1; }
+      header#main-header .menu > .esport-container .trending-member-section {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: flex-end; }
 
 nav#side-nav {
   height: 100%;
