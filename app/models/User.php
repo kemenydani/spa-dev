@@ -24,7 +24,9 @@ class User extends Model {
         'date_updated',
 	    'password_change_secret',
 	    'password_temporary',
-        'is_admin'
+        'is_admin',
+        'first_name',
+        'last_name',
     ];
 
     static $SEARCH_COLUMNS = ['username', 'email'];
@@ -48,6 +50,16 @@ class User extends Model {
     public function getUsername()
     {
         return $this->getProperty('username');
+    }
+
+    public function getFirstName()
+    {
+        return $this->getProperty('first_name');
+    }
+
+    public function getLastName()
+    {
+        return $this->getProperty('last_name');
     }
 
     public function getPasswordChangeSecret()

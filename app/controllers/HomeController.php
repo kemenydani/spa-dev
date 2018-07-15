@@ -6,6 +6,7 @@ use core\Config;
 use models\Product;
 use models\ProductCollection;
 
+use models\SquadMemberCollection;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -134,6 +135,19 @@ class HomeController extends ViewController
         ;
         $ltArticles  = (ArticleCollection::queryToCollection($q2, 0))->getFormatted();
 
+        $mixedSquadMembers = [];
+
+        $q10 = "SELECT * FROM _xyz_squad_member";
+        $squadMemberCollection  = (SquadMemberCollection::queryToCollection($q10));
+
+        $mixedSquadMembers = $squadMemberCollection->getModels();
+
+        if(is_array($mixedSquadMembers))
+        {
+            shuffle($mixedSquadMembers);
+            $mixedSquadMembers = array_slice($mixedSquadMembers, 0, 5);
+        }
+
         $this->view->render($response, 'route.view.home2.html.twig', [
             'articles' => [
                 'hl' => $hlArticles,
@@ -145,7 +159,8 @@ class HomeController extends ViewController
             'matches' => $ltMatches,
 	        'trendingSquad' => $trendingSquad,
             'partnersTop' => $partnersTop,
-            'trendingMember' => $trendingMember
+            'trendingMember' => $trendingMember,
+            'mixedSquadMembers' => $mixedSquadMembers,
             //'partnersBot' => $partnersBot,
         ]);
     }

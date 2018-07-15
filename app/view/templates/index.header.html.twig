@@ -39,24 +39,77 @@
     </div>
     <nav class="menu" id="slideMenu">
         <div class="container esport-container">
-            <div class="menu-section">
-
+            <div class="menu-section trending-members-section">
+                <div class="menu-section-headline">
+                    <h1>TRENDING PLAYERS</h1>
+                </div>
+                <div class="menu-section-content">
+                    <ul class="member-list">
+                        {% for mk, member in mixedSquadMembers %}
+                            <li>
+                                <span class="firstName">{{ member.getUser().getFirstName() }}</span>
+                                <span class="userName"><a class="a-primary" href="/profile/{{ member.getUser().getUsername() }}">{{ member.getName() }}</a></span>
+                                <span class="lastName">{{ member.getUser().getLastName() }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="menu-section-footer">
+                    <a class="more-button uc-text" href="/squads">ALL SQUADS »</a>
+                </div>
             </div>
-            <div class="menu-section">
-
+            <div class="menu-section match-section">
+                <div class="menu-section-headline">
+                    <h1>MATCHES</h1>
+                </div>
+                <div class="menu-section-content">
+                    <ul class="match-list">
+                        {% for mk, match in  matches.getModels() %}
+                            <li>
+                                <span>
+                                    <span class="game">
+                                        <span class="uc-text outlined more-button">{{ match.getGame().getNameShort() }}</span>
+                                    </span>
+                                    <span class="team">
+                                        <span class="vs">vs.</span>
+                                        <span class="enemy-name">{{ match.getEnemyTeam().getName() }}</span>
+                                    </span>
+                                </span>
+                                <span class="score">
+                                    <span class="score-home">{{ match.formatTotalHomeScore() }}</span>
+                                    <span class="sep-char">-</span>
+                                    <span class="score-enemy">{{ match.formatTotalEnemyScore() }}</span>
+                                </span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="menu-section-footer">
+                    <a class="more-button uc-text" href="/matches">ALL MATCHES »</a>
+                </div>
             </div>
             <div class="menu-section trending-member-section">
-                <div
-                    class="trending-member-bg"
-                    style="background-image: url({{ trendingMember.requestHomeAvatar() }});
-                           background-repeat: no-repeat;
-                           background-position: center bottom;
-                           background-size: contain;
-                           width: 200px;
-                           height: 260px;
-                    ">
-                    {{ trendingMember.getName() }}
-                    {{ trendingMember.getPosition() }}
+                <div class="menu-section-headline">
+                    <h1>TRENDING PLAYER</h1>
+                </div>
+                <div class="menu-section-content">
+                    <div
+                        class="trending-member-bg"
+                        style="background-image: url({{ trendingMember.requestHomeAvatar() }});
+                               background-repeat: no-repeat;
+                               background-position: center bottom;
+                               background-size: contain;
+                               width: 200px;
+                               height: 260px;
+                        ">
+                        <div class="memberInfo">
+                            <a href="/profile/{{ trendingMember.getUser().getUsername() }}" class="bg-text bg-primary">
+                                {% if trendingMember.getUser().getFirstName() %}{{ trendingMember.getUser().getFirstName() }}&nbsp;"{% endif %}
+                                <span>{{ trendingMember.getName() }}</span>
+                                {% if trendingMember.getUser().getLastName() %}"&nbsp;{{ trendingMember.getUser().getLastName() }}{% endif %}
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

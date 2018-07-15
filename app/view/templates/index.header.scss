@@ -96,7 +96,7 @@ header#main-header {
 	min-width: 100%;
 	position: absolute;
   	display:none;
-  	height: 300px;
+  	height: 340px;
 	border-bottom: 1px solid $darkGrey;
 	background:  $dark2;
 	top: 135px;
@@ -106,22 +106,99 @@ header#main-header {
 	> .esport-container
 	{
 		display: flex;
-		height: 300px;
+		flex-direction: column;
+		height: 340px;
 		position: relative;
-		flex-wrap: nowrap;
-		> * {
+		flex-wrap: wrap;
+		//border: 1px solid green;
+		.menu-section {
+			min-height: 340px;
 			display: flex;
 			flex-direction: column;
-			min-height: 100%;
-			flex: 1;
-		}
-		.trending-member-section {
-			display: flex;
-			flex-direction: row-reverse;
-			align-items: flex-end;
-			.trending-member-bg {
+			flex-wrap: wrap;
+			position: relative;
+
+			justify-content: space-between;
+			> * { min-width: 100%; }
+			//border: 1px solid orange;
+			.menu-section-headline {
+				color: white;
+				//border: 1px solid blue;
+			}
+			.menu-section-content {
+				flex: 1;
+				color: lightgrey;
+			}
+			.menu-section-footer {
+				max-height: 45px;
+				height: 45px;
 			}
 		}
+
+		ul {
+			padding: 0;
+			margin: 0;
+			list-style-type: none;
+
+			li {
+				margin-bottom: 15px;
+			}
+		}
+
+		.trending-members-section {
+			li > span {
+				text-transform: uppercase;
+			}
+			span.userName {
+				font-weight: bold;
+			}
+		}
+
+		.trending-member-section {
+			align-self: flex-end;
+			.menu-section-content {
+				display: flex;
+				position: relative;
+				.trending-member-bg {
+					align-self: flex-end;
+					position: relative;
+					display: flex;
+					flex-wrap: nowrap;
+					text-align: center;
+					align-content: center;
+					align-items: center;
+					justify-content: center;
+				}
+				.memberInfo {
+					display: block;
+					text-align: center;
+					align-self: flex-end;
+					font-size: 16px;
+					text-transform: uppercase;
+					span {
+						font-weight: bold;
+					}
+				}
+			}
+		}
+
+		.match-section {
+			.game > span {
+				width: 60px;
+				min-width: 60px;
+				margin-right: 10px;
+			}
+			.team {
+				display: inline-block;
+				min-width: 220px;
+			}
+			.score {
+				font-size: 16px;
+				font-weight: bold;
+				color: $primary;
+			}
+		}
+
 	}
   }
   

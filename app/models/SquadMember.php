@@ -20,6 +20,7 @@ class SquadMember extends Model
         'position'
 	];
     const IMAGE_PATH = __UPLOADS__ . '/images/squad_member';
+
     public function formatName()
     {
         if($this->getName()) return $this->getName();

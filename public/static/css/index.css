@@ -1074,7 +1074,7 @@ header#main-header {
     min-width: 100%;
     position: absolute;
     display: none;
-    height: 300px;
+    height: 340px;
     border-bottom: 1px solid #626262;
     background: #111111;
     top: 135px;
@@ -1082,18 +1082,70 @@ header#main-header {
     box-shadow: 0 28px 58px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); }
     header#main-header .menu > .esport-container {
       display: flex;
-      height: 300px;
+      flex-direction: column;
+      height: 340px;
       position: relative;
-      flex-wrap: nowrap; }
-      header#main-header .menu > .esport-container > * {
+      flex-wrap: wrap; }
+      header#main-header .menu > .esport-container .menu-section {
+        min-height: 340px;
         display: flex;
         flex-direction: column;
-        min-height: 100%;
-        flex: 1; }
+        flex-wrap: wrap;
+        position: relative;
+        justify-content: space-between; }
+        header#main-header .menu > .esport-container .menu-section > * {
+          min-width: 100%; }
+        header#main-header .menu > .esport-container .menu-section .menu-section-headline {
+          color: white; }
+        header#main-header .menu > .esport-container .menu-section .menu-section-content {
+          flex: 1;
+          color: lightgrey; }
+        header#main-header .menu > .esport-container .menu-section .menu-section-footer {
+          max-height: 45px;
+          height: 45px; }
+      header#main-header .menu > .esport-container ul {
+        padding: 0;
+        margin: 0;
+        list-style-type: none; }
+        header#main-header .menu > .esport-container ul li {
+          margin-bottom: 15px; }
+      header#main-header .menu > .esport-container .trending-members-section li > span {
+        text-transform: uppercase; }
+      header#main-header .menu > .esport-container .trending-members-section span.userName {
+        font-weight: bold; }
       header#main-header .menu > .esport-container .trending-member-section {
-        display: flex;
-        flex-direction: row-reverse;
-        align-items: flex-end; }
+        align-self: flex-end; }
+        header#main-header .menu > .esport-container .trending-member-section .menu-section-content {
+          display: flex;
+          position: relative; }
+          header#main-header .menu > .esport-container .trending-member-section .menu-section-content .trending-member-bg {
+            align-self: flex-end;
+            position: relative;
+            display: flex;
+            flex-wrap: nowrap;
+            text-align: center;
+            align-content: center;
+            align-items: center;
+            justify-content: center; }
+          header#main-header .menu > .esport-container .trending-member-section .menu-section-content .memberInfo {
+            display: block;
+            text-align: center;
+            align-self: flex-end;
+            font-size: 16px;
+            text-transform: uppercase; }
+            header#main-header .menu > .esport-container .trending-member-section .menu-section-content .memberInfo span {
+              font-weight: bold; }
+      header#main-header .menu > .esport-container .match-section .game > span {
+        width: 60px;
+        min-width: 60px;
+        margin-right: 10px; }
+      header#main-header .menu > .esport-container .match-section .team {
+        display: inline-block;
+        min-width: 220px; }
+      header#main-header .menu > .esport-container .match-section .score {
+        font-size: 16px;
+        font-weight: bold;
+        color: #f6a00c; }
 
 nav#side-nav {
   height: 100%;
