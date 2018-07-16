@@ -51,7 +51,6 @@
 	{% include 'vue.component.modal.html.twig' with { width: '1000px' } %}
 	
 	<script>
-			
 			(function(Vue){
 				
 				new Vue({
@@ -64,7 +63,7 @@
 						},
 						limit : parseInt({{ limit }}),
 						loading: false,
-						galleryId : {{ gallery.getId() }},
+						galleryId : "{{ gallery.getId() }}",
 						totalItems: 0,
 						startAt : 0,
 						images : [],

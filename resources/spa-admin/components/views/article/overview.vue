@@ -28,7 +28,7 @@
 				<v-card-text style="min-height: 100% !important; position: relative !important;">
 					<div style="max-width: 1140px; margin: 0px auto;">
 						<v-text-field :textarea="true" :rows="3" v-model="compose.item.teaser"></v-text-field>
-						<vue-editor v-model="compose.item.content"></vue-editor>
+						<vue-editor customModules="[]" id="compos" v-model="compose.item.content"></vue-editor>
 					</div>
 				</v-card-text>
 				<div style="flex: 1 1 auto;"></div>
@@ -181,7 +181,7 @@
 	import CategoryModelSelector from '../../CategoryModelSelector';
 	import ArticleImageUploadManager from '../../ArticleImageUploadManager'
 	import EventModelSelector from '../../EventModelSelector'
-    import { VueEditor } from 'vue2-editor'
+    import { VueEditor, Quill } from 'vue2-editor'
 
 	export default {
 		components: { VueEditor, DataModelManager, CategoryModelSelector, ArticleImageUploadManager, EventModelSelector },
@@ -190,7 +190,9 @@
 				pageHint: false,
 				fab: true,
 				compose : {
-					item : {},
+					item : {
+					    content: ''
+					},
 					dialog: false
 				},
 				edit : {

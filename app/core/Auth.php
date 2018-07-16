@@ -13,7 +13,6 @@ class Auth
     {
         if( Session::exists('userId') )
         {
-
             return User::find( Session::get('userId') );
         }
         else if(Cookie::exists('user'))

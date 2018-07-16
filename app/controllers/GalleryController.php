@@ -52,7 +52,7 @@ class GalleryController extends ViewController
     protected function getMoreImages($gallery_id, $startAt = 0)
     {
         $q1 = " SELECT SQL_CALC_FOUND_ROWS * FROM _xyz_gallery_image " .
-              " WHERE gallery_id = :gallery_id " .
+              " WHERE gallery_id = :gallery_id" .
               " ORDER BY id ASC " .
               " LIMIT ".static::INFINITE_LIMIT_IMAGES." OFFSET " . (int)$startAt
         ;
@@ -82,7 +82,7 @@ class GalleryController extends ViewController
             $randomImageUrl = $data['images'][$randId];
         }
 
-	    $this->view->render($response, 'route.view.gallery.view2.html.twig', [
+	    $this->view->render($response, 'route.view.gallery.view.html.twig', [
 	        'headImageUrl' => $randomImageUrl,
 	        'gallery' => $gallery,
             'images' => json_encode($data),
