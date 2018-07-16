@@ -19,7 +19,7 @@
 					<p class="paragraph big-p user-intro" v-if="model.profile.show_bio == 1" v-text="model.profile.bio">{{ model.profile.bio }}</p>
 				</div>
 				<div class="icons" v-if="model.profile.show_social == 1">
-					<a class="icon round" v-bind:href="model.profile[key]" target="_blank" v-if="isSocialItem(key) && model.profile[key].length" v-for="(item, key) in model.profile">
+					<a class="icon round" v-bind:href="model.profile[key]" target="_blank" v-if="isSocialItem(key) && model.profile[key] && model.profile[key].length" v-for="(item, key) in model.profile">
 						<i v-bind:class="getSocialIconClass(key)"></i>
 					</a>
 				</div>
@@ -669,7 +669,7 @@
 			 	
 			   	Object.keys(this.model.profile).forEach(function(k){
 			   		if(k.indexOf('gear_') !== -1 ) {
-						if(this.model.profile[k].length) has = true;
+						if(this.model.profile[k] && this.model.profile[k].length) has = true;
 					}
 				}
 				.bind(this));
