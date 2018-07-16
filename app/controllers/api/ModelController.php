@@ -209,7 +209,7 @@ abstract class ModelController implements ModelControllerInterface
 			$binds[] = $value;
 			$where .= $key . ' = ? ';
 			$i++;
-			if($i < count($baseQuery)) $where .= ' AND ';
+			if(is_array($baseQuery) && $i < count($baseQuery)) $where .= ' AND ';
 		}
 		
 		if($search) {
