@@ -1,5 +1,5 @@
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 /* multi */
 let path = require('path');
 let webpack = require('webpack');
@@ -144,12 +144,14 @@ let production_config = [
 			NODE_ENV: '"production"'
 		}
 	}),
-	new webpack.optimize.UglifyJsPlugin({
-		sourceMap: true,
-		compress: {
-			warnings: false
-		}
-	}),
+    new UglifyJsPlugin({
+        uglifyOptions: {
+            compress: {
+                warnings: false
+            }
+        },
+        sourceMap: true
+    }),
 	new webpack.LoaderOptionsPlugin({
 		minimize: true
 	}),

@@ -28,7 +28,7 @@
 				<v-card-text style="min-height: 100% !important; position: relative !important;">
 					<div style="max-width: 1140px; margin: 0px auto;">
 						<v-text-field :textarea="true" :rows="3" v-model="compose.item.teaser"></v-text-field>
-						<vue-editor customModules="[]" id="compos" v-model="compose.item.content"></vue-editor>
+						<vue-editor id="editor" v-model="compose.item.content"></vue-editor>
 					</div>
 				</v-card-text>
 				<div style="flex: 1 1 auto;"></div>
