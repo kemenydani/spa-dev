@@ -6,7 +6,7 @@ class Cookie
 {
     public static function exists($name)
     {
-        return (isset($_COOKIE[$name])) ? true : false;
+        return array_key_exists($name, $_COOKIE);
     }
     public static function get($name)
     {

@@ -13,17 +13,23 @@ class Auth
     {
         if( Session::exists('userId') )
         {
+
             return User::find( Session::get('userId') );
         }
         else if(Cookie::exists('user'))
         {
-            $User = User::find(Cookie::get('user'), 'remember_token');
+           $ck = Cookie::get('user');
+           if(is_string($ck) && strlen($ck) > 10 && $ck !== "NULL")
+           {
+               $User = User::find(Cookie::get('user'), 'remember_token');
 
-            if($User)
-            {
-                $User->login($User->getPassword(), true);
-            }
-            return $User;
+               if($User)
+               {
+                   $User->login($User->getPassword(), true);
+               }
+               return $User;
+           }
+
         }
         return null;
     }
