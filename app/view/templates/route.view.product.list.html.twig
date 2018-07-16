@@ -11,7 +11,7 @@
         {% verbatim %}
         <div class="container product-list-container infinite-list-container" id="product-list">
             <div class="infinite-search box-shadow-2">
-                <div class="info">Loaded {{ products.length }} from totalItems {{ totalItems }} products</div>
+                <div class="info">Loaded {{ products.length }} from {{ totalItems }} products</div>
                 <div class="form">
                     <div class="input-field">
                         <select v-model="searchParams.orderBy" v-on:change="search">
@@ -50,6 +50,7 @@
             <div v-if="loading" class="infinite-loading">
               <i v-if="loading" class="fas fa-4x fa-circle-notch fa-spin"></i>
 			</div>
+			
 			<div v-if="totalItems > products.length" class="infinite-more">
 			  There are {{ totalItems - products.length }} more products...
 			</div>
