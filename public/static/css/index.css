@@ -3373,4 +3373,9 @@ div#wrapper {
     align-self: flex-end;
     margin-top: 7.5px; }
 
+#route-view-article-read .article-content {
+  position: relative !important; }
+  #route-view-article-read .article-content > * {
+    max-width: 100%; }
+
 /*# sourceMappingURL=index.css.map */
