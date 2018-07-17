@@ -32,7 +32,7 @@ class HomeController extends ViewController
 	          " WHERE sq.featured = ? "       .
 	          " ORDER BY sq.featured DESC "
         ;
-        
+
         $squadCollection = SquadCollection::queryToCollection($q3, 1);
 
         $allMembers = [];
@@ -48,22 +48,11 @@ class HomeController extends ViewController
             foreach($members as $Member) $allMembers[] = $Member;
         }
 
-        if(count($allMembers))
-        {
-            $randMemberKey = array_rand($allMembers, 1);
-            $trendingMember = $allMembers[$randMemberKey];
-        }
-
         if(count($allSquads))
         {
             $randSquadKey = array_rand($allSquads, 1);
             $trendingSquad = $allSquads[$randSquadKey];
         }
-
-        $q4 = " SELECT * FROM _xyz_match mc " .
-              " ORDER BY mc.id DESC "         .
-              " LIMIT 4 "
-        ;
 
         $q5 = " SELECT * FROM _xyz_match mc " .
             " WHERE mc.featured = ? "         .
@@ -71,7 +60,6 @@ class HomeController extends ViewController
             " LIMIT 3 "
         ;
 
-        $ltMatches = MatchCollection::queryToCollection($q4);
         $topMatches = MatchCollection::queryToCollection($q5, true);
 
         $q6 = " SELECT * FROM _xyz_event ev " .
@@ -135,19 +123,6 @@ class HomeController extends ViewController
         ;
         $ltArticles  = (ArticleCollection::queryToCollection($q2, 0))->getFormatted();
 
-        $mixedSquadMembers = [];
-
-        $q10 = "SELECT * FROM _xyz_squad_member";
-        $squadMemberCollection  = (SquadMemberCollection::queryToCollection($q10));
-
-        $mixedSquadMembers = $squadMemberCollection->getModels();
-
-        if(is_array($mixedSquadMembers))
-        {
-            shuffle($mixedSquadMembers);
-            $mixedSquadMembers = array_slice($mixedSquadMembers, 0, 5);
-        }
-
         $this->view->render($response, 'route.view.home2.html.twig', [
             'articles' => [
                 'hl' => $hlArticles,
@@ -156,11 +131,8 @@ class HomeController extends ViewController
             'featuredItem' => $randomFeaturedItem,
             'ltEvents' => $ltEvents,
             'topMatches' => $topMatches,
-            'matches' => $ltMatches,
 	        'trendingSquad' => $trendingSquad,
             'partnersTop' => $partnersTop,
-            'trendingMember' => $trendingMember,
-            'mixedSquadMembers' => $mixedSquadMembers,
             //'partnersBot' => $partnersBot,
         ]);
     }
