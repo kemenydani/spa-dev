@@ -1,7 +1,14 @@
 <template>
+	
 	<v-content>
+		<v-card>
+			<v-card-text>
 			<form>
 				<div v-for="config in formConfig">
+					<label v-if="config.inputType === 'VueEditor'" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+						<b>{{ config.props.label }}</b>
+						<v-icon style="cursor: pointer;" v-on:click="saveSetting.call(this, config, 'click')">save</v-icon>
+					</label>
 					<component style=""
 							v-model="config.data.val"
 							:is="config.inputType"
@@ -11,7 +18,9 @@
 							@blur="config.focused = false"
 		          @change="saveSetting.call(this, config)"
 							></component>
+					<div v-if="config.inputType === 'VueEditor'" style="height: 30px;"></div>
 				</div>
+				
 			</form>
 		
 		<v-dialog v-model="pageHint" max-width="600">
@@ -41,16 +50,21 @@
 				fixed>
 			<v-icon>help</v-icon>
 		</v-btn>
-		
+			</v-card-text>
+	</v-card>
 	</v-content>
+	
 </template>
 
 <script>
+	
+	import { VueEditor, Quill } from 'vue2-editor'
 	
 	export default {
 		$_veeValidate: {
 			validator: 'new'
 		},
+		components : { VueEditor },
 		name: 'settings-overview',
 		data: () => ({
 			pageHint: false,
@@ -132,7 +146,7 @@
 						config.props['append-icon-cb'] = this.saveSetting.bind(this, config, 'click');
 						break;
 					case 'textarea' :
-						config.inputType = 'wysiwyg';
+						config.inputType = 'VueEditor';
 						config.textarea = true;
 						break;
 					case 'bool' :
