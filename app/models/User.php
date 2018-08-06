@@ -25,14 +25,13 @@ class User extends Model {
 	    'password_change_secret',
 	    'password_temporary',
         'is_admin',
-        'first_name',
-        'last_name',
+        'first_name', 'last_name',
     ];
 
     static $SEARCH_COLUMNS = ['username', 'email'];
 
-    const PUBLIC_DATASET = [ 'id', 'username', 'is_admin', 'country_name', 'profile_picture', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated' ];
-    const SMALL_DATASET = [ 'id', 'username', 'is_admin', 'profile_picture', 'email'];
+    const PUBLIC_DATASET = [ 'id', 'username', 'first_name', 'last_name', 'is_admin', 'country_name', 'profile_picture', 'email', 'profile_picture', 'country_code', 'date_created', 'date_updated' ];
+    const SMALL_DATASET = [ 'id', 'username', 'first_name', 'last_name', 'is_admin', 'profile_picture', 'email'];
     const IMAGE_PATH = __UPLOADS__ . '/images/user';
     const NO_USER_IMAGE = 'no-user-image.png';
 

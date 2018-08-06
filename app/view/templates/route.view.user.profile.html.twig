@@ -127,6 +127,30 @@
 						/>
 						<span class="field-info">{{ errors.email }}</span>
 					</div>
+
+					<div class="input-field" v-bind:class="{ invalid : errors.first_name }">
+						<input
+							placeholder="Firstname"
+							type="text"
+							name="first_name"
+							autocomplete="on"
+							v-model="data.user.first_name"
+							required
+						/>
+						<span class="field-info">{{ errors.first_name }}</span>
+					</div>
+
+					<div class="input-field" v-bind:class="{ invalid : errors.last_name }">
+						<input
+							placeholder="Lastname"
+							type="text"
+							name="last_name"
+							autocomplete="on"
+							v-model="data.user.last_name"
+							required
+						/>
+						<span class="field-info">{{ errors.last_name }}</span>
+					</div>
 					
 					<div class="input-field" v-bind:class="{ invalid : errors.country_name }">
 						<input

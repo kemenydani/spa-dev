@@ -92,6 +92,9 @@ class UserController extends ViewController
         /* @var UserProfile $UserProfile */
         $UserProfile = $AuthUser->getUserProfile();
 
+        if($formUserData['first_name']) $userSet['first_name'] = $formUserData['first_name'];
+        if($formUserData['last_name']) $userSet['last_name'] = $formUserData['last_name'];
+
         foreach($formProfileData as $column => $value) $profileSet[$column] = $value;
 
         if(!count($errors))

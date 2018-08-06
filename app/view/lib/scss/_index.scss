@@ -421,3 +421,13 @@ div#wrapper {
   }
 
 }
+
+#route-view-article-read
+{
+	.article-content {
+		position: relative !important;
+		> * {
+			max-width: 100%;
+		}
+	}
+}
