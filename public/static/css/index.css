@@ -1868,69 +1868,6 @@ footer#main-footer {
       #route-view-home #home-last-articles .featured-content .wrapper .footer {
         display: flex;
         justify-content: space-between; }
-  #route-view-home #home-matches-events .section-content {
-    display: flex;
-    justify-content: space-between; }
-    #route-view-home #home-matches-events .section-content > div {
-      max-width: calc(100% / 2 - 15px / 2);
-      min-width: calc(100% / 2 - 15px / 2); }
-    #route-view-home #home-matches-events .section-content .head {
-      margin-top: 0;
-      padding: 15px 15px 15px 15px;
-      border-bottom: 7.5px solid #f6a00c;
-      font-family: "Roboto", sans-serif;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      align-content: center; }
-      #route-view-home #home-matches-events .section-content .head .more-button {
-        background: none;
-        border: 1px solid white;
-        color: white !important;
-        border-radius: 2px;
-        height: 30px;
-        line-height: 30px;
-        padding-top: 0;
-        padding-bottom: 0; }
-      #route-view-home #home-matches-events .section-content .head .title {
-        margin-top: 0;
-        margin-bottom: 0;
-        color: white; }
-    #route-view-home #home-matches-events .section-content .game {
-      display: inline-block;
-      line-height: initial;
-      margin-right: 7.5px; }
-      #route-view-home #home-matches-events .section-content .game .more-button {
-        width: 60px;
-        min-width: 60px;
-        text-align: center; }
-    #route-view-home #home-matches-events .section-content .score {
-      font-size: 14px;
-      color: #f6a00c;
-      font-family: "Roboto", sans-serif;
-      font-weight: bold; }
-    #route-view-home #home-matches-events .section-content .date {
-      width: 100px;
-      min-width: 100px;
-      max-width: 100px;
-      padding-right: 0;
-      border: none;
-      text-align: right; }
-    #route-view-home #home-matches-events .section-content ul {
-      list-style-type: none;
-      padding: 0; }
-      #route-view-home #home-matches-events .section-content ul li:nth-child(even) {
-        background-color: #121212; }
-      #route-view-home #home-matches-events .section-content ul li {
-        padding-left: 15px;
-        padding-right: 15px;
-        min-width: 100%;
-        padding-top: 15px;
-        padding-bottom: 15px;
-        display: inline-flex;
-        align-items: center;
-        align-content: center;
-        justify-content: space-between; }
   #route-view-home #home-members {
     border-bottom: 1px solid #454545; }
     #route-view-home #home-members .section-content {
@@ -2113,6 +2050,70 @@ footer#main-footer {
       #route-view-home #home-headlines .section-content .secondary-headline .paragraph, #route-view-home #home-headlines .section-content .primary-headline .paragraph {
         max-height: 65px;
         -webkit-line-clamp: 2; } }
+
+#home-matches-events .section-content {
+  display: flex;
+  justify-content: space-between; }
+  #home-matches-events .section-content > div {
+    max-width: calc(100% / 2 - 15px / 2);
+    min-width: calc(100% / 2 - 15px / 2); }
+  #home-matches-events .section-content .head {
+    margin-top: 0;
+    padding: 15px 15px 15px 15px;
+    border-bottom: 7.5px solid #f6a00c;
+    font-family: "Roboto", sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center; }
+    #home-matches-events .section-content .head .more-button {
+      background: none;
+      border: 1px solid white;
+      color: white !important;
+      border-radius: 2px;
+      height: 30px;
+      line-height: 30px;
+      padding-top: 0;
+      padding-bottom: 0; }
+    #home-matches-events .section-content .head .title {
+      margin-top: 0;
+      margin-bottom: 0;
+      color: white; }
+  #home-matches-events .section-content .game {
+    display: inline-block;
+    line-height: initial;
+    margin-right: 7.5px; }
+    #home-matches-events .section-content .game .more-button {
+      width: 60px;
+      min-width: 60px;
+      text-align: center; }
+  #home-matches-events .section-content .score {
+    font-size: 14px;
+    color: #f6a00c;
+    font-family: "Roboto", sans-serif;
+    font-weight: bold; }
+  #home-matches-events .section-content .date {
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+    padding-right: 0;
+    border: none;
+    text-align: right; }
+  #home-matches-events .section-content ul {
+    list-style-type: none;
+    padding: 0; }
+    #home-matches-events .section-content ul li:nth-child(even) {
+      background-color: #121212; }
+    #home-matches-events .section-content ul li {
+      padding-left: 15px;
+      padding-right: 15px;
+      min-width: 100%;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      display: inline-flex;
+      align-items: center;
+      align-content: center;
+      justify-content: space-between; }
 
 #route-view-product-list .container.product-list-container {
   min-height: 100%;

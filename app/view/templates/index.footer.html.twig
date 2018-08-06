@@ -1,6 +1,5 @@
 
 <footer id="main-footer">
-    <!-- row -->
     <div class="container-full footer-sponsors-container-full">
 		{% if Config.get('page_show_sponsors_bottom') == 1 %}
         {% include 'widget.sponsor.inline.html.twig'
@@ -13,21 +12,6 @@
         %}
 		{% endif%}
     </div>
-    <!-- row -->
-    
-    {#
-                                {
-                            title: 'social',
-                            links: [
-                                { title: 'facebook', url: 'https://facebook.com', blank: true },
-                                { title: 'youtube', url: 'https://youtube.com', blank: true},
-                                { title: 'instagram', url: 'https://instagram.com', blank: true },
-                                { title: 'twitter', url: 'https://twitter.com', blank: true },
-                                { title: 'twitch.tv', url: 'https://twitch.tv', blank: true },
-                            ]
-                        },
-    #}
-    
     <div  class="container-full footer-content-row">
         <div class="container site-map-container">
             {% include 'index.footer.sitemap.html.twig'
@@ -59,7 +43,6 @@
             {% include 'index.footer.brand.html.twig' %}
         </div>
     </div>
-    <!-- row -->
     <div class="container-full footer-bottom-row">
         {% include 'index.footer.infoline.html.twig' %}
     </div>

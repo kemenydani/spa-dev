@@ -26,6 +26,7 @@ class Squad extends Model
         'featured',
         'logo',
 		'position',
+        'description',
 	];
 
 	public function getMembers()
@@ -109,5 +110,10 @@ class Squad extends Model
     public function getPosition()
     {
         return $this->getProperty('position');
+    }
+
+    public function getDescription()
+    {
+        return $this->getProperty('description');
     }
 }

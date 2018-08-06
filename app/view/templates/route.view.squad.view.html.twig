@@ -27,6 +27,22 @@
             {% endfor %}
         </div>
     </div>
+    <!-- matches / events -->
+    <section id="home-matches-events" class="container-full">
+        <div class="section-header" style="text-align: center;">
+            <h2 class="route-section-header">ACTIVITY</h2>
+        </div>
+        <div class="container section-content">
+            <div class="matches bg-dark round-2 box-shadow-1">
+				{% include 'route.view.home.matches.html.twig' with { items: matches.getModels() } only %}
+            </div>
+            <div class="events bg-dark round-2 box-shadow-1">
+            
+            </div>
+        </div>
+    </section>
+
+    
     {#
     <div class="container-full squad-players-container-full">
         <h2 class="route-section-header">LAST MATCHES</h2>

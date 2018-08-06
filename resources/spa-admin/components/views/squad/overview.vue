@@ -15,6 +15,9 @@
 								<v-text-field label="Name" v-model="edit.item.name" required></v-text-field>
 							</v-flex>
 							<v-flex xs12>
+								<v-text-field textarea label="About" v-model="edit.item.description" required></v-text-field>
+							</v-flex>
+							<v-flex xs12>
 								<v-switch :true-value="'1'" :false-value="'0'" label="Active" v-model="edit.item.active"></v-switch>
 							</v-flex>
 							<v-flex xs12>
