@@ -37,7 +37,7 @@
 				{% include 'route.view.home.matches.html.twig' with { items: matches.getModels() } only %}
             </div>
             <div class="events bg-dark round-2 box-shadow-1">
-            
+				{% include 'route.view.home.events.html.twig' with { events : events.getModels() } only %}
             </div>
         </div>
     </section>

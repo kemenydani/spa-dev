@@ -26,6 +26,7 @@
 		  	.details {
 				padding-left: 40px;
 				flex: 1;
+				padding-bottom: 15px;
 				padding-right: 15px;
 				.name {
 					color: $primary;
@@ -55,7 +56,7 @@
 				display: flex;
 				align-content: flex-end;
 				align-items: flex-end;
-				padding: 0 10px 10px 10px;
+				padding: 0 15px 15px 15px;
 				color: $light;
 				text-transform: uppercase;
 				font-size: 16px;
@@ -70,11 +71,12 @@
 		}
 	}
  
-	@include mq('tablet', 'max')
+	@include mq('phone', 'max')
 	{
 		#member-list {
-			display: none;
+			//display: none;
 			.member {
+				padding-left: 0;
 				justify-content: center;
 				.details {
 				  	display: none;

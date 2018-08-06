@@ -4,6 +4,7 @@ namespace controllers;
 
 use models\Award;
 use models\AwardCollection;
+use models\EventCollection;
 use models\Match;
 use models\MatchCollection;
 use Slim\Http\Request;
@@ -26,25 +27,13 @@ class SquadController extends ViewController
         $q = 'SELECT * FROM `_xyz_match` WHERE squad_id = ? ORDER BY date_played DESC LIMIT 5';
         $matchCollection = MatchCollection::queryToCollection($q, $squad->getId());
 
-        foreach($matchCollection->getModels() as $match)
-        {
-
-
-        }
-
-        $q2 = 'SELECT * FROM `_xyz_award` WHERE squad_id = ? ORDER BY id DESC LIMIT 5';
-        $awardCollection = AwardCollection::queryToCollection($q2, $squad->getId());
-
-        foreach($awardCollection->getModels() as $award)
-        {
-
-
-        }
+        $q2 = 'SELECT * FROM _xyz_event ev LEFT JOIN _xyz_event_squad_pivot esp ON esp.event_id = ev.id WHERE esp.squad_id = ? ORDER BY id DESC LIMIT 5';
+        $eventCollection = EventCollection::queryToCollection($q2, $squad->getId());
 
 	    $this->view->render($response, 'route.view.squad.view.html.twig', [
 	        'squad' => $squad,
             'matches' => $matchCollection,
-            'awards' => $awardCollection,
+            'awards' => $eventCollection,
         ]);
     }
 }

@@ -402,9 +402,23 @@
 	.section-content {
 		display: flex;
 		justify-content: space-between;
+
+		.matches {
+			@include mq('tablet', 'max') {
+				margin-bottom: 15px;
+			}
+		}
+
+		@include mq('tablet', 'max') {
+			flex-direction: column;
+		}
 		> div {
 			max-width: calc(100% / 2 - 15px / 2);
 			min-width: calc(100% / 2 - 15px / 2);
+			@include mq('tablet', 'max') {
+				max-width: 100%;
+				min-width: 100%;
+			}
 		}
 
 		.head {

@@ -2054,9 +2054,19 @@ footer#main-footer {
 #home-matches-events .section-content {
   display: flex;
   justify-content: space-between; }
+  @media only screen and (max-width: 767px) {
+    #home-matches-events .section-content .matches {
+      margin-bottom: 15px; } }
+  @media only screen and (max-width: 767px) {
+    #home-matches-events .section-content {
+      flex-direction: column; } }
   #home-matches-events .section-content > div {
     max-width: calc(100% / 2 - 15px / 2);
     min-width: calc(100% / 2 - 15px / 2); }
+    @media only screen and (max-width: 767px) {
+      #home-matches-events .section-content > div {
+        max-width: 100%;
+        min-width: 100%; } }
   #home-matches-events .section-content .head {
     margin-top: 0;
     padding: 15px 15px 15px 15px;
@@ -2894,6 +2904,7 @@ background: $lightGrey;
     #route-view-squad-view #member-list .member .details {
       padding-left: 40px;
       flex: 1;
+      padding-bottom: 15px;
       padding-right: 15px; }
       #route-view-squad-view #member-list .member .details .name {
         color: #f6a00c; }
@@ -2918,7 +2929,7 @@ background: $lightGrey;
       display: flex;
       align-content: flex-end;
       align-items: flex-end;
-      padding: 0 10px 10px 10px;
+      padding: 0 15px 15px 15px;
       color: white;
       text-transform: uppercase;
       font-size: 16px; }
@@ -2928,13 +2939,12 @@ background: $lightGrey;
         height: 30px;
         line-height: 30px;
         text-align: center; }
-@media only screen and (max-width: 767px) {
-  #route-view-squad-view #member-list {
-    display: none; }
-    #route-view-squad-view #member-list .member {
-      justify-content: center; }
-      #route-view-squad-view #member-list .member .details {
-        display: none; } }
+@media only screen and (max-width: 399px) {
+  #route-view-squad-view #member-list .member {
+    padding-left: 0;
+    justify-content: center; }
+    #route-view-squad-view #member-list .member .details {
+      display: none; } }
 @media only screen and (max-width: 1099px) {
   #route-view-squad-view #member-list .member {
     max-width: 100% !important;
