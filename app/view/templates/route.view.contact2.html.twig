@@ -6,8 +6,13 @@
         <div class="container-full route-header" style="background-image: url(static/images/route_header.jpg)">
             <span><h1 class="title bg-text uc-text">CONTACT AVENUE</h1></span>
         </div>
-        <div class="container bg-light pad-2x box-shadow-1 round-2 about-view-container" id="about-view">
-            <p class="paragraph big-p">{{ text|raw  }}</p>
+        <style>
+            #contact-view p {
+                font-size: 16px;
+            }
+        </style>
+        <div class="container bg-light pad-2x box-shadow-1 round-2 about-view-container" id="contact-view">
+            {{ text|raw  }}
         </div>
     </div>
 
