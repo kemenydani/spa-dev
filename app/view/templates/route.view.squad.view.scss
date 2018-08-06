@@ -1,5 +1,7 @@
 #route-view-squad-view {
+
   	.squad-view-route-header {
+		height: 400px;
 		> span {
 			position: relative;
 			z-index: 1;
@@ -9,6 +11,12 @@
 		  	top: 0;right: 0;bottom: 0;left: 0;
 		  	z-index: 0;
 	  	}
+		.container.squad-description {
+			@include mq('tablet', 'max')
+			{
+				display: none !important;
+			}
+		}
 	}
  
 	#member-list {

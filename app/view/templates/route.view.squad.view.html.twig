@@ -6,6 +6,9 @@
     <div class="container-full route-header squad-view-route-header">
         <span>
            <h1 class="title bg-text uc-text">{{ squad.getName() }}</h1>
+            <div class="container squad-description" style="max-width: 75%; margin-top: 30px">
+                <p class="bg-text bg-dark" style="line-height: 30px; background-color: black;">{{ squad.getDescription() }}</p>
+            </div>
         </span>
        <div class="bg-image bg bg-centered bg-cover bg-grayed" style="background-image: url({{ squad.requestHeaderImage() }})"></div>
     </div>

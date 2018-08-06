@@ -104,9 +104,9 @@
                         ">
                         <div class="memberInfo">
                             <a href="/profile/{{ trendingMember.getUser().getUsername() }}" class="bg-text bg-primary">
-                                {% if trendingMember.getUser().getFirstName() %}{{ trendingMember.getUser().getFirstName() }}&nbsp;"{% endif %}
+                                {% if trendingMember.getUser().getFirstName() %}{{ trendingMember.getUser().getFirstName() }}&nbsp;{% endif %}
                                 <span>{{ trendingMember.getName() }}</span>
-                                {% if trendingMember.getUser().getLastName() %}"&nbsp;{{ trendingMember.getUser().getLastName() }}{% endif %}
+                                {% if trendingMember.getUser().getLastName() %}&nbsp;{{ trendingMember.getUser().getLastName() }}{% endif %}
                             </a>
                         </div>
                     </div>

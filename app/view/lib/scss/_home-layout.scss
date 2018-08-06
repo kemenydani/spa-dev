@@ -135,7 +135,9 @@
 	  }
 	  .featured-content {
 		  margin-bottom: 15px;
+
 		  .wrapper {
+			  min-height: 370px;
 			  height: calc(100% - 15px);
 			  position: relative;
 			  display: flex;
