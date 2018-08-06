@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+use core\Config;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use core\Session;
@@ -10,6 +11,14 @@ use core\Mail;
 
 class ContactController extends ViewController
 {
+
+    public function index( Request $request, Response $response)
+    {
+        // TODO:: db query page settings and get about
+
+        $this->view->render($response, 'route.view.contact2.html.twig', ['text' => Config::instance()->get('page_contact_details', '')]);
+    }
+    /*
     public function index ( Request $request, Response $response )
     {
         if(!Session::exists('token')) Session::put('token', bin2hex(random_bytes(32)));
@@ -18,7 +27,7 @@ class ContactController extends ViewController
 
         $this->view->render($response, 'route.view.contact.html.twig', ['token' => $token]);
     }
-
+*/
     public function contactMessageSent(Request $request, Response $response)
     {
         $this->view->render($response, 'route.view.contact.sent.html.twig');
