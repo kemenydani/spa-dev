@@ -214,9 +214,6 @@
 				},
 			}
 		},
-		mounted(){
-		    console.log(this.$validator)
-		},
 		watch : {
 			'edit.dialog' : {
 				handler : function() {

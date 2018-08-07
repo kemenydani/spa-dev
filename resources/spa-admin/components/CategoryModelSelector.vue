@@ -30,9 +30,6 @@
 				baseQuery : { context : this.context }
 			}
 		},
-		created(){
-		    console.log(this.validator)
-		}
 	}
 </script>
 
