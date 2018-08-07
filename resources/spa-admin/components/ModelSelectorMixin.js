@@ -3,6 +3,12 @@ import ModelSelector from './ModelSelector';
 export default {
 	components: { ModelSelector },
 	props: {
+		// VeeValidate props
+		vValidationRules : {
+			type: String,
+			required: false,
+		},
+		// self props
 		value : {
 			required : true
 		},

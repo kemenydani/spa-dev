@@ -213,14 +213,18 @@ abstract class ModelController implements ModelControllerInterface
 		}
 		
 		if($search) {
+            if(strlen($where) === 0) $where .= ' WHERE  ';
 			$searchColumns = $this->Model->getSearchColumns();
+			$rules = [];
 			foreach($searchColumns as $key => $column){
-				$where .= " AND {$column} LIKE '%{$search}%'";
+			    $rules[] = "{$column} LIKE '%{$search}%'";
 			}
+
+			$where .= implode(" OR ", $rules);
 		}
-		
+
 		$q = " SELECT * FROM " . $this->Model::getTable() . $where;
-		
+        //return $response->withJson( $q );
 		if($limit) $q .= ' LIMIT ' . $limit;
 		
 		/* @var Model[] $Models */
@@ -230,7 +234,7 @@ abstract class ModelController implements ModelControllerInterface
 		
 		/* @var Model $Model */
 		foreach( $Models as $Model ) $data[] = $Model->getProperties();
-		
+
 		return $response->withJson( $data );
 	}
 

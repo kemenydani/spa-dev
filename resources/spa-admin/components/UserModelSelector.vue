@@ -9,6 +9,7 @@
 		:baseQuery="baseQuery"
 		:autoComplete="autoComplete"
 		@input="selection"
+		:vValidationRules="vValidationRules"
 	>
 	</model-selector>
 </template>

@@ -1,13 +1,37 @@
 <template>
-	<v-select :label="label" @input="selection" :multiple="multiple" :search-input.sync="search" :items="items" :value="value" :autocomplete="autoComplete"></v-select>
+	<v-select
+			:label="label"
+			:multiple="multiple"
+			:search-input.sync="search"
+			:items="items"
+			:value="value"
+			:autocomplete="autoComplete"
+			
+			v-validate="vValidationRules"
+			:error-messages="errors.collect('select')"
+			data-vv-name="select"
+			
+			@input="selection">
+	</v-select>
 </template>
 
 <script>
+	
+	//import ModelSelectorMixin from './ModelSelectorMixin';
+	
 	export default {
+		$_veeValidate: {
+			validator: 'new'
+		},
+	  //	mixins: [ModelSelectorMixin],
 		name: "ModelSelector",
 		props: {
-			value : {
-				required: true,
+			// VeeValidate props
+			//
+			value : null,
+			vValidationRules : {
+				type: String,
+				required: false,
 			},
 			label: {
 				type: String,
@@ -42,7 +66,7 @@
 			model : {
 				type: Function,
 				required : true
-			}
+			},
 		},
 		data: () => {
 			return {
@@ -57,6 +81,12 @@
 				handler: function(v) {
 					this.fetchLazy()
 				}
+			},
+			value : {
+				handler : function(v) {
+					this.$validator.reset()
+				},
+				deep: true
 			}
 		},
 		methods : {
@@ -83,8 +113,5 @@
 				this.$emit('input', item)
 			}
 		},
-		created() {
-			this.fetchModels();
-		}
 	}
 </script>

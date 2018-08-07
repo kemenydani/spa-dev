@@ -8,7 +8,6 @@
 				fullscreen
 				hide-overlay
 				transition="dialog-bottom-transition"
-
 		>
 			<v-card tile>
 				<v-toolbar card dark color="primary">
@@ -27,7 +26,15 @@
 				</v-toolbar>
 				<v-card-text style="min-height: 100% !important; position: relative !important;">
 					<div style="max-width: 1140px; margin: 0px auto;">
-						<v-text-field :textarea="true" :rows="3" v-model="compose.item.teaser"></v-text-field>
+						<v-text-field
+								v-validate="'required|max:600'"
+								:error-messages="errors.collect('teaser')"
+								:counter="600"
+								data-vv-name="teaser"
+								:textarea="true"
+								:rows="3"
+								v-model="compose.item.teaser">
+						</v-text-field>
 						<vue-editor id="editor" v-model="compose.item.content"></vue-editor>
 					</div>
 				</v-card-text>
@@ -79,7 +86,15 @@
 					<v-container grid-list-md>
 						<v-layout wrap>
 							<v-flex xs12>
-								<v-text-field label="Title" v-model="edit.item.title" required></v-text-field>
+								<v-text-field
+										v-validate="'required|max:200'"
+										:error-messages="errors.collect('title')"
+										:counter="200"
+										data-vv-name="title"
+										label="Title"
+										v-model="edit.item.title"
+										required>
+								</v-text-field>
 							</v-flex>
 							<v-flex xs12>
 								<v-switch :true-value="'1'" :false-value="'0'" label="Active" v-model="edit.item.active"></v-switch>
@@ -91,7 +106,12 @@
 								<v-switch :true-value="'1'" :false-value="'0'" label="Commentable" v-model="edit.item.comments_enabled"></v-switch>
 							</v-flex>
 							<v-flex xs12>
-								<CategoryModelSelector v-model="edit.item.categories" :multiple="true" label="Select Category"></CategoryModelSelector>
+								<CategoryModelSelector
+										:vValidationRules="'required'"
+										v-model="edit.item.categories"
+										:multiple="true"
+										label="Select Category">
+								</CategoryModelSelector>
 							</v-flex>
 							<v-flex xs12>
 								<EventModelSelector v-model="edit.item.event_id" label="Select Event"></EventModelSelector>
@@ -108,68 +128,18 @@
 			</v-card>
 		</v-dialog>
 		
-		<v-dialog v-model="pageHint" max-width="600">
-			<v-card>
-				<v-card-title class="headline">Help</v-card-title>
-				<v-card-text>
-					<h3>How to delete?</h3>
-					<p>
-						Select the user(s) you want to delete with using the checkboxes on the left side, then select the delete action from the action dropdown.
-					</p>
-					<h3>How to modify?</h3>
-					<p>
-						Click the pencil icon in the rows and the user editor opens in a separate dialog.
-					</p>
-					<h3>How to change password?</h3>
-					<p>
-						By security reasons, admins are not allowed to change anyone's password. The users need to do it themselves. <br>
-						Users can reset / change their password using the forgot password page.<br>
-						After changing password, the user needs to accept it via email to take effect.<br>
-						If someone asks you to change his password, tell him his email instead and he can do it himself.<br>
-					</p>
-				</v-card-text>
-				<v-card-actions>
-					<v-spacer></v-spacer>
-					<v-btn color="blue" flat="flat" @click.native="pageHint  = false">close</v-btn>
-				</v-card-actions>
-			</v-card>
-		</v-dialog>
-		
-		<v-speed-dial
+		<v-btn
 				v-model="fab"
+				color="primary"
 				:bottom="true"
 				:right="true"
 				:direction="'top'"
+				@click="addModel"
 				fixed
+				fab
 		>
-			<v-btn
-					slot="activator"
-					v-model="fab"
-					color="amber"
-					dark
-					fab
-			>
-				<v-icon>add</v-icon>
-			</v-btn>
-			<v-btn
-					@click="pageHint = true"
-					fab
-					color="blue"
-					dark
-					small
-			>
-				<v-icon>help</v-icon>
-			</v-btn>
-			<v-btn
-					@click="addModel"
-					fab
-					color="success"
-					dark
-					small
-			>
-				<v-icon>library_add</v-icon>
-			</v-btn>
-		</v-speed-dial>
+			<v-icon>add</v-icon>
+		</v-btn>
 		
 	</v-content>
 </template>
@@ -184,6 +154,9 @@
     import { VueEditor, Quill } from 'vue2-editor'
 
 	export default {
+		$_veeValidate: {
+			validator: 'new'
+		},
 		components: { VueEditor, DataModelManager, CategoryModelSelector, ArticleImageUploadManager, EventModelSelector },
 		data() {
 			return {
@@ -238,6 +211,20 @@
 					],
 					model: new Article()
 				},
+			}
+		},
+		watch : {
+			'edit.dialog' : {
+				handler : function() {
+					this.$validator.reset()
+				},
+				deep: true
+			},
+			'compose.dialog' : {
+				handler : function() {
+					this.$validator.reset()
+				},
+				deep: true
 			}
 		},
 		methods : {

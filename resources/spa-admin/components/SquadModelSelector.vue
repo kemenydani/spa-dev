@@ -8,6 +8,7 @@
 		:value="value"
 		:baseQuery="baseQuery"
 		:autoComplete="autoComplete"
+		:vValidationRules="vValidationRules"
 		@input="selection"
 	>
 	</model-selector>

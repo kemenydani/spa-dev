@@ -12,19 +12,47 @@
 					<v-container grid-list-md>
 						<v-layout wrap>
 							<v-flex xs12>
-								<UserModelSelector v-model="edit.item.user_id" :auto-complete="true" label="Select User"></UserModelSelector>
+								<UserModelSelector
+										v-model="edit.item.user_id"
+										:auto-complete="true"
+										label="Select User">
+								</UserModelSelector>
 							</v-flex>
 							<v-flex xs12>
-								<v-text-field label="Name" v-model="edit.item.name" required></v-text-field>
+								<v-text-field
+										v-validate="'required|max:40'"
+										:error-messages="errors.collect('name')"
+										:counter="40"
+										data-vv-name="name"
+										label="Name"
+										v-model="edit.item.name"
+										required>
+								</v-text-field>
 							</v-flex>
 							<v-flex xs12>
-								<v-text-field label="Position" v-model="edit.item.position"></v-text-field>
+								<v-text-field
+										v-validate="'required|max:40'"
+										:error-messages="errors.collect('position')"
+										:counter="50"
+										data-vv-name="position"
+										label="Position"
+										v-model="edit.item.position">
+								</v-text-field>
 							</v-flex>
 							<v-flex xs12>
 								<SquadModelSelector v-model="edit.item.squad_id" label="Select Squad"></SquadModelSelector>
 							</v-flex>
 							<v-flex xs12>
-								<v-text-field :textarea="true"  :rows="3" v-model="edit.item.description"></v-text-field>
+								<v-text-field
+										v-validate="'required|max:300'"
+										:error-messages="errors.collect('description')"
+										:counter="300"
+										data-vv-name="description"
+										:textarea="true"
+										placeholder="About this member"
+										:rows="3"
+										v-model="edit.item.description">
+								</v-text-field>
 							</v-flex>
 							<v-flex xs12>
 								<v-switch :true-value="'1'" :false-value="'0'" label="Active" v-model="edit.item.active"></v-switch>
@@ -73,69 +101,19 @@
 			</v-card>
 		</v-dialog>
 		
-		<v-dialog v-model="pageHint" max-width="600">
-			<v-card>
-				<v-card-title class="headline">Help</v-card-title>
-				<v-card-text>
-					<h3>How to delete?</h3>
-					<p>
-						Select the user(s) you want to delete with using the checkboxes on the left side, then select the delete action from the action dropdown.
-					</p>
-					<h3>How to modify?</h3>
-					<p>
-						Click the pencil icon in the rows and the user editor opens in a separate dialog.
-					</p>
-					<h3>How to change password?</h3>
-					<p>
-						By security reasons, admins are not allowed to change anyone's password. The users need to do it themselves. <br>
-						Users can reset / change their password using the forgot password page.<br>
-						After changing password, the user needs to accept it via email to take effect.<br>
-						If someone asks you to change his password, tell him his email instead and he can do it himself.<br>
-					</p>
-				</v-card-text>
-				<v-card-actions>
-					<v-spacer></v-spacer>
-					<v-btn color="blue" flat="flat" @click.native="pageHint  = false">close</v-btn>
-				</v-card-actions>
-			</v-card>
-		</v-dialog>
-		
-		<v-speed-dial
+		<v-btn
 				v-model="fab"
+				color="primary"
 				:bottom="true"
 				:right="true"
 				:direction="'top'"
+				@click="addModel"
 				fixed
+				fab
 		>
-			<v-btn
-					slot="activator"
-					v-model="fab"
-					color="amber"
-					dark
-					fab
-			>
-				<v-icon>add</v-icon>
-			</v-btn>
-			<v-btn
-					@click="pageHint = true"
-					fab
-					color="blue"
-					dark
-					small
-			>
-				<v-icon>help</v-icon>
-			</v-btn>
-			<v-btn
-					@click="addModel"
-					fab
-					color="success"
-					dark
-					small
-			>
-				<v-icon>library_add</v-icon>
-			</v-btn>
-		</v-speed-dial>
-	
+			<v-icon>add</v-icon>
+		</v-btn>
+		
 	</v-content>
 </template>
 
@@ -148,6 +126,9 @@
 	import SquadMemberImageUploadManager from '../../SquadMemberImageUploadManager'
 
 	export default {
+		$_veeValidate: {
+			validator: 'new'
+		},
 		components: { DataModelManager, SquadModelSelector, UserModelSelector, SquadMemberImageUploadManager },
 		data() {
 			return {
@@ -159,16 +140,16 @@
 					title : 'Manage',
 					dialog: false
 				},
-                compose : {
-                    item : {},
-                    title : 'Members',
-                    dialog: false
-                },
-                image : {
-                    img : null,
-                    item : {},
-                    dialog: false
-                },
+        compose : {
+            item : {},
+            title : 'Members',
+            dialog: false
+        },
+        image : {
+            img : null,
+            item : {},
+            dialog: false
+        },
 				table: {
 					actions : ['delete','activate', 'deactivate'],
 					rowActions : [
@@ -201,19 +182,27 @@
 				},
 			}
 		},
+		watch : {
+			'edit.dialog' : {
+				handler : function() {
+					this.$validator.reset()
+				},
+				deep: true
+			}
+		},
 		methods : {
-            imageUploaded( images, model ){
-                this.$app.$emit('tableFetchData', true,  () => {
-
-                    let image = images[0];
-
-                    if(image)
-                    {
-                        this.image.item.imageDataUrl = image[Object.keys(image)[0]].encoded;
-                    }
-                });
-                //this.image.imageDataUrl
-            },
+	    imageUploaded( images, model ){
+	        this.$app.$emit('tableFetchData', true,  () => {
+	
+	            let image = images[0];
+	
+	            if(image)
+	            {
+	                this.image.item.imageDataUrl = image[Object.keys(image)[0]].encoded;
+	            }
+	        });
+	        //this.image.imageDataUrl
+	    },
 			tableFetchData(){
 				this.$app.$emit('tableFetchData');
 			},
