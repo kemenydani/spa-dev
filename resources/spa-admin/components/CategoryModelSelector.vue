@@ -10,6 +10,7 @@
 		:autoComplete="autoComplete"
 		@input="selection"
 		:vValidationRules="vValidationRules"
+		:validator="validator"
 	>
 	</model-selector>
 </template>
@@ -28,6 +29,9 @@
 				model : Category,
 				baseQuery : { context : this.context }
 			}
+		},
+		created(){
+		    console.log(this.validator)
 		}
 	}
 </script>
