@@ -260,8 +260,8 @@
 				this.edit.dialog = true;
 				this.edit.item = Object.assign({}, article);
 			},
-			saveCloseModel( model, dialog ){
-
+			saveCloseModel( model, dialog )
+			{
                 if(!this.$validator.validate()) return false;
 
 				this.$app.$emit('toast', 'Saving...', 'info');
