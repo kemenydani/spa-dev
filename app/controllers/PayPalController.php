@@ -133,9 +133,9 @@ class PayPalController extends ViewController
 
             try {
                 $mail = new Mail();
-                $mail->setFrom('admin@webdevplace.com', 'Avenue Esports Shop');
+                $mail->setFrom(getConfig('organisation.email'), getConfig('organisation.name') . ' shop');
                 $mail->Subject = 'Payment completed';
-                $mail->addAddress('kemenydani93@gmail.com', 'Customer');
+                $mail->addAddress($postData['payer_email'], 'Customer');
                 $mail->Body = $body;
                 $mail->send();
             } catch( \Exception $e ){
