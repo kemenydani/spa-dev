@@ -1,7 +1,5 @@
 <?php
 
-
-
 ini_set('file_uploads', 'On');
 ini_set('post_max_size', '100M');
 ini_set('upload_max_filesize', '100M');
@@ -12,7 +10,7 @@ ini_set('max_input_time', '120');
 error_reporting(E_ALL);
 session_start();
 
-define('__DEBUG__', true );
+define('__DEBUG__', false );
 
 define('__ROOT__', realpath(dirname(__FILE__) . '/..'));
 define('__PUBDIR__',  __ROOT__    . '/public' );

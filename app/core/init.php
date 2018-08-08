@@ -16,13 +16,12 @@ $configuration = [
     ],
     'view' => function( $container ) {
 
-        $cacheDir = __DEBUG__ ? false : __ROOT__ . '/storage/cache/';
-
+        $cacheDir = __DEBUG__ ? '' : __ROOT__ . '/storage/cache/';
         //TODO:: enable caching
         $settings = [
             'cache' => $cacheDir
         ];
-        
+
         $view = new \Slim\Views\Twig( __APPDIR__ . '/view/templates', $settings );
 
         $view->getEnvironment()->addGlobal('isLogged', Auth::isLoggedIn());
