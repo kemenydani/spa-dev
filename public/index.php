@@ -1,5 +1,7 @@
 <?php
 
+
+
 ini_set('file_uploads', 'On');
 ini_set('post_max_size', '100M');
 ini_set('upload_max_filesize', '100M');
@@ -7,7 +9,7 @@ ini_set('memory_limit', '200M');
 ini_set('max_file_uploads', '100');
 ini_set('max_input_time', '120');
 
-error_reporting(0);
+error_reporting(E_ALL);
 session_start();
 
 define('__DEBUG__', true );
@@ -26,4 +28,5 @@ if( __DEBUG__ ) error_reporting(E_ALL);
 require_once __ROOT__   . '/vendor/autoload.php';
 require_once __APPDIR__ . '/assets/helpers.php';
 require_once __APPDIR__ . '/assets/db_config.php';
+
 require_once __APPDIR__ . '/core/init.php';
