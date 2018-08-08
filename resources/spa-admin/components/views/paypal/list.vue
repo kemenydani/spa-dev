@@ -59,7 +59,7 @@
 				<v-card-actions>
 					<v-spacer></v-spacer>
 					<v-btn color="blue darken-1" flat @click.native="view.dialog = false">Close</v-btn>
-					<v-btn color="blue darken-1" flat @click.native="saveCloseModel(view.item);">Save</v-btn>
+					<v-btn color="blue darken-1" flat @click.native="saveCloseModel(view.item); edit.dialog = false;">Save</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>

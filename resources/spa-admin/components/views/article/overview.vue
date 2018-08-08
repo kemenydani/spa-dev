@@ -27,10 +27,6 @@
 				<v-card-text style="min-height: 100% !important; position: relative !important;">
 					<div style="max-width: 1140px; margin: 0px auto;">
 						<v-text-field
-								v-validate="'required|max:600'"
-								:error-messages="errors.collect('teaser')"
-								:counter="600"
-								data-vv-name="teaser"
 								:textarea="true"
 								:rows="3"
 								v-model="compose.item.teaser">
@@ -124,7 +120,7 @@
 				<v-card-actions>
 					<v-spacer></v-spacer>
 					<v-btn color="blue darken-1" flat @click.native="edit.dialog = false">Close</v-btn>
-					<v-btn color="blue darken-1" flat @click.native="saveCloseModel(edit.item);">Save</v-btn>
+					<v-btn color="blue darken-1" flat @click.native="saveCloseModel(edit.item); edit.dialog = false;">Save</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -262,25 +258,23 @@
 			},
 			saveCloseModel( model, dialog )
 			{
-                if(!this.$validator.validate()) return false;
-
-				this.$app.$emit('toast', 'Saving...', 'info');
-				this.storeModel( model )
-					.then((response) => {
-						if(response.success) {
-							this.$app.$emit('toast', 'Saved : ' + response.data.title  , 'success');
-						} else {
-							this.$app.$emit('toast', 'Save failed: ' + response.data.title, 'error');
-						}
-					})
-					.catch( (error) => {
-					
-					})
-					.finally(() => {
-						this.edit.item = {};
-						this.tableFetchData();
-					});
-					dialog = false;
+					this.$app.$emit('toast', 'Saving...', 'info');
+					this.storeModel( model )
+						.then((response) => {
+							if(response.success) {
+								this.$app.$emit('toast', 'Saved : ' + response.data.title  , 'success');
+							} else {
+								this.$app.$emit('toast', 'Save failed: ' + response.data.title, 'error');
+							}
+						})
+						.catch( (error) => {
+						
+						})
+						.finally(() => {
+							this.edit.item = {};
+							this.tableFetchData();
+						});
+						dialog = false;
 			},
 			storeModel( article ){
 				return (new Article).store( article )

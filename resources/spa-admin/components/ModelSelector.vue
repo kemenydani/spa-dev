@@ -20,16 +20,19 @@
 	//import ModelSelectorMixin from './ModelSelectorMixin';
 	
 	export default {
-        $_veeValidate: {
-            validator: this.validator
-        },
+		
+      $_veeValidate: {
+          validator: this.validator
+      },
 	  //	mixins: [ModelSelectorMixin],
-		name: "ModelSelector",
-		props: {
+			name: "ModelSelector",
+			props: {
 			// VeeValidate props
 			//
 			validator: null,
-			value : null,
+			value : {
+				required : true
+			},
 			vValidationRules : {
 				type: String,
 				required: false,
@@ -68,9 +71,6 @@
 				type: Function,
 				required : true
 			},
-		},
-		beforeCreate(){
-		   // this.$validator = this.validator;
 		},
 		data: () => {
 			return {
@@ -117,5 +117,8 @@
 				this.$emit('input', item)
 			}
 		},
+		created(){
+			this.fetchModels()
+		}
 	}
 </script>
