@@ -17,6 +17,7 @@ $configuration = [
     'view' => function( $container ) {
 
         $cacheDir = __DEBUG__ ? '' : __ROOT__ . '/storage/cache/';
+
         //TODO:: enable caching
         $settings = [
             'cache' => $cacheDir
