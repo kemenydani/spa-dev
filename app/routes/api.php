@@ -77,7 +77,8 @@ $app->group('/api', function ()
             return ImageUploadController::upload($request, $response, Article::IMAGE_PATH, function($fileName) use ($Article, $oldPath)
             {
                 if(isWritableFile($oldPath) && isReadableFile($oldPath)) unlink(realpath($oldPath));
-            }, true);
+                return '/article_context/' .$fileName;
+            }, true, 'context');
         });
 	});
 

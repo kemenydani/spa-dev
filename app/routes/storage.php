@@ -46,6 +46,16 @@ $app->get('/article_headline/[{filename}]', function( Request $request, Response
     return modelImageResponse($response,__NOIMAGE__ . DIRECTORY_SEPARATOR . 'no-image-grey-cross.jpg' );
 });
 
+$app->get('/article_context/[{filename}]', function( Request $request, Response $response, $args ) : Response
+{
+    if(!empty($args['filename']))
+    {
+        $path = Article::getRealImagePath($args['filename']);
+        if(isReadableFile($path)) return modelImageResponse($response, $path);
+    }
+    //return modelImageResponse($response,__NOIMAGE__ . DIRECTORY_SEPARATOR . 'no-image-grey-cross.jpg' );
+});
+
 $app->get('/enemy_team_logo/[{filename}]', function( Request $request, Response $response, $args ) : Response
 {
     if(!empty($args['filename']))

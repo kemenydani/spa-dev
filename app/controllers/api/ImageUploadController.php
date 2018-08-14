@@ -12,7 +12,7 @@ class ImageUploadController
     static $format = 'jpg';
     static $unique = false;
 
-    public static function upload(Request $request, Response $response, $destinationPath = null, $callback, $returnUrl = false )
+    public static function upload(Request $request, Response $response, $destinationPath = null, $callback, $returnUrl = false, $prefix = null )
     {
         $files = $request->getUploadedFiles();
 
@@ -31,6 +31,8 @@ class ImageUploadController
 
             $fileName = $unique . '_' . md5(sanitize($basename, true, true)) . "." . static::$format;
 
+            if($prefix) $fileName = $prefix . '_' . $fileName;
+
             $img = $ImageManager->make($uploadedFile->getStream());
 
             $img->interlace(true);
@@ -45,14 +47,14 @@ class ImageUploadController
                 continue;
             }
 
-            $savedPath = $callback($fileName);
+            $payload = $callback($fileName);
 
             $img->encode('data-url');
             $images[$name]['file_name'] = $fileName;
             $images[$name]['encoded'] = $img->getEncoded();
         }
 
-        if($returnUrl) return $response->withStatus(200)->withJson(['url' => $finalPath]);
+        if($returnUrl) return $response->withStatus(200)->withJson(['url' => $payload]);
 
         return $response->withStatus(200)->withJson($images);
     }
