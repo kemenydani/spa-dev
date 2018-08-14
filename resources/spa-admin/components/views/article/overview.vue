@@ -293,7 +293,7 @@
                 formData.append('image', file)
 
                 this.axios({
-                    url: 'api/article/uploadArticleImage?id=' + this.compose.item.id,
+                    url: 'api/article/uploadArticleContentImage?id=' + this.compose.item.id,
                     method: 'POST',
                     data: formData
                 })

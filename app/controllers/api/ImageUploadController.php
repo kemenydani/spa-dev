@@ -12,7 +12,7 @@ class ImageUploadController
     static $format = 'jpg';
     static $unique = false;
 
-    public static function upload(Request $request, Response $response, $destinationPath = null, $callback )
+    public static function upload(Request $request, Response $response, $destinationPath = null, $callback, $returnUrl = false )
     {
         $files = $request->getUploadedFiles();
 
@@ -52,6 +52,9 @@ class ImageUploadController
             $images[$name]['encoded'] = $img->getEncoded();
         }
 
+        if($returnUrl) return $response->withStatus(200)->withJson(['url' => $finalPath]);
+
         return $response->withStatus(200)->withJson($images);
     }
+
 }

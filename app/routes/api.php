@@ -63,6 +63,22 @@ $app->group('/api', function ()
                 $Article->save();
             });
         });
+
+        $this->post('/uploadArticleContentImage', function(Request $request, Response $response)
+        {
+            $id = $request->getQueryParam('id');
+            /* @var Article $Article */
+            $Article = Article::find($id);
+
+            ImageUploadController::$unique = true;
+
+            $oldPath = Article::IMAGE_PATH . DIRECTORY_SEPARATOR . $Article->getHeadlineImage();
+
+            return ImageUploadController::upload($request, $response, Article::IMAGE_PATH, function($fileName) use ($Article, $oldPath)
+            {
+                if(isWritableFile($oldPath) && isReadableFile($oldPath)) unlink(realpath($oldPath));
+            }, true);
+        });
 	});
 
     $this->group('/gallery', function()
