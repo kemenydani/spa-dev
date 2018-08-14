@@ -31,7 +31,12 @@
 								:rows="3"
 								v-model="compose.item.teaser">
 						</v-text-field>
-						<vue-editor id="editor" v-model="compose.item.content"></vue-editor>
+						<vue-editor
+								id="editor"
+								useCustomImageHandler
+								@imageAdded="handleImageAdded"
+								v-model="compose.item.content">
+						</vue-editor>
 					</div>
 				</v-card-text>
 				<div style="flex: 1 1 auto;"></div>
@@ -278,7 +283,29 @@
 			},
 			storeModel( article ){
 				return (new Article).store( article )
-			}
+			},
+            handleImageAdded(file, Editor, cursorLocation, resetUploader) {
+                // An example of using FormData
+                // NOTE: Your key could be different such as:
+                // formData.append('file', file)
+
+                var formData = new FormData();
+                formData.append('image', file)
+
+                this.axios({
+                    url: 'api/article/uploadArticleImage?id=' + this.edit.item.id,
+                    method: 'POST',
+                    data: formData
+                })
+				.then((result) => {
+					let url = result.data.url // Get url from response
+					Editor.insertEmbed(cursorLocation, 'image', url);
+					resetUploader();
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+            }
 		}
 
 	}
