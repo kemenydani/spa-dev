@@ -1,7 +1,5 @@
 <?php
 
-use core\Mail;
-
 ini_set('file_uploads', 'On');
 ini_set('post_max_size', '100M');
 ini_set('upload_max_filesize', '100M');
@@ -32,18 +30,28 @@ require_once __APPDIR__ . '/assets/db_config.php';
 require_once __APPDIR__ . '/core/init.php';
 
 /*
-$body = "test email";
+$body = "
+			<b>Dear ".$username."!</b>
+			<br>
+		    There was a password change request on our website.<br>
+			If it was you, please click <a href=".$activationLink.">here to activate</a> your new password (".$password.").<br>
+			If not, perhaps someone tried to steal your account. In this case, please inform or admin team.<br><br>
+		    Best Regards,<br>
+			".getConfig('organisation.name').";";
 
-error_reporting(0);
-$mail = new Mail();
-$mail->SMTPDebug = true;
-$mail->setFrom(getConfig('organisation.noreply'), 'Avenue Esports');
-$mail->Subject = 'test email';
-$mail->addAddress('kemenydani93@gmail.com', 'Daniel');
-$mail->Body = $body;
-if($mail->send()){
-    echo 'sent';
-} else {
-    var_dump($mail->ErrorInfo);
-};
+try {
+    error_reporting(0);
+    $mail = new Mail();
+    $mail->setFrom(getConfig('organisation.noreply'), 'Avenue Esports');
+    $mail->Subject = 'Password change request activation';
+    // TODO: change this to real email
+    $mail->addAddress($User->getEmail(), $username);
+    $mail->Body = $body;
+    $mail->send();
+
+}
+catch(\Exception $e)
+{
+    $errors['email'] = 'Failed to send activation email. Please contact an administrator to activate your request manually.';
+}
 */
