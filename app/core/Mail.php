@@ -11,7 +11,7 @@ class Mail extends PHPMailer
 		parent::__construct($exceptions);
 		
 		$this->isHTML(true);
-		$this->SMTPDebug = 0;
+		$this->SMTPDebug = false;
 
         $this->isSMTP();  // Set mailer to use SMTP
         $this->Host       = getConfig('noreply.smtp.hosts');  // Specify main and backup SMTP servers
