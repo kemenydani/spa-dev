@@ -285,9 +285,10 @@ class AuthController extends ViewController
         try {
 	        error_reporting(0);
 	        $mail = new Mail();
+            $mail->SMTPDebug = false;
 	        $mail->setFrom(getConfig('organisation.noreply'), 'Avenue Esports');
 	        $mail->Subject = 'Registration completed';
-	        $mail->addAddress($email, $username);
+	        $mail->addAddress((string)$email, (string)$username);
 	        $mail->Body = $body;
 	        //$mail->AltBody = $body';
 	        $mail->send();
