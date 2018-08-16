@@ -174,7 +174,7 @@ class AuthController extends ViewController
         try {
             error_reporting(0);
             $mail = new Mail();
-            $mail->setFrom(getConfig('organisation.email'), 'Avenue Esports');
+            $mail->setFrom(getConfig('organisation.noreply'), 'Avenue Esports');
             $mail->Subject = 'Password change request activation';
             // TODO: change this to real email
             $mail->addAddress($User->getEmail(), $username);
@@ -285,7 +285,7 @@ class AuthController extends ViewController
         try {
 	        error_reporting(0);
 	        $mail = new Mail();
-	        $mail->setFrom(getConfig('organisation.email'), 'Avenue Esports');
+	        $mail->setFrom(getConfig('organisation.noreply'), 'Avenue Esports');
 	        $mail->Subject = 'Registration completed';
 	        $mail->addAddress($email, $username);
 	        $mail->Body = $body;
