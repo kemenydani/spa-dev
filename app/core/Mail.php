@@ -12,6 +12,15 @@ class Mail extends PHPMailer
 		
 		$this->isHTML(true);
 		$this->SMTPDebug = 0;
+
+        $this->isSMTP();  // Set mailer to use SMTP
+        $this->Host       = getConfig('noreply.smtp.hosts');  // Specify main and backup SMTP servers
+        $this->SMTPAuth   = (bool)getConfig('noreply.smtp.auth', false); // Enable SMTP authentication
+        $this->Username   = getConfig('noreply.smtp.username'); // SMTP username
+        $this->Password   = getConfig('noreply.smtp.password');  // SMTP password
+        $this->SMTPSecure = getConfig('noreply.smtp.secure'); // Enable TLS encryption, `ssl` also accepted
+        $this->Port       = getConfig('noreply.smtp.port'); // TCP port to connect to
+
 		/*
 		try
 		{
@@ -54,21 +63,6 @@ class Mail extends PHPMailer
 		$string .= strlen($email) ? $email . '<br>' : '';
 		
 		return $string;
-	}
-	
-	public static function renderTemplatePayPalCompletedOrder($details)
-	{
-		return 'foo';
-		/*
-		return '<b>Dear '.$details['recipient'].'<b><br><br>' .
-			   'Your payment is completed. <br><br>' .
-			   '<b>You ordered <a href="#">' . $details['quantity'] . '×' . $details['item_name'] . '</a></b><br>' .
-			   '<b>Total: ' . $details['gross'] . '' . $details['currency'] . '</b><br><br>' .
-		       'Please give us some time to process your order. <br>' .
-		       'If you have any questions, feel free to contact us! <br><br>' .
-		       'Regards,<br>' .
-		       self::renderTemplateContactDetails();
-		*/
 	}
 	
 }
