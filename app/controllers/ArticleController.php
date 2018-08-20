@@ -2,6 +2,7 @@
 
 namespace controllers;
 
+use models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -115,11 +116,20 @@ class ArticleController extends ViewController
 
         $comments = $article->getComments();
 
+        $data = $article->getProperties();
+
+        $posterId = $data['created_by'];
+
+        $poster = null;
+
+        if($posterId) $poster = User::find($posterId);
+
         $this->view->render(
             $response,
             'route.view.article.read.html.twig',
             [
-                'article'  => $article->getProperties(),
+                'poster' => $poster,
+                'article'  => $data,
                 'comments' => json_encode($comments, true)
             ]
         );

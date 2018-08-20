@@ -17,6 +17,16 @@
                 </div>
             </article>
         </div>
+        
+        <div class="container bg-light round-2 box-shadow-1 mar-btm-default pad-2x">
+            <div style="display: flex; align-items: center; align-content: center;">
+                <div class="profile-picture" style="background-image: url({{ poster.requestProfilePicture() }})"></div>
+                <div>
+                    &nbsp;{{ poster.getFirstName() }}&nbsp;<span style="color: orange">{{ poster.getUserName() }}</span>&nbsp;{{ poster.getLastName() }}
+                </div>
+            </div>
+        </div>
+        
         {% if (article.comments_enabled == true ) %}
         <h1 class="route-section-header">COMMENTS</h1>
         <div class="container bg-light pad-default round-2 box-shadow-1 article-comments-container" id="article-comments">

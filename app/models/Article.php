@@ -23,6 +23,7 @@ class Article extends Model
         'content',
         'activation_time',
         'date_created',
+        'created_by',
 		'comments_enabled',
         'event_id'
     ];
