@@ -6,11 +6,10 @@
 			:items="items"
 			:value="value"
 			:autocomplete="autoComplete"
-			
 			v-validate="vValidationRules"
 			:error-messages="errors.collect('select')"
 			data-vv-name="select"
-			
+			:cache-items="true"
 			@input="selection">
 	</v-select>
 </template>
@@ -83,6 +82,10 @@
 		watch : {
 			search: {
 				handler: function(v) {
+				    if(!v) return;
+				    console.log('search: ', v)
+					console.log(this.value)
+					console.log(this.items)
 					this.fetchLazy()
 				}
 			},
@@ -114,6 +117,10 @@
 				})
 			},
 			selection(item) {
+			    console.log(item)
+			    console.log(this.search)
+				console.log(this.value)
+				console.log(this.items)
 				this.$emit('input', item)
 			}
 		},

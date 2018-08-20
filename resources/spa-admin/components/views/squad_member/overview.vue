@@ -13,6 +13,11 @@
 						<v-layout wrap>
 							<v-flex xs12>
 								<UserModelSelector
+										:update="edit.dialog"
+										:vValidationRules="'required'"
+										v-validate="'required'"
+										:error-messages="errors.collect('user_id')"
+										data-vv-name="user_id"
 										v-model="edit.item.user_id"
 										:auto-complete="true"
 										label="Select User">

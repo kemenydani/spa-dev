@@ -34,7 +34,7 @@
 								</v-text-field>
 							</v-flex>
 							<v-flex xs12>
-								<v-switch label="Admin access" v-model="edit.item.is_admin" required></v-switch>
+								<v-switch :true-value="'1'" :false-value="'0'" label="Admin access" v-model="edit.item.is_admin" required></v-switch>
 							</v-flex>
 							<v-flex xs12>
 								<CountryModelSelector v-model="edit.item.country_code" :autoComplete="true" label="Select Country"></CountryModelSelector>

@@ -9,6 +9,7 @@
 		:baseQuery="baseQuery"
 		:autoComplete="autoComplete"
 		@input="selection"
+		@blur.prevent
 		:vValidationRules="vValidationRules"
 	>
 	</model-selector>
@@ -28,8 +29,14 @@
 				model : User,
 				baseQuery : { context : this.context }
 			}
-		}
-	}
+		},
+        methods : {
+            selection(item) {
+                this.$emit('input', item)
+            },
+        },
+
+    }
 </script>
 
 <style>
