@@ -58,7 +58,7 @@ class Match extends Model
     {
         $maps = $this->getMaps();
         $score = 0;
-        if($maps) foreach($maps as $map) $score += $map->getScoreEnemy();
+        if($maps) foreach($maps as $map) $score += (int)$map->getScoreEnemy();
         return $score;
     }
 
@@ -66,7 +66,7 @@ class Match extends Model
     {
         $maps = $this->getMaps();
         $score = 0;
-        if($maps) foreach($maps as $map) $score += $map->formatScoreEnemy();
+        if($maps) foreach($maps as $map) $score += (int)$map->formatScoreEnemy();
         return $score;
     }
 
@@ -77,7 +77,7 @@ class Match extends Model
     {
         $maps = $this->getMaps();
         $score = 0;
-        if($maps) foreach($maps as $map) $score += $map->getScoreHome();
+        if($maps) foreach($maps as $map) $score += (int)$map->getScoreHome();
         return $score;
     }
 
@@ -85,7 +85,7 @@ class Match extends Model
     {
         $maps = $this->getMaps();
         $score = 0;
-        if($maps) foreach($maps as $map) $score += $map->formatScoreHome();
+        if($maps) foreach($maps as $map) $score += (int)$map->formatScoreHome();
         return $score;
     }
 

@@ -63,7 +63,7 @@ class MatchController extends ViewController
               " LEFT JOIN _xyz_match_map  mm  ON match_id = m.id " .
                 $where .
               " GROUP BY m.id " .
-              " ORDER BY m.date_created DESC " .
+              " ORDER BY m.id DESC  " .
               " LIMIT " . static::INFINITE_LIMIT . " OFFSET " . (int)$startAt
         ;
         // lekérdezés vége
