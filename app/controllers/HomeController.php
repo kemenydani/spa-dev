@@ -18,6 +18,10 @@ use models\PartnerCollection;
 
 class HomeController extends ViewController
 {
+    public function index2 ( Request $request, Response $response ){
+        return $response->withStatus(200);
+    }
+
     public function index ( Request $request, Response $response )
     {
         $q1 = " SELECT * FROM _xyz_article art " .
@@ -40,7 +44,6 @@ class HomeController extends ViewController
         $trendingMember = null;
         $trendingSquad = null;
 
-        /* @var \models\Squad $Squad */
         foreach($squadCollection->getModels() as $Squad)
         {
             $allSquads[] = $Squad;
@@ -136,4 +139,5 @@ class HomeController extends ViewController
             //'partnersBot' => $partnersBot,
         ]);
     }
+
 }

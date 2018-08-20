@@ -133,7 +133,7 @@ class PayPalController extends ViewController
 
             try {
                 $mail = new Mail();
-                $mail->setFrom(getConfig('organisation.email'), getConfig('organisation.name') . ' shop');
+                $mail->setFrom(getConfig('organisation.noreply'), getConfig('organisation.name') . ' shop');
                 $mail->Subject = 'Payment completed';
                 $mail->addAddress($postData['payer_email'], 'Customer');
                 $mail->Body = $body;
