@@ -78,6 +78,8 @@ class ArticleController extends ModelController
 
         $formData['title_seo'] = url_slug($formData['title']);
 
+        $formData['created_by'] = (Auth::user())->getId();
+
         $Article = Article::create($formData);
         $id = $Article->save();
 
