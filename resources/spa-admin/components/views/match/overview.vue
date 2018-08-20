@@ -100,11 +100,11 @@
 										</v-flex>
 										<v-flex xs-2>
 											<label>Home score</label>
-											<v-text-field type="number" prepend-icon="exposure" style="text-align: center;" v-model="m.score_enemy"></v-text-field>
+											<v-text-field type="number" prepend-icon="exposure" style="text-align: center;" v-model="m.score_home"></v-text-field>
 										</v-flex>
 										<v-flex xs-2>
 											<label>Enemy score</label>
-											<v-text-field type="number" prepend-icon="exposure" style="text-align: center;" v-model="m.score_home"></v-text-field>
+											<v-text-field type="number" prepend-icon="exposure" style="text-align: center;" v-model="m.score_enemy"></v-text-field>
 										</v-flex>
 									</v-layout>
 								</v-card-text>
