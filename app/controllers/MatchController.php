@@ -75,8 +75,14 @@ class MatchController extends ViewController
         {
             $res[$index] = $match;
             $res[$index]['maps'] = [];
+            $res[$index]['fsh'] = 0;
+            $res[$index]['fse'] = 0;
             /* @var MatchMap $map */
             foreach(MatchMap::findAll($match['id'], 'match_id') as $map) {
+
+                $res[$index]['fsh'] += (int)$map->formatScoreHome();
+                $res[$index]['fse'] += (int)$map->formatScoreEnemy();
+
                 $res[$index]['maps'][] = $map->getProperties([
                     'name',
                     'score_home',
