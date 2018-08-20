@@ -12,9 +12,9 @@
                     {{ article.teaser }}
                 </h3>
                 <br>
-                <p class="big-p" style="position: relative !important; overflow: hidden !important;">
+                <div class="big-p" style="position: relative !important; overflow: hidden !important;">
                     {{ article.content|raw }}
-                </p>
+                </div>
             </article>
         </div>
         {% if (article.comments_enabled == true ) %}
