@@ -387,7 +387,7 @@ div#wrapper {
   
   &.featured-content-box {
 	margin-left: 15px;
-	min-height: 370px;
+	min-height: 355px;
 	min-width: 365px;
 	max-width: 365px;
 	@include mq('desktop', 'max') { max-width: 350px; min-width: 350px;  }
